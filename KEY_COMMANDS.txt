@@ -1,0 +1,62 @@
+force clean
+Remove-Item -Recurse -Force .lake\build
+Stop-Process -Name "lean" -Force
+
+tree "C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6" /F
+
+pandoc COMPREHENSIVE_PROJECT_ASSESSMENT.md -o COMPREHENSIVE_PROJECT_ASSESSMENT.pdf
+pandoc Current_Phase_OperatorKernelO6_Combined_Codes.md -o Current_Phase_OperatorKernelO6_Combined_Codes.pdf --pdf-engine=xelatex
+pandoc Current_Phase_OperatorKernelO6_Combined_Codes.md -o Current_Phase_OperatorKernelO6_Combined_Codes.pdf --pdf-engine=xelatex
+pandoc "Current_Phase_OperatorKernelO6_Combined_Codes_Meta.md" -o "Current_Phase_OperatorKernelO6_Combined_Codes_Meta.pdf" --pdf-engine=xelatex
+pandoc --from markdown --to pdf --pdf-engine=xelatex --encoding=utf-8 Current_Phase_OperatorKernelO6_Combined_Codes.md -o Current_Phase_OperatorKernelO6_Combined_Codes.pdf
+pandoc O6_IRONCLAD_RULEBOOK.md -o O6_IRONCLAD_RULEBOOK.pdf
+
+pandoc "AGENT.md" -o "AGENT.pdf" --pdf-engine=xelatex
+
+--from markdown --to pdf --pdf-engine=xelatex --metadata=title:"Your Title"
+
+pandoc COMPREHENSIVE_PROJECT_ASSESSMENT.md -o COMPREHENSIVE_PROJECT_ASSESSMENT.html
+--variable mainfont="DejaVu Sans"
+
+Set-Location C:\Users\Moses\math_ops\OperatorKernelO6
+
+Get-ChildItem -Recurse -File | Select-Object FullName
+FullName
+--------
+C:\Users\Moses\math_ops\OperatorKernelO6\.gitignore
+C:\Users\Moses\math_ops\OperatorKernelO6\AGENT.md
+C:\Users\Moses\math_ops\OperatorKernelO6\COMPREHENSIVE_PROJECT_ASSESSMENT.md
+C:\Users\Moses\math_ops\OperatorKernelO6\lake-manifest.json
+......
+
+emove-Item ".\Main.lean"
+
+New-Item -ItemType Directory -Path "C:\Users\Moses\math_ops\OperatorKernelO6" | Out-Null
+
+new branch
+git checkout -b 6-op-start    
+
+git checkout -b OP-6-SN-DONE
+
+git log --oneline -5   
+
+hard roll back to last push
+git reset --hard HEAD  
+
+git branch      
+
+ git reset(no idea) 
+
+git add -A
+
+git commit -m "basic with actual boolean encoding"
+
+require mathlib from git   "https://github.com/leanprover-community/mathlib4.git"
+
+# First, fetch all branches from remote
+git fetch
+
+# Switch to the 6-op-start branch
+git switch 6-op-start
+# OR use the older command
+git checkout 6-op-start-new

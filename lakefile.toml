@@ -1,0 +1,20 @@
+name         = "OperatorKernelO6"
+lean_version = "lean4:v4.22.0-rc4"
+
+[[require]]
+name = "batteries"
+scope = "leanprover-community"
+rev = "main"
+
+[[require]]
+name  = "mathlib"
+scope = "leanprover-community"
+rev   = "master"
+
+[[lean_lib]]
+name   = "OperatorKernelO6"
+srcDir = "."
+
+[[lean_exe]]
+name = "OperatorKernelO6Main"
+root = "Main.lean"
