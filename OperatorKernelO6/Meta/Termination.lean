@@ -296,8 +296,6 @@ theorem add4_plus5_le_plus9 (p : Ordinal) :
                 rw [h4]
     simpa [hcollapse] using hR
 
-open Ordinal
-
 theorem add_nat_succ_le_plus_succ (k : ℕ) (p : Ordinal) :
   (k : Ordinal) + Order.succ p ≤ p + (k + 1) := by
   rcases lt_or_ge p omega0 with hfin | hinf
@@ -715,8 +713,6 @@ theorem tail_lt_A (b s n : Trace) :
 --   simpa using mul_lt_mul_of_pos_right h_base h_pos
 
 -- end Termination
-
-
 
 -- theorem mu_lt_rec_succ (b s n : Trace) :
 --   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
