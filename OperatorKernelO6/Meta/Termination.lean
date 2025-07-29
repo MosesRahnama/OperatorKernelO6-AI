@@ -20,6 +20,24 @@ open Trace
 
 namespace MetaSN
 
+--- BEFORE IMPLEMNETING OPTION B----
+-- noncomputable def mu : Trace → Ordinal
+-- | .void        => 0
+-- | .delta t     => (omega0 ^ (5 : Ordinal)) * (mu t + 1) + 1
+-- | .integrate t => (omega0 ^ (4 : Ordinal)) * (mu t + 1) + 1
+-- | .merge a b   =>
+--     (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
+--     (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1
+-- | .recΔ b s n  =>
+--     (omega0 ^ (mu n + (6 : Ordinal))) *
+--       ((omega0 ^ (3 : Ordinal)) * (mu s + 1) + 1) +
+--     omega0 * (mu b + 1) + 1
+-- | .eqW a b     =>
+--     (omega0 ^ (mu a + mu b + (9 : Ordinal))) + 1
+
+
+
+/-!  Σ───  NEW `mu`  (only the `.recΔ` line differs)  ────────────────Σ -/
 noncomputable def mu : Trace → Ordinal
 | .void        => 0
 | .delta t     => (omega0 ^ (5 : Ordinal)) * (mu t + 1) + 1
@@ -27,12 +45,15 @@ noncomputable def mu : Trace → Ordinal
 | .merge a b   =>
     (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
     (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1
-| .recΔ b s n  =>
-    (omega0 ^ (mu n + (6 : Ordinal))) *
-      ((omega0 ^ (3 : Ordinal)) * (mu s + 1) + 1) +
-    omega0 * (mu b + 1) + 1
+| .recΔ b s n  =>                                         -- ★ changed ★
+    omega0 ^ (mu n + mu s + (6 : Ordinal))                -- tower absorbs μ s
+  + omega0 * (mu b + 1) + 1
 | .eqW a b     =>
-    (omega0 ^ (mu a + mu b + (9 : Ordinal))) + 1
+    omega0 ^ (mu a + mu b + (9 : Ordinal)) + 1
+/-!  Σ───────────────────────────────────────────────────────────────Σ -/
+
+
+
 
 theorem lt_add_one_of_le {x y : Ordinal} (h : x ≤ y) : x < y + 1 :=
   (Order.lt_add_one_iff (x := x) (y := y)).2 h
@@ -82,36 +103,56 @@ theorem mu_lt_merge_void_left (t : Trace) :
     lt_of_lt_of_le hlt hpad1
   simpa [mu] using hfin
 
+/-- Base-case decrease: `recΔ … void`. -/
 theorem mu_lt_rec_zero (b s : Trace) :
-  mu b < mu (.recΔ b s .void) := by
-  have h0 : mu b ≤ mu b + 1 :=
-    le_of_lt ((Order.lt_add_one_iff (x := mu b) (y := mu b)).2 le_rfl)
-  have hb : 0 < (omega0 : Ordinal) := omega0_pos
-  have h1 : mu b + 1 ≤ omega0 * (mu b + 1) := by
-    simpa using (Ordinal.le_mul_right (a := mu b + 1) (b := omega0) hb)
-  have hY : mu b ≤ omega0 * (mu b + 1) := le_trans h0 h1
+    mu b < mu (.recΔ b s .void) := by
+  --------------------------------------------------------------------
+  -- 1  crude bound  μ b ≤ μ b + 1
+  --------------------------------------------------------------------
+  have h0 : (mu b) ≤ mu b + 1 :=
+    le_of_lt (lt_add_one (mu b))
+
+  --------------------------------------------------------------------
+  -- 2  inflate to  ω · (μ b + 1)
+  --     `le_mul_right : a ≤ b * a`  〈a := μ b + 1, b := ω〉
+  --------------------------------------------------------------------
+  have h1 : mu b + 1 ≤ omega0 * (mu b + 1) :=
+    Ordinal.le_mul_right (a := mu b + 1) (b := omega0) omega0_pos
+
+  have hle : mu b ≤ omega0 * (mu b + 1) :=
+    le_trans h0 h1
+
+  --------------------------------------------------------------------
+  -- 3  make it *strict* by adding 1 on the right
+  --------------------------------------------------------------------
   have hlt : mu b < omega0 * (mu b + 1) + 1 :=
-    (Order.lt_add_one_iff (x := mu b) (y := omega0 * (mu b + 1))).2 hY
+    lt_of_le_of_lt hle (lt_add_of_pos_right _ zero_lt_one)
+
+  --------------------------------------------------------------------
+  -- 4  the padded term is literally a summand of  μ(recΔ … void)
+  --    because   μ(recΔ b s void) = ω^(μ s+6) + ω·(μ b+1) + 1
+  --------------------------------------------------------------------
   have hpad :
-      omega0 * (mu b + 1) ≤
-      (omega0 ^ (mu .void + (6 : Ordinal))) *
-        ((omega0 ^ (3 : Ordinal)) * (mu s + 1) + 1) +
-      omega0 * (mu b + 1) :=
-    Ordinal.le_add_left _ _
-  have hpad1 :
       omega0 * (mu b + 1) + 1 ≤
-      ((omega0 ^ (mu .void + (6 : Ordinal))) *
-        ((omega0 ^ (3 : Ordinal)) * (mu s + 1) + 1) +
-        omega0 * (mu b + 1)) + 1 :=
-    add_le_add_right hpad 1
-  have hfin :
-      mu b <
-      ((omega0 ^ (mu .void + (6 : Ordinal))) *
-        ((omega0 ^ (3 : Ordinal)) * (mu s + 1) + 1) +
-        omega0 * (mu b + 1)) + 1 :=
-    lt_of_lt_of_le hlt hpad1
-  simpa [mu] using hfin
-variable (Step : Trace → Trace → Prop)
+      omega0 ^ (mu s + 6) + omega0 * (mu b + 1) + 1 := by
+    --  ω^(μ s+6) is non-negative, so adding it on the left preserves ≤
+    have : (0 : Ordinal) ≤ omega0 ^ (mu s + 6) :=
+      Ordinal.zero_le _
+    have h₂ :
+        omega0 * (mu b + 1) ≤
+        omega0 ^ (mu s + 6) + omega0 * (mu b + 1) :=
+      le_add_of_nonneg_left this
+    exact add_le_add_right h₂ 1
+
+  --------------------------------------------------------------------
+  -- 5  chain the two inequalities and unfold the new μ
+  --------------------------------------------------------------------
+  have : mu b <
+         omega0 ^ (mu s + 6) + omega0 * (mu b + 1) + 1 :=
+    lt_of_lt_of_le hlt hpad
+
+  simpa [mu] using this
+ -- unfold RHS once
 
 theorem mu_lt_merge_void_right (t : Trace) :
   mu t < mu (.merge t .void) := by
@@ -544,15 +585,6 @@ theorem three_lt_mu_delta (n : Trace) :
   exact lt_of_lt_of_le h₃₆ h₆
 
 
-set_option diagnostics.threshold 100
-set_option diagnostics true
-set_option trace.Meta.Tactic.simp.rewrite true
-set_option trace.linarith true
-set_option trace.compiler.ir.result true
-set_option autoImplicit false
-set_option maxRecDepth 1000
--- set_option trace.Meta.Tactic.simp true
-
 -- set_option trace.Meta.isDefEq true
 --  Ordinal.opow_le_opow_right
 
@@ -563,16 +595,17 @@ theorem w3_lt_A (n : Trace) :
   simpa using
     opow_lt_opow_ω (three_lt_mu_delta n)       -- 3 < μ(δ n)+6 (second)           -- 3 < μ(δ n)+6 (second)
 
+set_option diagnostics.threshold 100
+set_option diagnostics true
+set_option trace.Meta.Tactic.simp.rewrite true
+set_option trace.linarith true
+set_option trace.compiler.ir.result true
+set_option autoImplicit false
+set_option maxRecDepth 1000
+set_option trace.Meta.Tactic.simp true
 
-/-- Parameters of `recΔ` are μ-smaller than the Δ-index. -/
-lemma mu_param_le_delta (s n : Trace) : mu s ≤ mu (delta n) := by
-  -- TODO:  mutual induction on `Trace`.  It holds for all constructors.
-  sorry
+-- set_option trace.Meta.isDefEq true
 
-lemma mu_rec_le_delta (b s n : Trace) :
-    mu (recΔ b s n) ≤ mu (delta n) := by
-  -- TODO: prove by structural induction on `n`.
-  sorry
 
 /-- coefficient bound used in `head_lt_A`. -/
 lemma coeff_lt_A (s n : Trace) :
