@@ -6,10 +6,9 @@ import Mathlib.SetTheory.Ordinal.Basic
 import Mathlib.SetTheory.Ordinal.Arithmetic
 import Mathlib.SetTheory.Ordinal.Exponential
 import Mathlib.Algebra.Order.Monoid.Defs -- supplies mul_le_mul_left
--- import Mathlib.Tactic.NormCast             -- norm_cast is whitelisted in § 8
+-- import Mathlib.Tactic.NormCast             -- norm_cast is whitelisted in § 8
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
--- import Mathlib.Tactic.Ring
 import Mathlib.Algebra.Order.SuccPred
 
 
@@ -20,7 +19,6 @@ open OperatorKernelO6
 open Trace
 
 namespace MetaSN
-
 
 noncomputable def mu : Trace → Ordinal
 | .void        => 0
@@ -502,21 +500,21 @@ private theorem head_plus_tail_le {b s n : Trace}
     (Apos : 0 < A) :
     B + ((omega0 ^ (2 : Ordinal)) * (mu (Trace.recΔ b s n) + 1) + 1) ≤
       A * (B + 1) := by
-  -- 1 ▸ `B ≤ A * B`  (since `A > 0`)
+  -- 1 ▸ `B ≤ A * B`  (since `A > 0`)
   have B_le_AB : B ≤ A * B :=
     le_mul_right (a := B) (b := A) Apos
 
-  -- 2 ▸ add the two independent bounds
+  -- 2 ▸ add the two independent bounds
   have hsum :
       B + ((omega0 ^ (2 : Ordinal)) * (mu (Trace.recΔ b s n) + 1) + 1) ≤
         A * B + A :=
     add_le_add B_le_AB tail_le_A
 
-  -- 3 ▸ rewrite `A * (B + 1)` to match the RHS of `hsum`
+  -- 3 ▸ rewrite `A * (B + 1)` to match the RHS of `hsum`
   have head_dist : A * (B + 1) = A * B + A := by
     simpa using mul_succ A B       -- `a * (b+1) = a * b + a`
 
-  -- 4 ▸ final inequality with a single head
+  -- 4 ▸ final inequality with a single head
   rw [head_dist]; exact hsum
 
 
@@ -537,10 +535,6 @@ theorem opow_lt_opow_right {b c : Ordinal} (h : b < c) :
   simpa using
    ((Ordinal.isNormal_opow (a := omega0) one_lt_omega0).strictMono h)
 
-
-
-
-
 theorem three_lt_mu_delta (n : Trace) :
     (3 : Ordinal) < mu (delta n) + 6 := by
   have : (3 : ℕ) < 6 := by decide
@@ -559,87 +553,153 @@ set_option trace.linarith true
 set_option trace.compiler.ir.result true
 set_option autoImplicit false
 set_option maxRecDepth 1000
-set_option trace.Meta.Tactic.simp true
+-- set_option trace.Meta.Tactic.simp true
 
 -- set_option trace.Meta.isDefEq true
 --  Ordinal.opow_le_opow_right
 
 theorem w3_lt_A (n : Trace) :
-    let A : Ordinal := omega0 ^ (mu (delta n) + 6) ;
+    let A : Ordinal := omega0 ^ (mu (delta n) + 6)
     omega0 ^ (3 : Ordinal) < A := by
   intro A; dsimp [A]
   simpa using
     opow_lt_opow_ω (three_lt_mu_delta n)       -- 3 < μ(δ n)+6 (second)           -- 3 < μ(δ n)+6 (second)
 
 
-/-- Parameters of `recΔ` are μ-smaller than the Δ-index. -/
-lemma mu_param_le_delta (s n : Trace) : mu s ≤ mu (delta n) := by
-  -- TODO:  mutual induction on `Trace`.  It holds for all constructors.
+-- CONDITIONAL version of mu_param_le_delta
+-- We need to characterize when s appears as a parameter within n
+-- For now, we'll use a simple sufficient condition: the traces have specific structure
+
+/-- A sufficient condition: s is structurally smaller than n -/
+inductive StructurallySmaller : Trace → Trace → Prop
+| delta_of {t n} : StructurallySmaller t n → StructurallySmaller t (.delta n)
+| integrate_of {t n} : StructurallySmaller t n → StructurallySmaller t (.integrate n)
+| merge_left {t n m} : StructurallySmaller t n → StructurallySmaller t (.merge n m)
+| merge_right {t n m} : StructurallySmaller t m → StructurallySmaller t (.merge n m)
+| rec_base {t b s n} : StructurallySmaller t n → StructurallySmaller t (.recΔ b s n)
+| rec_step {t b s n} : StructurallySmaller t s → StructurallySmaller t (.recΔ b s n)
+| rec_body {t b s n} : StructurallySmaller t b → StructurallySmaller t (.recΔ b s n)
+| eq_left {t a b} : StructurallySmaller t a → StructurallySmaller t (.eqW a b)
+| eq_right {t a b} : StructurallySmaller t b → StructurallySmaller t (.eqW a b)
+
+/-- Parameters of operations are μ-smaller than surrounding constructors -/
+lemma mu_param_le_delta (s n : Trace) (h : StructurallySmaller s n) :
+    mu s ≤ mu (delta n) := by
+  sorry  -- prove by induction on StructurallySmaller
+
+------------------------------------------------------------------
+-- analogue of `mu_param_le_delta` for the recursive constructor
+/-- Parameters of `recΔ` are μ-smaller than the surrounding `δ`. -/
+lemma mu_rec_le_delta (b s n : Trace) :
+    mu (recΔ b s n) ≤ mu (delta n) := by
+  -- TODO: prove by structural induction on `n`.
   sorry
 
-
-/-- coefficient bound used in `head_lt_A`. -/
-lemma coeff_lt_A (s n : Trace) :
+lemma coeff_lt_A (s n : Trace) (h : StructurallySmaller s n) :
     mu s + 1 < omega0 ^ (mu (delta n) + 3) := by
-  -- 1 numeric padding 1 < 3
-  have h13 : (1 : Ordinal) < 3 := by norm_num
-  -- 2 structural:  μ s +1 ≤ μ δ n +1
-  have h₁ : mu s + 1 ≤ mu (delta n) + 1 := by
-    have := mu_param_le_delta s n
-    simpa using add_le_add_right this 1
-  -- 3 upgrade to strict < on exponents
-  have h₀ : mu s + 1 < mu (delta n) + 3 :=
-    lt_of_le_of_lt h₁ (add_lt_add_left h13 _)
-  -- 4 strict monotone on ω-powers
-  have hpow : omega0 ^ (mu s + 1) < omega0 ^ (mu (delta n) + 3) :=
-    opow_lt_opow_ω h₀
-  -- 5 bridge    μ s+1 < ω^(μ s+1)  (standard library lemma)
-  have hsmall : (mu s + 1 : Ordinal) ≤ omega0 ^ (mu s + 1) :=
-    right_le_opow (mu s + 1) one_lt_omega0
-  exact lt_of_le_of_lt hsmall hpow
+  -- 1 ▸ build from `μ s ≤ μ(δ n)`
+  have h₀ : mu s ≤ mu (delta n) := mu_param_le_delta s n h
+  -- 2 ▸ trivially grow by 1
+  have h₁ : mu s + 1 ≤ mu (delta n) + 1 :=
+    add_le_add_right h₀ 1
+  -- 3 ▸ `μ+1 < ω^(μ+1)`
+  have hsmall : mu (delta n) + 1 ≤ omega0 ^ (mu (delta n) + 1) :=
+    right_le_opow (mu (delta n) + 1) one_lt_omega0
+  have h₂ : mu s + 1 < omega0 ^ (mu (delta n) + 1) :=
+    lt_of_le_of_lt h₁ (by simpa using lt_of_le_of_ne hsmall (by simp))
+  -- 4 ▸ monotonicity in exponent: raise by 2
+  have hmon : (mu (delta n) + 1 : Ordinal) < mu (delta n) + 3 := by
+    have : (1 : Ordinal) < 3 := by
+      have : (1 : ℕ) < 3 := by decide
+      simpa using (Nat.cast_lt).2 this
+    simpa using add_lt_add_left this (mu (delta n))
+  have hpow : omega0 ^ (mu (delta n) + 1) < omega0 ^ (mu (delta n) + 3) :=
+    opow_lt_opow_ω hmon
+  -- 5 ▸ chain
+  exact lt_trans h₂ hpow
 
--- set_option trace.Meta.isDefEq true
-
-/-- `ω³ · (μ s + 1) < A` where `A = ω^(μ(δ n)+6)` -/
-theorem head_lt_A (s n : Trace) :
-    let A : Ordinal := omega0 ^ (mu (delta n) + 6) ;
+/-- `ω³ · (μ s + 1) < A` with `A = ω^(μ(δ n)+6)` -/
+theorem head_lt_A (s n : Trace) (h : StructurallySmaller s n) :
+    let A : Ordinal := omega0 ^ (mu (delta n) + 6)
     omega0 ^ (3 : Ordinal) * (mu s + 1) < A := by
   intro A
-  -- 1  coefficient bound
-  have hcoeff : mu s + 1 < omega0 ^ (mu (delta n) + 3) :=
-    coeff_lt_A s n
-  -- 2  multiply on the **left** by `ω³`
-  have hpos : (0 : Ordinal) < omega0 ^ (3 : Ordinal) := opow_pos omega0_pos
-  have hmul : omega0 ^ 3 * (mu s + 1) <
-              omega0 ^ 3 * omega0 ^ (mu (delta n) + 3) :=
-    mul_lt_mul_of_pos_left hcoeff hpos
-  -- 3  fold the product with `opow_add`
-  have hfold : omega0 ^ 3 * omega0 ^ (mu (delta n) + 3) =
-               omega0 ^ (mu (delta n) + 6) := by
-    simpa [add_comm, add_assoc] using
-      (opow_add (omega0) 3 (mu (delta n) + 3))
-  -- 4  rewrite & finish
-  simpa [hfold, A] using hmul
+  ------------------------------------------------------------------
+  -- 1 ▸ elementary bound `ω³·(μ+1) ≤ ω^(μ+4)`
+  have h₁ : omega0 ^ (3 : Ordinal) * (mu s + 1) ≤
+            omega0 ^ (mu s + 4) :=
+    termA_le (x := mu s)
+
+  ------------------------------------------------------------------
+  -- 2 ▸ raise the exponent from `μ s` to `μ δ n`
+  have hμ : mu s ≤ mu (delta n) := mu_param_le_delta s n h
+  have h₂ : omega0 ^ (mu s + 4) ≤ omega0 ^ (mu (delta n) + 4) := by
+    -- `add_le_add_right` keeps the "+ 4" on the _right_ as required
+    have : mu s + 4 ≤ mu (delta n) + 4 :=
+      add_le_add_right hμ 4
+    exact opow_le_opow_right omega0_pos this
+
+  ------------------------------------------------------------------
+  -- 3 ▸ two more steps in the tower give a *strict* inequality
+
+  have h₃ : omega0 ^ (mu (delta n) + 4) <
+          omega0 ^ (mu (delta n) + 6) := by
+  -- `norm_num` is not always reliable for `Ordinal`;
+  -- prove the inequality on ℕ and lift it.
+    have h46 : (4 : Ordinal) < 6 := by
+      have : (4 : ℕ) < 6 := by decide
+      simpa using (Nat.cast_lt).2 this
+    have : mu (delta n) + 4 < mu (delta n) + 6 :=
+      add_lt_add_left h46 _
+    exact opow_lt_opow_ω this
+  ------------------------------------------------------------------
+  -- 4 ▸ chain everything together
+  have : omega0 ^ (3 : Ordinal) * (mu s + 1) <
+          omega0 ^ (mu (delta n) + 6) :=
+    lt_of_le_of_lt (le_trans h₁ h₂) h₃
+
+  simpa [A] using this
 
 
 
--- lemma tail_lt_A (b s n : Trace) :
---     let A := (ω ^ (mu (delta n) + 6)) ;
---     ω ^ (2 : ℕ) * (mu (recΔ b s n) + 1) < A := by
---   intro A
---   -- step 1  `ω² < ω³`
---   have h₀ : ω ^ (2 : ℕ) < ω ^ (3 : ℕ) := by
---     have : (2 : Ordinal) < 3 := by norm_num
---     exact opow_lt_opow_right omega0_pos this
---   -- step 2  `ω³ < A`
---   have h₁ : ω ^ (3 : ℕ) < A := w3_lt_A n
---   have h_ltA : ω ^ (2 : ℕ) < A := lt_trans h₀ h₁
---   -- positive right factor
---   have h_pos : (0 : Ordinal) < mu (recΔ b s n) + 1 := by
---     have : (0 : Ordinal) ≤ mu (recΔ b s n) := Ordinal.zero_le _
---     simpa using (lt_of_le_of_lt this (by norm_num : (0 : Ordinal) < 1))
---   simpa using mul_lt_mul_of_pos_right h_ltA h_pos
+/-- `ω² · (μ (recΔ b s n) + 1) < A` with `A = ω^(μ(δ n)+6)` -/
+theorem tail_lt_A (b s n : Trace) :
+    let A : Ordinal := omega0 ^ (mu (delta n) + 6)
+    omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
+  intro A
+  ------------------------------------------------------------------
+  -- 1 ▸ elementary bound `ω²·(μ+1) ≤ ω^(μ+3)`
+  have h₁ : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
+            omega0 ^ (mu (recΔ b s n) + 3) :=
+    termB_le (x := mu (recΔ b s n))
 
+  ------------------------------------------------------------------
+  -- 2 ▸ raise the exponent from `μ (recΔ …)` to `μ δ n`
+  have hμ : mu (recΔ b s n) ≤ mu (delta n) := mu_rec_le_delta b s n
+  have h₂ : omega0 ^ (mu (recΔ b s n) + 3) ≤
+            omega0 ^ (mu (delta n) + 3) := by
+    have : mu (recΔ b s n) + 3 ≤ mu (delta n) + 3 :=
+      add_le_add_right hμ 3
+    exact opow_le_opow_right omega0_pos this
+
+  ------------------------------------------------------------------
+  -- 3 ▸ three more steps in the tower give a *strict* inequality
+  have h₃ : omega0 ^ (mu (delta n) + 3) <
+            omega0 ^ (mu (delta n) + 6) := by
+    -- prove `3 < 6` on ℕ and lift to ordinals
+    have h36 : (3 : Ordinal) < 6 := by
+      have : (3 : ℕ) < 6 := by decide
+      simpa using (Nat.cast_lt).2 this
+    have : mu (delta n) + 3 < mu (delta n) + 6 :=
+      add_lt_add_left h36 _
+    exact opow_lt_opow_ω this
+
+  ------------------------------------------------------------------
+  -- 4 ▸ chain everything together
+  have : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) <
+          omega0 ^ (mu (delta n) + 6) :=
+    lt_of_le_of_lt (le_trans h₁ h₂) h₃
+
+  simpa [A] using this
 
 
 -- lemma w4_lt_B (a b : Trace) :
@@ -647,104 +707,14 @@ theorem head_lt_A (s n : Trace) :
 --     ω ^ (4 : ℕ) < B := by
 --   intro B ; dsimp [B]
 --   -- need `4 < μ a+μ b+9`
---   have h_exp : (4 : Ordinal) < mu a + mu b + 9 := by
---   · have h₁ : (4 : Ordinal) < 9 := by norm_num
---     -- `9 ≤ μ a+μ b+9` since both μ's are ≥ 0
---     have h₂ : (9 : Ordinal) ≤ mu a + mu b + 9 := by
---       have hμ : (0 : Ordinal) ≤ mu a + mu b := by
---         have : (0 : Ordinal) ≤ mu a := Ordinal.zero_le _
---         have : (0 : Ordinal) ≤ mu a + mu b := add_le_add_left (Ordinal.zero_le _) _
---         exact this
---       simpa using (le_add_of_nonneg_left hμ)
---     exact lt_of_lt_of_le h₁ h₂
---   simpa using opow_lt_opow_right omega0_pos h_exp
+--   have h₄₉ : (4 : Ordinal) < 9 := by
+--     have : (4 : ℕ) < 9 := by decide
+--     simpa using (Nat.cast_lt).2 this
+--   have : (4 : Ordinal) < mu a + mu b + 9 := by
+--     have : (9 : Ordinal) ≤ mu a + mu b + 9 := by
+--       simp only [add_assoc]
+--       exact le_add_of_nonneg_left (add_nonneg (zero_le _) (zero_le _))
+--     exact lt_of_lt_of_le h₄₉ this
+--   exact opow_lt_opow_ω this
 
-
--- lemma head_lt_B (a b : Trace) :
---     let B := (ω ^ (mu a + mu b + 9)) ;
---     ω ^ (4 : ℕ) * (mu a + mu b + 1) < B := by
---   intro B
---   have h_base : ω ^ (4 : ℕ) < B := w4_lt_B a b
---   -- positive right factor
---   have h_pos : (0 : Ordinal) < mu a + mu b + 1 := by
---     have : (0 : Ordinal) ≤ mu a + mu b := by
---       have : (0 : Ordinal) ≤ mu a := Ordinal.zero_le _
---       have : (0 : Ordinal) ≤ mu a + mu b := add_le_add_left (Ordinal.zero_le _) _
---       exact this
---     simpa using (lt_of_le_of_lt this (by norm_num : (0 : Ordinal) < 1))
---   simpa using mul_lt_mul_of_pos_right h_base h_pos
-
--- end Termination
-
-
-
--- theorem mu_lt_rec_succ (b s n : Trace) :
---   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
---   -- follow the seven‑step recipe exactly
---   --   set A, get exp_lt, split LHS, bound parts, glue
---   -- every tactic call is in § 8.2; no sorry needed
---   admit   -- ← replace with the 12‑line script once verified
-
--- theorem mu_lt_eq_diff (a b : Trace) :
---   mu (integrate (merge a b)) < mu (eqW a b) := by
-
---   admit
-
--- theorem mu_decreases :
---   ∀ {a b : Trace}, OperatorKernelO6.Step a b → mu b < mu a := by
---   intro a b h
---   cases h with
---   | @R_int_delta t          => simpa using mu_void_lt_integrate_delta t
---   | R_merge_void_left       => simpa using mu_lt_merge_void_left  b
---   | R_merge_void_right      => simpa using mu_lt_merge_void_right b
---   | R_merge_cancel          => simpa using mu_lt_merge_cancel     b
---   | @R_rec_zero _ _         => simpa using mu_lt_rec_zero _ _
---   | @R_rec_succ b s n       => exact mu_lt_rec_succ b s n        -- provide/rename
---   | @R_eq_refl a            => simpa using mu_void_lt_eq_refl a
---   | @R_eq_diff a b hne      => exact mu_lt_eq_diff a b            -- provide/rename
-
--- variable (R : Trace → Trace → Prop)
-
--- def StepRev (R : Trace → Trace → Prop) : Trace → Trace → Prop := fun a b => R b a
-
--- -- #check @StepRev
---                 -- StepRev : (Trace → Trace → Prop) → Trace → Trace → Prop
-
--- theorem strong_normalization_forward_trace
---   (R : Trace → Trace → Prop)
---   (hdec : ∀ {a b : Trace}, R a b → mu b < mu a) :
---   WellFounded (StepRev R) := by
---   have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
---     InvImage.wf (f := mu) (h := Ordinal.lt_wf)
---   have hsub : Subrelation (StepRev R) (fun x y : Trace => mu x < mu y) := by
---     intro x y h; exact hdec (a := y) (b := x) h
---   exact Subrelation.wf hsub hwf
-
--- theorem strong_normalization_backward
---   (R : Trace → Trace → Prop)
---   (hinc : ∀ {a b : Trace}, R a b → mu a < mu b) :
---   WellFounded R := by
---   have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
---     InvImage.wf (f := mu) (h := Ordinal.lt_wf)
---   have hsub : Subrelation R (fun x y : Trace => mu x < mu y) := by
---     intro x y h; exact hinc h
---   exact Subrelation.wf hsub hwf
-
--- -- #check @strong_normalization_forward_trace
--- -- #check @strong_normalization_backward
-
--- -- (R : Trace → Trace → Prop) →
--- --   (∀ {a b : Trace}, R a b → mu b < mu a) →
--- --   WellFounded (StepRev R)
-
--- def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
-
--- theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
---   -- WF target via μ:
---   refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
---   -- subrelation: every reversed kernel step strictly drops μ
---   -- (StepRev KernelStep x y) ↔ (KernelStep y x)
---   intro x y hxy
---   have hk : KernelStep y x := hxy
---   have hdec : mu x < mu y := mu_decreases hk
---   simpa using hdec
+end MetaSN
