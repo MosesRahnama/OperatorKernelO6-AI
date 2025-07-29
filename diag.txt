@@ -1,0 +1,444 @@
+Termination.lean:678:0
+No info found.
+All Messages (10)
+Termination.lean:694:21
+Application type mismatch: In the application
+  @opow_pos.{?u.17901} ?m.17902 omega0_pos.{?u.17903}
+the argument
+  omega0_pos.{?u.17903}
+has type
+  @LT.lt.{?u.17903 + 1} Ordinal.{?u.17903}
+    (@Preorder.toLT.{?u.17903 + 1} Ordinal.{?u.17903}
+      (@PartialOrder.toPreorder.{?u.17903 + 1} Ordinal.{?u.17903} partialOrder.{?u.17903}))
+    (@OfNat.ofNat.{?u.17903 + 1} Ordinal.{?u.17903} (nat_lit 0)
+      (@Zero.toOfNat0.{?u.17903 + 1} Ordinal.{?u.17903} zero.{?u.17903}))
+    omega0.{?u.17903} : Prop
+but is expected to have type
+  Ordinal.{?u.17901} : Type (?u.17901 + 1)
+Termination.lean:713:4
+type mismatch, term
+  hmul
+after simplification has type
+  @LT.lt.{?u.17793 + 1} Ordinal.{?u.17793}
+    (@Preorder.toLT.{?u.17793 + 1} Ordinal.{?u.17793}
+      (@PartialOrder.toPreorder.{?u.17793 + 1} Ordinal.{?u.17793} partialOrder.{?u.17793}))
+    (@HMul.hMul.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHMul.{?u.17793 + 1} Ordinal.{?u.17793}
+        (@MulZeroClass.toMul.{?u.17793 + 1} Ordinal.{?u.17793}
+          (@MulZeroOneClass.toMulZeroClass.{?u.17793 + 1} Ordinal.{?u.17793}
+            (@MonoidWithZero.toMulZeroOneClass.{?u.17793 + 1} Ordinal.{?u.17793} monoidWithZero.{?u.17793}))))
+      (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+        (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793})
+        omega0.{?u.17793}
+        (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯)))
+      (@Order.succ.{?u.17793 + 1} Ordinal.{?u.17793}
+        (@PartialOrder.toPreorder.{?u.17793 + 1} Ordinal.{?u.17793} partialOrder.{?u.17793}) instSuccOrder.{?u.17793}
+        (mu.{?u.17793} s)))
+    (@HMul.hMul.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHMul.{?u.17793 + 1} Ordinal.{?u.17793}
+        (@MulZeroClass.toMul.{?u.17793 + 1} Ordinal.{?u.17793}
+          (@MulZeroOneClass.toMulZeroClass.{?u.17793 + 1} Ordinal.{?u.17793}
+            (@MonoidWithZero.toMulZeroOneClass.{?u.17793 + 1} Ordinal.{?u.17793} monoidWithZero.{?u.17793}))))
+      (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+        (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793})
+        omega0.{?u.17793}
+        (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯)))
+      (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+        (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793})
+        omega0.{?u.17793}
+        (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+          (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793})
+          (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793}
+            Ordinal.{?u.17793} (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793}) (mu.{?u.17793} n.delta)
+            (mu.{?u.17793} s))
+          (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+            (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+              (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯))))) : Prop
+but is expected to have type
+  @LT.lt.{?u.22759 + 1} Ordinal.{?u.22759}
+    (@Preorder.toLT.{?u.22759 + 1} Ordinal.{?u.22759}
+      (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}))
+    (@HMul.hMul.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHMul.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@MulZeroClass.toMul.{?u.22759 + 1} Ordinal.{?u.22759}
+          (@MulZeroOneClass.toMulZeroClass.{?u.22759 + 1} Ordinal.{?u.22759}
+            (@MonoidWithZero.toMulZeroOneClass.{?u.22759 + 1} Ordinal.{?u.22759} monoidWithZero.{?u.22759}))))
+      (@HPow.hPow.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHPow.{?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} instPow.{?u.22759})
+        omega0.{?u.22759}
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯)))
+      (@Order.succ.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}) instSuccOrder.{?u.22759}
+        (mu.{?u.22759} s)))
+    (@HPow.hPow.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHPow.{?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} instPow.{?u.22759})
+      omega0.{?u.22759}
+      (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759})
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯))
+        (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+          (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759})
+          (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759}
+            Ordinal.{?u.22759} (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759}) (mu.{?u.22759} n.delta)
+            (mu.{?u.22759} s))
+          (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+              (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯))))) : Prop
+Termination.lean:713:4
+[Meta.Tactic.simp.rewrite] add_one_eq_succ.{u_1}:1000:
+      @HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759}) (mu.{?u.22759} s)
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 1)
+          (@One.toOfNat1.{?u.22759 + 1} Ordinal.{?u.22759} one.{?u.22759}))
+    ==>
+      @Order.succ.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}) instSuccOrder.{?u.22759}
+        (mu.{?u.22759} s) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ.{u_1}:1000:
+      @HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+        (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793}) (mu.{?u.17793} s)
+        (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 1)
+          (@One.toOfNat1.{?u.17793 + 1} Ordinal.{?u.17793} one.{?u.17793}))
+    ==>
+      @Order.succ.{?u.17793 + 1} Ordinal.{?u.17793}
+        (@PartialOrder.toPreorder.{?u.17793 + 1} Ordinal.{?u.17793} partialOrder.{?u.17793}) instSuccOrder.{?u.17793}
+        (mu.{?u.17793} s) 
+Termination.lean:721:10
+This simp argument is unused:
+  add_comm
+
+Hint: Omit it from the simp argument list.
+  simp [add_comm, add_left_comm, add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Termination.lean:721:20
+This simp argument is unused:
+  add_left_comm
+
+Hint: Omit it from the simp argument list.
+  simp [add_comm, add_left_comm, add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Termination.lean:720:33
+unsolved goals
+s n : Trace
+A : Ordinal.{u_1} := @HPow.hPow.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+  (@instHPow.{u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} instPow.{u_1}) omega0.{u_1}
+  (@HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+    (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1})
+    (@HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+      (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1}) (mu.{u_1} n.delta) (mu.{u_1} s))
+    (@OfNat.ofNat.{u_1 + 1} Ordinal.{u_1} (nat_lit 6)
+      (@instOfNatAtLeastTwo.{u_1 + 1} Ordinal.{u_1} (nat_lit 6)
+        (@AddMonoidWithOne.toNatCast.{u_1 + 1} Ordinal.{u_1} addMonoidWithOne.{u_1}) ⋯)))
+hcoeff : @LT.lt.{?u.17793 + 1} Ordinal.{?u.17793}
+  (@Preorder.toLT.{?u.17793 + 1} Ordinal.{?u.17793}
+    (@PartialOrder.toPreorder.{?u.17793 + 1} Ordinal.{?u.17793} partialOrder.{?u.17793}))
+  (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+    (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793}) (mu.{?u.17793} s)
+    (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 1)
+      (@One.toOfNat1.{?u.17793 + 1} Ordinal.{?u.17793} one.{?u.17793})))
+  (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+    (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793}) omega0.{?u.17793}
+    (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793})
+      (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+        (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793}) (mu.{?u.17793} n.delta) (mu.{?u.17793} s))
+      (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯))))
+hpos : @LT.lt.{?u.17793 + 1} Ordinal.{?u.17793}
+  (@Preorder.toLT.{?u.17793 + 1} Ordinal.{?u.17793}
+    (@PartialOrder.toPreorder.{?u.17793 + 1} Ordinal.{?u.17793} partialOrder.{?u.17793}))
+  (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 0)
+    (@Zero.toOfNat0.{?u.17793 + 1} Ordinal.{?u.17793} zero.{?u.17793}))
+  (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+    (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793}) omega0.{?u.17793}
+    (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+      (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+        (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯)))
+hmul : @LT.lt.{?u.17793 + 1} Ordinal.{?u.17793}
+  (@Preorder.toLT.{?u.17793 + 1} Ordinal.{?u.17793}
+    (@PartialOrder.toPreorder.{?u.17793 + 1} Ordinal.{?u.17793} partialOrder.{?u.17793}))
+  (@HMul.hMul.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+    (@instHMul.{?u.17793 + 1} Ordinal.{?u.17793}
+      (@MulZeroClass.toMul.{?u.17793 + 1} Ordinal.{?u.17793}
+        (@MulZeroOneClass.toMulZeroClass.{?u.17793 + 1} Ordinal.{?u.17793}
+          (@MonoidWithZero.toMulZeroOneClass.{?u.17793 + 1} Ordinal.{?u.17793} monoidWithZero.{?u.17793}))))
+    (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793})
+      omega0.{?u.17793}
+      (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯)))
+    (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793}) (mu.{?u.17793} s)
+      (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 1)
+        (@One.toOfNat1.{?u.17793 + 1} Ordinal.{?u.17793} one.{?u.17793}))))
+  (@HMul.hMul.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+    (@instHMul.{?u.17793 + 1} Ordinal.{?u.17793}
+      (@MulZeroClass.toMul.{?u.17793 + 1} Ordinal.{?u.17793}
+        (@MulZeroOneClass.toMulZeroClass.{?u.17793 + 1} Ordinal.{?u.17793}
+          (@MonoidWithZero.toMulZeroOneClass.{?u.17793 + 1} Ordinal.{?u.17793} monoidWithZero.{?u.17793}))))
+    (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793})
+      omega0.{?u.17793}
+      (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯)))
+    (@HPow.hPow.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+      (@instHPow.{?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} instPow.{?u.17793})
+      omega0.{?u.17793}
+      (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+        (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793})
+        (@HAdd.hAdd.{?u.17793 + 1, ?u.17793 + 1, ?u.17793 + 1} Ordinal.{?u.17793} Ordinal.{?u.17793} Ordinal.{?u.17793}
+          (@instHAdd.{?u.17793 + 1} Ordinal.{?u.17793} add.{?u.17793}) (mu.{?u.17793} n.delta) (mu.{?u.17793} s))
+        (@OfNat.ofNat.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.17793 + 1} Ordinal.{?u.17793} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.17793 + 1} Ordinal.{?u.17793} addMonoidWithOne.{?u.17793}) ⋯)))))
+hstep : @Eq.{?u.21526 + 2} Ordinal.{?u.21526}
+  (@HMul.hMul.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+    (@instHMul.{?u.21526 + 1} Ordinal.{?u.21526}
+      (@MulZeroClass.toMul.{?u.21526 + 1} Ordinal.{?u.21526}
+        (@MulZeroOneClass.toMulZeroClass.{?u.21526 + 1} Ordinal.{?u.21526}
+          (@MonoidWithZero.toMulZeroOneClass.{?u.21526 + 1} Ordinal.{?u.21526} monoidWithZero.{?u.21526}))))
+    (@HPow.hPow.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+      (@instHPow.{?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} instPow.{?u.21526})
+      omega0.{?u.21526}
+      (@OfNat.ofNat.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.21526 + 1} Ordinal.{?u.21526} addMonoidWithOne.{?u.21526}) ⋯)))
+    (@HPow.hPow.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+      (@instHPow.{?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} instPow.{?u.21526})
+      omega0.{?u.21526}
+      (@HAdd.hAdd.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+        (@instHAdd.{?u.21526 + 1} Ordinal.{?u.21526} add.{?u.21526})
+        (@HAdd.hAdd.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+          (@instHAdd.{?u.21526 + 1} Ordinal.{?u.21526} add.{?u.21526}) (mu.{?u.21526} n.delta) (mu.{?u.21526} s))
+        (@OfNat.ofNat.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.21526 + 1} Ordinal.{?u.21526} addMonoidWithOne.{?u.21526}) ⋯)))))
+  (@HPow.hPow.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+    (@instHPow.{?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} instPow.{?u.21526}) omega0.{?u.21526}
+    (@HAdd.hAdd.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+      (@instHAdd.{?u.21526 + 1} Ordinal.{?u.21526} add.{?u.21526})
+      (@OfNat.ofNat.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.21526 + 1} Ordinal.{?u.21526} addMonoidWithOne.{?u.21526}) ⋯))
+      (@HAdd.hAdd.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+        (@instHAdd.{?u.21526 + 1} Ordinal.{?u.21526} add.{?u.21526})
+        (@HAdd.hAdd.{?u.21526 + 1, ?u.21526 + 1, ?u.21526 + 1} Ordinal.{?u.21526} Ordinal.{?u.21526} Ordinal.{?u.21526}
+          (@instHAdd.{?u.21526 + 1} Ordinal.{?u.21526} add.{?u.21526}) (mu.{?u.21526} n.delta) (mu.{?u.21526} s))
+        (@OfNat.ofNat.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.21526 + 1} Ordinal.{?u.21526} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.21526 + 1} Ordinal.{?u.21526} addMonoidWithOne.{?u.21526}) ⋯)))))
+hpow : @LT.lt.{?u.22759 + 1} Ordinal.{?u.22759}
+  (@Preorder.toLT.{?u.22759 + 1} Ordinal.{?u.22759}
+    (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}))
+  (@HMul.hMul.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+    (@instHMul.{?u.22759 + 1} Ordinal.{?u.22759}
+      (@MulZeroClass.toMul.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@MulZeroOneClass.toMulZeroClass.{?u.22759 + 1} Ordinal.{?u.22759}
+          (@MonoidWithZero.toMulZeroOneClass.{?u.22759 + 1} Ordinal.{?u.22759} monoidWithZero.{?u.22759}))))
+    (@HPow.hPow.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHPow.{?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} instPow.{?u.22759})
+      omega0.{?u.22759}
+      (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯)))
+    (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759}) (mu.{?u.22759} s)
+      (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 1)
+        (@One.toOfNat1.{?u.22759 + 1} Ordinal.{?u.22759} one.{?u.22759}))))
+  (@HPow.hPow.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+    (@instHPow.{?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} instPow.{?u.22759}) omega0.{?u.22759}
+    (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759})
+      (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+        (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯))
+      (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759})
+        (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+          (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759}) (mu.{?u.22759} n.delta) (mu.{?u.22759} s))
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯)))))
+⊢ @Eq.{?u.28921 + 2} Ordinal.{?u.28921}
+  (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+    (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921} add.{?u.28921})
+    (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+      (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+        (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯))
+    (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+      (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+        (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+          (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+      (mu.{?u.28921} n.delta)
+      (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+        (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+          (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+              (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+        (mu.{?u.28921} s)
+        (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯)))))
+  (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+    (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+      (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+        (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+          (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+    (mu.{?u.28921} n.delta)
+    (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+      (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+        (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+          (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+      (mu.{?u.28921} s)
+      (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 6)
+        (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 6)
+          (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯))))
+Termination.lean:721:4
+[Meta.Tactic.simp.rewrite] add_assoc.{u_1}:1000:
+      @HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+        (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921} add.{?u.28921})
+        (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+          (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921} add.{?u.28921}) (mu.{?u.28921} n.delta) (mu.{?u.28921} s))
+        (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯))
+    ==>
+      @HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+        (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+          (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+              (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+        (mu.{?u.28921} n.delta)
+        (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+          (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+              (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+                (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+          (mu.{?u.28921} s)
+          (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+            (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 3)
+              (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯))) 
+[Meta.Tactic.simp.rewrite] add_assoc.{u_1}:1000:
+      @HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+        (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921} add.{?u.28921})
+        (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+          (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921} add.{?u.28921}) (mu.{?u.28921} n.delta) (mu.{?u.28921} s))
+        (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 6)
+          (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 6)
+            (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯))
+    ==>
+      @HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+        (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+          (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+              (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+        (mu.{?u.28921} n.delta)
+        (@HAdd.hAdd.{?u.28921 + 1, ?u.28921 + 1, ?u.28921 + 1} Ordinal.{?u.28921} Ordinal.{?u.28921} Ordinal.{?u.28921}
+          (@instHAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+            (@AddSemigroup.toAdd.{?u.28921 + 1} Ordinal.{?u.28921}
+              (@AddMonoid.toAddSemigroup.{?u.28921 + 1} Ordinal.{?u.28921}
+                (@AddMonoidWithOne.toAddMonoid.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}))))
+          (mu.{?u.28921} s)
+          (@OfNat.ofNat.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 6)
+            (@instOfNatAtLeastTwo.{?u.28921 + 1} Ordinal.{?u.28921} (nat_lit 6)
+              (@AddMonoidWithOne.toNatCast.{?u.28921 + 1} Ordinal.{?u.28921} addMonoidWithOne.{?u.28921}) ⋯))) 
+Termination.lean:729:4
+type mismatch, term
+  hpow
+after simplification has type
+  @LT.lt.{?u.22759 + 1} Ordinal.{?u.22759}
+    (@Preorder.toLT.{?u.22759 + 1} Ordinal.{?u.22759}
+      (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}))
+    (@HMul.hMul.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHMul.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@MulZeroClass.toMul.{?u.22759 + 1} Ordinal.{?u.22759}
+          (@MulZeroOneClass.toMulZeroClass.{?u.22759 + 1} Ordinal.{?u.22759}
+            (@MonoidWithZero.toMulZeroOneClass.{?u.22759 + 1} Ordinal.{?u.22759} monoidWithZero.{?u.22759}))))
+      (@HPow.hPow.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHPow.{?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} instPow.{?u.22759})
+        omega0.{?u.22759}
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯)))
+      (@Order.succ.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}) instSuccOrder.{?u.22759}
+        (mu.{?u.22759} s)))
+    (@HPow.hPow.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+      (@instHPow.{?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} instPow.{?u.22759})
+      omega0.{?u.22759}
+      (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759})
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯))
+        (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+          (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759})
+          (@HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759}
+            Ordinal.{?u.22759} (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759}) (mu.{?u.22759} n.delta)
+            (mu.{?u.22759} s))
+          (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+            (@instOfNatAtLeastTwo.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 3)
+              (@AddMonoidWithOne.toNatCast.{?u.22759 + 1} Ordinal.{?u.22759} addMonoidWithOne.{?u.22759}) ⋯))))) : Prop
+but is expected to have type
+  @LT.lt.{u_1 + 1} Ordinal.{u_1}
+    (@Preorder.toLT.{u_1 + 1} Ordinal.{u_1} (@PartialOrder.toPreorder.{u_1 + 1} Ordinal.{u_1} partialOrder.{u_1}))
+    (@HMul.hMul.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+      (@instHMul.{u_1 + 1} Ordinal.{u_1}
+        (@MulZeroClass.toMul.{u_1 + 1} Ordinal.{u_1}
+          (@MulZeroOneClass.toMulZeroClass.{u_1 + 1} Ordinal.{u_1}
+            (@MonoidWithZero.toMulZeroOneClass.{u_1 + 1} Ordinal.{u_1} monoidWithZero.{u_1}))))
+      (@HPow.hPow.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+        (@instHPow.{u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} instPow.{u_1}) omega0.{u_1}
+        (@OfNat.ofNat.{u_1 + 1} Ordinal.{u_1} (nat_lit 3)
+          (@instOfNatAtLeastTwo.{u_1 + 1} Ordinal.{u_1} (nat_lit 3)
+            (@AddMonoidWithOne.toNatCast.{u_1 + 1} Ordinal.{u_1} addMonoidWithOne.{u_1}) ⋯)))
+      (@Order.succ.{u_1 + 1} Ordinal.{u_1} (@PartialOrder.toPreorder.{u_1 + 1} Ordinal.{u_1} partialOrder.{u_1})
+        instSuccOrder.{u_1} (mu.{u_1} s)))
+    (@HPow.hPow.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+      (@instHPow.{u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} instPow.{u_1}) omega0.{u_1}
+      (@HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+        (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1})
+        (@HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+          (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1}) (mu.{u_1} n.delta) (mu.{u_1} s))
+        (@OfNat.ofNat.{u_1 + 1} Ordinal.{u_1} (nat_lit 6)
+          (@instOfNatAtLeastTwo.{u_1 + 1} Ordinal.{u_1} (nat_lit 6)
+            (@AddMonoidWithOne.toNatCast.{u_1 + 1} Ordinal.{u_1} addMonoidWithOne.{u_1}) ⋯)))) : Prop
+Termination.lean:729:4
+[Meta.Tactic.simp.rewrite] add_one_eq_succ.{u_1}:1000:
+      @HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+        (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1}) (mu.{u_1} s)
+        (@OfNat.ofNat.{u_1 + 1} Ordinal.{u_1} (nat_lit 1) (@One.toOfNat1.{u_1 + 1} Ordinal.{u_1} one.{u_1}))
+    ==>
+      @Order.succ.{u_1 + 1} Ordinal.{u_1} (@PartialOrder.toPreorder.{u_1 + 1} Ordinal.{u_1} partialOrder.{u_1})
+        instSuccOrder.{u_1} (mu.{u_1} s) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ.{u_1}:1000:
+      @HAdd.hAdd.{?u.22759 + 1, ?u.22759 + 1, ?u.22759 + 1} Ordinal.{?u.22759} Ordinal.{?u.22759} Ordinal.{?u.22759}
+        (@instHAdd.{?u.22759 + 1} Ordinal.{?u.22759} add.{?u.22759}) (mu.{?u.22759} s)
+        (@OfNat.ofNat.{?u.22759 + 1} Ordinal.{?u.22759} (nat_lit 1)
+          (@One.toOfNat1.{?u.22759 + 1} Ordinal.{?u.22759} one.{?u.22759}))
+    ==>
+      @Order.succ.{?u.22759 + 1} Ordinal.{?u.22759}
+        (@PartialOrder.toPreorder.{?u.22759 + 1} Ordinal.{?u.22759} partialOrder.{?u.22759}) instSuccOrder.{?u.22759}
+        (mu.{?u.22759} s) 
+Termination.lean:679:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 888, num: 11): ▶
+  [reduction] unfolded instances (max: 1852, num: 33): ▶
+  [reduction] unfolded reducible declarations (max: 863, num: 5): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 125, num: 1): ▶
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters

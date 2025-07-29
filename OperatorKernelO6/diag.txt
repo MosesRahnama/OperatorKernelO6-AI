@@ -1,0 +1,909 @@
+Termination.lean:583:8
+Expected type
+⊢ ∀ (s n : Trace), ω ^ 3 < ω ^ (mu n.delta + mu s + 6)
+Messages (1)
+Termination.lean:583:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 129, num: 2): ▼
+    [] HAdd.hAdd ↦ 129 
+    [] Add.add ↦ 127 
+  [reduction] unfolded reducible declarations (max: 157, num: 3): ▼
+    [] Quotient.lift ↦ 157 
+    [] Quotient.liftOn₂ ↦ 116 
+    [] Quotient.lift₂ ↦ 116 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+All Messages (40)
+Termination.lean:587:32
+unsolved goals
+s n : Trace
+⊢ 3 < 6
+Termination.lean:587:35
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      3 < 6 
+Termination.lean:583:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 129, num: 2): ▼
+    [] HAdd.hAdd ↦ 129 
+    [] Add.add ↦ 127 
+  [reduction] unfolded reducible declarations (max: 157, num: 3): ▼
+    [] Quotient.lift ↦ 157 
+    [] Quotient.liftOn₂ ↦ 116 
+    [] Quotient.lift₂ ↦ 116 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:604:10
+type mismatch, term
+  base
+after simplification has type
+  ω ^ 3 < ω ^ (mu n.delta + mu s + 6) : Prop
+but is expected to have type
+  Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 : Prop
+Termination.lean:604:10
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.18710 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      Order.succ (mu s) * ω ^ (mu n.delta + mu s + 6) < ?m.18710 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 < ω ^ (mu n.delta + mu s + 6) 
+Termination.lean:595:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 264, num: 3): ▼
+    [] Mul.mul ↦ 264 
+    [] Add.add ↦ 151 
+    [] HAdd.hAdd ↦ 148 
+  [reduction] unfolded instances (max: 478, num: 14): ▼
+    [] Group.toDivInvMonoid ↦ 478 
+    [] CommMonoid.toMonoid ↦ 411 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
+    [] CommMonoidWithZero.toCommMonoid ↦ 268 
+    [] Monoid.toSemigroup ↦ 250 
+    [] DivInvMonoid.toMonoid ↦ 238 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 147 
+    [] MonoidWithZero.toMonoid ↦ 147 
+    [] Semigroup.toMul ↦ 110 
+    [] CommGroupWithZero.toGroupWithZero ↦ 104 
+    [] GroupWithZero.toMonoidWithZero ↦ 104 
+  [reduction] unfolded reducible declarations (max: 296, num: 4): ▼
+    [] Quotient.lift ↦ 296 
+    [] Quotient.liftOn₂ ↦ 275 
+    [] Quotient.lift₂ ↦ 275 
+    [] casesOn ↦ 230 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:614:26
+unsolved goals
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+⊢ 2 < 3
+Termination.lean:614:29
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      2 < 3 
+Termination.lean:616:4
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 < ω ^ (mu n.delta + mu s + 6) 
+Termination.lean:619:8
+overloaded, errors 
+  failed to synthesize
+    PosMulStrictMono Ordinal.{u_1}
+  
+  type mismatch
+    Ordinal.mul_lt_mul_of_pos_left h₂ hpos
+  has type
+    (mu (b.recΔ s n) + 1) * ω ^ 2 < (mu (b.recΔ s n) + 1) * A : Prop
+  but is expected to have type
+    ω ^ 2 * (mu (b.recΔ s n) + 1) < A : Prop
+Termination.lean:607:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 946, num: 10): ▼
+    [] Add.add ↦ 946 
+    [] HAdd.hAdd ↦ 942 
+    [] Pow.pow ↦ 558 
+    [] HPow.hPow ↦ 536 
+    [] Mul.mul ↦ 517 
+    [] ite ↦ 440 
+    [] HMul.hMul ↦ 325 
+    [] mu ↦ 235 
+    [] rec ↦ 235 
+    [] LT.lt ↦ 105 
+  [reduction] unfolded instances (max: 478, num: 13): ▼
+    [] Group.toDivInvMonoid ↦ 478 
+    [] CommMonoid.toMonoid ↦ 411 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
+    [] CommMonoidWithZero.toCommMonoid ↦ 268 
+    [] Monoid.toSemigroup ↦ 239 
+    [] DivInvMonoid.toMonoid ↦ 238 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 147 
+    [] MonoidWithZero.toMonoid ↦ 136 
+    [] CommGroupWithZero.toGroupWithZero ↦ 104 
+    [] GroupWithZero.toMonoidWithZero ↦ 104 
+  [reduction] unfolded reducible declarations (max: 1202, num: 6): ▼
+    [] Quotient.lift ↦ 1202 
+    [] Quotient.liftOn₂ ↦ 1128 
+    [] Quotient.lift₂ ↦ 1128 
+    [] Decidable.casesOn ↦ 450 
+    [] casesOn ↦ 235 
+    [] outParam ↦ 123 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:629:4
+type mismatch, term
+  head_lt_A s n
+after simplification has type
+  HPow.hPow.{?u.19630 + 1, ?u.19630 + 1, ?u.19630 + 1} ω 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) : Prop
+but is expected to have type
+  HPow.hPow.{?u.17716 + 1, 0, ?u.17716 + 1} ω 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) : Prop
+Termination.lean:629:4
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) < ω ^ (mu n.delta + mu s + 6) 
+Termination.lean:631:4
+type mismatch, term
+  tail_lt_A b s n
+after simplification has type
+  HPow.hPow.{?u.24182 + 1, ?u.24182 + 1, ?u.24182 + 1} ω 2 * Order.succ (mu (b.recΔ s n)) <
+    ω ^ (mu n.delta + mu s + 6) : Prop
+but is expected to have type
+  HPow.hPow.{?u.17716 + 1, 0, ?u.17716 + 1} ω 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) : Prop
+Termination.lean:631:4
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (b.recΔ s n) + 1
+    ==>
+      Order.succ (mu (b.recΔ s n)) 
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (b.recΔ s n) + 1
+    ==>
+      Order.succ (mu (b.recΔ s n)) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left':1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right':1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_right:1000, failed to unify
+      ?a * ?b < ?a
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.unify] mul_lt_iff_lt_one_left:1000, failed to unify
+      ?a * ?b < ?b
+    with
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < ω ^ (mu n.delta + mu s + 6) 
+Termination.lean:638:12
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.17716}
+Termination.lean:638:41
+Application type mismatch: In the application
+  add_lt_add_of_lt_of_le hHead (add_le_add_left (le_of_lt hTail) ?m.28944)
+the argument
+  add_le_add_left (le_of_lt hTail) ?m.28944
+has type
+  ?m.28944 + ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ?m.28944 + A : Prop
+but is expected to have type
+  ω ^ 2 * (mu (b.recΔ s n) + 1) + 1 ≤ A : Prop
+Termination.lean:639:33
+unknown identifier 'add_lt_self_left'
+Termination.lean:640:4
+type mismatch, term
+  this
+after simplification has type
+  ω ^ 3 * Order.succ (mu s) +
+      Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+    A : Prop
+but is expected to have type
+  Order.succ
+      (ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+    A : Prop
+Termination.lean:640:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (s.merge (b.recΔ s n)) ==> ω ^ 3 * (mu s + 1) + ω ^ 2 * (mu (b.recΔ s n) + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) + 1
+    ==>
+      Order.succ
+        (ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      Order.succ
+          (ω ^ 3 * Order.succ (mu s) +
+            ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      Order.succ
+          (ω ^ 3 * Order.succ (mu s) +
+            ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      Order.succ
+          (ω ^ 3 * Order.succ (mu s) +
+            ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A
+    ==>
+      Order.succ
+          (ω ^ 3 * Order.succ (mu s) +
+            ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) + 1
+    ==>
+      Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 * Order.succ (mu s) +
+          Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      ?a + ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) +
+          Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      ?a + ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) +
+          Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ 3 * Order.succ (mu s) +
+          Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      ?a + ?b < ?a
+    with
+      ω ^ 3 * Order.succ (mu s) +
+          Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      ?a + ?b < ?b
+    with
+      ω ^ 3 * Order.succ (mu s) +
+          Order.succ (ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) <
+        A 
+Termination.lean:647:4
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu n.delta ==> ω ^ 5 * (mu n + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu n + 1
+    ==>
+      Order.succ (mu n) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 5 * Order.succ (mu n) + 1
+    ==>
+      Order.succ (ω ^ 5 * Order.succ (mu n)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n.delta) ==> ω ^ (mu n.delta + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) <
+        Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.unify] Order.lt_succ_iff_not_isMax:1000, failed to unify
+      ?a < Order.succ ?a
+    with
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) <
+        Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.discharge] Order.lt_succ_of_le discharge ✅️
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) ≤
+        ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b) ▼
+  [unify] le_refl:1000, failed to unify
+        ?a ≤ ?a
+      with
+        ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) ≤
+          ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b) 
+  [] le_of_subsingleton, failed to synthesize instance
+        Subsingleton Ordinal.{?u.120315} 
+  [] le_of_subsingleton discharge ❌️
+        Subsingleton Ordinal.{?u.120315} 
+  [rewrite] le_add_iff_nonneg_right:1000:
+        ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) ≤
+          ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)
+      ==>
+        0 ≤ ω * Order.succ (mu b) 
+  [unify] le_refl:1000, failed to unify
+        ?a ≤ ?a
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [] le_of_subsingleton, failed to synthesize instance
+        Subsingleton Ordinal.{?u.120315} 
+  [] le_of_subsingleton discharge ❌️
+        Subsingleton Ordinal.{?u.120315} 
+  [unify] le_mul_iff_one_le_right':1000, failed to unify
+        ?a ≤ ?a * ?b
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [unify] le_mul_iff_one_le_left':1000, failed to unify
+        ?a ≤ ?b * ?a
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [unify] self_le_mul_right:1000, failed to unify
+        ?a ≤ ?a * ?b
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [unify] self_le_mul_left:1000, failed to unify
+        ?a ≤ ?b * ?a
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [unify] le_mul_iff_one_le_right:1000, failed to unify
+        ?a ≤ ?a * ?b
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [unify] le_mul_iff_one_le_left:1000, failed to unify
+        ?a ≤ ?b * ?a
+      with
+        0 ≤ ω * Order.succ (mu b) 
+  [rewrite] zero_le:1000:
+        0 ≤ ω * Order.succ (mu b)
+      ==>
+        True 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_of_le:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) <
+        Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b))
+    ==>
+      True 
+Termination.lean:622:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 111, num: 1): ▼
+    [] Quotient.lift ↦ 111 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:622:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 11100, num: 19): ▼
+    [] Add.add ↦ 11100 
+    [] HAdd.hAdd ↦ 10971 
+    [] Pow.pow ↦ 4967 
+    [] HPow.hPow ↦ 4950 
+    [] ite ↦ 4893 
+    [] rec ↦ 3441 
+    [] mu ↦ 3435 
+    [] Mul.mul ↦ 1982 
+    [] HMul.hMul ↦ 1625 
+    [] Quot.lift ↦ 1535 
+    [] One.one ↦ 625 
+    [] OfNat.ofNat ↦ 445 
+    [] Quotient.mk ↦ 403 
+    [] type ↦ 349 
+    [] WellOrder.rec ↦ 342 
+    [] Order.succ ↦ 252 
+    [] SuccOrder.succ ↦ 252 
+    [] Quotient ↦ 202 
+    [] Ordinal ↦ 192 
+  [reduction] unfolded instances (max: 482, num: 23): ▼
+    [] Group.toDivInvMonoid ↦ 482 
+    [] CommMonoid.toMonoid ↦ 411 
+    [] instHAdd ↦ 372 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
+    [] AddCommSemigroup.toAddSemigroup ↦ 280 
+    [] CommMonoidWithZero.toCommMonoid ↦ 268 
+    [] Monoid.toSemigroup ↦ 264 
+    [] DivInvMonoid.toMonoid ↦ 242 
+    [] AddGroup.toSubNegMonoid ↦ 200 
+    [] AddMonoid.toAddSemigroup ↦ 185 
+    [] AddSemigroup.toAdd ↦ 176 
+    [] Semigroup.toMul ↦ 173 
+    [] SubNegMonoid.toAddMonoid ↦ 170 
+    [] MonoidWithZero.toMonoid ↦ 157 
+    [] add ↦ 157 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 147 
+    [] MulOneClass.toMul ↦ 117 
+    [] instAddNat ↦ 107 
+    [] CommGroupWithZero.toGroupWithZero ↦ 104 
+    [] GroupWithZero.toMonoidWithZero ↦ 104 
+  [reduction] unfolded reducible declarations (max: 14047, num: 7): ▼
+    [] Quotient.lift ↦ 14047 
+    [] Quotient.liftOn₂ ↦ 12450 
+    [] Quotient.lift₂ ↦ 12450 
+    [] Decidable.casesOn ↦ 4914 
+    [] casesOn ↦ 3545 
+    [] WellOrder.casesOn ↦ 342 
+    [] outParam ↦ 280 
+  [def_eq] heuristic for solving `f a =?= f b` (max: 196, num: 1): ▼
+    [] instHAdd ↦ 196 
+  [kernel] unfolded declarations (max: 111, num: 1): ▼
+    [] Quotient.lift ↦ 111 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:658:34
+unsolved goals
+a b : Trace
+B : Ordinal.{?u.17766} := ω ^ (mu a + mu b + 9)
+hB : B = ω ^ (mu a + mu b + 9)
+⊢ 4 < 9
+Termination.lean:658:37
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      4 < 9 
+Termination.lean:661:10
+type mismatch
+  Ordinal.mul_lt_mul_of_pos_left base (zero_lt_add_one ?m.37807)
+has type
+  (?m.37807 + 1) * ω ^ 4 < (?m.37807 + 1) * ω ^ (mu a + mu b + 9) : Prop
+but is expected to have type
+  ω ^ 4 * (mu a + mu b + 1) < B : Prop
+Termination.lean:666:6
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.17766}
+Termination.lean:665:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b).integrate ==> ω ^ 4 * (mu (a.merge b) + 1) + 1 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b) ==> ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu a + 1
+    ==>
+      Order.succ (mu a) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 4 * Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b))) + 1
+    ==>
+      Order.succ (ω ^ 4 * Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)))) 
+[Meta.Tactic.simp.rewrite] hB:1000:
+      B
+    ==>
+      ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      Order.succ (ω ^ 4 * Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)))) <
+        ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      Order.succ (ω ^ 4 * Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)))) <
+        ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.80570 
+Termination.lean:669:4
+[Meta.Tactic.simp.rewrite] hB:1000:
+      B
+    ==>
+      ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.eqW b) ==> ω ^ (mu a + mu b + 9) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + mu b + 9) + 1
+    ==>
+      Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      ω ^ (mu a + mu b + 9) < Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_iff_not_isMax:1000:
+      ω ^ (mu a + mu b + 9) < Order.succ (ω ^ (mu a + mu b + 9))
+    ==>
+      ¬IsMax (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] not_isMax:1000:
+      IsMax (ω ^ (mu a + mu b + 9))
+    ==>
+      False 
+[Meta.Tactic.simp.rewrite] not_false_eq_true:1000:
+      ¬False
+    ==>
+      True 
+Termination.lean:650:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 112, num: 1): ▶
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:650:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 3581, num: 16): ▼
+    [] Add.add ↦ 3581 
+    [] HAdd.hAdd ↦ 3212 
+    [] Monoid.npow ↦ 1141 
+    [] Mul.mul ↦ 1062 
+    [] Pow.pow ↦ 1038 
+    [] WellOrder.rec ↦ 748 
+    [] HPow.hPow ↦ 728 
+    [] HMul.hMul ↦ 665 
+    [] Quot.lift ↦ 636 
+    [] Quotient.mk ↦ 364 
+    [] Quotient ↦ 301 
+    [] Ordinal ↦ 268 
+    [] Nat.rec ↦ 255 
+    [] npowRec ↦ 224 
+    [] ite ↦ 218 
+    [] One.one ↦ 140 
+  [reduction] unfolded instances (max: 960, num: 26): ▼
+    [] Group.toDivInvMonoid ↦ 960 
+    [] CommMonoid.toMonoid ↦ 822 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 724 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 630 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 630 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 630 
+    [] instHAdd ↦ 536 
+    [] CommMonoidWithZero.toCommMonoid ↦ 536 
+    [] Monoid.toSemigroup ↦ 488 
+    [] DivInvMonoid.toMonoid ↦ 480 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 294 
+    [] AddCommSemigroup.toAddSemigroup ↦ 280 
+    [] MonoidWithZero.toMonoid ↦ 278 
+    [] add ↦ 272 
+    [] instAddNat ↦ 234 
+    [] Semigroup.toMul ↦ 209 
+    [] CommGroupWithZero.toGroupWithZero ↦ 208 
+    [] GroupWithZero.toMonoidWithZero ↦ 208 
+    [] AddGroup.toSubNegMonoid ↦ 200 
+    [] AddMonoid.toAddSemigroup ↦ 184 
+    [] SubNegMonoid.toAddMonoid ↦ 170 
+    [] AddSemigroup.toAdd ↦ 158 
+    [] LeftCancelMonoid.toMonoid ↦ 148 
+    [] CancelMonoid.toRightCancelMonoid ↦ 144 
+    [] RightCancelMonoid.toMonoid ↦ 144 
+    [] MulOneClass.toMul ↦ 130 
+  [reduction] unfolded reducible declarations (max: 4230, num: 9): ▼
+    [] Quotient.lift ↦ 4230 
+    [] Quotient.liftOn₂ ↦ 3639 
+    [] Quotient.lift₂ ↦ 3639 
+    [] casesOn ↦ 1740 
+    [] WellOrder.casesOn ↦ 748 
+    [] Nat.casesOn ↦ 255 
+    [] Decidable.casesOn ↦ 233 
+    [] npowRecAuto ↦ 196 
+    [] outParam ↦ 127 
+  [def_eq] heuristic for solving `f a =?= f b` (max: 260, num: 1): ▼
+    [] instHAdd ↦ 260 
+  [kernel] unfolded declarations (max: 112, num: 1): ▼
+    [] Quotient.lift ↦ 112 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:679:31
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu void < mu t.delta.integrate 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu void < mu t.delta.integrate 
+Termination.lean:680:31
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (void.merge b) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (void.merge b) 
+Termination.lean:681:31
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (b.merge void) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (b.merge void) 
+Termination.lean:682:31
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (b.merge b) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (b.merge b) 
+Termination.lean:683:31
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu b < mu (b.recΔ s✝ void) 
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.19747 
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.19748 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu ?m.19747 < mu (recΔ ?m.19747 ?m.19748 void) 
+Termination.lean:685:31
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu void < mu (a.eqW a) 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu void < mu (a.eqW a) 
+Termination.lean:674:0
+[diag] Diagnostics ▼
+  [reduction] unfolded reducible declarations (max: 107, num: 1): ▼
+    [] Quotient.lift ↦ 107 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:729:14
+failed to infer universe levels in 'have' declaration type
+  mu.{?u.18152} x < mu.{?u.18152} y
+Termination.lean:730:2
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      x1✝ < x2✝ 
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      ?x < ?x
+    with
+      mu x < mu y 
+@lt_self_iff_false : ∀ {α : Type u_2} [inst : Preorder α] (x : α), x < x ↔ False
