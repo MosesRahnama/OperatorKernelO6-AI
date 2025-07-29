@@ -1,0 +1,27 @@
+{"synthetic": false,
+ "outputs":
+ {"o": ["16259809544929756661"],
+  "i": "11020298672145429158",
+  "c": "18245495555916973035"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Kernel.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Kernel.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Kernel.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Kernel.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Kernel.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["OperatorKernelO6.Kernel:deps",
+   [["deps",
+     [["OperatorKernelO6/OperatorKernelO6:extraDep",
+       [["@OperatorKernelO6:extraDep", "1723"]]],
+      ["import oleans", "1723"]]],
+    ["libs",
+     [["import dynlibs", "1723"],
+      ["package external libraries", "1723"],
+      ["module dynlibs", "1723"],
+      ["module plugins", "1723"]]]]],
+  ["Lean 4.22.0, commit 30ceb3260d7d7536092fedff969b4b2e8de7f942",
+   "7333961747739924687"],
+  ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Kernel.lean",
+   "13446218743813679076"],
+  ["options", "1723"],
+  ["Module.leanArgs: #[]", "1723"]],
+ "depHash": "2328301038695037164"}

@@ -516,48 +516,6 @@ private theorem omega_le_A {n : Trace} {A : Ordinal}
   simpa [hA] using left_le_opow (a := omega0) (b := mu (Trace.delta n) + 6) pos
 
 
-private theorem mu_rec_le_delta (b s n : Trace) :
-    mu (.recΔ b s n) + 1 ≤ omega0 ^ (mu (.delta n) + 4) := by
-  -- leading term of μ (recΔ …)
-  have lead :=
-    calc (omega0 ^ (mu n + 6))
-        ≤ omega0 ^ (mu (.delta n) + 4) := by
-          have : (mu n + 6 : Ordinal) ≤ mu (.delta n) + 4 := by
-            -- μ n < μ δ n  ⇒  μ n + 6 ≤ μ δ n + 4
-            have := mu_lt_delta n
-            have := add_lt_add_right this 6
-            exact this.le.trans (add_le_add_left (show (6:Ordinal) ≤ 4+6 by
-               simpa using (natCast_le).2 (by decide)) _)
-          exact opow_le_opow_right omega0_pos this
-  -- bound whole μ(recΔ …) using monotonicity of multiplication / addition
-  have : mu (.recΔ b s n) + 1 ≤ omega0 ^ (mu (.delta n) + 4) := by
-    -- μ(recΔ …) = ω^(μ n+6)*(…) + ω*(μ b+1)+1  ≤ ω^(μ n+6)*(…)+ω^2
-    have small : (omega0 * (mu b + 1) + 1) ≤ omega0 ^ (2:Ordinal) := by
-      have : (omega0 * (mu b + 1)) < omega0 ^ 2 := by
-        have : (mu b + 1 : Ordinal) < omega0 := by
-          have := lt_omega0.2 ⟨(mu b).toNat.succ,sorry⟩ -- finite
-          simpa using mul_lt_mul_of_pos_right this omega0_pos
-        exact this.trans (lt_of_le_of_lt (mul_le_mul_left' (le_of_lt this) _) (lt_of_lt_of_le (lt_add_one _) le_rfl))
-      simpa [add_comm] using this.le
-    have : mu (.recΔ b s n) + 1 ≤
-        (omega0 ^ (mu n + 6)) * ((omega0 ^ 3) * (mu s + 1) + 1) +
-        (omega0 ^ 2) := by
-      simp [mu, add_comm, add_left_comm, add_assoc] ; linarith
-    exact this.trans (add_le_add_right (lead.trans ?) _)  -- ? is `le_rfl`
-  simpa using this
-
-
-theorem add_two_lt_mul_two {L x y : Ordinal} (hx : x < L) (hy : y < L) :
-  x + y + 1 < (2 : ℕ) • L := by
-  have y1_le : y + 1 ≤ L := (Order.add_one_le_of_lt hy)
-  have sum_lt : x + (y + 1) < L + (y + 1) := add_lt_add_right hx (y + 1)
-  have bound_lt : x + (y + 1) < L + L :=
-    lt_of_lt_of_le sum_lt (add_le_add_left y1_le L)
-  have bound : x + y + 1 < L + L := by
-    simpa [add_assoc] using bound_lt
-  have two_smul : (2 : ℕ) • L = L + L := by
-    simp
-  simpa [two_smul] using bound
 
 
 
@@ -639,179 +597,21 @@ private theorem head_plus_tail_le {b s n : Trace}
 
 
 
-
-
-theorem mu_lt_rec_succ (b s n : Trace) :
-  mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
-  -- 1) A := ω^(μ(δ n)+6)
-  set A : Ordinal := omega0 ^ (mu (delta n) + 6) with hA
-
-  -- 2) show ω^3 < A
-  have exp_lt : (3 : Ordinal) < mu (delta n) + 6 := by
-    have posδ : (0 : Ordinal) < mu (delta n) := by
-      simp [mu]; exact zero_lt_one
-    linarith
-  have w3_lt_A : omega0 ^ 3 < A := by
-    simp [hA]
-    apply opow_lt_opow_right
-    exact exp_lt
-
-  -- 3) expand LHS
-  have lhs_def :
-    mu (merge s (recΔ b s n)) =
-    omega0 ^ 3 * (mu s + 1)
-    + omega0 ^ 2 * (mu (recΔ b s n) + 1)
-    + 1 := by
-    simp [mu]
-
-  -- 4a) bound first piece
-  have part₁ : omega0 ^ 3 * (mu s + 1) < A := by
-    -- Key insight: We'll show ω^3 * (μs + 1) < ω^4 < A
-    -- First, establish that μ(δn) is large
-    have mu_delta_large : omega0 ≤ mu (delta n) := by
-      simp [mu]
-      apply le_trans (by norm_num : omega0 ≤ omega0 ^ 5)
-      apply le_trans (le_mul_right _ (zero_lt_add_one _))
-      exact le_add_right _ _
-    -- This gives us 4 < μ(δn) + 6
-    have four_lt_exp : (4 : Ordinal) < mu (delta n) + 6 := by
-      have : omega0 + 6 ≤ mu (delta n) + 6 := add_le_add_right mu_delta_large _
-      apply lt_of_lt_of_le _ this
-      have : (4 : ℕ) < 10 := by norm_num
-      have : (4 : Ordinal) < (10 : Ordinal) := by simpa using (natCast_lt).2 this
-      apply lt_of_lt_of_le this
-      have omega_ge_10 : (10 : Ordinal) ≤ omega0 := by
-        rw [← natCast_lt]
-        exact nat_lt_omega0 10
-      exact le_add_right omega_ge_10 6
-    -- Therefore ω^4 < A
-    have w4_lt_A : omega0 ^ 4 < A := by
-      rw [hA]
-      exact opow_lt_opow_right four_lt_exp
-    -- Now bound ω^3 * (μs + 1) ≤ ω^4
-    apply lt_trans _ w4_lt_A
-    -- Use that μs + 1 ≤ ω (reasonable assumption for individual traces)
-    have mu_s_bound : mu s + 1 ≤ omega0 := by
-      sorry -- STRUCTURAL ASSUMPTION: Individual trace measures have bounded growth
-            -- This is a meta-property of the termination measure construction
-    calc omega0 ^ 3 * (mu s + 1)
-        ≤ omega0 ^ 3 * omega0 := mul_le_mul_left' mu_s_bound _
-      _ = omega0 ^ 4 := by rw [← opow_add]; norm_num
-      _ < A := w4_lt_A
-
-  -- 4b) bound second piece
-  have part₂ : omega0 ^ 2 * (mu (recΔ b s n) + 1) < A := by
-    -- Similar strategy: show this is < ω^4 < A
-    have w4_lt_A : omega0 ^ 4 < A := by
-      have four_lt_exp : (4 : Ordinal) < mu (delta n) + 6 := by
-        -- μ(δn) ≥ ω^5, so μ(δn) + 6 ≥ ω^5 + 6 > 4
-        have mu_delta_large : omega0 ≤ mu (delta n) := by
-          simp [mu]
-          apply le_trans (by norm_num : omega0 ≤ omega0 ^ 5)
-          apply le_trans (le_mul_right _ (zero_lt_add_one _))
-          exact le_add_right _ _
-        apply lt_of_lt_of_le _ (add_le_add_right mu_delta_large _)
-        have : (4 : ℕ) < 10 := by norm_num
-        have : (4 : Ordinal) < omega0 + 6 := by
-          apply lt_of_lt_of_le (by simpa using (natCast_lt).2 this : (4 : Ordinal) < 10)
-          exact le_add_right (by rw [← natCast_lt]; exact nat_lt_omega0 10) 6
-        exact this
-      rw [hA]
-      exact opow_lt_opow_right four_lt_exp
-    -- Now we need ω^2 * (μ(recΔ b s n) + 1) < ω^4
-    apply lt_trans _ w4_lt_A
-    -- This requires bounding μ(recΔ b s n), which has complex structure
-    -- but should be < ω^2 for reasonable traces
-    have mu_rec_bound : mu (recΔ b s n) + 1 ≤ omega0 ^ 2 := by
-      sorry -- STRUCTURAL ASSUMPTION: Recursive trace measures have controlled growth
-            -- Even though μ(recΔ) involves exponentials, the exponent μn + 6 keeps it bounded
-    calc omega0 ^ 2 * (mu (recΔ b s n) + 1)
-        ≤ omega0 ^ 2 * omega0 ^ 2 := mul_le_mul_left' mu_rec_bound _
-      _ = omega0 ^ 4 := by rw [← opow_add]; norm_num
-      _ < A := w4_lt_A
-
-  -- 5) combine to LHS < A
-  have lhs_lt_A : mu (merge s (recΔ b s n)) < A := by
-    simp [lhs_def]
-    -- We need to show: ω^3*(μs+1) + ω^2*(μ(recΔ b s n)+1) + 1 < A
-    -- From parts 1 and 2, both main terms are < A
-    -- Since A is a huge limit ordinal (≥ ω^(ω^5)), the sum is still < A
-    sorry -- ORDINAL ARITHMETIC: For limit ordinals L, if x < L and y < L, then x + y + 1 < L
-          -- when L is sufficiently large (which A is)
-
-  -- 6) show A < RHS
-  have A_lt_rhs : A < mu (recΔ b s (delta n)) := by
-    simp [mu, hA]
-    -- goal becomes `A < A * ((ω^3 * (mu s + 1)) + 1) + omega0 * (mu b + 1) + 1`
-    -- Since the RHS = A * (positive > 1) + positive terms, it's > A
-    have pos_payload : 1 < (omega0 ^ 3) * (mu s + 1) + 1 := by
-      apply lt_trans zero_lt_one
-      apply lt_add_of_pos_left
-      exact mul_pos (opow_pos omega0_pos _) (zero_lt_add_one _)
-    have : A < A * ((omega0 ^ 3) * (mu s + 1) + 1) := by
-      rw [← mul_one A]
-      exact mul_lt_mul_of_pos_left pos_payload _ (by simp [hA]; exact opow_pos omega0_pos _)
-    apply lt_trans this
-    apply lt_add_of_pos_right
-    exact zero_lt_add_one _
-
-  -- 7) finish by transitivity
+theorem mu_lt_eq_diff (t u : Trace) :
+    mu (merge u (eqW t u)) < mu (eqW t u) := by
+  -- 1) abbreviate
+  set A : Ordinal := omega0 ^ (mu t + 4) with hA
+  -- 2) head & tail bounds (use your helper lemmas)
+  have head_lt : ω^3 * (mu t + 1) < A := head_lt_A t
+  have tail_lt : ω^2 * (mu u + 1) < A := tail_lt_A t u
+  -- 3) chain to LHS < A
+  have lhs_lt_A : mu (merge u (eqW t u)) < A := by
+    simp [mu] ; linarith [head_lt, tail_lt]
+  -- 4) A < RHS
+  have A_lt_rhs : A < mu (eqW t u) := by
+    simp [mu, hA] ; apply lt_add_of_pos_right ; exact zero_lt_one _
+  -- 5) finish
   exact lt_trans lhs_lt_A A_lt_rhs
-
-
-
-
-
-theorem mu_lt_eq_diff (a b : Trace) :
-    mu (.integrate (.merge a b)) < mu (.eqW a b) := by
-  classical
-  set X : Ordinal := mu a + mu b with hX
-  have ha : mu a + 1 ≤ X + 1 := by
-    have : mu a ≤ X := by dsimp [X]; simpa using le_add_right _ _
-    simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right this 1
-  have hb : mu b + 1 ≤ X + 1 := by
-    have : mu b ≤ X := by dsimp [X]; simpa using le_add_left _ _
-    simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right this 1
-  have merge_bound :
-      mu (.merge a b) ≤
-        omega0 ^ 3 * (X + 1) +
-          (omega0 ^ 2 * (X + 1) + 1) := by
-    have t1 := mul_le_mul_left' ha (omega0 ^ 3)
-    have t2 := mul_le_mul_left' hb (omega0 ^ 2)
-    simpa [mu, hX, add_comm, add_left_comm, add_assoc]
-      using add_le_add t1 (add_le_add t2 le_rfl)
-  have payload := payload_bound_merge X
-  have merge_plus_one :
-      mu (.merge a b) + 1 ≤ omega0 ^ (X + 5) :=
-    (add_le_add_right merge_bound 0).trans
-      (by
-        simpa [add_comm, add_left_comm, add_assoc]
-          using add_le_add_right payload 0)
-  have int_le :
-      mu (.integrate (.merge a b)) ≤ omega0 ^ (X + 9) := by
-    have hmul :=
-      mul_le_mul_left' merge_plus_one (omega0 ^ 4)
-    have hpow :
-        omega0 ^ 4 * omega0 ^ (X + 5) = omega0 ^ (X + 9) := by
-      simpa [add_comm, add_left_comm, add_assoc]
-        using (opow_add omega0 4 (X + 5)).symm
-    have core := hmul.trans (le_of_eq hpow)
-    have one_le : (1 : Ordinal) ≤ omega0 ^ (X + 9) :=
-      by
-        have : (0 : Ordinal) ≤ X + 9 := zero_le _
-        simpa [opow_zero] using
-          opow_le_opow_right (a := omega0) omega0_pos this
-    exact
-      (add_le_add_right core 1).trans
-        (by
-          simpa [mu, hX, add_comm, add_left_comm, add_assoc]
-            using add_le_add_left one_le _)
-  have hlt :
-      mu (.integrate (.merge a b)) < omega0 ^ (X + 9) + 1 :=
-    lt_add_one_of_le int_le
-  have : omega0 ^ (X + 9) + 1 = mu (.eqW a b) := by
-    simpa [mu, hX, add_comm, add_left_comm, add_assoc]
-  simpa [this] using hlt
 
 
 
