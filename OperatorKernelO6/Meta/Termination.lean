@@ -667,8 +667,8 @@ set_option diagnostics.threshold 100
 set_option diagnostics true
 set_option autoImplicit false
 set_option maxRecDepth 1000
-set_option pp.explicit true
-set_option pp.universes true
+-- set_option pp.explicit true
+-- set_option pp.universes true
 -- set_option trace.Meta.isDefEq true
 set_option trace.Meta.debug true
 set_option trace.Meta.Tactic.simp.rewrite true
@@ -682,27 +682,29 @@ theorem head_lt_A (s n : Trace) :
   intro A
 
   ------------------------------------------------------------------
-  -- 1 ▸  coefficient bound   μ s + 1 < ω^(μ(δ n)+μ s+3)
+  -- 1 ▸  coefficient bound   μ s + 1 < ω^(μ δ n + μ s + 3)
   ------------------------------------------------------------------
   have hcoeff : mu s + 1 < omega0 ^ (mu (delta n) + mu s + 3) :=
     coeff_lt_A s n
 
   ------------------------------------------------------------------
-  -- 2 ▸  multiply by ω³  (positive left factor)
+  -- 2 ▸  multiply by ω³ (left factor is positive)
   ------------------------------------------------------------------
   have hpos : (0 : Ordinal) < omega0 ^ (3 : Ordinal) :=
-    Ordinal.opow_pos omega0_pos
+    opow_pos (a := omega0) omega0_pos     -- 0 < ω ⇒ 0 < ω³
 
-  have hmul : omega0 ^ (3 : Ordinal) * (mu s + 1) <
-              omega0 ^ (3 : Ordinal) *
-              omega0 ^ (mu (delta n) + mu s + 3) := by
-    exact Ordinal.mul_lt_mul_of_pos_left hcoeff hpos
+  have hmul :
+      omega0 ^ (3 : Ordinal) * (mu s + 1) <
+      omega0 ^ (3 : Ordinal) *
+        omega0 ^ (mu (delta n) + mu s + 3) :=
+    Ordinal.mul_lt_mul_of_pos_left hcoeff hpos
 
   ------------------------------------------------------------------
-  -- 3 ▸  rewrite product  ω³·ω^x  →  ω^(3+x)
+  -- 3 ▸  rewrite product  ω³·ω^x = ω^(3 + x)
   ------------------------------------------------------------------
-  have hstep :
-      omega0 ^ (3 : Ordinal) * omega0 ^ (mu (delta n) + mu s + 3) =
+  have hprod :
+      omega0 ^ (3 : Ordinal) *
+        omega0 ^ (mu (delta n) + mu s + 3) =
       omega0 ^ (3 + (mu (delta n) + mu s + 3)) := by
     simpa using
       (Ordinal.opow_add omega0 (3 : Ordinal) (mu (delta n) + mu s + 3)).symm
@@ -710,10 +712,10 @@ theorem head_lt_A (s n : Trace) :
   have hpow :
       omega0 ^ (3 : Ordinal) * (mu s + 1) <
       omega0 ^ (3 + (mu (delta n) + mu s + 3)) := by
-    simpa [hstep] using hmul
+    simpa [hprod] using hmul
 
   ------------------------------------------------------------------
-  -- 4 ▸  simplify exponent   3 + ( … + 3 ) = … + 6
+  -- 4 ▸  simplify exponent   3 + (… + 3) = … + 6
   ------------------------------------------------------------------
   have hexp :
       (3 : Ordinal) + (mu (delta n) + mu s + 3) =
@@ -723,12 +725,7 @@ theorem head_lt_A (s n : Trace) :
   ------------------------------------------------------------------
   -- 5 ▸  final rewrite to match `A`
   ------------------------------------------------------------------
-  have h_final :
-      omega0 ^ (3 : Ordinal) * (mu s + 1) < A := by
-    -- `A = ω^(μ(δ n)+μ s+6)`
-    simpa [A, hexp] using hpow
-
-  exact h_final
+  simpa [A, hexp] using hpow
 
 
 -- /-- `merge s (recΔ b s n)`  →  `recΔ b s (δ n)` strictly drops μ. -/
