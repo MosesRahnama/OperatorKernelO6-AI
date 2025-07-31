@@ -1,139 +1,4 @@
-Termination.lean:883:34
-Tactic state
-1 goal
-case pos
-b s n : Trace
-A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
-h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
-tower : Ordinal.{u_1} := ω ^ (mu n + mu s + 6)
-htower : tower = ω ^ (mu n + mu s + 6)
-rest : Ordinal.{u_1} := ω * (mu b + 1) + 2
-hrest : rest = ω * (mu b + 1) + 2
-hμ_split : mu (b.recΔ s n) + 1 = tower + rest
-htower_lt : tower < A
-hfin : mu b < ω
-this✝ : mu b + 1 < ω
-hmul : ω * (mu b + 1) < ω * ω
-this : ω * (mu b + 1) + 2 < ω * ω + 2
-h✝ : Order.succ (Order.succ (ω * Order.succ (mu b))) < ?m.56077 + Order.succ (Order.succ (ω * ω))
-⊢ Order.succ (Order.succ (ω * Order.succ (mu b))) < ω ^ 2
-Messages (4)
-Termination.lean:883:6
-type mismatch, term
-  lt_of_lt_of_le this (le_add_of_nonneg_left (Ordinal.zero_le ?m.56077))
-after simplification has type
-  Order.succ (Order.succ (ω * Order.succ (mu b))) < ?m.56077 + Order.succ (Order.succ (ω * ω)) : Prop
-but is expected to have type
-  Order.succ (Order.succ (ω * Order.succ (mu b))) < ω ^ 2 : Prop
-Termination.lean:883:6
-[Meta.Tactic.simp.rewrite] hrest:1000:
-      rest
-    ==>
-      ω * (mu b + 1) + 2 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      mu b + 1
-    ==>
-      Order.succ (mu b) 
-[Meta.Tactic.simp.rewrite] add_two:1000:
-      ω * Order.succ (mu b) + 2
-    ==>
-      Order.succ (Order.succ (ω * Order.succ (mu b))) 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      Order.succ (Order.succ (ω * Order.succ (mu b))) < ω ^ 2
-    ==>
-      Order.succ (Order.succ (ω * Order.succ (mu b))) < ω ^ 2 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      mu b + 1
-    ==>
-      Order.succ (mu b) 
-[Meta.Tactic.simp.rewrite] add_two:1000:
-      ω * Order.succ (mu b) + 2
-    ==>
-      Order.succ (Order.succ (ω * Order.succ (mu b))) 
-[Meta.Tactic.simp.rewrite] add_two:1000:
-      ω * ω + 2
-    ==>
-      Order.succ (Order.succ (ω * ω)) 
-Termination.lean:832:0
-[diag] Diagnostics ▼
-  [kernel] unfolded declarations (max: 185, num: 5): ▼
-    [] Quotient.lift ↦ 185 
-    [] Add.add ↦ 135 
-    [] HAdd.hAdd ↦ 135 
-    [] Quotient.liftOn₂ ↦ 115 
-    [] Quotient.lift₂ ↦ 115 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:832:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 2725, num: 24): ▶
-  [reduction] unfolded instances (max: 5278, num: 55): ▶
-  [reduction] unfolded reducible declarations (max: 2883, num: 10): ▶
-  [type_class] used instances (max: 237, num: 2): ▶
-  [def_eq] heuristic for solving `f a =?= f b` (max: 632, num: 6): ▶
-  [kernel] unfolded declarations (max: 185, num: 5): ▼
-    [] Quotient.lift ↦ 185 
-    [] Add.add ↦ 135 
-    [] HAdd.hAdd ↦ 135 
-    [] Quotient.liftOn₂ ↦ 115 
-    [] Quotient.lift₂ ↦ 115 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-
-Termination.lean:886:57
-Tactic state
-1 goal
-case neg
-b s n : Trace
-A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
-h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
-tower : Ordinal.{u_1} := ω ^ (mu n + mu s + 6)
-htower : tower = ω ^ (mu n + mu s + 6)
-rest : Ordinal.{u_1} := ω * (mu b + 1) + 2
-hrest : rest = ω * (mu b + 1) + 2
-hμ_split : mu (b.recΔ s n) + 1 = tower + rest
-htower_lt : tower < A
-hfin : ¬mu b < ω
-hω : ω ≤ mu b
-⊢ rest < ω ^ 2
-Expected type
-b s n : Trace
-A : Ordinal.{u_1} := ⋯
-h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
-tower : Ordinal.{u_1} := ⋯
-htower : tower = ω ^ (mu n + mu s + 6)
-rest : Ordinal.{u_1} := ⋯
-hrest : rest = ω * (mu b + 1) + 2
-hμ_split : mu (b.recΔ s n) + 1 = tower + rest
-htower_lt : tower < A
-hfin : ¬mu b < ω
-⊢ ¬mu b < ω
-Messages (3)
-Termination.lean:886:40
-`le_of_not_lt` has been deprecated: use `_root_.le_of_not_gt` instead
-Termination.lean:832:0
-[diag] Diagnostics ▼
-  [kernel] unfolded declarations (max: 185, num: 5): ▼
-    [] Quotient.lift ↦ 185 
-    [] Add.add ↦ 135 
-    [] HAdd.hAdd ↦ 135 
-    [] Quotient.liftOn₂ ↦ 115 
-    [] Quotient.lift₂ ↦ 115 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:832:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 2725, num: 24): ▶
-  [reduction] unfolded instances (max: 5278, num: 55): ▶
-  [reduction] unfolded reducible declarations (max: 2883, num: 10): ▶
-  [type_class] used instances (max: 237, num: 2): ▶
-  [def_eq] heuristic for solving `f a =?= f b` (max: 632, num: 6): ▶
-  [kernel] unfolded declarations (max: 185, num: 5): ▼
-    [] Quotient.lift ↦ 185 
-    [] Add.add ↦ 135 
-    [] HAdd.hAdd ↦ 135 
-    [] Quotient.liftOn₂ ↦ 115 
-    [] Quotient.lift₂ ↦ 115 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-
-Termination.lean:887:61
+Termination.lean:889:35
 Tactic state
 1 goal
 case neg
@@ -149,6 +14,7 @@ htower_lt : tower < A
 hfin : ¬mu b < ω
 hω : ω ≤ mu b
 hμ1 : ω ≤ mu b + 1
+hmul : ω * (mu b + 1) ≤ ω * ω
 ⊢ rest < ω ^ 2
 Expected type
 b s n : Trace
@@ -162,15 +28,139 @@ hμ_split : mu (b.recΔ s n) + 1 = tower + rest
 htower_lt : tower < A
 hfin : ¬mu b < ω
 hω : ω ≤ mu b
-⊢ Ordinal.{?u.43181}
+hμ1 : ω ≤ mu b + 1
+⊢ Ordinal.{?u.61615}
 Messages (3)
-Termination.lean:887:40
+Termination.lean:889:8
 type mismatch
-  add_le_add_right hω 1
+  mul_le_mul_left' hμ1 ω
 has type
-  ω + 1 ≤ mu b + 1 : Prop
+  ω * ω ≤ ω * (mu b + 1) : Prop
 but is expected to have type
-  ω ≤ mu b + 1 : Prop
+  ω * (mu b + 1) ≤ ω * ω : Prop
+Termination.lean:832:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 185, num: 5): ▼
+    [] Quotient.lift ↦ 185 
+    [] Add.add ↦ 135 
+    [] HAdd.hAdd ↦ 135 
+    [] Quotient.liftOn₂ ↦ 115 
+    [] Quotient.lift₂ ↦ 115 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:832:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 2725, num: 24): ▶
+  [reduction] unfolded instances (max: 5278, num: 55): ▶
+  [reduction] unfolded reducible declarations (max: 2883, num: 10): ▶
+  [type_class] used instances (max: 237, num: 2): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 632, num: 6): ▶
+  [kernel] unfolded declarations (max: 185, num: 5): ▼
+    [] Quotient.lift ↦ 185 
+    [] Add.add ↦ 135 
+    [] HAdd.hAdd ↦ 135 
+    [] Quotient.liftOn₂ ↦ 115 
+    [] Quotient.lift₂ ↦ 115 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+
+
+Termination.lean:892:74
+Tactic state
+1 goal
+case neg
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+tower : Ordinal.{u_1} := ω ^ (mu n + mu s + 6)
+htower : tower = ω ^ (mu n + mu s + 6)
+rest : Ordinal.{u_1} := ω * (mu b + 1) + 2
+hrest : rest = ω * (mu b + 1) + 2
+hμ_split : mu (b.recΔ s n) + 1 = tower + rest
+htower_lt : tower < A
+hfin : ¬mu b < ω
+hω : ω ≤ mu b
+hμ1 : ω ≤ mu b + 1
+hmul : ω * (mu b + 1) ≤ ω * ω
+this : rest ≤ ω * ω + 2
+⊢ rest < ω ^ 2
+Expected type
+b s n : Trace
+A : Ordinal.{u_1} := ⋯
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+tower : Ordinal.{u_1} := ⋯
+htower : tower = ω ^ (mu n + mu s + 6)
+rest : Ordinal.{u_1} := ⋯
+hrest : rest = ω * (mu b + 1) + 2
+hμ_split : mu (b.recΔ s n) + 1 = tower + rest
+htower_lt : tower < A
+hfin : ¬mu b < ω
+hω : ω ≤ mu b
+hμ1 : ω ≤ mu b + 1
+hmul : ω * (mu b + 1) ≤ ω * ω
+this : rest ≤ ω * ω + 2
+⊢ ω * ω + 2 < ω * ω + 2
+Messages (3)
+Termination.lean:892:63
+Application type mismatch: In the application
+  lt_of_le_of_lt this (lt_succ ?m.102914)
+the argument
+  lt_succ ?m.102914
+has type
+  ?m.102914 < Order.succ ?m.102914 : Prop
+but is expected to have type
+  ω * ω + 2 < ω * ω + 2 : Prop
+Termination.lean:832:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 185, num: 5): ▼
+    [] Quotient.lift ↦ 185 
+    [] Add.add ↦ 135 
+    [] HAdd.hAdd ↦ 135 
+    [] Quotient.liftOn₂ ↦ 115 
+    [] Quotient.lift₂ ↦ 115 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:832:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 2725, num: 24): ▶
+  [reduction] unfolded instances (max: 5278, num: 55): ▶
+  [reduction] unfolded reducible declarations (max: 2883, num: 10): ▶
+  [type_class] used instances (max: 237, num: 2): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 632, num: 6): ▶
+  [kernel] unfolded declarations (max: 185, num: 5): ▼
+    [] Quotient.lift ↦ 185 
+    [] Add.add ↦ 135 
+    [] HAdd.hAdd ↦ 135 
+    [] Quotient.liftOn₂ ↦ 115 
+    [] Quotient.lift₂ ↦ 115 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:928:53
+Tactic state
+No goals
+Expected type
+b s n : Trace
+A : Ordinal.{u_1} := ⋯
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+tower : Ordinal.{u_1} := ⋯
+htower : tower = ω ^ (mu n + mu s + 6)
+rest : Ordinal.{u_1} := ⋯
+hrest : rest = ω * (mu b + 1) + 2
+hμ_split : mu (b.recΔ s n) + 1 = tower + rest
+htower_lt : tower < A
+h₁ : rest < ω ^ 2
+h₂ : ω ^ 2 < A
+hrest_lt : rest < A
+hμ1_lt : mu (b.recΔ s n) + 1 < A
+this✝ : mu (b.recΔ s n) < mu (b.recΔ s n) + 1
+this : ω ^ mu (b.recΔ s n) < ω ^ (mu (b.recΔ s n) + 1)
+⊢ ω ^ (mu (b.recΔ s n) + 1) < A
+Messages (3)
+Termination.lean:928:46
+Application type mismatch: In the application
+  lt_of_le_of_lt le_rfl hμ1_lt
+the argument
+  hμ1_lt
+has type
+  mu (b.recΔ s n) + 1 < A : Prop
+but is expected to have type
+  ω ^ (mu (b.recΔ s n) + 1) < A : Prop
 Termination.lean:832:0
 [diag] Diagnostics ▼
   [kernel] unfolded declarations (max: 185, num: 5): ▼

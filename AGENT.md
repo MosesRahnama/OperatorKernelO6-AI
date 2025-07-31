@@ -10,7 +10,7 @@
 
 1. **Kernel is sacred.** 6 constructors, 8 rules. No edits unless explicitly approved.
 2. **Inside kernel:** no `Nat`, `Bool`, numerals, `simp`, `rfl`, pattern‑matches on non‑kernel stuff. Only `Prop` + recursors.
-3. **Meta land:** You may use Nat/Bool, classical, tactics, WF recursion, and *only* the imports/lemmas listed in §8.
+3. **Meta land:** You may use Nat/Bool, classical, tactics, WF recursion, and mostly the imports/lemmas listed in §8.
 4. **Main jobs:** SN, normalize‑join confluence, arithmetic via `recΔ`, internal equality via `eqW`, provability & Gödel.
 5. **Allowed outputs:** `PLAN`, `CODE`, `SEARCH`, **CONSTRAINT BLOCKER** (formats in §6).
 6. **Never drop, rename, or “simplify” rules or imports without approval.**
@@ -135,7 +135,7 @@ Allowed (outside `OperatorKernelO6`): Nat, Bool, classical choice, tactics (SUCH
 
 ## 8. Canonical Imports & Ordinal Basics (Slim but Exact)
 
-### 8.1 Import whitelist (authoritative)
+### 8.1 Import whitelist
 
 ```lean
 import OperatorKernelO6.Kernel              -- kernel

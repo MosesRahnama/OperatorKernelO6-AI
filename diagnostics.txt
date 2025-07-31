@@ -1,132 +1,61 @@
-Termination.lean:816:6
+Termination.lean:920:38
+Tactic state
+No goals
 Expected type
-⊢ ∀ {b s n : Trace},
-  have A := ω ^ (mu n.delta + mu s + 6);
-  ω ^ 2 * (mu (b.recΔ s n) + 1) < A
-Messages (1)
-Termination.lean:816:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 2236, num: 16): ▼
-    [] Add.add ↦ 2236 
-    [] HAdd.hAdd ↦ 1501 
-    [] Mul.mul ↦ 956 
-    [] Quot.lift ↦ 617 
-    [] HMul.hMul ↦ 572 
-    [] Quotient ↦ 467 
-    [] WellOrder.rec ↦ 454 
-    [] Ordinal ↦ 442 
-    [] LT.lt ↦ 346 
-    [] Quotient.mk ↦ 264 
-    [] HPow.hPow ↦ 239 
-    [] type ↦ 238 
-    [] Pow.pow ↦ 234 
-    [] One.one ↦ 233 
-    [] OfNat.ofNat ↦ 204 
-    [] ite ↦ 174 
-  [reduction] unfolded instances (max: 1115, num: 38): ▼
-    [] AddCommSemigroup.toAddSemigroup ↦ 1115 
-    [] AddCommMagma.toAdd ↦ 1078 
-    [] Group.toDivInvMonoid ↦ 964 
-    [] instHAdd ↦ 917 
-    [] CommMonoid.toMonoid ↦ 721 
-    [] AddSemigroup.toAdd ↦ 599 
-    [] Monoid.toSemigroup ↦ 499 
-    [] DivInvMonoid.toMonoid ↦ 484 
-    [] AddMonoid.toAddSemigroup ↦ 411 
-    [] AddGroup.toSubNegMonoid ↦ 400 
-    [] add ↦ 379 
-    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
-    [] SubNegMonoid.toAddMonoid ↦ 340 
-    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
-    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
-    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
-    [] Semiring.toNonUnitalSemiring ↦ 314 
-    [] AddCommSemigroup.toAddCommMagma ↦ 296 
-    [] CancelMonoid.toLeftCancelMonoid ↦ 294 
-    [] Semigroup.toMul ↦ 275 
-    [] AddZeroClass.toAdd ↦ 272 
-    [] CommMonoidWithZero.toCommMonoid ↦ 268 
-    [] NonAssocSemiring.toNonUnitalNonAssocSemiring ↦ 266 
-    [] NonUnitalSemiring.toNonUnitalNonAssocSemiring ↦ 266 
-    [] Semiring.toNonAssocSemiring ↦ 266 
-    [] Preorder.toLT ↦ 252 
-    [] MonoidWithZero.toMonoid ↦ 212 
-    [] MulOneClass.toMul ↦ 201 
-    [] instAddNat ↦ 200 
-    [] PartialOrder.toPreorder ↦ 185 
-    [] LeftCancelMonoid.toMonoid ↦ 148 
-    [] CancelMonoid.toRightCancelMonoid ↦ 144 
-    [] RightCancelMonoid.toMonoid ↦ 144 
-    [] AddMonoid.toAddZeroClass ↦ 130 
-    [] CommGroupWithZero.toGroupWithZero ↦ 104 
-    [] GroupWithZero.toMonoidWithZero ↦ 104 
-    [] Monoid.toMulOneClass ↦ 104 
-    [] MulZeroClass.toMul ↦ 104 
-  [reduction] unfolded reducible declarations (max: 2663, num: 7): ▼
-    [] Quotient.lift ↦ 2663 
-    [] Quotient.liftOn₂ ↦ 2092 
-    [] Quotient.lift₂ ↦ 2092 
-    [] casesOn ↦ 1114 
-    [] outParam ↦ 857 
-    [] WellOrder.casesOn ↦ 454 
-    [] Decidable.casesOn ↦ 229 
-  [def_eq] heuristic for solving `f a =?= f b` (max: 433, num: 2): ▼
-    [] instHAdd ↦ 433 
-    [] Add.add ↦ 105 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-All Messages (22)
-Termination.lean:780:0
-[diag] Diagnostics ▼
-  [reduction] unfolded reducible declarations (max: 109, num: 1): ▼
-    [] outParam ↦ 109 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:788:2
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      α + β + γ
-    ==>
-      α + (β + γ) 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      α + (β + γ) < ω ^ κ
-    ==>
-      α + (β + γ) < ω ^ κ 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      α + β + γ
-    ==>
-      α + (β + γ) 
-Termination.lean:827:6
-[Meta.Tactic.simp.rewrite] Nat.cast_ofNat:1000:
-      ↑2
-    ==>
-      2 
-[Meta.Tactic.simp.rewrite] Nat.cast_ofNat:1000:
-      ↑6
-    ==>
-      6 
-Termination.lean:831:6
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n.delta + mu s + 6
-    ==>
-      mu n.delta + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
-      6 ≤ mu n.delta + (mu s + 6)
-    ==>
-      6 ≤ mu n.delta + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n.delta + mu s + 6
-    ==>
-      mu n.delta + (mu s + 6) 
-Termination.lean:845:4
-tactic 'assumption' failed
 b s n : Trace
-A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
-hκ : 2 < mu n.delta + mu s + 6
-hω2_lt_A : ω ^ 2 < A
-tower : Ordinal.{?u.29606} := ω ^ (mu n + mu s + 6)
+A : Ordinal.{u_1} := ⋯
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+tower : Ordinal.{u_1} := ⋯
 htower : tower = ω ^ (mu n + mu s + 6)
-rest : Ordinal.{?u.29606} := ω * (mu b + 1) + 1
-hrest : rest = ω * (mu b + 1) + 1
-⊢ False
-Termination.lean:845:4
+rest : Ordinal.{u_1} := ⋯
+hrest : rest = ω * (mu b + 1) + 2
+hμ_split : mu (b.recΔ s n) + 1 = tower + rest
+htower_lt : tower < A
+h₁ : rest < ω ^ 2
+h₂ : ω ^ 2 < A
+hrest_lt : rest < A
+hμ1_lt : mu (b.recΔ s n) + 1 < A
+hgap : mu (b.recΔ s n) + 3 < mu n.delta + mu s + 6
+hpow_lt : ω ^ (mu (b.recΔ s n) + 3) < A
+⊢ ω ^ (mu (b.recΔ s n) + 3) < A
+Messages (2)
+Termination.lean:834:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 203, num: 5): ▶
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:834:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 3895, num: 18): ▶
+  [reduction] unfolded instances (max: 6604, num: 40): ▶
+  [reduction] unfolded reducible declarations (max: 2793, num: 9): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 972, num: 2): ▶
+  [kernel] unfolded declarations (max: 203, num: 5): ▶
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+All Messages (24)
+Termination.lean:822:2
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      a + 2 = a + 2
+    ==>
+      True 
+Termination.lean:832:3
+unknown identifier 'opow_bit0'
+Termination.lean:850:29
+This simp argument is unused:
+  add_comm
+
+Hint: Omit it from the simp argument list.
+  simp [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Termination.lean:850:39
+This simp argument is unused:
+  add_left_comm
+
+Hint: Omit it from the simp argument list.
+  simp [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Termination.lean:850:4
 [Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
 [Meta.Tactic.simp.rewrite] add_assoc:1000:
       mu n + mu s + 6
@@ -152,6 +81,10 @@ Termination.lean:845:4
       Order.succ (ω * Order.succ (mu b)) + 1
     ==>
       Order.succ (Order.succ (ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] succ_succ:1000:
+      Order.succ (Order.succ (ω * Order.succ (mu b)))
+    ==>
+      ω * Order.succ (mu b) + 2 
 [Meta.Tactic.simp.rewrite] htower:1000:
       tower
     ==>
@@ -163,100 +96,109 @@ Termination.lean:845:4
 [Meta.Tactic.simp.rewrite] hrest:1000:
       rest
     ==>
-      ω * (mu b + 1) + 1 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      ω * Order.succ (mu b) + 1
+      ω * (mu b + 1) + 2 
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 2) = ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 2)
     ==>
-      Order.succ (ω * Order.succ (mu b)) 
-[Meta.Tactic.simp.rewrite] add_right_inj:1000:
-      ω ^ (mu n + (mu s + 6)) + Order.succ (Order.succ (ω * Order.succ (mu b))) =
-        ω ^ (mu n + (mu s + 6)) + Order.succ (ω * Order.succ (mu b))
-    ==>
-      Order.succ (Order.succ (ω * Order.succ (mu b))) = Order.succ (ω * Order.succ (mu b)) 
-[Meta.Tactic.simp.rewrite] Order.succ_eq_iff_isMax:1000:
-      Order.succ (Order.succ (ω * Order.succ (mu b))) = Order.succ (ω * Order.succ (mu b))
-    ==>
-      IsMax (Order.succ (ω * Order.succ (mu b))) 
-[Meta.Tactic.simp.rewrite] not_isMax:1000:
-      IsMax (Order.succ (ω * Order.succ (mu b)))
-    ==>
-      False 
-Termination.lean:851:29
-Application type mismatch: In the application
-  add_lt_add_of_lt_of_le (mu_lt_delta n)
-the argument
-  mu_lt_delta n
-has type
-  mu n < mu n.delta : Prop
-but is expected to have type
-  mu n + mu s < mu n.delta + mu s : Prop
-Termination.lean:851:6
+      True 
+Termination.lean:856:55
 failed to synthesize
-  AddRightStrictMono Ordinal.{?u.34566}
-Termination.lean:852:4
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      ω ^ (mu n + mu s + 6) < ω ^ (mu n.delta + mu s + 6)
+  AddRightStrictMono Ordinal.{?u.40292}
+Termination.lean:856:6
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n + mu s + 6
     ==>
-      ω ^ (mu n + mu s + 6) < ω ^ (mu n.delta + mu s + 6) 
-Termination.lean:862:31
-tactic 'subst' failed, invalid equality proof, it is not of the form (x = t) or (t = x)
-  mu b = ↑k
-case inl.intro
-b s n : Trace
-A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
-hκ : 2 < mu n.delta + mu s + 6
-hω2_lt_A : ω ^ 2 < A
-tower : Ordinal.{u_1} := ω ^ (mu n + mu s + 6)
-htower : tower = ω ^ (mu n + mu s + 6)
-rest : Ordinal.{u_1} := ω * (mu b + 1) + 1
-hrest : rest = ω * (mu b + 1) + 1
-hμ_def : mu (b.recΔ s n) + 1 = tower + rest
-htower_lt_A : tower < A
-k : ℕ
-h✝ : mu b = ↑k
-⊢ mu b + 1 < ω
-Termination.lean:870:33
-unknown identifier 'one_le_omega0'
-Termination.lean:871:30
-Application type mismatch: In the application
-  lt_trans ?m.44617 hω2_lt_A
-the argument
-  hω2_lt_A
+      mu n + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n.delta + mu s + 6
+    ==>
+      mu n.delta + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      mu n + (mu s + 6) < mu n.delta + (mu s + 6)
+    ==>
+      mu n + (mu s + 6) < mu n.delta + (mu s + 6) 
+Termination.lean:857:4
+[Meta.Tactic.simp.rewrite] htower:1000:
+      tower
+    ==>
+      ω ^ (mu n + mu s + 6) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      ω ^ (mu n + mu s + 6) < A
+    ==>
+      ω ^ (mu n + mu s + 6) < A 
+Termination.lean:864:34
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.44316}
+Termination.lean:868:8
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.51987}
+Termination.lean:870:6
+type mismatch
+  this
 has type
-  ω ^ 2 < A : Prop
+  ω * (mu b + 1) + 2 < ω * ω + 2 : Prop
 but is expected to have type
-  ?m.41964 < ω : Prop
-Termination.lean:874:6
-type mismatch, term
-  Ordinal.mul_lt_mul_of_pos_left this omega0_pos
-after simplification has type
-  ω * Order.succ (mu b) < ω * ω : Prop
+  rest < ω * ω : Prop
+Termination.lean:874:8
+type mismatch
+  add_le_add_right hω 1
+has type
+  ω + 1 ≤ mu b + 1 : Prop
 but is expected to have type
-  ω * Order.succ (mu b) < ω ^ 2 : Prop
-Termination.lean:874:6
+  ω ≤ mu b + 1 : Prop
+Termination.lean:876:8
+type mismatch
+  mul_le_mul_left' hμ1 ω
+has type
+  ω * ω ≤ ω * (mu b + 1) : Prop
+but is expected to have type
+  ω * (mu b + 1) ≤ ω * ω : Prop
+Termination.lean:878:8
+[Meta.Tactic.simp.rewrite] hrest:1000:
+      rest
+    ==>
+      ω * (mu b + 1) + 2 
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu b + 1
     ==>
       Order.succ (mu b) 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      ω * Order.succ (mu b) < ω ^ 2
-    ==>
-      ω * Order.succ (mu b) < ω ^ 2 
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu b + 1
     ==>
       Order.succ (mu b) 
-Termination.lean:881:20
+Termination.lean:883:31
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.83104}
+Termination.lean:883:68
 Application type mismatch: In the application
-  le_of_lt (lt_add_of_pos_right ?m.61737 zero_lt_one)
+  lt_add_of_pos_left (ω * ω) h2lt
 the argument
-  lt_add_of_pos_right ?m.61737 zero_lt_one
+  h2lt
 has type
-  ?m.61737 < ?m.61737 + 1 : Prop
+  2 < ω : Prop
 but is expected to have type
-  ?m.61693 < ω ^ 2 : Prop
-Termination.lean:894:4
-[Meta.Tactic.simp.rewrite] hμ_def:1000:
+  0 < ?m.83693 : Prop
+Termination.lean:883:8
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      2 + ω * ω < ω * ω
+    ==>
+      2 + ω * ω < ω * ω 
+Termination.lean:884:44
+Application type mismatch: In the application
+  lt_of_le_of_lt this
+the argument
+  this
+has type
+  2 + ω * ω < ω * ω : Prop
+but is expected to have type
+  rest ≤ 2 + ω * ω : Prop
+Termination.lean:884:6
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      rest < ω * ω
+    ==>
+      rest < ω * ω 
+Termination.lean:901:4
+[Meta.Tactic.simp.rewrite] hμ_split:1000:
       mu (b.recΔ s n) + 1
     ==>
       tower + rest 
@@ -264,97 +206,26 @@ Termination.lean:894:4
       tower + rest < A
     ==>
       tower + rest < A 
-Termination.lean:913:22
-unknown identifier 'lt_pred_of_lt'
-Termination.lean:916:6
-Invalid field `strictMono_iff`: The environment does not contain `Ordinal.IsNormal.strictMono_iff`
-  isNormal_opow one_lt_omega0
+Termination.lean:909:48
+Application type mismatch: In the application
+  lt_of_le_of_lt le_rfl hμ1_lt
+the argument
+  hμ1_lt
 has type
-  IsNormal fun x => ω ^ x
-Termination.lean:916:6
-Invalid field `strictMono_iff`: The environment does not contain `Order.IsNormal.strictMono_iff`
-  isNormal_opow one_lt_omega0
-has type
-  Order.IsNormal fun x => ω ^ x
-Termination.lean:920:12
-failed to synthesize
-  AddRightStrictMono Ordinal.{?u.76182}
-Termination.lean:919:4
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n.delta + mu s + 6
-    ==>
-      mu n.delta + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      mu (b.recΔ s n) + 3 < mu n.delta + (mu s + 6)
-    ==>
-      mu (b.recΔ s n) + 3 < mu n.delta + (mu s + 6) 
-Termination.lean:816:0
+  mu (b.recΔ s n) + 1 < A : Prop
+but is expected to have type
+  ω ^ (mu (b.recΔ s n) + 1) < A : Prop
+Termination.lean:913:10
+unknown identifier 'lt_of_lt_of_lt'
+Termination.lean:834:0
 [diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 2236, num: 16): ▼
-    [] Add.add ↦ 2236 
-    [] HAdd.hAdd ↦ 1501 
-    [] Mul.mul ↦ 956 
-    [] Quot.lift ↦ 617 
-    [] HMul.hMul ↦ 572 
-    [] Quotient ↦ 467 
-    [] WellOrder.rec ↦ 454 
-    [] Ordinal ↦ 442 
-    [] LT.lt ↦ 346 
-    [] Quotient.mk ↦ 264 
-    [] HPow.hPow ↦ 239 
-    [] type ↦ 238 
-    [] Pow.pow ↦ 234 
-    [] One.one ↦ 233 
-    [] OfNat.ofNat ↦ 204 
-    [] ite ↦ 174 
-  [reduction] unfolded instances (max: 1115, num: 38): ▼
-    [] AddCommSemigroup.toAddSemigroup ↦ 1115 
-    [] AddCommMagma.toAdd ↦ 1078 
-    [] Group.toDivInvMonoid ↦ 964 
-    [] instHAdd ↦ 917 
-    [] CommMonoid.toMonoid ↦ 721 
-    [] AddSemigroup.toAdd ↦ 599 
-    [] Monoid.toSemigroup ↦ 499 
-    [] DivInvMonoid.toMonoid ↦ 484 
-    [] AddMonoid.toAddSemigroup ↦ 411 
-    [] AddGroup.toSubNegMonoid ↦ 400 
-    [] add ↦ 379 
-    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
-    [] SubNegMonoid.toAddMonoid ↦ 340 
-    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
-    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
-    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
-    [] Semiring.toNonUnitalSemiring ↦ 314 
-    [] AddCommSemigroup.toAddCommMagma ↦ 296 
-    [] CancelMonoid.toLeftCancelMonoid ↦ 294 
-    [] Semigroup.toMul ↦ 275 
-    [] AddZeroClass.toAdd ↦ 272 
-    [] CommMonoidWithZero.toCommMonoid ↦ 268 
-    [] NonAssocSemiring.toNonUnitalNonAssocSemiring ↦ 266 
-    [] NonUnitalSemiring.toNonUnitalNonAssocSemiring ↦ 266 
-    [] Semiring.toNonAssocSemiring ↦ 266 
-    [] Preorder.toLT ↦ 252 
-    [] MonoidWithZero.toMonoid ↦ 212 
-    [] MulOneClass.toMul ↦ 201 
-    [] instAddNat ↦ 200 
-    [] PartialOrder.toPreorder ↦ 185 
-    [] LeftCancelMonoid.toMonoid ↦ 148 
-    [] CancelMonoid.toRightCancelMonoid ↦ 144 
-    [] RightCancelMonoid.toMonoid ↦ 144 
-    [] AddMonoid.toAddZeroClass ↦ 130 
-    [] CommGroupWithZero.toGroupWithZero ↦ 104 
-    [] GroupWithZero.toMonoidWithZero ↦ 104 
-    [] Monoid.toMulOneClass ↦ 104 
-    [] MulZeroClass.toMul ↦ 104 
-  [reduction] unfolded reducible declarations (max: 2663, num: 7): ▼
-    [] Quotient.lift ↦ 2663 
-    [] Quotient.liftOn₂ ↦ 2092 
-    [] Quotient.lift₂ ↦ 2092 
-    [] casesOn ↦ 1114 
-    [] outParam ↦ 857 
-    [] WellOrder.casesOn ↦ 454 
-    [] Decidable.casesOn ↦ 229 
-  [def_eq] heuristic for solving `f a =?= f b` (max: 433, num: 2): ▼
-    [] instHAdd ↦ 433 
-    [] Add.add ↦ 105 
+  [kernel] unfolded declarations (max: 203, num: 5): ▶
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:834:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 3895, num: 18): ▶
+  [reduction] unfolded instances (max: 6604, num: 40): ▶
+  [reduction] unfolded reducible declarations (max: 2793, num: 9): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 972, num: 2): ▶
+  [kernel] unfolded declarations (max: 203, num: 5): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
