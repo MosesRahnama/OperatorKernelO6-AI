@@ -15,8 +15,8 @@ import Mathlib.Algebra.Order.Monoid.Unbundled.Basic
 import Mathlib.Tactic.Ring
 import Mathlib.Algebra.Order.Group.Defs
 import Mathlib.SetTheory.Ordinal.Principal   -- ← additive-principal API
-
-
+import Mathlib.Tactic
+-- import Mathlib.Tactic.Alias
 
 
 
@@ -743,16 +743,6 @@ private lemma two_lt_three : (2 : Ordinal) < 3 := by
 
 
 
--- § New admissible helper --------------------------------------
-/-!
-`omega_pow_add_lt`  (principal‑segment lemma)
-If both summands live below `ω^κ` (with κ > 0), their sum is still
-below the tower.
-
-*Proof sketch*:  `ω^κ` is additively principal for κ ≥ 1; we use
-`add_lt_add_of_lt_of_le`, then rewrite via CNF.  Mathlib’s
-`Ordinal.isAdditivePrincipal` already packages the property.
--/
 lemma omega_pow_add_lt
     {κ α β : Ordinal} (hκ : 0 < κ)
     (hα : α < omega0 ^ κ) (hβ : β < omega0 ^ κ) :
@@ -763,9 +753,7 @@ lemma omega_pow_add_lt
   exact hprin hα hβ
 
 
-/-!
-The three‑term variant that we will actually use for `merge`.
--/
+
 lemma omega_pow_add3_lt
     {κ α β γ : Ordinal} (hκ : 0 < κ)
     (hα : α < omega0 ^ κ) (hβ : β < omega0 ^ κ) (hγ : γ < omega0 ^ κ) :
@@ -779,7 +767,6 @@ lemma omega_pow_add3_lt
 -- Register in the toolkit (one‑liners appended manually).
 
 
-/-- For every natural `k` we have `k + 1 < ω`. -/
 @[simp] lemma add_one_lt_omega0 (k : ℕ) :
     ((k : Ordinal) + 1) < omega0 := by
   -- `k.succ < ω`
@@ -788,7 +775,6 @@ lemma omega_pow_add3_lt
   simpa [Nat.cast_succ, add_comm, add_left_comm, add_assoc,
          add_one_eq_succ] using this
 
-/-- `1 ≤ ω`.  Useful when collapsing finite prefixes. -/
 @[simp] lemma one_le_omega0 : (1 : Ordinal) ≤ omega0 :=
   (le_of_lt (by
     have : ((1 : ℕ) : Ordinal) < omega0 := by
@@ -796,6 +782,35 @@ lemma omega_pow_add3_lt
     simpa using this))
 
 
+
+
+lemma add_le_add_of_le_of_nonneg {a b c : Ordinal}
+    (h : a ≤ b) (_ : (0 : Ordinal) ≤ c := by exact Ordinal.zero_le _)
+    : a + c ≤ b + c :=
+  add_le_add_right h c
+
+@[simp] lemma lt_succ (a : Ordinal) : a < Order.succ a := by
+  have : a < a + 1 := lt_add_of_pos_right _ zero_lt_one
+  simpa [Order.succ] using this
+
+alias le_of_not_gt := le_of_not_lt
+
+attribute [simp] Ordinal.IsNormal.strictMono
+
+
+
+-- Variation 3: Unfold definitions carefully
+@[simp] lemma succ_succ (a : Ordinal) :
+    Order.succ (Order.succ a) = a + 2 := by
+  have h1 : Order.succ a = a + 1 := rfl
+  rw [h1]
+  have h2 : Order.succ (a + 1) = (a + 1) + 1 := rfl
+  rw [h2, add_assoc]
+  norm_num
+
+/-- converse rewrite; handy when the RHS shows up first -/
+lemma add_two (a : Ordinal) :
+    a + 2 = Order.succ (Order.succ a) := (succ_succ a).symm
 
 
 
@@ -810,6 +825,7 @@ set_option trace.compiler.ir.result true
 -- set_option pp.explicit true (only turn on when you suspect hidden implicits)
 -- set_option pp.universes true (rarely needed)
 -- set_option trace.Meta.isDefEq true (use only for a single failing goal)
+-- Variation 3: Unfold definitions carefully
 
 
 
@@ -817,79 +833,88 @@ lemma tail_lt_A {b s n : Trace} :
   let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
   omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
-  have h₁ :
+
+  have h_coeff :
       omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
       omega0 ^ (mu (recΔ b s n) + 3) :=
     termB_le (x := mu (recΔ b s n))
+
   set tower : Ordinal := omega0 ^ (mu n + mu s + 6) with htower
-  set rest  : Ordinal := omega0 * (mu b + 1) + 1 with hrest
-  have hsplit : mu (recΔ b s n) + 1 = tower + rest := by
-    simpa [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
+  set rest : Ordinal := omega0 * (mu b + 1) + 2 with hrest
+
+  have hμ_split : mu (recΔ b s n) + 1 = tower + rest := by
+    simp [mu, htower, hrest]
+
   have htower_lt : tower < A := by
-    have : (mu n + mu s + 6 : Ordinal) < mu (delta n) + mu s + 6 :=
-      add_lt_add_right (mu_lt_delta n) (mu s + 6)
-    simpa [tower, A] using opow_lt_opow_right this
-  have rest_lt_ω₂ : rest < omega0 ^ (2 : Ordinal) := by
+    have h_exp : mu n + mu s + 6 < mu (delta n) + mu s + 6 := by
+      have h := mu_lt_delta n
+      exact add_lt_add_left h (mu s + 6)
+    exact opow_lt_opow_right h_exp
+
+  have h₁ : rest < omega0 ^ (2 : Ordinal) := by
     classical
     by_cases hfin : mu b < omega0
-    · have : mu b + 1 < omega0 :=
-        lt_of_le_of_lt (le_add_of_nonneg_left (Ordinal.zero_le _)) hfin
-      have : omega0 * (mu b + 1) < omega0 * omega0 :=
-        mul_lt_mul_of_pos_left this omega0_pos
-      have : rest < omega0 * omega0 := by
-        have := add_lt_add_of_lt_of_le this (le_refl 1)
-        simpa [hrest, pow_two] using this
-      simpa [pow_two] using this
-    · have hω : omega0 ≤ mu b := le_of_not_lt hfin
-      have : (omega0 : Ordinal) ≤ mu b + 1 :=
-        calc
-          omega0 ≤ mu b := hω
-          _ ≤ mu b + 1 := le_add_of_nonneg_right (Ordinal.zero_le _)
-      have : omega0 * (mu b + 1) ≥ omega0 * omega0 :=
-        mul_le_mul_left' this omega0
-      have : rest ≤ omega0 * omega0 := by
-        have : omega0 * (mu b + 1) ≤ omega0 * omega0 := this
-        have := add_le_add_of_le_of_nonneg this (zero_le_one)
-        simpa [hrest, pow_two] using this
-      exact lt_of_le_of_lt this (lt_succ _)
-  have ω₂_lt_A : omega0 ^ (2 : Ordinal) < A := by
+    ·
+      have : mu b + 1 < omega0 := add_lt_add_right hfin 1
+      have hmul : omega0 * (mu b + 1) < omega0 * omega0 :=
+        Ordinal.mul_lt_mul_of_pos_left this omega0_pos
+      have : omega0 * (mu b + 1) + 2 < omega0 * omega0 := by
+        have h2lt : (2 : Ordinal) < omega0 := by
+          exact lt_trans (by norm_num) (nat_lt_omega0 3)
+        have : omega0 * (mu b + 1) < omega0 * omega0 := hmul
+        have : omega0 * (mu b + 1) + 2 < omega0 * omega0 + omega0 := by
+          exact add_lt_add_left h2lt _
+        have : omega0 * omega0 + omega0 = omega0 * omega0 := by
+          simpa using add_omega0_left (omega0 * omega0)
+        rwa [this] at *
+      exact this
+    ·
+      have hω : omega0 ≤ mu b := le_of_not_gt hfin
+      have hμ1 : omega0 ≤ mu b + 1 := le_trans (le_of_lt (lt_add_one _)) (add_le_add_right hω 1)
+      have hmul : omega0 * (mu b + 1) ≤ omega0 * omega0 :=
+        mul_le_mul_left' hμ1 omega0
+      have : omega0 * (mu b + 1) + 2 ≤ omega0 * omega0 := by
+        have : 2 < omega0 := by
+          exact lt_trans (by norm_num) (nat_lt_omega0 3)
+        have : omega0 * (mu b + 1) + 2 ≤ omega0 * (mu b + 1) + omega0 := by
+          exact add_le_add_left (le_of_lt this) _
+        have : omega0 * (mu b + 1) + omega0 ≤ omega0 * omega0 + omega0 := by
+          exact add_le_add_right hmul omega0
+        have : omega0 * omega0 + omega0 = omega0 * omega0 := by
+          simpa using add_omega0_left (omega0 * omega0)
+        rw [← this]
+        exact le_trans (le_trans this (le_refl _)) (le_of_eq this.symm)
+      exact lt_of_le_of_lt this (lt_add_one _)
+
+  have h₂ : omega0 ^ (2 : Ordinal) < A := by
     have : (2 : Ordinal) < mu (delta n) + mu s + 6 := by
-      have : (2 : ℕ) < 6 := by decide
-      simpa using
-        (natCast_lt).2 this ▸
-        (lt_add_of_pos_right _ (zero_lt_one))
-    simpa [A] using opow_lt_opow_right this
-  have hrest_lt : rest < A := lt_of_lt_of_le rest_lt_ω₂ (le_of_lt ω₂_lt_A)
+      have h2lt6 : (2 : Ordinal) < 6 := by norm_num
+      have pos : (0 : Ordinal) ≤ mu (delta n) + mu s := by
+        exact add_nonneg (Ordinal.zero_le _) (Ordinal.zero_le _)
+      exact h2lt6.trans_le (le_add_of_nonneg_left pos)
+    exact opow_lt_opow_right this
+
+  have hrest_lt : rest < A := lt_trans h₁ h₂
+
   have hμ1_lt : mu (recΔ b s n) + 1 < A := by
-    have principal_add := principal_add_omega0_opow (mu (delta n) + mu s + 6)
-    have : Principal (fun x y : Ordinal => x + y) A := by
-      simpa [A] using principal_add
-    have := this htower_lt hrest_lt
-    simpa [hsplit] using this
+    have hprin : Principal (fun x y : Ordinal => x + y) A :=
+      principal_add_omega0_opow (mu (delta n) + mu s + 6)
+    exact hprin htower_lt hrest_lt
+
   have hgap : mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
-    have : mu (recΔ b s n) < mu (delta n) + mu s + 6 := by
-      have : omega0 ^ (mu (recΔ b s n)) < A := by
-        have : omega0 ^ (mu (recΔ b s n) + 1) < A :=
-          lt_of_le_of_lt
-            (opow_le_opow_right (by
-              have : (mu (recΔ b s n)) ≤ mu (recΔ b s n) + 1 := le_add_of_nonneg_right (Ordinal.zero_le _)
-              simpa))
-            hμ1_lt
-        have : omega0 ^ (mu (recΔ b s n)) < A :=
-          lt_of_lt_of_le
-            (opow_lt_opow_right (by
-              have : (mu (recΔ b s n)) < mu (recΔ b s n) + 1 := lt_succ _
-              simpa using this))
-            (le_of_lt this)
-        have := ((isNormal_opow one_lt_omega0).strictMono this)
-        simpa [A] using this
-    simpa using add_lt_add_right this 3
-  have h₂ : omega0 ^ (mu (recΔ b s n) + 3) < A :=
-    by simpa [A] using opow_lt_opow_right hgap
-  exact lt_of_le_of_lt h₁ h₂
+    have hmono : mu (recΔ b s n) < mu (delta n) + mu s + 6 := by
+      have hpow : omega0 ^ (mu (recΔ b s n)) < A := by
+        have hlt : mu (recΔ b s n) < mu (recΔ b s n) + 1 := lt_add_one _
+        have := opow_lt_opow_right hlt
+        exact lt_trans this hμ1_lt
+      exact ((Ordinal.isNormal_opow one_lt_omega0).strictMono.lt_iff_lt).1 hpow
+    have h3pos : (0 : Ordinal) < 3 := by norm_num
+    exact lt_trans hmono (add_lt_add_left h3pos _)
 
+  have hpow_lt : omega0 ^ (mu (recΔ b s n) + 3) < A :=
+    opow_lt_opow_right hgap
 
-
+  exact lt_of_le_of_lt h_coeff hpow_lt
 
 
 

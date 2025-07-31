@@ -743,7 +743,6 @@ private lemma two_lt_three : (2 : Ordinal) < 3 := by
 
 
 
-
 lemma omega_pow_add_lt
     {κ α β : Ordinal} (hκ : 0 < κ)
     (hα : α < omega0 ^ κ) (hβ : β < omega0 ^ κ) :
@@ -798,18 +797,6 @@ alias le_of_not_gt := le_of_not_lt
 
 attribute [simp] Ordinal.IsNormal.strictMono
 
-set_option diagnostics true
-set_option diagnostics.threshold 100
-set_option trace.Meta.Tactic.simp.rewrite true
-set_option trace.Meta.debug true
-set_option autoImplicit false
-set_option maxRecDepth 1000
-set_option trace.linarith true
-set_option trace.compiler.ir.result true
--- set_option pp.explicit true (only turn on when you suspect hidden implicits)
--- set_option pp.universes true (rarely needed)
--- set_option trace.Meta.isDefEq true (use only for a single failing goal)
--- Variation 3: Unfold definitions carefully
 
 
 -- Variation 3: Unfold definitions carefully
@@ -826,19 +813,26 @@ lemma add_two (a : Ordinal) :
     a + 2 = Order.succ (Order.succ a) := (succ_succ a).symm
 
 
-private lemma pow_two :
-    omega0 ^ (2 : Ordinal) = omega0 * omega0 := by
-  -- turn the numeral `2` into `1 + 1`
-  have h2 : ((2 : Ordinal) : Ordinal) = (1 + 1 : Ordinal) := by
-    norm_num
-  -- now `opow_add` applies and `simp` does the rest
-  rw [h2, Ordinal.opow_add, Ordinal.opow_one]
+
+set_option diagnostics true
+set_option diagnostics.threshold 100
+set_option trace.Meta.Tactic.simp.rewrite true
+set_option trace.Meta.debug true
+set_option autoImplicit false
+set_option maxRecDepth 1000
+set_option trace.linarith true
+set_option trace.compiler.ir.result true
+-- set_option pp.explicit true (only turn on when you suspect hidden implicits)
+-- set_option pp.universes true (rarely needed)
+-- set_option trace.Meta.isDefEq true (use only for a single failing goal)
+-- Variation 3: Unfold definitions carefully
+
+
 
 lemma tail_lt_A {b s n : Trace} :
   let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
   omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
-
 
   have h_coeff :
       omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
@@ -849,39 +843,48 @@ lemma tail_lt_A {b s n : Trace} :
   set rest : Ordinal := omega0 * (mu b + 1) + 2 with hrest
 
   have hμ_split : mu (recΔ b s n) + 1 = tower + rest := by
-    simp [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
+    simp [mu, htower, hrest]
 
   have htower_lt : tower < A := by
     have h_exp : mu n + mu s + 6 < mu (delta n) + mu s + 6 := by
       have h := mu_lt_delta n
-      simpa [add_comm, add_left_comm, add_assoc] using add_lt_add_right h (mu s + 6)
-    simpa [htower] using opow_lt_opow_right h_exp
+      exact add_lt_add_left h (mu s + 6)
+    exact opow_lt_opow_right h_exp
 
   have h₁ : rest < omega0 ^ (2 : Ordinal) := by
     classical
     by_cases hfin : mu b < omega0
-    · -- finite μ b
+    ·
       have : mu b + 1 < omega0 := add_lt_add_right hfin 1
       have hmul : omega0 * (mu b + 1) < omega0 * omega0 :=
-        mul_lt_mul_of_pos_left this omega0_pos
-      have : omega0 * (mu b + 1) + 2 < omega0 * omega0 + 2 :=
-        add_lt_add_right hmul 2
-      rw [pow_two]
+        Ordinal.mul_lt_mul_of_pos_left this omega0_pos
+      have : omega0 * (mu b + 1) + 2 < omega0 * omega0 := by
+        have h2lt : (2 : Ordinal) < omega0 := by
+          exact lt_trans (by norm_num) (nat_lt_omega0 3)
+        have : omega0 * (mu b + 1) < omega0 * omega0 := hmul
+        have : omega0 * (mu b + 1) + 2 < omega0 * omega0 + omega0 := by
+          exact add_lt_add_left h2lt _
+        have : omega0 * omega0 + omega0 = omega0 * omega0 := by
+          simpa using add_omega0_left (omega0 * omega0)
+        rwa [this] at *
       exact this
-    · -- infinite μ b (ω ≤ μ b)
-      have hω : omega0 ≤ mu b := _root_.le_of_not_gt hfin
-      have hμ1 : omega0 ≤ mu b + 1 := by
-        exact add_le_add_right hω 1
+    ·
+      have hω : omega0 ≤ mu b := le_of_not_gt hfin
+      have hμ1 : omega0 ≤ mu b + 1 := le_trans (le_of_lt (lt_add_one _)) (add_le_add_right hω 1)
       have hmul : omega0 * (mu b + 1) ≤ omega0 * omega0 :=
         mul_le_mul_left' hμ1 omega0
-      have : rest ≤ omega0 * omega0 + 2 := by
-        simpa [hrest] using add_le_add_right hmul 2
-      rw [pow_two]
-      have : 2 + omega0 * omega0 < omega0 * omega0 := by
-        have h2lt : 2 < omega0 := by
+      have : omega0 * (mu b + 1) + 2 ≤ omega0 * omega0 := by
+        have : 2 < omega0 := by
           exact lt_trans (by norm_num) (nat_lt_omega0 3)
-        simpa [add_comm] using lt_add_of_pos_left (omega0 * omega0) h2lt
-      simpa [add_comm] using lt_of_le_of_lt this this
+        have : omega0 * (mu b + 1) + 2 ≤ omega0 * (mu b + 1) + omega0 := by
+          exact add_le_add_left (le_of_lt this) _
+        have : omega0 * (mu b + 1) + omega0 ≤ omega0 * omega0 + omega0 := by
+          exact add_le_add_right hmul omega0
+        have : omega0 * omega0 + omega0 = omega0 * omega0 := by
+          simpa using add_omega0_left (omega0 * omega0)
+        rw [← this]
+        exact le_trans (le_trans this (le_refl _)) (le_of_eq this.symm)
+      exact lt_of_le_of_lt this (lt_add_one _)
 
   have h₂ : omega0 ^ (2 : Ordinal) < A := by
     have : (2 : Ordinal) < mu (delta n) + mu s + 6 := by
@@ -896,18 +899,17 @@ lemma tail_lt_A {b s n : Trace} :
   have hμ1_lt : mu (recΔ b s n) + 1 < A := by
     have hprin : Principal (fun x y : Ordinal => x + y) A :=
       principal_add_omega0_opow (mu (delta n) + mu s + 6)
-    simpa [hμ_split] using hprin htower_lt hrest_lt
+    exact hprin htower_lt hrest_lt
 
   have hgap : mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
     have hmono : mu (recΔ b s n) < mu (delta n) + mu s + 6 := by
       have hpow : omega0 ^ (mu (recΔ b s n)) < A := by
         have hlt : mu (recΔ b s n) < mu (recΔ b s n) + 1 := lt_add_one _
         have := opow_lt_opow_right hlt
-        exact this.trans (lt_of_le_of_lt le_rfl hμ1_lt)
-      exact ((Ordinal.isNormal_opow one_lt_omega0).strictMono.lt_iff_lt).1
-        (by simpa using hpow)
+        exact lt_trans this hμ1_lt
+      exact ((Ordinal.isNormal_opow one_lt_omega0).strictMono.lt_iff_lt).1 hpow
     have h3pos : (0 : Ordinal) < 3 := by norm_num
-    exact lt_of_lt_of_lt hmono (lt_add_of_pos_right _ h3pos)
+    exact lt_trans hmono (add_lt_add_left h3pos _)
 
   have hpow_lt : omega0 ^ (mu (recΔ b s n) + 3) < A :=
     opow_lt_opow_right hgap
@@ -917,172 +919,133 @@ lemma tail_lt_A {b s n : Trace} :
 
 
 -- -- § Finishing `mu_merge_lt_rec` --------------------------------
--- lemma mu_merge_lt_rec {b s n : Trace} :
---   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
---   -- rename the dominant tower once and for all
---   set A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6) with hA
---   -- ❶  head        (ω³ payload)  < A
---   have h_head : omega0 ^ (3 : Ordinal) * (mu s + 1) < A := by
---     simpa [hA] using head_lt_A s n
---   -- ❷  tail        (ω² payload)  < A  (new lemma)
---   have h_tail : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
---     simpa [hA] using tail_lt_A (b := b) (s := s) (n := n)
---   -- ❸  sum of head + tail + 1 < A  (principal segment lemma, 3‑term form)
---   have h_sum :
---       omega0 ^ (3 : Ordinal) * (mu s + 1) +
---       (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) < A := by
---     -- First fold inner `tail+1` under A.
---     have h_tail1 :
---         omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1 < A :=
---       omega_pow_add_lt (by norm_num) h_tail (by
---         -- `1 < A` trivially (tower is non‑zero)
---         have : (1 : Ordinal) < A := by
---           have : (0 : Ordinal) < A := opow_pos _ _ omega0_pos
---           exact lt_of_le_of_lt (one_le_of_lt this) this
---         exact this)
---     -- Then fold head + (tail+1).
---     simpa [add_assoc] using
---       omega_pow_add_lt (by norm_num) h_head (by
---         have := h_tail1; simpa [add_comm] using this)
---   -- ❹  RHS is   A + ω·… + 1  >  A  >  LHS.
---   have h_rhs_gt_A : A < mu (recΔ b s (delta n)) := by
---     -- by definition of μ(recΔ … (δ n)) (see new μ)
---     have : A < A + omega0 * (mu b + 1) + 1 := by
---       have hpos : (0 : Ordinal) < omega0 * (mu b + 1) + 1 := by
---         have := le_add_of_nonneg_left (omega0 * (mu b + 1)) (le_of_lt (succ_pos 0))
---         exact lt_of_lt_of_le (zero_lt_one) this
---       simpa [mu, hA] using lt_add_of_pos_right A hpos
---     simpa [mu, hA] using this
---   -- ❺  chain inequalities.
---   have : mu (merge s (recΔ b s n)) < A := by
---     -- rewrite μ(merge …) exactly and apply `h_sum`
---     have : mu (merge s (recΔ b s n)) =
---         omega0 ^ (3 : Ordinal) * (mu s + 1) +
---         (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) := by
---       simp [mu]
---     simpa [this] using h_sum
---   exact lt_trans this h_rhs_gt_A
+lemma mu_merge_lt_rec {b s n : Trace} :
+  mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
+  -- rename the dominant tower once and for all
+  set A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6) with hA
+  -- ❶  head        (ω³ payload)  < A
+  have h_head : omega0 ^ (3 : Ordinal) * (mu s + 1) < A := by
+    simpa [hA] using head_lt_A s n
+  -- ❷  tail        (ω² payload)  < A  (new lemma)
+  have h_tail : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
+    simpa [hA] using tail_lt_A (b := b) (s := s) (n := n)
+  -- ❸  sum of head + tail + 1 < A  (principal segment lemma, 3‑term form)
+  have h_sum :
+      omega0 ^ (3 : Ordinal) * (mu s + 1) +
+      (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) < A := by
+    -- First fold inner `tail+1` under A.
+    have h_tail1 :
+        omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1 < A :=
+      omega_pow_add_lt (by norm_num) h_tail (by
+        -- `1 < A` trivially (tower is non‑zero)
+        have : (1 : Ordinal) < A := by
+          have : (0 : Ordinal) < A := opow_pos _ _ omega0_pos
+          exact lt_of_le_of_lt (one_le_of_lt this) this
+        exact this)
+    -- Then fold head + (tail+1).
+    simpa [add_assoc] using
+      omega_pow_add_lt (by norm_num) h_head (by
+        have := h_tail1; simpa [add_comm] using this)
+  -- ❹  RHS is   A + ω·… + 1  >  A  >  LHS.
+  have h_rhs_gt_A : A < mu (recΔ b s (delta n)) := by
+    -- by definition of μ(recΔ … (δ n)) (see new μ)
+    have : A < A + omega0 * (mu b + 1) + 1 := by
+      have hpos : (0 : Ordinal) < omega0 * (mu b + 1) + 1 := by
+        have := le_add_of_nonneg_left (omega0 * (mu b + 1)) (le_of_lt (succ_pos 0))
+        exact lt_of_lt_of_le (zero_lt_one) this
+      simpa [mu, hA] using lt_add_of_pos_right A hpos
+    simpa [mu, hA] using this
+  -- ❺  chain inequalities.
+  have : mu (merge s (recΔ b s n)) < A := by
+    -- rewrite μ(merge …) exactly and apply `h_sum`
+    have : mu (merge s (recΔ b s n)) =
+        omega0 ^ (3 : Ordinal) * (mu s + 1) +
+        (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) := by
+      simp [mu]
+    simpa [this] using h_sum
+  exact lt_trans this h_rhs_gt_A
 
--- -- § Simpler wrapper (kept same name for compatibility) ----------
--- @[simp] lemma mu_lt_rec_succ (b s n : Trace) :
---   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) :=
--- by simpa using mu_merge_lt_rec
+@[simp] lemma mu_lt_rec_succ (b s n : Trace) :
+  mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) :=
+by simpa using mu_merge_lt_rec
 
--- § Closing `mu_lt_eq_diff` ------------------------------------
-/-!
-Strategy:  Use the same principal‑segment gymnastics on
+lemma mu_lt_eq_diff (a b : Trace) :
+  mu (integrate (merge a b)) < mu (eqW a b) := by
+  -- abbreviations
+  set C : Ordinal := mu a + mu b with hC
+  set B : Ordinal := omega0 ^ (C + 9) with hB
+  /- 1 ▸  inner merge bound:  ω^3… + ω^2… ≤ ω^(μ a + 5)  -/
+  have h_inner :
+      mu (merge a b) + 1 < omega0 ^ (C + 5) := by
+    have hpayload := payload_bound_merge_mu a
+    --                    μ(merge a b) + 1 ≤ …   ⇒   strict < by lt_add_one
+    have : mu (merge a b) + 1 ≤ omega0 ^ (mu a + 5) := by
+      simpa [hC] using hpayload
+    exact lt_of_le_of_lt this (lt_add_of_pos_right _ (succ_pos _))
+  /- 2 ▸  multiply by ω^4  -/
+  have h_mul : omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) <
+               omega0 ^ (4 : Ordinal) * omega0 ^ (C + 5) :=
+    Ordinal.mul_lt_mul_of_pos_left h_inner (opow_pos _ _)
+  have h_opow :
+      omega0 ^ (4 : Ordinal) * omega0 ^ (C + 5) =
+      omega0 ^ (4 + (C + 5)) := by
+    simpa [opow_add] using (opow_add omega0 (4 : Ordinal) (C + 5)).symm
+  have h_exp_lt :
+      (4 : Ordinal) + (C + 5) < C + 9 := by
+    have : (4 : Ordinal) < 9 := by norm_num
+    have : C + 4 < C + 9 := add_lt_add_left this _
+    simpa [add_comm, add_left_comm, add_assoc] using this
+  have h_upper :
+      omega0 ^ (4 + (C + 5)) < B := by
+    simpa [hB] using opow_lt_opow_right h_exp_lt
+  have h_mul' : omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) < B := by
+    simpa [h_opow] using lt_of_lt_of_le h_mul (le_of_lt h_upper)
+  /- 3 ▸  add the outer `+1` and compare with `B+1` (= μ(eqW …)) -/
+  have h_final :
+      omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) + 1 < B + 1 :=
+    add_lt_add_right h_mul' 1
+  simpa [mu, hB, hC] using h_final
 
-```
-μ(integrate (merge a b)) = ω^4·(μ(merge a b)+1)+1
-μ(eqW a b)                = ω^(μ a + μ b + 9)+1
--- ```
+theorem mu_decreases :
+  ∀ {a b : Trace}, OperatorKernelO6.Step a b → mu b < mu a := by
+  intro a b h
+  cases h with
+  | @R_int_delta t          => simpa using mu_void_lt_integrate_delta t
+  | R_merge_void_left       => simpa using mu_lt_merge_void_left  b
+  | R_merge_void_right      => simpa using mu_lt_merge_void_right b
+  | R_merge_cancel          => simpa using mu_lt_merge_cancel     b
+  | @R_rec_zero _ _         => simpa using mu_lt_rec_zero _ _
+  | @R_rec_succ b s n       => exact mu_lt_rec_succ b s n
+  | @R_eq_refl a            => simpa using mu_void_lt_eq_refl a
+  | @R_eq_diff a b _        => exact mu_lt_eq_diff a b
 
--- 1.  Bound the parenthesised coefficient of the left‐hand side below
---     `ω^(μ a + μ b + 5)` (reuse `payload_bound_merge_mu`).
--- 2.  Multiply by `ω^4`; the result sits under
---     `ω^(μ a + μ b + 9)` because `4 < μ a + μ b + 9`.
--- 3.  Add the final `+1` and conclude.
--- -/
--- lemma mu_lt_eq_diff (a b : Trace) :
---   mu (integrate (merge a b)) < mu (eqW a b) := by
---   -- abbreviations
---   set C : Ordinal := mu a + mu b with hC
---   set B : Ordinal := omega0 ^ (C + 9) with hB
---   /- 1 ▸  inner merge bound:  ω^3… + ω^2… ≤ ω^(μ a + 5)  -/
---   have h_inner :
---       mu (merge a b) + 1 < omega0 ^ (C + 5) := by
---     have hpayload := payload_bound_merge_mu a
---     --                    μ(merge a b) + 1 ≤ …   ⇒   strict < by lt_add_one
---     have : mu (merge a b) + 1 ≤ omega0 ^ (mu a + 5) := by
---       simpa [hC] using hpayload
---     exact lt_of_le_of_lt this (lt_add_of_pos_right _ (succ_pos _))
---   /- 2 ▸  multiply by ω^4  -/
---   have h_mul : omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) <
---                omega0 ^ (4 : Ordinal) * omega0 ^ (C + 5) :=
---     Ordinal.mul_lt_mul_of_pos_left h_inner (opow_pos _ _)
---   have h_opow :
---       omega0 ^ (4 : Ordinal) * omega0 ^ (C + 5) =
---       omega0 ^ (4 + (C + 5)) := by
---     simpa [opow_add] using (opow_add omega0 (4 : Ordinal) (C + 5)).symm
---   have h_exp_lt :
---       (4 : Ordinal) + (C + 5) < C + 9 := by
---     have : (4 : Ordinal) < 9 := by norm_num
---     have : C + 4 < C + 9 := add_lt_add_left this _
---     simpa [add_comm, add_left_comm, add_assoc] using this
---   have h_upper :
---       omega0 ^ (4 + (C + 5)) < B := by
---     simpa [hB] using opow_lt_opow_right h_exp_lt
---   have h_mul' : omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) < B := by
---     simpa [h_opow] using lt_of_lt_of_le h_mul (le_of_lt h_upper)
---   /- 3 ▸  add the outer `+1` and compare with `B+1` (= μ(eqW …)) -/
---   have h_final :
---       omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) + 1 < B + 1 :=
---     add_lt_add_right h_mul' 1
---   simpa [mu, hB, hC] using h_final
+def StepRev (R : Trace → Trace → Prop) : Trace → Trace → Prop := fun a b => R b a
 
--- -- sanity check (compiles => goal closed)
--- -- #eval (0 : Nat)
+theorem strong_normalization_forward_trace
+  (R : Trace → Trace → Prop)
+  (hdec : ∀ {a b : Trace}, R a b → mu b < mu a) :
+  WellFounded (StepRev R) := by
+  have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
+    InvImage.wf (f := mu) (h := Ordinal.lt_wf)
+  have hsub : Subrelation (StepRev R) (fun x y : Trace => mu x < mu y) := by
+    intro x y h; exact hdec (a := y) (b := x) h
+  exact Subrelation.wf hsub hwf
 
+theorem strong_normalization_backward
+  (R : Trace → Trace → Prop)
+  (hinc : ∀ {a b : Trace}, R a b → mu a < mu b) :
+  WellFounded R := by
+  have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
+    InvImage.wf (f := mu) (h := Ordinal.lt_wf)
+  have hsub : Subrelation R (fun x y : Trace => mu x < mu y) := by
+    intro x y h; exact hinc h
+  exact Subrelation.wf hsub hwf
 
--- -- sanity check (compiles => goal closed)
--- -- #eval (0 : Nat)
+def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
 
-
-
--- /-- every single kernel step strictly decreases `μ` -/
--- theorem mu_decreases :
---   ∀ {a b : Trace}, OperatorKernelO6.Step a b → mu b < mu a := by
---   intro a b h
---   cases h with
---   | @R_int_delta t          => simpa using mu_void_lt_integrate_delta t
---   | R_merge_void_left       => simpa using mu_lt_merge_void_left  b
---   | R_merge_void_right      => simpa using mu_lt_merge_void_right b
---   | R_merge_cancel          => simpa using mu_lt_merge_cancel     b
---   | @R_rec_zero _ _         => simpa using mu_lt_rec_zero _ _
---   | @R_rec_succ b s n       => exact mu_lt_rec_succ b s n
---   | @R_eq_refl a            => simpa using mu_void_lt_eq_refl a
---   | @R_eq_diff a b _        => exact mu_lt_eq_diff a b
-
--- def StepRev (R : Trace → Trace → Prop) : Trace → Trace → Prop := fun a b => R b a
-
--- -- #check @StepRev
---                 -- StepRev : (Trace → Trace → Prop) → Trace → Trace → Prop
-
--- theorem strong_normalization_forward_trace
---   (R : Trace → Trace → Prop)
---   (hdec : ∀ {a b : Trace}, R a b → mu b < mu a) :
---   WellFounded (StepRev R) := by
---   have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
---     InvImage.wf (f := mu) (h := Ordinal.lt_wf)
---   have hsub : Subrelation (StepRev R) (fun x y : Trace => mu x < mu y) := by
---     intro x y h; exact hdec (a := y) (b := x) h
---   exact Subrelation.wf hsub hwf
-
--- theorem strong_normalization_backward
---   (R : Trace → Trace → Prop)
---   (hinc : ∀ {a b : Trace}, R a b → mu a < mu b) :
---   WellFounded R := by
---   have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
---     InvImage.wf (f := mu) (h := Ordinal.lt_wf)
---   have hsub : Subrelation R (fun x y : Trace => mu x < mu y) := by
---     intro x y h; exact hinc h
---   exact Subrelation.wf hsub hwf
-
--- -- #check @strong_normalization_forward_trace
--- -- #check @strong_normalization_backward
-
--- -- (R : Trace → Trace → Prop) →
--- --   (∀ {a b : Trace}, R a b → mu b < mu a) →
--- --   WellFounded (StepRev R)
-
--- def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
-
--- theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
---   -- WF target via μ:
---   refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
---   -- subrelation: every reversed kernel step strictly drops μ
---   -- (StepRev KernelStep x y) ↔ (KernelStep y x)
---   intro x y hxy
---   have hk : KernelStep y x := hxy
---   have hdec : mu x < mu y := mu_decreases hk
---   simpa using hdec
+theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
+  refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
+  intro x y hxy
+  have hk : KernelStep y x := hxy
+  have hdec : mu x < mu y := mu_decreases hk
+  simpa using hdec
