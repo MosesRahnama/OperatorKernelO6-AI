@@ -1,0 +1,145 @@
+n diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:713:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 17738, num: 34): ▶
+  [reduction] unfolded instances (max: 12453, num: 22): ▶
+  [reduction] unfolded reducible declarations (max: 19348, num: 9): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 6224, num: 16): ▶
+  [kernel] unfolded declarations (max: 205, num: 5): ▶
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:743:34
+unsolved goals
+a b : Trace
+B : Ordinal.{?u.17405} := ω ^ (mu a + mu b + 9)
+hB : B = ω ^ (mu a + mu b + 9)
+⊢ 4 < 9
+Termination.lean:747:6
+overloaded, errors 
+  747:61 Application type mismatch: In the application
+    opow_pos omega0_pos
+  the argument
+    omega0_pos
+  has type
+    0 < ω : Prop
+  but is expected to have type
+    Ordinal.{?u.27844} : Type (?u.27844 + 1)
+  
+  747:61 Application type mismatch: In the application
+    opow_pos omega0_pos
+  the argument
+    omega0_pos
+  has type
+    0 < ω : Prop
+  but is expected to have type
+    Ordinal.{?u.33800} : Type (?u.33800 + 1)
+Termination.lean:751:6
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.35217}
+Termination.lean:750:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b).integrate ==> ω ^ 4 * (mu (a.merge b) + 1) + 1 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b) ==> ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu a + 1
+    ==>
+      Order.succ (mu a) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 4 * Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b))) + 1
+    ==>
+      Order.succ (ω ^ 4 * Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)))) 
+[Meta.Tactic.simp.rewrite] hB:1000:
+      B
+    ==>
+      ω ^ (mu a + mu b + 9) 
+Termination.lean:753:4
+[Meta.Tactic.simp.rewrite] hB:1000:
+      B
+    ==>
+      ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.eqW b) ==> ω ^ (mu a + mu b + 9) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + mu b + 9) + 1
+    ==>
+      Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_iff_not_isMax:1000:
+      ω ^ (mu a + mu b + 9) < Order.succ (ω ^ (mu a + mu b + 9))
+    ==>
+      ¬IsMax (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] not_isMax:1000:
+      IsMax (ω ^ (mu a + mu b + 9))
+    ==>
+      False 
+[Meta.Tactic.simp.rewrite] not_false_eq_true:1000:
+      ¬False
+    ==>
+      True 
+Termination.lean:737:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 143, num: 1): ▼
+    [] Quotient.lift ↦ 143 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:737:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 736, num: 12): ▼
+    [] Add.add ↦ 736 
+    [] HAdd.hAdd ↦ 602 
+    [] Mul.mul ↦ 350 
+    [] Pow.pow ↦ 178 
+    [] WellOrder.rec ↦ 166 
+    [] Quot.lift ↦ 158 
+    [] HMul.hMul ↦ 154 
+    [] HPow.hPow ↦ 132 
+    [] LT.lt ↦ 128 
+    [] Quotient ↦ 118 
+    [] Ordinal ↦ 101 
+    [] Quotient.mk ↦ 101 
+  [reduction] unfolded instances (max: 482, num: 20): ▼
+    [] Group.toDivInvMonoid ↦ 482 
+    [] CommMonoid.toMonoid ↦ 411 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
+    [] AddCommSemigroup.toAddSemigroup ↦ 280 
+    [] CommMonoidWithZero.toCommMonoid ↦ 268 
+    [] Monoid.toSemigroup ↦ 249 
+    [] DivInvMonoid.toMonoid ↦ 242 
+    [] AddGroup.toSubNegMonoid ↦ 200 
+    [] instHAdd ↦ 190 
+    [] AddMonoid.toAddSemigroup ↦ 184 
+    [] SubNegMonoid.toAddMonoid ↦ 170 
+    [] AddSemigroup.toAdd ↦ 158 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 147 
+    [] MonoidWithZero.toMonoid ↦ 142 
+    [] Semigroup.toMul ↦ 115 
+    [] CommGroupWithZero.toGroupWithZero ↦ 104 
+    [] GroupWithZero.toMonoidWithZero ↦ 104 
+  [reduction] unfolded reducible declarations (max: 883, num: 6): ▼
+    [] Quotient.lift ↦ 883 
+    [] Quotient.liftOn₂ ↦ 749 
+    [] Quotient.lift₂ ↦ 749 
+    [] casesOn ↦ 437 
+    [] WellOrder.casesOn ↦ 166 
+    [] outParam ↦ 139 
+  [kernel] unfolded declarations (max: 143, num: 1): ▼
+    [] Quotient.lift ↦ 143 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:757:0
+[diag] Diagnostics ▼
+  [reduction] unfolded reducible declarations (max: 107, num: 1): ▼
+    [] Quotient.lift ↦ 107 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:812:14
+failed to infer universe levels in 'have' declaration type
+  mu.{?u.17791} x < mu.{?u.17791} y

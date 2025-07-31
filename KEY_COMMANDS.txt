@@ -60,3 +60,12 @@ git fetch
 git switch 6-op-start
 # OR use the older command
 git checkout 6-op-start-new
+
+
+andoc "Operator Centric Foundations of Godelian Incompleteness.md" -o "Operator Centric Foundations of Godelian Incompleteness.pdf"
+pandoc "Operator Centric Foundations of Godelian Incompleteness.md"  -o "Operator Centric Foundations of Godelian Incompleteness.pdf" --pdf-engine=xelatex
+pandoc Current_Phase_OperatorKernelO6_Combined_Codes.md -o Current_Phase_OperatorKernelO6_Combined_Codes.pdf --pdf-engine=xelatex
+pandoc "Operator Centric Foundations of Godelian Incompleteness.md" -o "Operator Centric Foundations of Godelian Incompleteness.pdf" --pdf-engine=xelatex
+pandoc --from markdown --to pdf --pdf-engine=xelatex --encoding=utf-8 Current_Phase_OperatorKernelO6_Combined_Codes.md -o Current_Phase_OperatorKernelO6_Combined_Codes.pdf
+pandoc "Operator Centric Foundations of Godelian Incompleteness.md" -o "Operator Centric Foundations of Godelian Incompleteness.pdf"
+

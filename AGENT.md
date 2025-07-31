@@ -99,9 +99,9 @@ end OperatorKernelO6
 
 ## 4. Meta‑Level Freedom
 
-Allowed (outside `OperatorKernelO6`): Nat, Bool, classical choice, tactics (`simp`, `linarith`, `ring`), WF recursion, ordinal measures, etc., **but only using §8’s imports/lemmas**. `ring` is on the project whitelist (`Mathlib.Tactic.Ring`); use it for integer equalities. `simp` and `linarith` are also allowed. Forbidden project‑wide unless green‑lit: `axiom`, `sorry`, `admit`, `unsafe`, stray `noncomputable`. Never push these conveniences back into the kernel.
+Allowed (outside `OperatorKernelO6`): Nat, Bool, classical choice, tactics (SUCH AS `simp`, `linarith`, `ring`), WF recursion, ordinal measures, etc., **but MOSTLY using §8’s imports/lemmas**. `ring` is on the project whitelist (`Mathlib.Tactic.Ring`); use it for integer equalities. `simp` and `linarith` are also allowed. Forbidden project‑wide unless green‑lit: `axiom`, `sorry`, `admit`, `unsafe`, stray `noncomputable`. Never push these conveniences back into the kernel
 
-**Tactics whitelist (Meta):** `simp`, `linarith`, `ring`.
+**Tactics whitelist (Meta):** `simp`, `linarith`, `ring`, and any otehr methods that complies with Forbidden project‑wide rules, and FULLY COMPLY with section 8.5 down here in the document.
 
 ---
 
@@ -166,9 +166,29 @@ import Mathlib.Data.Nat.Cast.Order.Basic     -- Nat.cast_le, Nat.cast_lt
 
 ### 8.4 Pointers
 
-The **complete** lemma catalogue, local bridges (including `opow_lt_opow_right`), μ‑measure cookbook, and the do‑not‑use list are in `ordinal‑toolkit.md`. Keep this section slim to avoid duplication.
+>The **commonly used** lemma catalogue, local bridges (including `opow_lt_opow_right`), μ‑measure cookbook, and the do‑not‑use list are in `ordinal‑toolkit.md`. Keep this section slim to avoid duplication.
+
+> Any mathlib lemma that satisfies the four-point rule-set above *may* be used even if not yet listed, **as long as the first use appends a one-liner to `ordinal-toolkit.md`.**
+
+
+### 8.5 Admissible lemma rule-set (“Green channel”)
+
+**Completeness note** — The lemma catalogue is intentionally minimal.  
+- Any mathlib lemma that satisfies the **four-point rule-set above** *may* be used **even if** not yet listed, as long as the first use appends a one-liner to `ordinal-toolkit.md`.
+
+1. **No new axioms:** the file introducing it adds no axioms (`#print axioms` CI-check).
+2. **Correct structures:** its type-class constraints are satisfied by `Ordinal`
+   (⇝ no hidden commutativity / `AddRightStrictMono`, etc.).
+3. **Tidy import footprint:** the file pulls in ≤ 100 new declarations, or is
+   already in the project dep-graph.
+4. **Kernel-safe proof:** the lemma is not `unsafe` and contains no `meta`
+   code.
+
+The first use of an admissible lemma **must** append it (one-liner) to
+*ordinal-toolkit.md*; later uses need no paperwork.
 
 ---
+
 
 ## 9. Workflow Checklist
 

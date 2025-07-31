@@ -1,0 +1,221 @@
+Termination.lean:765:37
+No info found.
+All Messages (8)
+Termination.lean:727:4
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+Termination.lean:729:35
+[linarith] linarith is running on the following hypotheses: ▼
+[Trace, Trace, Trace, Ordinal.{?u.19145}, A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2]
+[linarith] ✅️ Running preprocessors ▼
+  [] ✅️ Mathlib.Tactic.Linarith.splitConjunctions: split conjunctions ▼
+    [] [Trace, Trace, Trace, Ordinal.{?u.19145}, A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.filterComparisons: filter terms that are not proofs of comparisons ▼
+    [] [A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.removeNegations: replace negations of comparisons ▼
+    [] [A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.natToInt: move nats to ints ▼
+    [Compiler.IR] [result]
+        def _tmp._closed_0._@.OperatorKernelO6.Meta.Termination._hyg.1480 : obj :=
+          let x_1 : obj := ctor_0[Lean.Meta.EtaStructMode.all];
+          let x_2 : obj := ctor_1[Bool.true];
+          let x_3 : obj := ctor_0[Bool.false];
+          let x_4 : obj := 2;
+          let x_5 : obj := 100000;
+          let x_6 : obj := ctor_0.0.23[Lean.Meta.Simp.Config.mk] x_5 x_4;
+          let x_7 : u8 := unbox x_3;
+          sset x_6[2, 0] : u8 := x_7;
+          let x_8 : u8 := unbox x_2;
+          sset x_6[2, 1] : u8 := x_8;
+          let x_9 : u8 := unbox x_3;
+          sset x_6[2, 2] : u8 := x_9;
+          let x_10 : u8 := unbox x_2;
+          sset x_6[2, 3] : u8 := x_10;
+          let x_11 : u8 := unbox x_2;
+          sset x_6[2, 4] : u8 := x_11;
+          let x_12 : u8 := unbox x_2;
+          sset x_6[2, 5] : u8 := x_12;
+          let x_13 : u8 := unbox x_1;
+          sset x_6[2, 6] : u8 := x_13;
+          let x_14 : u8 := unbox x_2;
+          sset x_6[2, 7] : u8 := x_14;
+          let x_15 : u8 := unbox x_2;
+          sset x_6[2, 8] : u8 := x_15;
+          let x_16 : u8 := unbox x_3;
+          sset x_6[2, 9] : u8 := x_16;
+          let x_17 : u8 := unbox x_3;
+          sset x_6[2, 10] : u8 := x_17;
+          let x_18 : u8 := unbox x_3;
+          sset x_6[2, 11] : u8 := x_18;
+          let x_19 : u8 := unbox x_2;
+          sset x_6[2, 12] : u8 := x_19;
+          let x_20 : u8 := unbox x_2;
+          sset x_6[2, 13] : u8 := x_20;
+          let x_21 : u8 := unbox x_3;
+          sset x_6[2, 14] : u8 := x_21;
+          let x_22 : u8 := unbox x_3;
+          sset x_6[2, 15] : u8 := x_22;
+          let x_23 : u8 := unbox x_3;
+          sset x_6[2, 16] : u8 := x_23;
+          let x_24 : u8 := unbox x_2;
+          sset x_6[2, 17] : u8 := x_24;
+          let x_25 : u8 := unbox x_2;
+          sset x_6[2, 18] : u8 := x_25;
+          let x_26 : u8 := unbox x_2;
+          sset x_6[2, 19] : u8 := x_26;
+          let x_27 : u8 := unbox x_2;
+          sset x_6[2, 20] : u8 := x_27;
+          let x_28 : u8 := unbox x_2;
+          sset x_6[2, 21] : u8 := x_28;
+          let x_29 : u8 := unbox x_2;
+          sset x_6[2, 22] : u8 := x_29;
+          ret x_6
+        def _tmp._@.OperatorKernelO6.Meta.Termination._hyg.1480 : obj :=
+          let x_1 : obj := _tmp._closed_0._@.OperatorKernelO6.Meta.Termination._hyg.1480;
+          ret x_1 
+    [Meta.Tactic.simp.rewrite] Mathlib.Tactic.Zify.natCast_le:1000:
+          3 ≤ 2
+        ==>
+          ↑3 ≤ ↑2 
+    [Meta.Tactic.simp.rewrite] Nat.cast_ofNat:1000:
+          ↑3
+        ==>
+          3 
+    [Meta.Tactic.simp.rewrite] Nat.cast_ofNat:1000:
+          ↑2
+        ==>
+          2 
+    [] [A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.strengthenStrictInt: strengthen strict inequalities over int ▶
+  [] ✅️ Mathlib.Tactic.Linarith.compWithZero: make comparisons with zero ▼
+    [] [3 - 2 ≤ 0] 
+  [] ✅️ Mathlib.Tactic.Linarith.cancelDenoms: cancel denominators ▼
+    [] [3 - 2 ≤ 0] 
+[linarith] after preprocessing, linarith has 1 facts: ▼
+[3 - 2 ≤ 0]
+[linarith] hypotheses appear in 1 different types 
+[linarith] ❌️ running on preferred type ℕ 
+[linarith] ✅️ running on type ℤ ▼
+  [] ✅️ Invoking oracle ▼
+    [] found a contradiction: [(0, 1), (1, 1)] 
+  [] ✅️ Building final expression ▼
+    [] 
+          -1 + (3 - 2)
+        should be both 0 and negative 
+Termination.lean:731:6
+Function expected at
+  opow_lt_opow_right omega0_pos
+but this term has type
+  ω ^ 0 < ω ^ ω
+
+Note: Expected a function because this term is being applied to the argument
+  (Nat.cast_lt.2 nat23)
+Termination.lean:735:15
+unknown identifier 'add_lt_add_left_iff'
+Termination.lean:736:6
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.19145}
+Termination.lean:735:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (s.merge (b.recΔ s n)) ==> ω ^ 3 * (mu s + 1) + ω ^ 2 * (mu (b.recΔ s n) + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) + 1
+    ==>
+      Order.succ
+        (ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) 
+Termination.lean:738:4
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu n.delta ==> ω ^ 5 * (mu n + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu n + 1
+    ==>
+      Order.succ (mu n) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 5 * Order.succ (mu n) + 1
+    ==>
+      Order.succ (ω ^ 5 * Order.succ (mu n)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n.delta) ==> ω ^ (mu n.delta + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] le_add_iff_nonneg_right:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) ≤
+        ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)
+    ==>
+      0 ≤ ω * Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] zero_le:1000:
+      0 ≤ ω * Order.succ (mu b)
+    ==>
+      True 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_of_le:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) <
+        Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b))
+    ==>
+      True 
+Termination.lean:723:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 286, num: 3): ▼
+    [] Add.add ↦ 286 
+    [] Mul.mul ↦ 244 
+    [] HAdd.hAdd ↦ 179 
+  [reduction] unfolded instances (max: 482, num: 20): ▼
+    [] Group.toDivInvMonoid ↦ 482 
+    [] CommMonoid.toMonoid ↦ 412 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
+    [] AddCommSemigroup.toAddSemigroup ↦ 280 
+    [] CommMonoidWithZero.toCommMonoid ↦ 268 
+    [] Monoid.toSemigroup ↦ 248 
+    [] DivInvMonoid.toMonoid ↦ 242 
+    [] AddGroup.toSubNegMonoid ↦ 210 
+    [] AddMonoid.toAddSemigroup ↦ 188 
+    [] SubNegMonoid.toAddMonoid ↦ 184 
+    [] AddSemigroup.toAdd ↦ 178 
+    [] instHAdd ↦ 166 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 147 
+    [] MonoidWithZero.toMonoid ↦ 141 
+    [] Semigroup.toMul ↦ 125 
+    [] CommGroupWithZero.toGroupWithZero ↦ 104 
+    [] GroupWithZero.toMonoidWithZero ↦ 104 
+  [reduction] unfolded reducible declarations (max: 293, num: 4): ▼
+    [] Quotient.lift ↦ 293 
+    [] Quotient.liftOn₂ ↦ 259 
+    [] Quotient.lift₂ ↦ 259 
+    [] outParam ↦ 160 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters

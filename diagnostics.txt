@@ -1,0 +1,279 @@
+Termination.lean:826:68
+Tactic state
+No goals
+Messages (2)
+Termination.lean:808:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 135, num: 1): ▼
+    [] Quotient.lift ↦ 135 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:808:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 1341, num: 18): ▼
+    [] Add.add ↦ 1341 
+    [] HAdd.hAdd ↦ 872 
+    [] Quotient ↦ 337 
+    [] Ordinal ↦ 331 
+    [] Quot.lift ↦ 266 
+    [] HPow.hPow ↦ 258 
+    [] Pow.pow ↦ 255 
+    [] Mul.mul ↦ 245 
+    [] WellOrder.rec ↦ 240 
+    [] HMul.hMul ↦ 231 
+    [] LT.lt ↦ 198 
+    [] OfNat.ofNat ↦ 188 
+    [] AddMonoid.toZero ↦ 186 
+    [] Zero.zero ↦ 183 
+    [] type ↦ 180 
+    [] Quotient.mk ↦ 180 
+    [] ite ↦ 165 
+    [] rec ↦ 103 
+  [reduction] unfolded instances (max: 948, num: 20): ▼
+    [] AddCommSemigroup.toAddSemigroup ↦ 948 
+    [] instHAdd ↦ 737 
+    [] Semiring.toNonUnitalSemiring ↦ 708 
+    [] NonAssocSemiring.toNonUnitalNonAssocSemiring ↦ 626 
+    [] NonUnitalSemiring.toNonUnitalNonAssocSemiring ↦ 626 
+    [] Semiring.toNonAssocSemiring ↦ 626 
+    [] AddCommMagma.toAdd ↦ 610 
+    [] AddSemigroup.toAdd ↦ 566 
+    [] NonUnitalNonAssocSemiring.toAddCommMonoid ↦ 544 
+    [] AddMonoid.toAddSemigroup ↦ 422 
+    [] AddGroup.toSubNegMonoid ↦ 400 
+    [] AddCommMonoid.toAddMonoid ↦ 350 
+    [] SubNegMonoid.toAddMonoid ↦ 340 
+    [] add ↦ 309 
+    [] AddCommSemigroup.toAddCommMagma ↦ 268 
+    [] AddZeroClass.toAdd ↦ 219 
+    [] AddMonoid.toAddZeroClass ↦ 180 
+    [] instAddNat ↦ 150 
+    [] AddMonoidWithOne.toAddMonoid ↦ 114 
+    [] AddZeroClass.toZero ↦ 107 
+  [reduction] unfolded reducible declarations (max: 1262, num: 7): ▼
+    [] Quotient.lift ↦ 1262 
+    [] Quotient.liftOn₂ ↦ 1008 
+    [] Quotient.lift₂ ↦ 1008 
+    [] outParam ↦ 678 
+    [] casesOn ↦ 291 
+    [] WellOrder.casesOn ↦ 240 
+    [] Decidable.casesOn ↦ 214 
+  [def_eq] heuristic for solving `f a =?= f b` (max: 326, num: 1): ▼
+    [] instHAdd ↦ 326 
+  [kernel] unfolded declarations (max: 135, num: 1): ▼
+    [] Quotient.lift ↦ 135 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+All Messages (21)
+Termination.lean:780:0
+[diag] Diagnostics ▼
+  [reduction] unfolded reducible declarations (max: 109, num: 1): ▼
+    [] outParam ↦ 109 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:788:2
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      α + β + γ
+    ==>
+      α + (β + γ) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      α + (β + γ) < ω ^ κ
+    ==>
+      α + (β + γ) < ω ^ κ 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      α + β + γ
+    ==>
+      α + (β + γ) 
+Termination.lean:817:41
+[Meta.Tactic.simp.rewrite] Nat.ofNat_pos':100:
+      0 < 6
+    ==>
+      True 
+Termination.lean:821:6
+type mismatch, term
+  add_le_add_left this 6
+after simplification has type
+  True : Prop
+but is expected to have type
+  6 ≤ mu n.delta + (mu s + 6) : Prop
+Termination.lean:821:6
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n.delta + mu s + 6
+    ==>
+      mu n.delta + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
+      6 ≤ mu n.delta + (mu s + 6)
+    ==>
+      6 ≤ mu n.delta + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_zero:1000:
+      6 + 0
+    ==>
+      6 
+[Meta.Tactic.simp.rewrite] le_add_iff_nonneg_right:1000:
+      6 ≤ 6 + (mu n.delta + mu s)
+    ==>
+      0 ≤ mu n.delta + mu s 
+[Meta.Tactic.simp.rewrite] zero_le:1000:
+      0 ≤ mu n.delta + mu s
+    ==>
+      True 
+Termination.lean:831:52
+unsolved goals
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+hκ : 0 < mu n.delta + mu s + 6
+hposA : 0 < A
+⊢ 2 < 6
+Termination.lean:833:8
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n.delta + mu s + 6
+    ==>
+      mu n.delta + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n.delta + mu s + ?m.32698
+    ==>
+      mu n.delta + (mu s + ?m.32698) 
+Termination.lean:836:4
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      ω ^ 2 < ω ^ (mu n.delta + mu s + 6)
+    ==>
+      ω ^ 2 < ω ^ (mu n.delta + mu s + 6) 
+Termination.lean:843:27
+Application type mismatch: In the application
+  add_lt_add_of_lt_of_le (mu_lt_delta n)
+the argument
+  mu_lt_delta n
+has type
+  mu n < mu n.delta : Prop
+but is expected to have type
+  mu n + mu s < mu n.delta + mu s : Prop
+Termination.lean:843:4
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.36818}
+Termination.lean:851:59
+[Meta.Tactic.simp.rewrite] Nat.ofNat_pos':100:
+      0 < 6
+    ==>
+      True 
+Termination.lean:852:12
+unknown constant 'Ordinal.mul_lt_opow_of_base_lt'
+Termination.lean:853:4
+type mismatch
+  add_lt_add_left hbase 1
+has type
+  1 + ω * (mu b + 1) < 1 + ω ^ (mu n + mu s + 6) : Prop
+but is expected to have type
+  ω * (mu b + 1) + 1 < ω ^ (mu n + mu s + 6) : Prop
+Termination.lean:859:24
+unsolved goals
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+hκ : 0 < mu n.delta + mu s + 6
+hposA : 0 < A
+hω2 : ω ^ 2 < A
+hexp : mu n + mu s + 6 < mu n.delta + mu s + 6
+htower : ω ^ (mu n + mu s + 6) < A
+hrest : ω * (mu b + 1) + 1 < ω ^ (mu n + mu s + 6)
+⊢ 0 < mu n.delta + mu s + 6
+Termination.lean:862:21
+failed to synthesize
+  AddRightStrictMono Ordinal.{u_1}
+Termination.lean:862:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) < A
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) < A 
+Termination.lean:872:6
+unknown constant 'Ordinal.principal_mul_omega0_opow'
+Termination.lean:875:10
+Application type mismatch: In the application
+  hprin (LT.lt.le hω2)
+the argument
+  LT.lt.le hω2
+has type
+  ω ^ 2 ≤ A : Prop
+but is expected to have type
+  ω ^ 2 < A : Prop
+Termination.lean:808:0
+[diag] Diagnostics ▼
+  [kernel] unfolded declarations (max: 135, num: 1): ▼
+    [] Quotient.lift ↦ 135 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:808:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 1341, num: 18): ▼
+    [] Add.add ↦ 1341 
+    [] HAdd.hAdd ↦ 872 
+    [] Quotient ↦ 337 
+    [] Ordinal ↦ 331 
+    [] Quot.lift ↦ 266 
+    [] HPow.hPow ↦ 258 
+    [] Pow.pow ↦ 255 
+    [] Mul.mul ↦ 245 
+    [] WellOrder.rec ↦ 240 
+    [] HMul.hMul ↦ 231 
+    [] LT.lt ↦ 198 
+    [] OfNat.ofNat ↦ 188 
+    [] AddMonoid.toZero ↦ 186 
+    [] Zero.zero ↦ 183 
+    [] type ↦ 180 
+    [] Quotient.mk ↦ 180 
+    [] ite ↦ 165 
+    [] rec ↦ 103 
+  [reduction] unfolded instances (max: 948, num: 20): ▼
+    [] AddCommSemigroup.toAddSemigroup ↦ 948 
+    [] instHAdd ↦ 737 
+    [] Semiring.toNonUnitalSemiring ↦ 708 
+    [] NonAssocSemiring.toNonUnitalNonAssocSemiring ↦ 626 
+    [] NonUnitalSemiring.toNonUnitalNonAssocSemiring ↦ 626 
+    [] Semiring.toNonAssocSemiring ↦ 626 
+    [] AddCommMagma.toAdd ↦ 610 
+    [] AddSemigroup.toAdd ↦ 566 
+    [] NonUnitalNonAssocSemiring.toAddCommMonoid ↦ 544 
+    [] AddMonoid.toAddSemigroup ↦ 422 
+    [] AddGroup.toSubNegMonoid ↦ 400 
+    [] AddCommMonoid.toAddMonoid ↦ 350 
+    [] SubNegMonoid.toAddMonoid ↦ 340 
+    [] add ↦ 309 
+    [] AddCommSemigroup.toAddCommMagma ↦ 268 
+    [] AddZeroClass.toAdd ↦ 219 
+    [] AddMonoid.toAddZeroClass ↦ 180 
+    [] instAddNat ↦ 150 
+    [] AddMonoidWithOne.toAddMonoid ↦ 114 
+    [] AddZeroClass.toZero ↦ 107 
+  [reduction] unfolded reducible declarations (max: 1262, num: 7): ▼
+    [] Quotient.lift ↦ 1262 
+    [] Quotient.liftOn₂ ↦ 1008 
+    [] Quotient.lift₂ ↦ 1008 
+    [] outParam ↦ 678 
+    [] casesOn ↦ 291 
+    [] WellOrder.casesOn ↦ 240 
+    [] Decidable.casesOn ↦ 214 
+  [def_eq] heuristic for solving `f a =?= f b` (max: 326, num: 1): ▼
+    [] instHAdd ↦ 326 
+  [kernel] unfolded declarations (max: 135, num: 1): ▼
+    [] Quotient.lift ↦ 135 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+Termination.lean:876:2
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (b.recΔ s n) + 1
+    ==>
+      Order.succ (mu (b.recΔ s n)) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < A
+    ==>
+      ω ^ 2 * Order.succ (mu (b.recΔ s n)) < A 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (b.recΔ s n) + 1
+    ==>
+      Order.succ (mu (b.recΔ s n)) 

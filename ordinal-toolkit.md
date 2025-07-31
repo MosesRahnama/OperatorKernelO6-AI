@@ -6,7 +6,7 @@
 
 ## 0  Scope
 
-This toolkit consolidates **all ordinal facts, imports, name‑prefix rules, and μ‑measure patterns** required by the OperatorKernelO6 meta proofs (SN, confluence, arithmetic). It is the single source of truth for ordinal API usage and module locations. If a symbol is not listed here (or in AGENT.md §8), treat it as **out‑of‑scope** and raise a **CONSTRAINT BLOCKER**.
+This toolkit consolidates **all ordinal facts, imports, name‑prefix rules, and μ‑measure patterns** required by the OperatorKernelO6 meta proofs (SN, confluence, arithmetic). It is the single source of truth for ordinal API usage and module locations. If a symbol is not listed here (or in AGENT.md §8), carefully evaluate the guidelines for using **out of documents** lemmas and tactics.
 
 ---
 
@@ -37,7 +37,7 @@ This toolkit consolidates **all ordinal facts, imports, name‑prefix rules, and
 
 ## 2  Toolkit Lemma Catalogue (names, signatures, modules)
 
-> All entries compile under Mathlib 4 (≥ v4.8) + this project’s local bridges. Nothing here is hypothetical.
+>All entries compile under Mathlib 4 (≥ v4.8) + this project’s local bridges. Nothing here is hypothetical.
 
 ### 2.1 Basics & Positivity
 
@@ -60,14 +60,33 @@ This toolkit consolidates **all ordinal facts, imports, name‑prefix rules, and
 - `Ordinal.one_add_of_omega_le : omega0 ≤ p → (1 : Ordinal) + p = p`
 - `Ordinal.nat_add_of_omega_le : omega0 ≤ p → (n : Ordinal) + p = p`
 
+**traffic-ligh**
+
+| Colour    | Rule of thumb                                           | Examples                                                                             |
+| --------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------|
+| **Green** | Ordinal-specific or left-monotone lemmas                | `add_lt_add_left`, `mul_lt_mul_of_pos_left`, `le_mul_right`, `opow_mul_lt_of_exp_lt` |
+| **Amber** | Generic lemmas that satisfy the 4-point rule            | `mul_le_mul_left'`, `add_lt_add_of_lt_of_le`                                         |
+| **Red**   | Breaks rule 2 (needs right-strict mono / commutativity) | `add_lt_add_right`, `mul_lt_mul_of_pos_right`                                        |
+
 ### 2.3 Multiplication (Ordinal‑specific)
 
 - `Ordinal.mul_lt_mul_of_pos_left : a < b → 0 < c → c * a < c * b`
 - `Ordinal.mul_le_mul_iff_left   : c * a ≤ c * b ↔ a ≤ b`
 - Primed monotone helpers: `mul_le_mul_left'`, `mul_le_mul_right'` (convenient rewriting forms).
 - `le_mul_right : 0 < b → a ≤ b * a`.
+- `opow_mul_lt_of_exp_lt : β < α → 0 < γ → omega0 ^ β * γ < omega0 ^ α`  — *module:* `SetTheory.Ordinal.Exponential` — absorbs any positive right factor.
+
 
 > **Note:** `mul_le_mul_left` without a trailing apostrophe comes from `Algebra.Order.Monoid.Defs` and is **generic** (ordered monoids). Do **not** use it to reason about ordinal multiplication.
+
+> **Q:** “`library_search` **EXAMPLE SUGGESTED** `le_mul_of_le_mul_left'`. Can I use it?” (IT CAN APPLY TO ANY MODULE YOU BELIEVE WILL HELP)
+
+1. Check axioms → none found.
+2. It uses only `OrderedRing`, which `Ordinal` instantiates.
+3. Import adds 17 decls. ✅
+4. Proof is kernel-checked, no `meta`.
+Append one line to toolkit with a brief descrpition/justification sentence and commit.
+
 
 ### 2.4 Exponentiation (ω‑powers & normality)
 

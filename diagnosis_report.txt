@@ -1,0 +1,150 @@
+Termination.lean:765:37
+No info found.
+All Messages (8)
+Termination.lean:727:4
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+Termination.lean:729:35
+[linarith] linarith is running on the following hypotheses: ▼
+[Trace, Trace, Trace, Ordinal.{?u.19145}, A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2]
+[linarith] ✅️ Running preprocessors ▼
+  [] ✅️ Mathlib.Tactic.Linarith.splitConjunctions: split conjunctions ▼
+    [] [Trace, Trace, Trace, Ordinal.{?u.19145}, A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.filterComparisons: filter terms that are not proofs of comparisons ▼
+    [] [A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.removeNegations: replace negations of comparisons ▼
+    [] [A = ω ^ (mu n.delta + mu s + 6), ω ^ 3 * (mu s + 1) < A, 3 ≤ 2] 
+  [] ✅️ Mathlib.Tactic.Linarith.natToInt: move nats to ints ▶
+  [] ✅️ Mathlib.Tactic.Linarith.strengthenStrictInt: strengthen strict inequalities over int ▶
+  [] ✅️ Mathlib.Tactic.Linarith.compWithZero: make comparisons with zero ▼
+    [] [3 - 2 ≤ 0] 
+  [] ✅️ Mathlib.Tactic.Linarith.cancelDenoms: cancel denominators ▼
+    [] [3 - 2 ≤ 0] 
+[linarith] after preprocessing, linarith has 1 facts: ▼
+[3 - 2 ≤ 0]
+[linarith] hypotheses appear in 1 different types 
+[linarith] ❌️ running on preferred type ℕ 
+[linarith] ✅️ running on type ℤ ▼
+  [] ✅️ Invoking oracle ▼
+    [] found a contradiction: [(0, 1), (1, 1)] 
+  [] ✅️ Building final expression ▼
+    [] 
+          -1 + (3 - 2)
+        should be both 0 and negative 
+Termination.lean:731:6
+Function expected at
+  opow_lt_opow_right omega0_pos
+but this term has type
+  ω ^ 0 < ω ^ ω
+
+Note: Expected a function because this term is being applied to the argument
+  (Nat.cast_lt.2 nat23)
+Termination.lean:735:15
+unknown identifier 'add_lt_add_left_iff'
+Termination.lean:736:6
+failed to synthesize
+  AddRightStrictMono Ordinal.{?u.19145}
+Termination.lean:735:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (s.merge (b.recΔ s n)) ==> ω ^ 3 * (mu s + 1) + ω ^ 2 * (mu (b.recΔ s n) + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu s + 1
+    ==>
+      Order.succ (mu s) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) + 1
+    ==>
+      Order.succ
+        (ω ^ 3 * Order.succ (mu s) + ω ^ 2 * Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))) 
+Termination.lean:738:4
+[Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      ω ^ (mu n.delta + mu s + 6) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu n.delta ==> ω ^ 5 * (mu n + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu n + 1
+    ==>
+      Order.succ (mu n) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 5 * Order.succ (mu n) + 1
+    ==>
+      Order.succ (ω ^ 5 * Order.succ (mu n)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n.delta) ==> ω ^ (mu n.delta + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] le_add_iff_nonneg_right:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) ≤
+        ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b)
+    ==>
+      0 ≤ ω * Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] zero_le:1000:
+      0 ≤ ω * Order.succ (mu b)
+    ==>
+      True 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_of_le:1000:
+      ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) <
+        Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b))
+    ==>
+      True 
+Termination.lean:723:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 286, num: 3): ▼
+    [] Add.add ↦ 286 
+    [] Mul.mul ↦ 244 
+    [] HAdd.hAdd ↦ 179 
+  [reduction] unfolded instances (max: 482, num: 20): ▼
+    [] Group.toDivInvMonoid ↦ 482 
+    [] CommMonoid.toMonoid ↦ 412 
+    [] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 362 
+    [] CommGroupWithZero.toCommMonoidWithZero ↦ 315 
+    [] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 315 
+    [] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 315 
+    [] AddCommSemigroup.toAddSemigroup ↦ 280 
+    [] CommMonoidWithZero.toCommMonoid ↦ 268 
+    [] Monoid.toSemigroup ↦ 248 
+    [] DivInvMonoid.toMonoid ↦ 242 
+    [] AddGroup.toSubNegMonoid ↦ 210 
+    [] AddMonoid.toAddSemigroup ↦ 188 
+    [] SubNegMonoid.toAddMonoid ↦ 184 
+    [] AddSemigroup.toAdd ↦ 178 
+    [] instHAdd ↦ 166 
+    [] CancelMonoid.toLeftCancelMonoid ↦ 147 
+    [] MonoidWithZero.toMonoid ↦ 141 
+    [] Semigroup.toMul ↦ 125 
+    [] CommGroupWithZero.toGroupWithZero ↦ 104 
+    [] GroupWithZero.toMonoidWithZero ↦ 104 
+  [reduction] unfolded reducible declarations (max: 293, num: 4): ▼
+    [] Quotient.lift ↦ 293 
+    [] Quotient.liftOn₂ ↦ 259 
+    [] Quotient.lift₂ ↦ 259 
+    [] outParam ↦ 160 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
