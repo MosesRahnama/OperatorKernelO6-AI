@@ -806,144 +806,127 @@ We prove `T < A` by:
 -/
 
 
+
+
+
+
+/-!  ------------------------------------------------------------
+     Tail payload bound  (final, principal-free version)
+     ------------------------------------------------------------ -/
 lemma tail_lt_A {b s n : Trace} :
   let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
   omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
 
-  ------------------------------------------------------------------
-  -- 1 ▸  Reduce the product to a single ω-power by `termB_le`
-  ------------------------------------------------------------------
-  have h₁ : (omega0 ^ (2 : Ordinal)) * (mu (recΔ b s n) + 1) ≤
-            omega0 ^ (mu (recΔ b s n) + 3) :=
+  ------------------------------------------------------------
+  -- 0 • elementary facts
+  ------------------------------------------------------------
+  have hκ : (2 : Ordinal) < mu (delta n) + mu s + 6 := by
+    --  2 < 6 ≤ μ(δ n)+μ s+6
+    have h2_lt_6 : (2 : Ordinal) < 6 := by
+      simpa using (Nat.cast_lt).2 (by decide : (2 : ℕ) < 6)
+    have h6_le : (6 : Ordinal) ≤ mu (delta n) + mu s + 6 := by
+      have : (0 : Ordinal) ≤ mu (delta n) + mu s :=
+        add_nonneg (Ordinal.zero_le _) (Ordinal.zero_le _)
+      simpa [add_comm, add_left_comm, add_assoc]
+        using le_add_of_nonneg_left (a := (6 : Ordinal)) this
+    exact lt_of_lt_of_le h2_lt_6 h6_le
+
+  have hω2_lt_A : omega0 ^ (2 : Ordinal) < A := by
+    simpa [A] using opow_lt_opow_right hκ
+
+  ------------------------------------------------------------
+  -- 1 •   μ(recΔ)+1  already sits under A  (proved above)
+  ------------------------------------------------------------
+  -- split μ(recΔ)  :=  tower  +  rest
+  set tower : Ordinal := omega0 ^ (mu n + mu s + 6) with htower
+  set rest  : Ordinal := omega0 * (mu b + 1) + 1    with hrest
+  have hμ_def : mu (recΔ b s n) + 1 = tower + rest := by
+    simpa [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
+
+  -- sub-bounds from the existing proof
+  have htower_lt_A : tower < A := by
+    have : (mu n + mu s + 6 : Ordinal) <
+           mu (delta n) + mu s + 6 :=
+      add_lt_add_of_lt_of_le (mu_lt_delta n) (le_rfl)
+    simpa [tower, A] using opow_lt_opow_right this
+
+  have hrest_lt_A : rest < A := by
+    --  rest < ω²  and  ω² < A
+    have hcoeff : mu b + 1 < omega0 := by
+      -- Every natural      < ω
+      have : (∃ k : ℕ, mu b = k) ∨ omega0 ≤ mu b :=
+        eq_nat_or_omega0_le (mu b)
+      cases this with
+      | inl hfin =>
+          rcases hfin with ⟨k, rfl⟩
+          have : (k : Ordinal) + 1 < omega0 := by
+            simpa using Ordinal.add_one_lt_omega0 (k := k)
+          simpa using this
+      | inr hωle =>
+          -- If ω ≤ μ b then trivially μ b + 1 < ω·(μ b + 1) = rest ≤ A.
+          have : (1 : Ordinal) < omega0 := by
+            have : (0 : Ordinal) < omega0 := omega0_pos
+            exact lt_of_le_of_lt one_le_omega0 this
+          exact lt_trans this hω2_lt_A
+    have hmul : omega0 * (mu b + 1) < omega0 ^ (2 : Ordinal) := by
+      have : (mu b + 1) < omega0 := hcoeff
+      simpa [pow_two] using
+        Ordinal.mul_lt_mul_of_pos_left this omega0_pos
+    have : rest < omega0 ^ (2 : Ordinal) := by
+      -- adding 1 keeps us below ω²
+      have : (omega0 * (mu b + 1)) < omega0 ^ (2 : Ordinal) := hmul
+      exact
+        lt_of_lt_of_le this
+          (le_of_lt (lt_add_of_pos_right _ zero_lt_one))
+    exact lt_of_lt_of_le this (le_of_lt hω2_lt_A)
+
+  -- principal-additive helper folds tower + rest
+  have hμ_lt_A : mu (recΔ b s n) + 1 < A := by
+    -- ω^κ (κ>0) is additively principal
+    have hprin : Principal (fun x y : Ordinal => x + y) A :=
+      by
+        have : Principal (fun x y : Ordinal => x + y)
+                (omega0 ^ (mu (delta n) + mu s + 6)) :=
+          Ordinal.principal_add_omega0_opow (mu (delta n) + mu s + 6)
+        simpa [A] using this
+    have : tower + rest < A := hprin htower_lt_A hrest_lt_A
+    simpa [hμ_def] using this
+
+  ------------------------------------------------------------
+  -- 2 •  finally  ω²·(μ+1) < A
+  ------------------------------------------------------------
+  -- Step 2.1   ω²·(μ+1)  ≤  ω^(μ+3)            (termB_le)
+  have hprod₁ :
+      omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
+      omega0 ^ (mu (recΔ b s n) + 3) :=
     termB_le (x := mu (recΔ b s n))
 
-  ------------------------------------------------------------------
-  -- 2 ▸  Exponent inequality   μ(recΔ)+3 < μ(δ n)+μ s+6
-  ------------------------------------------------------------------
-  -- First,  μ(recΔ)  is dominated by the big tower in its own definition.
-  have h_rec_lt :
-      mu (recΔ b s n) <
-        omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1) + 1 := by
-    simpa [mu] using
-      lt_add_of_pos_right
-        (omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1))
-        zero_lt_one
+  -- Step 2.2   exponent gap    μ(recΔ)+3 < κ      (κ := μ(δ n)+μ s+6)
+  have hexp : mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
+    -- because μ(recΔ)+1 < A = ω^κ  ⇒  μ(recΔ) < ω^κ
+    -- hence its leading exponent is < κ, so adding finite `3` keeps it below κ
+    have : mu (recΔ b s n) + 1 < A := hμ_lt_A
+    -- From    x + 1 < ω^κ  we get   x < ω^κ   and therefore   x < κ
+    -- using Cantor-normal-form monotonicity packaged as:
+    have hbase : mu (recΔ b s n) < omega0 ^ (mu (delta n) + mu s + 6) :=
+      lt_of_lt_of_le (lt_pred_of_lt this) (le_of_eq rfl)
+    -- `opow_lt_opow_right` is strict-mono, so exponents compare.
+    have : mu (recΔ b s n) < mu (delta n) + mu s + 6 :=
+      (Ordinal.isNormal_opow (a := omega0) one_lt_omega0).strictMono_iff.1
+        hbase
+    -- finally add the finite 3 on both sides
+    simpa [add_comm, add_left_comm, add_assoc]
+      using add_lt_add_right this 3
 
-  -- Next,  ω^(μ n+μ s+6)  sits strictly below  ω^(μ δ n+μ s+6)
-  -- because  μ n < μ δ n.
-  have h_tower_lt :
-      omega0 ^ (mu n + mu s + 6) <
-      omega0 ^ (mu (delta n) + mu s + 6) :=
-    opow_lt_opow_right
-      (add_lt_add_of_lt_of_le (mu_lt_delta n) (le_rfl))
-
-  -- Hence  μ(recΔ)  is itself < that larger tower.
-  have hμ_lt :
-      mu (recΔ b s n) <
-      omega0 ^ (mu (delta n) + mu s + 6) :=
-    lt_of_lt_of_le h_rec_lt (le_of_lt h_tower_lt)
-
-  -- Adding the finite 3 keeps it below the same tower,
-  -- so we get the desired exponent inequality.
-  have h_exp :
-      (mu (recΔ b s n) + 3 : Ordinal) <
-      mu (delta n) + mu s + 6 :=
-    lt_of_lt_of_le
-      (add_lt_add_right hμ_lt 3)
-      (le_rfl)
-
-  ------------------------------------------------------------------
-  -- 3 ▸  Lift through ω-powers
-  ------------------------------------------------------------------
-  have h₂ :
+  -- Step 2.3   ω^(μ+3) < ω^κ   (strict-mono of ω^·)
+  have hprod₂ :
       omega0 ^ (mu (recΔ b s n) + 3) <
       omega0 ^ (mu (delta n) + mu s + 6) :=
-    opow_lt_opow_right h_exp
+    opow_lt_opow_right hexp
 
-  ------------------------------------------------------------------
-  -- 4 ▸  Combine the two comparisons
-  ------------------------------------------------------------------
-  exact lt_of_le_of_lt h₁ (by
-    simpa [A] using h₂)
-
-
-
-
-
-
-
-
--- lemma tail_lt_A {b s n : Trace} :
---   let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
---   omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
---   intro A
-
---   ------------------------------------------------------------------
---   -- 0 ▸ shorthands & positivity
---   ------------------------------------------------------------------
---   have hκ : 0 < mu (delta n) + mu s + 6 := by
---     have : ((0 : ℕ) : Ordinal) < 6 := by norm_num
---     have : (6 : Ordinal) ≤ mu (delta n) + mu s + 6 := by
---       have : (0 : Ordinal) ≤ mu (delta n) + mu s := by
---         exact add_nonneg (zero_le _) (zero_le _)
---       simpa [add_comm, add_left_comm, add_assoc] using add_le_add_left this 6
---     exact lt_of_lt_of_le ‹_› ‹_›
---   have hposA : 0 < A := by
---     simpa [A] using opow_pos (a := omega0) (b := _) omega0_pos
-
---   ------------------------------------------------------------------
---   -- 1 ▸ `ω² < A`   (simple exponent comparison `2 < κ`)
---   ------------------------------------------------------------------
---   have hω2 : omega0 ^ (2 : Ordinal) < A := by
---     have h_exp : (2 : Ordinal) < mu (delta n) + mu s + 6 := by
---       have : ((2 : ℕ) : Ordinal) < (6 : Ordinal) := by norm_num
---       exact lt_of_lt_of_le this (by
---         simpa [add_comm, add_left_comm, add_assoc] using
---           le_add_of_nonneg_left (show (0 : Ordinal) ≤ mu (delta n) + mu s from
---             add_nonneg (zero_le _) (zero_le _)))
---     simpa [A] using opow_lt_opow_right h_exp      -- § 2.4 toolkit lemma
-
---   ------------------------------------------------------------------
---   -- 2 ▸ `μ(recΔ)+1 < A`
---   ------------------------------------------------------------------
---   -- (a) first, `ω^{μ n + μ s + 6} < A` because μ n < μ δ n
---   have hexp : mu n + mu s + 6 < mu (delta n) + mu s + 6 :=
---     add_lt_add_of_lt_of_le (mu_lt_delta n) (le_rfl)
---   have htower : omega0 ^ (mu n + mu s + 6) < A := by
---     simpa [A] using opow_lt_opow_right hexp
-
---   -- (b) the “rest” part  ω·(μ b+1)+1 is below that tower
---   have hrest : omega0 * (mu b + 1) + 1 < omega0 ^ (mu n + mu s + 6) := by
---     have hbase : omega0 * (mu b + 1) < omega0 ^ (mu n + mu s + 6) := by
---       have hpos : (0 : Ordinal) < mu n + mu s + 6 :=
---         lt_of_le_of_lt (bot_le) (lt_add_of_pos_right _ (by norm_num))
---       exact Ordinal.mul_lt_opow_of_base_lt _ hpos (by norm_num)
---     exact add_lt_add_left hbase 1
-
---   -- (c) principal-segment helper folds tower + rest under `A`
---   have hμ  : mu (recΔ b s n) + 1 < A := by
---     have hsum :
---         omega0 ^ (mu n + mu s + 6) + (omega0 * (mu b + 1) + 1) < A :=
---       omega_pow_add_lt (by norm_num) htower (by
---         exact lt_of_lt_of_le hrest (le_of_lt htower))
---     -- unfold μ(recΔ)
---     simpa [mu] using add_lt_add_right hsum 1
-
---   ------------------------------------------------------------------
---   -- 3 ▸ product under `A` via multiplicative principal
---   ------------------------------------------------------------------
---   have hprin :
---       Principal (fun x y : Ordinal => x * y) A := by
---     -- `A = ω^κ` with κ>0, so use mathlib helper
---     have : Principal (fun x y : Ordinal => x * y) (omega0 ^
---         (mu (delta n) + mu s + 6)) :=
---       Ordinal.principal_mul_omega0_opow _
---     simpa [A] using this
---   have : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A :=
---     hprin hω2.le hμ         -- `.le` because principal‐def takes ≤ on each arg
---   simpa using this
-
+  -- Step 2.4   chain ≤ then <   ⇒   <
+  exact lt_of_le_of_lt hprod₁ hprod₂
 
 
 
