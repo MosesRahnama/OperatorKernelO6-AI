@@ -19,6 +19,9 @@ import Mathlib.Tactic
 
 
 
+
+-- set_option tactic.proofRecErrorTolerance 0  -- Make proof errors fail compilation
+
 set_option linter.unnecessarySimpa false
 
 open Ordinal
@@ -617,7 +620,7 @@ theorem coeff_lt_A (s n : Trace) :
     -- since `0 ≤ μ(δ n)` we can insert that non-neg term on the left
     have hμ : (0 : Ordinal) ≤ mu (delta n) := Ordinal.zero_le _
     have h_le : (mu s) ≤ mu (delta n) + mu s :=
-      (le_add_of_nonneg_left (a := mu s) hμ)
+      (le_add_of_nonneg_left hμ)
     -- add `3` on the right (left-mono in ordinal addition)
     simpa [add_comm, add_left_comm, add_assoc]
       using add_le_add_right h_le 3
@@ -845,9 +848,13 @@ set_option trace.compiler.ir.result true
 -- set_option pp.universes true (rarely needed)
 -- set_option trace.Meta.isDefEq true (use only for a single failing goal)
 -- Variation 3: Unfold definitions carefully
-
-
--- … existing imports …
+-- -- Add these settings at the top of the file to make errors visible
+-- set_option pp.proofs true
+-- -- Remove invalid options and add useful ones
+set_option trace.Meta.Tactic true        -- Keep this one for tactic debugging
+-- set_option trace.Meta.debug true      -- Too verbose, commented out
+-- set_option diagnostics true              -- Enable diagnostics
+-- set_option maxRecDepth 1000              -- Prevent recursion errors
 
 -- ------------------------------------------------------------------
 --  Tail payload is below the big tower
@@ -857,96 +864,40 @@ lemma tail_lt_A {b s n : Trace} :
     omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
 
-  ------------------------------------------------------------------
-  -- Step 1.  `tail ≤ ω^(μ(rec)+3)`
-  ------------------------------------------------------------------
-  have h_coeff :
-      omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
-      omega0 ^ (mu (recΔ b s n) + 3) :=
-    termB_le (x := mu (recΔ b s n))
+  -- Set α := μ n + μ s + 6 for clarity
+  set α : Ordinal := mu n + mu s + 6 with hα
 
-  ------------------------------------------------------------------
-  -- Step 2.  Show   μ(rec) + 3 < μ(δ n) + μ s + 6
-  --         via  ω-powers and strict monotonicity
-  ------------------------------------------------------------------
-  -- 2a.  First prove `ω ^ μ(rec) < A`.
-  have hpow_left :
-      omega0 ^ (mu (recΔ b s n)) < A := by
-    --   μ(rec)  < μ(rec)+1
-    have hlt : mu (recΔ b s n) < mu (recΔ b s n) + 1 :=
-      lt_add_one _
-    --   ω^μ(rec) < ω^(μ(rec)+1)
-    have hpow := (isNormal_opow one_lt_omega0).strictMono hlt
-    --   need  ω^(μ(rec)+1) < A;  use principal-segment property of A
-    have hμ1_lt : (mu (recΔ b s n) + 1) < A := by
-      -- A is additive-principal ⇒ x< A ∧ y< A ⇒ x+y < A.
-      have hprin : Principal (fun x y : Ordinal => x + y) A :=
-        principal_add_omega0_opow (mu (delta n) + mu s + 6)
-      --   tower < A (strict because δ n bumps exponent)
-      have htower : omega0 ^ (mu n + mu s + 6) < A := by
-        have h_exp : (mu n + mu s + 6) < (mu (delta n) + mu s + 6) := by
-          have := mu_lt_delta n
-          simpa [add_comm, add_left_comm, add_assoc] using
-            add_lt_add_left this (mu s + 6)
-        exact opow_lt_opow_right h_exp
-      --   rest < ω² < A   (simple bound)
-      have hrest : omega0 * (mu b + 1) + 2 < omega0 ^ (2 : Ordinal) := by
-        have h0 : (mu b) < omega0 := (nat_lt_omega0 _).trans_le
-          (le_of_lt_add_of_pos (zero_lt_two))
-        have : omega0 * (mu b + 1) < omega0 * omega0 :=
-          Ordinal.mul_lt_mul_of_pos_left (add_lt_add_right h0 1) omega0_pos
-        have h2 : (2 : Ordinal) < omega0 := nat_lt_omega0 _
-        have : omega0 * (mu b + 1) + 2 < omega0 * omega0 + omega0 :=
-          add_lt_add_of_lt_of_lt this h2
-        simpa [mul_comm] using
-          (add_lt_add_left (lt_of_lt_of_le this (add_le_add_right
-              (le_of_eq (add_omega0_left _).symm) _)) _)
-      -- combine via principal segment
-      have hμ1 : mu (recΔ b s n) + 1 =
-          omega0 ^ (mu n + mu s + 6) + (omega0 * (mu b + 1) + 2) := by
-        simp [mu]
-      have : (omega0 ^ (mu n + mu s + 6)) <
-          A := htower
-      have : (omega0 * (mu b + 1) + 2) < A := lt_trans hrest
-        (show omega0 ^ (2 : Ordinal) < A from
-          opow_lt_opow_right
-            (by
-              have : (2 : Ordinal) < mu (delta n) + mu s + 6 := by
-                have := (by norm_num : (2 : Ordinal) < 6)
-                exact this.trans_le (by
-                  have : (0 : Ordinal) ≤ _ := by
-                    exact (Ordinal.add_nonneg (Ordinal.zero_le _) (Ordinal.zero_le _))
-                  simpa using le_add_of_nonneg_left this)
-              exact this))
-      have := hprin this (lt_of_le_of_lt (le_of_eq hμ1) this)
-      simpa [hμ1] using this
-    exact lt_of_lt_of_le hpow hμ1_lt
+  -- Step 1: ω²·(μ(recΔ)+1) ≤ ω^(μ(recΔ)+3)
+  have h_step1 : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
+                 omega0 ^ (mu (recΔ b s n) + 3) :=
+    termB_le (mu (recΔ b s n))
 
-  -- 2b.  Strict-mono ⇒ inequality on exponents.
-  have hgap :
-      mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
-    have hmono := (isNormal_opow one_lt_omega0).strictMono_iff
-    --  ω^(μ(rec)+3) < A  because  ω^(μ(rec)) < A  and multiplying by ω³.
-    have hpow_lt : omega0 ^ (mu (recΔ b s n) + 3) < A := by
-      have : omega0 ^ (mu (recΔ b s n) + 3) =
-          omega0 ^ (mu (recΔ b s n)) * omega0 ^ (3 : Ordinal) := by
-        simpa [opow_add] using (opow_add _ _ _).symm
-      have := Ordinal.mul_lt_mul_of_pos_right hpow_left
-        (opow_pos _ _)
-      simpa [this] using this
-    have := hmono.1 hpow_lt
-    -- subtract 3 on both sides
-    have : mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 :=
-      (add_lt_add_iff_right _).1 this
-    simpa using this
+  -- Step 2: Show μ(recΔ) + 3 < μ(δ n) + μ s + 6
+  have h_step2 : mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
+    -- First prove μ(recΔ) < ω^α
+    have h_rec_bound : mu (recΔ b s n) < omega0 ^ α := by
+      simp [mu, hα]
+      have h_pos : (0 : Ordinal) < α := by
+        simp [hα]
+        exact zero_lt_one.trans_le (le_add_of_nonneg_right _ (Ordinal.zero_le _))
+      exact opow_mul_lt_of_exp_lt h_pos (nat_lt_omega0 _)
 
-  ------------------------------------------------------------------
-  -- Step 3.  Now chain inequalities:
-  ------------------------------------------------------------------
-  have hpow_lt_tail :
-      omega0 ^ (mu (recΔ b s n) + 3) < A :=
-    opow_lt_opow_right hgap
-  exact lt_of_le_of_lt h_coeff hpow_lt_tail
+    -- Then show μ n < μ(δ n)
+    have h_n_lt_delta : mu n < mu (delta n) := mu_lt_delta n
+
+    -- μ(recΔ) + 3 < ω^α + 3 < ω^(α+1) < μ(δ n) + μ s + 6
+    have h1 : mu (recΔ b s n) + 3 < omega0 ^ α + 3 :=
+      add_lt_add_right h_rec_bound 3
+    have h2 : mu n + mu s + 6 < mu (delta n) + mu s + 6 :=
+      add_lt_add_right (add_lt_add_left h_n_lt_delta _) _
+
+    exact lt_trans h1 (lt_of_le_of_lt (le_add_right _ _) h2)
+
+  -- Step 3: Chain the inequalities to get the final result
+  have h_chain : omega0 ^ (mu (recΔ b s n) + 3) < A := by
+    exact opow_lt_opow_right h_step2
+
+  exact lt_of_le_of_lt h_step1 h_chain
 
 
 -- -- § Finishing `mu_merge_lt_rec` --------------------------------
@@ -1084,3 +1035,19 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hk : KernelStep y x := hxy
   have hdec : mu x < mu y := mu_decreases hk
   simpa using hdec
+
+namespace _dup  -- ADD THIS LINE HERE
+
+def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
+
+theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
+  refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
+  intro x y hxy
+  have hk : KernelStep y x := hxy
+  have hdec : mu x < mu y := mu_decreases hk
+  simpa using hdec
+
+end _dup  -- ADD THIS LINE HERE
+
+-- Delete everything after this line
+-- Delete everything after this line
