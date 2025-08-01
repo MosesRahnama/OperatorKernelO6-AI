@@ -1,231 +1,42 @@
-Termination.lean:920:38
-Tactic state
-No goals
-Expected type
-b s n : Trace
-A : Ordinal.{u_1} := ⋯
-h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
-tower : Ordinal.{u_1} := ⋯
-htower : tower = ω ^ (mu n + mu s + 6)
-rest : Ordinal.{u_1} := ⋯
-hrest : rest = ω * (mu b + 1) + 2
-hμ_split : mu (b.recΔ s n) + 1 = tower + rest
-htower_lt : tower < A
-h₁ : rest < ω ^ 2
-h₂ : ω ^ 2 < A
-hrest_lt : rest < A
-hμ1_lt : mu (b.recΔ s n) + 1 < A
-hgap : mu (b.recΔ s n) + 3 < mu n.delta + mu s + 6
-hpow_lt : ω ^ (mu (b.recΔ s n) + 3) < A
-⊢ ω ^ (mu (b.recΔ s n) + 3) < A
-Messages (2)
-Termination.lean:834:0
+OrdinalExtras.lean:31:48
+No info found.
+All Messages (5)
+OrdinalExtras.lean:18:0
 [diag] Diagnostics ▼
-  [kernel] unfolded declarations (max: 203, num: 5): ▶
+  [reduction] unfolded declarations (max: 309, num: 1): ▶
+  [reduction] unfolded instances (max: 1093, num: 12): ▶
+  [reduction] unfolded reducible declarations (max: 103, num: 1): ▼
+    [] Quotient.lift.{u, v} ↦ 103 
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:834:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 3895, num: 18): ▶
-  [reduction] unfolded instances (max: 6604, num: 40): ▶
-  [reduction] unfolded reducible declarations (max: 2793, num: 9): ▶
-  [def_eq] heuristic for solving `f a =?= f b` (max: 972, num: 2): ▶
-  [kernel] unfolded declarations (max: 203, num: 5): ▶
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-All Messages (24)
-Termination.lean:822:2
-[Meta.Tactic.simp.rewrite] eq_self:1000:
-      a + 2 = a + 2
+OrdinalExtras.lean:23:2
+[Meta.Tactic.simp.rewrite] ge_iff_le.{u_1}:1000:
+      @LE.le.{u_1 + 1} Ordinal.{u_1}
+        (@Preorder.toLE.{u_1 + 1} Ordinal.{u_1} (@PartialOrder.toPreorder.{u_1 + 1} Ordinal.{u_1} partialOrder.{u_1})) a
+        (@HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+          (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1}) a c)
     ==>
-      True 
-Termination.lean:832:3
-unknown identifier 'opow_bit0'
-Termination.lean:850:29
-This simp argument is unused:
-  add_comm
-
-Hint: Omit it from the simp argument list.
-  simp [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:850:39
-This simp argument is unused:
-  add_left_comm
-
-Hint: Omit it from the simp argument list.
-  simp [mu, htower, hrest, add_comm, add_left_comm, add_assoc]
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:850:4
-[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n + mu s + 6
+      @LE.le.{u_1 + 1} Ordinal.{u_1}
+        (@Preorder.toLE.{u_1 + 1} Ordinal.{u_1} (@PartialOrder.toPreorder.{u_1 + 1} Ordinal.{u_1} partialOrder.{u_1})) a
+        (@HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+          (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1}) a c) 
+[Meta.Tactic.simp.rewrite] add_zero.{u}:1000:
+      @HAdd.hAdd.{u_1 + 1, u_1 + 1, u_1 + 1} Ordinal.{u_1} Ordinal.{u_1} Ordinal.{u_1}
+        (@instHAdd.{u_1 + 1} Ordinal.{u_1} add.{u_1}) a
+        (@OfNat.ofNat.{u_1 + 1} Ordinal.{u_1} (nat_lit 0) (@Zero.toOfNat0.{u_1 + 1} Ordinal.{u_1} zero.{u_1}))
     ==>
-      mu n + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      mu b + 1
-    ==>
-      Order.succ (mu b) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      ω ^ (mu n + (mu s + 6)) + ω * Order.succ (mu b) + 1
-    ==>
-      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 1) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      ω * Order.succ (mu b) + 1
-    ==>
-      Order.succ (ω * Order.succ (mu b)) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      ω ^ (mu n + (mu s + 6)) + Order.succ (ω * Order.succ (mu b)) + 1
-    ==>
-      ω ^ (mu n + (mu s + 6)) + (Order.succ (ω * Order.succ (mu b)) + 1) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      Order.succ (ω * Order.succ (mu b)) + 1
-    ==>
-      Order.succ (Order.succ (ω * Order.succ (mu b))) 
-[Meta.Tactic.simp.rewrite] succ_succ:1000:
-      Order.succ (Order.succ (ω * Order.succ (mu b)))
-    ==>
-      ω * Order.succ (mu b) + 2 
-[Meta.Tactic.simp.rewrite] htower:1000:
-      tower
-    ==>
-      ω ^ (mu n + mu s + 6) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n + mu s + 6
-    ==>
-      mu n + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] hrest:1000:
-      rest
-    ==>
-      ω * (mu b + 1) + 2 
-[Meta.Tactic.simp.rewrite] eq_self:1000:
-      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 2) = ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 2)
-    ==>
-      True 
-Termination.lean:856:55
+      a 
+OrdinalExtras.lean:32:5
 failed to synthesize
-  AddRightStrictMono Ordinal.{?u.40292}
-Termination.lean:856:6
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n + mu s + 6
-    ==>
-      mu n + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n.delta + mu s + 6
-    ==>
-      mu n.delta + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      mu n + (mu s + 6) < mu n.delta + (mu s + 6)
-    ==>
-      mu n + (mu s + 6) < mu n.delta + (mu s + 6) 
-Termination.lean:857:4
-[Meta.Tactic.simp.rewrite] htower:1000:
-      tower
-    ==>
-      ω ^ (mu n + mu s + 6) 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      ω ^ (mu n + mu s + 6) < A
-    ==>
-      ω ^ (mu n + mu s + 6) < A 
-Termination.lean:864:34
+  HPow.{?u.200 + 1, ?u.186 + 1, ?u.193} Ordinal.{?u.200} Ordinal.{?u.186} ?m.221
+OrdinalExtras.lean:33:30
 failed to synthesize
-  AddRightStrictMono Ordinal.{?u.44316}
-Termination.lean:868:8
-failed to synthesize
-  AddRightStrictMono Ordinal.{?u.51987}
-Termination.lean:870:6
-type mismatch
-  this
-has type
-  ω * (mu b + 1) + 2 < ω * ω + 2 : Prop
-but is expected to have type
-  rest < ω * ω : Prop
-Termination.lean:874:8
-type mismatch
-  add_le_add_right hω 1
-has type
-  ω + 1 ≤ mu b + 1 : Prop
-but is expected to have type
-  ω ≤ mu b + 1 : Prop
-Termination.lean:876:8
-type mismatch
-  mul_le_mul_left' hμ1 ω
-has type
-  ω * ω ≤ ω * (mu b + 1) : Prop
-but is expected to have type
-  ω * (mu b + 1) ≤ ω * ω : Prop
-Termination.lean:878:8
-[Meta.Tactic.simp.rewrite] hrest:1000:
-      rest
-    ==>
-      ω * (mu b + 1) + 2 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      mu b + 1
-    ==>
-      Order.succ (mu b) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      mu b + 1
-    ==>
-      Order.succ (mu b) 
-Termination.lean:883:31
-failed to synthesize
-  AddRightStrictMono Ordinal.{?u.83104}
-Termination.lean:883:68
-Application type mismatch: In the application
-  lt_add_of_pos_left (ω * ω) h2lt
-the argument
-  h2lt
-has type
-  2 < ω : Prop
-but is expected to have type
-  0 < ?m.83693 : Prop
-Termination.lean:883:8
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      2 + ω * ω < ω * ω
-    ==>
-      2 + ω * ω < ω * ω 
-Termination.lean:884:44
-Application type mismatch: In the application
-  lt_of_le_of_lt this
-the argument
-  this
-has type
-  2 + ω * ω < ω * ω : Prop
-but is expected to have type
-  rest ≤ 2 + ω * ω : Prop
-Termination.lean:884:6
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      rest < ω * ω
-    ==>
-      rest < ω * ω 
-Termination.lean:901:4
-[Meta.Tactic.simp.rewrite] hμ_split:1000:
-      mu (b.recΔ s n) + 1
-    ==>
-      tower + rest 
-[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      tower + rest < A
-    ==>
-      tower + rest < A 
-Termination.lean:909:48
-Application type mismatch: In the application
-  lt_of_le_of_lt le_rfl hμ1_lt
-the argument
-  hμ1_lt
-has type
-  mu (b.recΔ s n) + 1 < A : Prop
-but is expected to have type
-  ω ^ (mu (b.recΔ s n) + 1) < A : Prop
-Termination.lean:913:10
-unknown identifier 'lt_of_lt_of_lt'
-Termination.lean:834:0
-[diag] Diagnostics ▼
-  [kernel] unfolded declarations (max: 203, num: 5): ▶
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:834:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 3895, num: 18): ▶
-  [reduction] unfolded instances (max: 6604, num: 40): ▶
-  [reduction] unfolded reducible declarations (max: 2793, num: 9): ▶
-  [def_eq] heuristic for solving `f a =?= f b` (max: 972, num: 2): ▶
-  [kernel] unfolded declarations (max: 203, num: 5): ▶
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+  HPow.{?u.301 + 1, ?u.296 + 1, ?u.298} Ordinal.{?u.301} Ordinal.{?u.296} ?m.304
+OrdinalExtras.lean:32:41
+unsolved goals
+a b : Ordinal.{u_1}
+⊢ Iff
+  (sorryAx.{1} (Unit → Prop) true
+    (@Function.const.{1, 1} Unit Lean.Name Unit.unit
+      `OperatorKernelO6.Meta.OrdinalExtras.32.5.32.28.5.28._sorry._@.OperatorKernelO6.Meta.OrdinalExtras._hyg.51))
+  (@LT.lt.{u_1 + 1} Ordinal.{u_1}
+    (@Preorder.toLT.{u_1 + 1} Ordinal.{u_1} (@PartialOrder.toPreorder.{u_1 + 1} Ordinal.{u_1} partialOrder.{u_1})) a b)

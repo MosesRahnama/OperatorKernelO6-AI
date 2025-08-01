@@ -1,60 +1,23 @@
-Termination.lean:831:0
-No info found.
-All Messages (23)
-Termination.lean:844:4
-[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n + mu s + 6
-    ==>
-      mu n + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      mu b + 1
-    ==>
-      Order.succ (mu b) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      ω ^ (mu n + (mu s + 6)) + ω * Order.succ (mu b) + 1
-    ==>
-      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 1) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      ω * Order.succ (mu b) + 1
-    ==>
-      Order.succ (ω * Order.succ (mu b)) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      ω ^ (mu n + (mu s + 6)) + Order.succ (ω * Order.succ (mu b)) + 1
-    ==>
-      ω ^ (mu n + (mu s + 6)) + (Order.succ (ω * Order.succ (mu b)) + 1) 
-[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
-      Order.succ (ω * Order.succ (mu b)) + 1
-    ==>
-      Order.succ (Order.succ (ω * Order.succ (mu b))) 
-[Meta.Tactic.simp.rewrite] succ_succ:1000:
-      Order.succ (Order.succ (ω * Order.succ (mu b)))
-    ==>
-      ω * Order.succ (mu b) + 2 
-[Meta.Tactic.simp.rewrite] htower:1000:
-      tower
-    ==>
-      ω ^ (mu n + mu s + 6) 
-[Meta.Tactic.simp.rewrite] add_assoc:1000:
-      mu n + mu s + 6
-    ==>
-      mu n + (mu s + 6) 
-[Meta.Tactic.simp.rewrite] hrest:1000:
-      rest
-    ==>
-      ω * (mu b + 1) + 2 
-[Meta.Tactic.simp.rewrite] eq_self:1000:
-      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 2) = ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 2)
-    ==>
-      True 
-Termination.lean:848:6
+Termination.lean:867:58
+Tactic state
+1 goal
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+hlt : mu (b.recΔ s n) < mu (b.recΔ s n) + 1
+hpow : ω ^ mu (b.recΔ s n) < ω ^ (mu (b.recΔ s n) + 1)
+hprin : Principal (fun x y => x + y) A
+this h✝ : mu n < mu n.delta
+⊢ mu n + (mu s + 6) < mu n.delta + (mu s + 6)
+Messages (3)
+Termination.lean:867:10
 type mismatch, term
-  add_lt_add_left h (mu s + 6)
+  add_lt_add_left this (mu s + 6)
 after simplification has type
   mu n < mu n.delta : Prop
 but is expected to have type
   mu n + (mu s + 6) < mu n.delta + (mu s + 6) : Prop
-Termination.lean:848:6
+Termination.lean:867:10
 [Meta.Tactic.simp.rewrite] add_assoc:1000:
       mu n + mu s + 6
     ==>
@@ -83,15 +46,166 @@ Termination.lean:848:6
       6 + mu n < 6 + mu n.delta
     ==>
       mu n < mu n.delta 
-Termination.lean:849:4
-[Meta.Tactic.simp.rewrite] htower:1000:
-      tower
+Termination.lean:833:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 1812, num: 15): ▶
+  [reduction] unfolded instances (max: 1232, num: 16): ▶
+  [reduction] unfolded reducible declarations (max: 2031, num: 9): ▼
+    [] Quotient.lift ↦ 2031 
+    [] Quotient.liftOn₂ ↦ 1675 
+    [] Quotient.lift₂ ↦ 1675 
+    [] casesOn ↦ 720 
+    [] outParam ↦ 598 
+    [] Decidable.casesOn ↦ 291 
+    [] WellOrder.casesOn ↦ 136 
+    [] Nat.casesOn ↦ 134 
+    [] Nat.cast ↦ 132 
+  [def_eq] heuristic for solving `f a =?= f b` (max: 423, num: 2): ▼
+    [] instHAdd ↦ 423 
+    [] Add.add ↦ 104 
+use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+All Messages (38)
+Termination.lean:867:10
+type mismatch, term
+  add_lt_add_left this (mu s + 6)
+after simplification has type
+  mu n < mu n.delta : Prop
+but is expected to have type
+  mu n + (mu s + 6) < mu n.delta + (mu s + 6) : Prop
+Termination.lean:867:10
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n + mu s + 6
     ==>
-      ω ^ (mu n + mu s + 6) 
+      mu n + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n.delta + mu s + 6
+    ==>
+      mu n.delta + (mu s + 6) 
 [Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
-      ω ^ (mu n + mu s + 6) < A
+      mu n + (mu s + 6) < mu n.delta + (mu s + 6)
     ==>
-      ω ^ (mu n + mu s + 6) < A 
-Termination.lean:854:34
-failed to synthesize
-  AddRightStrictMono Ordinal.{?u.43342}
+      mu n + (mu s + 6) < mu n.delta + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu s + 6 + mu n
+    ==>
+      mu s + (6 + mu n) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu s + 6 + mu n.delta
+    ==>
+      mu s + (6 + mu n.delta) 
+[Meta.Tactic.simp.rewrite] add_lt_add_iff_left:1000:
+      mu s + (6 + mu n) < mu s + (6 + mu n.delta)
+    ==>
+      6 + mu n < 6 + mu n.delta 
+[Meta.Tactic.simp.rewrite] add_lt_add_iff_left:1000:
+      6 + mu n < 6 + mu n.delta
+    ==>
+      mu n < mu n.delta 
+Termination.lean:873:11
+unknown constant 'Ordinal.le_of_lt_add_of_pos'
+Termination.lean:884:68
+unsolved goals
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+hlt : mu (b.recΔ s n) < mu (b.recΔ s n) + 1
+hpow : ω ^ mu (b.recΔ s n) < ω ^ (mu (b.recΔ s n) + 1)
+hprin : Principal (fun x y => x + y) A
+htower : ω ^ (mu n + mu s + 6) < A
+hrest : ω * (mu b + 1) + 2 < ω ^ 2
+⊢ ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 2 = ω ^ (mu n + mu s + 6) + (ω * Order.succ (mu b) + 2)
+Termination.lean:885:8
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] succ_succ:1000:
+      Order.succ (Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)))
+    ==>
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 2 
+Termination.lean:894:37
+unsolved goals
+b s n : Trace
+A : Ordinal.{u_1} := ω ^ (mu n.delta + mu s + 6)
+h_coeff : ω ^ 2 * (mu (b.recΔ s n) + 1) ≤ ω ^ (mu (b.recΔ s n) + 3)
+hlt : mu (b.recΔ s n) < mu (b.recΔ s n) + 1
+hpow : ω ^ mu (b.recΔ s n) < ω ^ (mu (b.recΔ s n) + 1)
+hprin : Principal (fun x y => x + y) A
+htower : ω ^ (mu n + mu s + 6) < A
+hrest : ω * (mu b + 1) + 2 < ω ^ 2
+hμ1 : mu (b.recΔ s n) + 1 = ω ^ (mu n + mu s + 6) + (ω * (mu b + 1) + 2)
+this✝ : ω ^ (mu n + mu s + 6) < A
+this : 2 < 6
+⊢ 6 ≤ mu n.delta + mu s + 6
+Termination.lean:899:56
+Application type mismatch: In the application
+  lt_of_le_of_lt (le_of_eq hμ1) this
+the argument
+  this
+has type
+  ω * (mu b + 1) + 2 < A : Prop
+but is expected to have type
+  ω ^ (mu n + mu s + 6) + (ω * (mu b + 1) + 2) < A : Prop
+Termination.lean:900:6
+type mismatch, term
+  this
+after simplification has type
+  ω * Order.succ (mu b) + 2 + (ω ^ (mu n + mu s + 6) + (ω * Order.succ (mu b) + 2)) < A : Prop
+but is expected to have type
+  ω ^ (mu n + mu s + 6) + (ω * Order.succ (mu b) + 2) < A : Prop
+Termination.lean:900:6
+[Meta.Tactic.simp.rewrite] hμ1:1000:
+      mu (b.recΔ s n) + 1
+    ==>
+      ω ^ (mu n + mu s + 6) + (ω * (mu b + 1) + 2) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      ω ^ (mu n + mu s + 6) + (ω * Order.succ (mu b) + 2) < A
+    ==>
+      ω ^ (mu n + mu s + 6) + (ω * Order.succ (mu b) + 2) < A 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] hμ1:1000:
+      mu (b.recΔ s n) + 1
+    ==>
+      ω ^ (mu n + mu s + 6) + (ω * (mu b + 1) + 2) 
+Termination.lean:901:30
+Application type mismatch: In the application
+  lt_of_lt_of_le hpow hμ1_lt
+the argument
+  hμ1_lt
+has type
+  mu (b.recΔ s n) + 1 < A : Prop
+but is expected to have type
+  ω ^ (mu (b.recΔ s n) + 1) ≤ A : Prop
+Termination.lean:906:18
+Invalid field `strictMono_iff`: The environment does not contain `Ordinal.IsNormal.strictMono_iff`
+  isNormal_opow one_lt_omega0
+has type
+  IsNormal fun x => ω ^ x
+Termination.lean:906:18
+Invalid field `strictMono_iff`: The environment does not contain `Order.IsNormal.strictMono_iff`
+  isNormal_opow one_lt_omega0
+has type
+  Order.IsNormal fun x => ω ^ x
+Termination.lean:833:0
+[diag] Diagnostics ▼
+  [reduction] unfolded declarations (max: 1812, num: 15): ▶
+  [reduction] unfolded instances (max: 1232, num: 16): ▶
+  [reduction] unfolded reducible declarations (max: 2031, num: 9): ▶
+  [def_eq] heuristic for solving `f a =?= f b` (max: 423, num: 2): ▶
+use `set_option diagnostics.threshold <num>` to control thre

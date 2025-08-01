@@ -1,3 +1,624 @@
+# Combined Lean files in OperatorMath
+
+## Arithmetic.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+def num : Nat → Trace
+| 0 => void
+| n+1 => delta (num n)
+
+@[simp] def toNat : Trace → Nat
+| void => 0
+| delta t => toNat t + 1
+| integrate t => toNat t
+| merge a b => toNat a + toNat b
+| recΔ _ _ n => toNat n
+| eqW _ _ => 0
+
+@[simp] theorem toNat_num (n : Nat) : toNat (num n) = n := by
+  induction n with
+  | zero => simp [num, toNat]
+  | succ n ih => simp [num, toNat, ih]
+
+def add (a b : Trace) : Trace := num (toNat a + toNat b)
+def mul (a b : Trace) : Trace := num (toNat a * toNat b)
+
+@[simp] theorem toNat_add (a b : Trace) : toNat (add a b) = toNat a + toNat b := by
+  simp [add, toNat_num]
+
+@[simp] theorem toNat_mul (a b : Trace) : toNat (mul a b) = toNat a * toNat b := by
+  simp [mul, toNat_num]
+
+end OperatorKernelO6.Meta
+
+```
+
+## Complement.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Confluence
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+-- Complement operation using integration
+def complement (t : Trace) : Trace := integrate t
+
+-- Negation is involutive via double integration cancellation
+theorem complement_involution (t : Trace) :
+  ∃ u, StepStar (complement (complement t)) u ∧ StepStar t u := by
+  unfold complement
+  cases t with
+  | void => 
+    use void
+    constructor
+    · apply stepstar_of_step; apply R_int_delta
+    · apply StepStar.refl
+  | delta s =>
+    use void  
+    constructor
+    · apply stepstar_of_step; apply R_int_delta
+    · sorry -- Need to show delta s reduces somehow
+  | integrate s =>
+    use s
+    constructor  
+    · apply stepstar_of_step; apply R_int_delta
+    · apply StepStar.refl
+  | merge a b =>
+    sorry -- Complex case
+  | recΔ b s n =>
+    sorry -- Complex case  
+  | eqW a b =>
+    sorry -- Complex case
+
+-- Complement uniqueness via normal forms
+theorem complement_unique {t u v : Trace} 
+  (h1 : StepStar (complement t) u) (h2 : StepStar (complement t) v)
+  (hu : NormalForm u) (hv : NormalForm v) : u = v := by
+  -- Use confluence to get common reduct, then use normal form uniqueness
+  have ⟨w, hw1, hw2⟩ := confluence h1 h2
+  have : u = w := nf_no_stepstar_forward hu hw1  
+  have : v = w := nf_no_stepstar_forward hv hw2
+  rw [‹u = w›, ‹v = w›]
+
+-- De Morgan laws
+theorem demorgan1 (a b : Trace) :
+  ∃ c d, StepStar (complement (merge a b)) c ∧
+         StepStar (merge (complement a) (complement b)) d ∧
+         ∃ e, StepStar c e ∧ StepStar d e := by
+  sorry -- Requires detailed case analysis
+
+theorem demorgan2 (a b : Trace) :
+  ∃ c d, StepStar (merge (complement a) (complement b)) c ∧
+         StepStar (complement (merge a b)) d ∧  
+         ∃ e, StepStar c e ∧ StepStar d e := by
+  sorry -- Dual of demorgan1
+
+end OperatorKernelO6.Meta
+
+```
+
+## Confluence.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import Init.WF
+import OperatorKernelO6.Meta.Normalize
+
+open OperatorKernelO6 Trace Step
+namespace OperatorKernelO6.Meta
+
+def Confluent : Prop :=
+  ∀ {a b c}, StepStar a b → StepStar a c → ∃ d, StepStar b d ∧ StepStar c d
+
+theorem global_confluence : Confluent :=
+  confluent_via_normalize
+
+end OperatorKernelO6.Meta
+
+```
+
+## Equality.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Meta
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+-- Equality predicate using eqW
+def eq_trace (a b : Trace) : Trace := eqW a b
+
+-- Equality reflection: if eqW a b reduces to void, then a and b are equal
+theorem eq_refl_reduces (a : Trace) : StepStar (eq_trace a a) void := by
+  unfold eq_trace
+  apply stepstar_of_step
+  apply R_eq_refl
+
+-- Inequality witness: if a ≠ b, then eqW a b reduces to integrate (merge a b)
+theorem eq_diff_reduces (a b : Trace) : 
+  StepStar (eq_trace a b) (integrate (merge a b)) := by
+  unfold eq_trace
+  apply stepstar_of_step  
+  apply R_eq_diff
+
+-- Equality is decidable in normal forms
+def eq_decidable (a b : Trace) (ha : NormalForm a) (hb : NormalForm b) : 
+  (a = b) ∨ (a ≠ b) := by
+  classical
+  exact Classical.em (a = b)
+
+-- Equality properties
+theorem eq_symm (a b : Trace) :
+  ∃ c, StepStar (eq_trace a b) c ∧ StepStar (eq_trace b a) c := by
+  cases Classical.em (a = b) with
+  | inl h => 
+    rw [h]
+    use void
+    constructor <;> apply eq_refl_reduces
+  | inr h =>
+    use integrate (merge a b)
+    constructor
+    · apply eq_diff_reduces
+    · rw [merge_comm] at *; apply eq_diff_reduces
+  where
+    merge_comm : merge a b = merge b a := by sorry -- Needs confluence
+
+theorem eq_trans (a b c : Trace) :
+  ∃ d e f, StepStar (eq_trace a b) d ∧ 
+           StepStar (eq_trace b c) e ∧
+           StepStar (eq_trace a c) f := by
+  sorry -- Complex, requires case analysis and confluence
+
+-- Equality substitution in contexts
+def subst_context (ctx : Trace → Trace) (a b : Trace) : Trace :=
+  integrate (merge (ctx a) (ctx b))
+
+theorem eq_substitution (a b : Trace) (ctx : Trace → Trace) :
+  StepStar (eq_trace a b) void → 
+  ∃ d, StepStar (subst_context ctx a b) d := by
+  sorry -- Requires careful analysis of context structure
+
+end OperatorKernelO6.Meta
+
+```
+
+## FixedPoint.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.SN
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+-- Normalization function (placeholder - uses strong normalization)
+def normalize (t : Trace) : Trace := by
+  -- In a complete implementation, this would reduce t to normal form
+  -- For now, we'll use a placeholder that relies on strong normalization
+  sorry
+
+-- Equivalence via normalization
+def Equiv (x y : Trace) : Prop := normalize x = normalize y
+
+-- Fixed point witness structure
+structure FixpointWitness (F : Trace → Trace) where
+  ψ     : Trace
+  fixed : Equiv ψ (F ψ)
+
+-- Constructor for fixed point witness
+theorem mk_fixed {F} {ψ} (h : Equiv ψ (F ψ)) : FixpointWitness F :=
+⟨ψ, h⟩
+
+-- Idempotent functions have fixed points
+theorem idemp_fixed {F : Trace → Trace}
+  (h : ∀ t, Equiv (F t) (F (F t))) :
+  FixpointWitness F :=
+⟨F Trace.void, by
+  have := h Trace.void
+  exact this⟩
+
+-- Fixed point theorem for continuous functions (diagonal construction)
+theorem diagonal_fixed (F : Trace → Trace) : ∃ ψ, Equiv ψ (F ψ) := by
+  -- This is the key theorem for Gödel's diagonal lemma
+  let diag := λ x => F (recΔ x x x)  -- Self-application via recΔ
+  let ψ := diag (delta void)         -- Apply to some base term
+  use ψ
+  sorry -- Detailed proof requires careful analysis of recΔ unfolding
+
+-- Fixed point uniqueness under normalization
+theorem fixed_unique {F : Trace → Trace} {ψ₁ ψ₂ : Trace}
+  (h₁ : Equiv ψ₁ (F ψ₁)) (h₂ : Equiv ψ₂ (F ψ₂))
+  (hF : ∀ x y, Equiv x y → Equiv (F x) (F y)) : -- F respects equivalence
+  Equiv ψ₁ ψ₂ := by
+  sorry -- Follows from confluence and uniqueness of normal forms
+
+end OperatorKernelO6.Meta
+
+```
+
+## Godel.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Arithmetic
+import OperatorKernelO6.Meta.ProofSystem
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+-- Diagonal function: given a trace, construct its "quotation"
+def diagonal (t : Trace) : Trace :=
+  recΔ t (quote_step t) t
+where
+  quote_step (original : Trace) : Trace :=
+    merge original original  -- Simple quotation via doubling
+
+-- Self-reference via diagonal
+def self_ref (f : Trace → Trace) : Trace :=
+  let diag := diagonal (encode_function f)
+  f diag
+where
+  encode_function (func : Trace → Trace) : Trace :=
+    integrate (func void)  -- Rough encoding
+
+-- Gödel sentence: "this sentence is not provable"
+def godel_sentence : Trace :=
+  self_ref (λ x => complement (provable x (numeral 1000)))
+
+-- Fixed point property
+theorem godel_fixed_point :
+  ∃ g, StepStar godel_sentence g ∧
+       StepStar (complement (provable godel_sentence (numeral 1000))) g := by
+  sorry -- Diagonal lemma application
+
+-- First incompleteness theorem
+theorem first_incompleteness :
+  ¬(∃ bound, StepStar (provable godel_sentence bound) void) ∧
+  ¬(∃ bound, StepStar (provable (complement godel_sentence) bound) void) := by
+  constructor
+  · -- If provable, then true, but then not provable - contradiction
+    intro ⟨bound, h⟩
+    sorry -- Detailed argument using fixed point
+  · -- If complement provable, then false, contradiction with consistency
+    intro ⟨bound, h⟩
+    sorry -- Use consistency theorem
+
+-- Tarski's undefinability
+def truth_predicate (formula : Trace) : Trace :=
+  eqW formula void  -- "formula is true"
+
+theorem tarski_undefinability :
+  ¬(∃ truth_def : Trace → Trace,
+    ∀ f, StepStar (truth_def f) void ↔ StepStar f void) := by
+  sorry -- Diagonal argument similar to Gödel
+
+-- Löb's theorem
+theorem lob_theorem (formula : Trace) :
+  (∃ bound, StepStar (provable (merge (provable formula (numeral 100)) formula) bound) void) →
+  (∃ bound', StepStar (provable formula bound') void) := by
+  sorry -- Requires careful modal logic analysis
+
+-- Second incompleteness theorem (consistency statement)
+def consistency_statement : Trace :=
+  complement (merge (provable void (numeral 100)) (provable (complement void) (numeral 100)))
+
+theorem second_incompleteness :
+  ¬(∃ bound, StepStar (provable consistency_statement bound) void) := by
+  sorry -- Follows from first incompleteness and formalization
+
+end OperatorKernelO6.Meta
+
+```
+
+## Meta.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import Mathlib.Data.Prod.Lex
+import Mathlib.Tactic.Linarith
+
+open OperatorKernelO6 Trace Step
+
+namespace OperatorKernelO6.Meta
+
+def deltaDepth : Trace → Nat
+| void => 0
+| delta t => deltaDepth t + 1
+| integrate t => deltaDepth t
+| merge a b => deltaDepth a + deltaDepth b
+| recΔ _ _ n => deltaDepth n
+| eqW a b => deltaDepth a + deltaDepth b
+
+def recDepth : Trace → Nat
+| void => 0
+| delta t => recDepth t + 1
+| integrate t => recDepth t
+| merge a b => recDepth a + recDepth b
+| recΔ b s n => deltaDepth n + recDepth b + recDepth s + 1
+| eqW a b => recDepth a + recDepth b
+
+def sz : Trace → Nat
+| void => 1
+| delta t => sz t + 1
+| integrate t => sz t + 1
+| merge a b => sz a + sz b + 1
+| recΔ b s n => sz b + sz s + sz n + 1
+| eqW a b => sz a + sz b + 1
+
+def eqCount : Trace → Nat
+| void => 0
+| delta t => eqCount t
+| integrate t => eqCount t
+| merge a b => eqCount a + eqCount b
+| recΔ b s n => eqCount b + eqCount s + eqCount n
+| eqW a b => eqCount a + eqCount b + 1
+
+def integCount : Trace → Nat
+| void => 0
+| delta t => integCount t
+| integrate t => integCount t + 1
+| merge a b => integCount a + integCount b
+| recΔ b s n => integCount b + integCount s + integCount n
+| eqW a b => integCount a + integCount b
+
+def recCount : Trace → Nat
+| void => 0
+| delta t => recCount t
+| integrate t => recCount t
+| merge a b => recCount a + recCount b
+| recΔ b s n => recCount b + recCount s + recCount n + 1
+| eqW a b => recCount a + recCount b
+
+def measure (t : Trace) : Prod Nat Nat := (recDepth t, sz t)
+
+def lex (a b : Trace) : Prop :=
+  Prod.Lex (· < ·) (· < ·) (measure a) (measure b)
+
+def hasStep : Trace → Bool
+| integrate (delta _) => true
+| merge void _ => true
+| merge _ void => true
+| merge _ _ => true
+| recΔ _ _ void => true
+| recΔ _ _ (delta _) => true
+| eqW _ _ => true
+| _ => false
+
+def tsize : Trace → Trace
+| void => void
+| delta t => delta (tsize t)
+| integrate t => delta (tsize t)
+| merge a b => delta (merge (tsize a) (tsize b))
+| recΔ b s n => delta (merge (merge (tsize b) (tsize s)) (tsize n))
+| eqW a b => delta (merge (tsize a) (tsize b))
+
+def num0 : Trace := void
+def num1 : Trace := delta void
+def num2 : Trace := delta num1
+def num3 : Trace := delta num2
+
+def succ (t : Trace) : Trace := delta t
+
+end OperatorKernelO6.Meta
+
+```
+
+## Normalize.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Termination  -- adjust if your SN file lives elsewhere
+
+open Classical
+open OperatorKernelO6 Trace Step
+
+namespace OperatorKernelO6.Meta
+
+noncomputable def normalize : Trace → Trace
+| t =>
+  if h : ∃ u, Step t u then
+    let u := Classical.choose h
+    have hu : Step t u := Classical.choose_spec h
+    normalize u
+  else t
+termination_by
+  normalize t => size t
+decreasing_by
+  simp_wf
+  exact step_size_decrease (Classical.choose_spec h)
+
+theorem to_norm : ∀ t, StepStar t (normalize t)
+| t =>
+  by
+    classical
+    by_cases h : ∃ u, Step t u
+    ·
+      let u := Classical.choose h
+      have hu : Step t u := Classical.choose_spec h
+      have ih := to_norm u
+      simpa [normalize, h, u, hu] using StepStar.tail hu ih
+    ·
+      simpa [normalize, h] using StepStar.refl t
+termination_by
+  to_norm t => size t
+decreasing_by
+  simp_wf
+  exact step_size_decrease (Classical.choose_spec h)
+
+theorem norm_nf : ∀ t, NormalForm (normalize t)
+| t =>
+  by
+    classical
+    by_cases h : ∃ u, Step t u
+    ·
+      let u := Classical.choose h
+      have hu : Step t u := Classical.choose_spec h
+      have ih := norm_nf u
+      simpa [normalize, h, u, hu] using ih
+    ·
+      intro ex
+      rcases ex with ⟨u, hu⟩
+      have : Step t u := by simpa [normalize, h] using hu
+      exact h ⟨u, this⟩
+termination_by
+  norm_nf t => size t
+decreasing_by
+  simp_wf
+  exact step_size_decrease (Classical.choose_spec h)
+
+theorem nfp {a b n : Trace} (hab : StepStar a b) (han : StepStar a n) (hn : NormalForm n) :
+  StepStar b n := by
+  revert b
+  induction han with
+  | refl =>
+      intro b hab _; exact hab
+  | tail h an han ih =>
+      intro b hab hn'
+      cases hab with
+      | refl => exact False.elim (hn' ⟨_, h⟩)
+      | tail h' hbn => exact ih hbn hn'
+
+def Confluent : Prop :=
+  ∀ {a b c}, StepStar a b → StepStar a c → ∃ d, StepStar b d ∧ StepStar c d
+
+theorem global_confluence : Confluent := by
+  intro a b c hab hac
+  let n := normalize a
+  have han : StepStar a n := to_norm a
+  have hbn : StepStar b n := nfp hab han (norm_nf a)
+  have hcn : StepStar c n := nfp hac han (norm_nf a)
+  exact ⟨n, hbn, hcn⟩
+
+end OperatorKernelO6.Meta
+
+```
+
+## OrdinalExtras.lean
+
+```lean
+import Mathlib.SetTheory.Ordinal.Basic
+import Mathlib.Tactic
+
+
+open Ordinal
+
+-- set_option diagnostics true
+-- set_option diagnostics.threshold 100
+-- set_option trace.Meta.Tactic.simp.rewrite true
+-- set_option trace.Meta.debug true
+-- set_option autoImplicit false
+-- set_option maxRecDepth 1000
+-- set_option trace.linarith true
+-- set_option trace.compiler.ir.result true
+-- set_option linter.unnecessarySimpa false
+-- set_option pp.explicit true--(only turn on when you suspect hidden implicits)
+-- set_option pp.universes true--(rarely needed)
+-- set_option trace.M/eta.isDefEq true (use only for a single failing goal)
+-- Variation 3: Unfold definitions carefully
+
+/-!  Extra micro-lemmas missing from Mathlibʼs public API. -/
+
+-- 0.  Strict-monotonicity of ω-powers (stand-alone version).
+@[simp] theorem opow_lt_opow_right {a b : Ordinal} (h : a < b) :
+    omega0 ^ a < omega0 ^ b := by
+  simpa using
+    ((Ordinal.isNormal_opow (a := omega0) one_lt_omega0).strictMono h)
+
+/--  If `0 < c` then `a ≤ a + c`.  -/
+@[simp] theorem le_of_lt_add_of_pos {a c : Ordinal} (hc : (0 : Ordinal) < c) :
+    a ≤ a + c := by
+  have hc' : (0 : Ordinal) ≤ c := le_of_lt hc
+  simpa using (le_add_of_nonneg_right (a := a) hc')
+
+/--  Invert `opow_lt_opow_right`. -/
+@[simp] theorem opow_lt_opow_right_iff {a b : Ordinal} :
+    (omega0 ^ a < omega0 ^ b) ↔ a < b := by
+  constructor
+  · intro hlt
+    by_contra hnb
+    have hle : b ≤ a := le_of_not_gt hnb
+    have hpow : omega0 ^ b ≤ omega0 ^ a :=
+      opow_le_opow_right (a := omega0) omega0_pos hle
+    exact (not_le_of_gt hlt) hpow
+  · exact opow_lt_opow_right
+
+```
+
+## ProofSystem.lean
+
+```lean
+import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Arithmetic
+import OperatorKernelO6.Meta.Equality
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+-- Encode proofs as traces
+inductive ProofTerm : Type
+| axiom : Trace → ProofTerm
+| mp : ProofTerm → ProofTerm → ProofTerm  -- Modus ponens
+| gen : (Trace → ProofTerm) → ProofTerm   -- Generalization
+
+-- Convert proof terms to traces
+def proof_to_trace : ProofTerm → Trace
+| ProofTerm.axiom t => t
+| ProofTerm.mp p q => merge (proof_to_trace p) (proof_to_trace q)  
+| ProofTerm.gen f => integrate (proof_to_trace (f void))  -- Rough encoding
+
+-- Provability predicate using bounded search via recΔ
+def provable (formula : Trace) (bound : Trace) : Trace :=
+  recΔ void (search_step formula) bound
+where
+  search_step (f : Trace) : Trace := 
+    eqW f void  -- Check if formula equals void (proven)
+
+-- Σ₁ characterization of provability  
+theorem provable_sigma1 (formula : Trace) :
+  (∃ proof : Trace, ∃ bound : Trace, 
+    StepStar (provable formula bound) void) ↔
+  (∃ n : Nat, ∃ proof_term : ProofTerm,
+    StepStar (proof_to_trace proof_term) formula) := by
+  sorry -- Complex encoding/decoding argument
+
+-- Soundness: if provable then true (in some model)
+theorem soundness (formula : Trace) :
+  (∃ bound, StepStar (provable formula bound) void) →
+  formula = void := by  -- void represents "true"
+  sorry -- Requires model-theoretic argument
+
+-- Consistency: not both A and ¬A are provable
+theorem consistency (formula : Trace) :
+  ¬(∃ b₁ b₂, StepStar (provable formula b₁) void ∧ 
+              StepStar (provable (complement formula) b₂) void) := by
+  sorry -- Follows from soundness and complement properties
+
+-- Reflection principle encoding
+def reflection (formula : Trace) : Trace :=
+  eqW (provable formula (numeral 100)) formula
+
+end OperatorKernelO6.Meta
+
+```
+
+## Termination.lean
+
+```lean
 import OperatorKernelO6.Kernel
 import Init.WF
 import Mathlib.Algebra.Order.SuccPred
@@ -1090,3 +1711,6 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hk : KernelStep y x := hxy
   have hdec : mu x < mu y := mu_decreases hk
   simpa using hdec
+
+```
+
