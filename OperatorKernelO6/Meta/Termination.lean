@@ -9,7 +9,6 @@ import Mathlib.Algebra.Order.Monoid.Defs -- supplies mul_le_mul_left
 -- import Mathlib.Tactic.NormCast             -- norm_cast is whitelisted in § 8
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
-import Mathlib.Algebra.Order.SuccPred
 import Mathlib.Algebra.Order.GroupWithZero.Unbundled.Defs
 import Mathlib.Algebra.Order.Monoid.Unbundled.Basic
 import Mathlib.Tactic.Ring
@@ -17,7 +16,6 @@ import Mathlib.Algebra.Order.Group.Defs
 import Mathlib.SetTheory.Ordinal.Principal   -- ← additive-principal API
 import Mathlib.Tactic
 -- import Mathlib.Tactic.Alias
-import OperatorKernelO6.Meta.OrdinalExtras   -- ← new tiny helper file
 
 
 
@@ -828,11 +826,18 @@ Invert the strict-monotone ω-power:
 
 
 
+/--  If `0 < c` then `a ≤ a + c`.  -/
+@[simp] theorem le_of_lt_add_of_pos {a c : Ordinal} (hc : (0 : Ordinal) < c) :
+    a ≤ a + c := by
+  have hc' : (0 : Ordinal) ≤ c := le_of_lt hc
+  simpa using (le_add_of_nonneg_right (a := a) hc')
+
+
+
 set_option diagnostics true
 set_option diagnostics.threshold 100
 set_option trace.Meta.Tactic.simp.rewrite true
 set_option trace.Meta.debug true
-set_option autoImplicit false
 set_option maxRecDepth 1000
 set_option trace.linarith true
 set_option trace.compiler.ir.result true
@@ -840,15 +845,6 @@ set_option trace.compiler.ir.result true
 -- set_option pp.universes true (rarely needed)
 -- set_option trace.Meta.isDefEq true (use only for a single failing goal)
 -- Variation 3: Unfold definitions carefully
-
-
-
-/--  If `0 < c` then `a ≤ a + c`.  -/
-@[simp] theorem le_of_lt_add_of_pos {a c : Ordinal} (hc : (0 : Ordinal) < c) :
-    a ≤ a + c := by
-  have hc' : (0 : Ordinal) ≤ c := le_of_lt hc
-  simpa using (le_add_of_nonneg_right (a := a) hc')
-
 
 
 -- … existing imports …
@@ -896,7 +892,7 @@ lemma tail_lt_A {b s n : Trace} :
       --   rest < ω² < A   (simple bound)
       have hrest : omega0 * (mu b + 1) + 2 < omega0 ^ (2 : Ordinal) := by
         have h0 : (mu b) < omega0 := (nat_lt_omega0 _).trans_le
-          (Ordinal.le_of_lt_add_of_pos (zero_lt_two))
+          (le_of_lt_add_of_pos (zero_lt_two))
         have : omega0 * (mu b + 1) < omega0 * omega0 :=
           Ordinal.mul_lt_mul_of_pos_left (add_lt_add_right h0 1) omega0_pos
         have h2 : (2 : Ordinal) < omega0 := nat_lt_omega0 _
@@ -1003,6 +999,8 @@ lemma mu_merge_lt_rec {b s n : Trace} :
 @[simp] lemma mu_lt_rec_succ (b s n : Trace) :
   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) :=
 by simpa using mu_merge_lt_rec
+
+
 
 lemma mu_lt_eq_diff (a b : Trace) :
   mu (integrate (merge a b)) < mu (eqW a b) := by
