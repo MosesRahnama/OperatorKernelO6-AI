@@ -574,6 +574,19 @@ theorem three_lt_mu_delta (n : Trace) :
   exact lt_of_lt_of_le h₃₆ h₆
 
 
+set_option diagnostics true
+set_option diagnostics.threshold 100
+set_option trace.Meta.Tactic.simp.rewrite true
+set_option trace.Meta.debug true
+set_option autoImplicit false
+set_option maxRecDepth 1000
+set_option trace.linarith true
+set_option trace.compiler.ir.result true
+-- set_option pp.explicit true (only turn on when you suspect hidden implicits)
+-- set_option pp.universes true (rarely needed)
+-- set_option trace.Meta.isDefEq true (use only for a single failing goal)
+-- Variation 3: Unfold definitions carefully
+
 
 theorem w3_lt_A (s n : Trace) :
   omega0 ^ (3 : Ordinal) < omega0 ^ (mu (delta n) + mu s + 6) := by
@@ -810,6 +823,26 @@ lemma add_two (a : Ordinal) :
     a + 2 = Order.succ (Order.succ a) := (succ_succ a).symm
 
 
+
+set_option diagnostics true
+set_option diagnostics.threshold 100
+set_option trace.Meta.Tactic.simp.rewrite true
+set_option trace.Meta.debug true
+set_option autoImplicit false
+set_option maxRecDepth 1000
+set_option trace.linarith true
+set_option trace.compiler.ir.result true
+-- set_option pp.explicit true (only turn on when you suspect hidden implicits)
+-- set_option pp.universes true (rarely needed)
+-- set_option trace.Meta.isDefEq true (use only for a single failing goal)
+-- Variation 3: Unfold definitions carefully
+
+/--  `a ≤ a + c` whenever `0 ≤ c` (in particular for `0 < c`). -/
+@[simp] theorem le_self_add {a c : Ordinal} (hc : (0 : Ordinal) ≤ c) :
+    a ≤ a + c := by
+  simpa using le_add_of_nonneg_right hc
+
+
 /--
 Invert the strict-monotone ω-power:
 `ω ^ a < ω ^ b` iff `a < b`.
@@ -827,35 +860,6 @@ Invert the strict-monotone ω-power:
     exact opow_lt_opow_ω hlt
 
 
-
-set_option diagnostics true
-set_option diagnostics.threshold 100
-set_option trace.Meta.Tactic.simp.rewrite true
-set_option trace.Meta.debug true
-set_option autoImplicit false
-set_option maxRecDepth 1000
-set_option trace.linarith true
-set_option trace.compiler.ir.result true
--- set_option pp.explicit true (only turn on when you suspect hidden implicits)
--- set_option pp.universes true (rarely needed)
--- set_option trace.Meta.isDefEq true (use only for a single failing goal)
--- Variation 3: Unfold definitions carefully
-
-
-
-/--  If `0 < c` then `a ≤ a + c`.  -/
-@[simp] theorem le_of_lt_add_of_pos {a c : Ordinal} (hc : (0 : Ordinal) < c) :
-    a ≤ a + c := by
-  have hc' : (0 : Ordinal) ≤ c := le_of_lt hc
-  simpa using (le_add_of_nonneg_right (a := a) hc')
-
-
-
--- … existing imports …
-
--- ------------------------------------------------------------------
---  Tail payload is below the big tower
--- ------------------------------------------------------------------
 lemma tail_lt_A {b s n : Trace} :
     let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
     omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
@@ -929,7 +933,7 @@ lemma tail_lt_A {b s n : Trace} :
   -- 2b.  Strict-mono ⇒ inequality on exponents.
   have hgap :
       mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
-    have hmono := (isNormal_opow one_lt_omega0).strictMono_iff
+    have hmono := (opow_lt_opow_right_iff)
     --  ω^(μ(rec)+3) < A  because  ω^(μ(rec)) < A  and multiplying by ω³.
     have hpow_lt : omega0 ^ (mu (recΔ b s n) + 3) < A := by
       have : omega0 ^ (mu (recΔ b s n) + 3) =
@@ -1040,8 +1044,6 @@ lemma mu_lt_eq_diff (a b : Trace) :
       omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) + 1 < B + 1 :=
     add_lt_add_right h_mul' 1
   simpa [mu, hB, hC] using h_final
-
-
 
 theorem mu_decreases :
   ∀ {a b : Trace}, OperatorKernelO6.Step a b → mu b < mu a := by
