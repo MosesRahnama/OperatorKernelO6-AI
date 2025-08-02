@@ -18,18 +18,8 @@ import Mathlib.Tactic
 -- import Mathlib.Tactic.Alias
 
 
--- Add this somewhere in Termination.lean to verify errors break the build
-theorem test_error : 2 + 2 = 5 := by
-  -- Using contradiction instead of sorry to force an error
-  have h : 2 + 2 = 4 := by simp
-  exact h  -- This will fail because we're trying to prove 5 = 4
-
--- Replace the unknown option with one that will cause errors to be reported
--- set_option diagnostics.errors true
--- You can also add this to make unsolved goals fail compilation
-set_option pp.proofs true
-set_option warningAsError true
-
+-- -- Only use options we're sure your Lean version supports
+-- set_option pp.all true  -- Show full proof terms
 set_option linter.unnecessarySimpa false
 
 open Ordinal
@@ -835,8 +825,6 @@ Invert the strict-monotone ω-power:
   · intro hlt
     exact opow_lt_opow_ω hlt
 
-
-
 /--  If `0 < c` then `a ≤ a + c`.  -/
 @[simp] theorem le_of_lt_add_of_pos {a c : Ordinal} (hc : (0 : Ordinal) < c) :
     a ≤ a + c := by
@@ -846,24 +834,34 @@ Invert the strict-monotone ω-power:
 
 -- 'sorry' should make lake build fail with your lakefile settings
 
-set_option diagnostics true
-set_option diagnostics.threshold 100
-set_option trace.Meta.Tactic.simp.rewrite true
-set_option trace.Meta.debug true
-set_option maxRecDepth 1000
-set_option trace.linarith true
--- set_option trace.compiler.ir.result true
--- set_option pp.explicit true (only turn on when you suspect hidden implicits)
--- set_option pp.universes true (rarely needed)
--- set_option trace.Meta.isDefEq true (use only for a single failing goal)
--- Variation 3: Unfold definitions carefully
--- -- Add these settings at the top of the file to make errors visible
--- set_option pp.proofs true
--- -- Remove invalid options and add useful ones
-set_option trace.Meta.Tactic true        -- Keep this one for tactic debugging
+section TailLtADebug
+
+-- set_option diagnostics true
+-- set_option diagnostics.threshold 100
+-- set_option trace.Meta.Tactic.simp.rewrite true
+-- set_option trace.Meta.debug true
+-- set_option maxRecDepth 1000
+-- set_option trace.linarith true
+-- -- set_option trace.compiler.ir.result true
+-- -- set_option pp.explicit true (only turn on when you suspect hidden implicits)
+-- -- set_option pp.universes true (rarely needed)
+-- -- set_option trace.Meta.isDefEq true (use only for a single failing goal)
+-- -- Variation 3: Unfold definitions carefully
+-- -- -- Add these settings at the top of the file to make errors visible
+-- -- set_option pp.proofs true
+-- -- -- Remove invalid options and add useful ones
+-- set_option trace.Meta.Tactic true        -- Keep this one for tactic debugging
 -- set_option trace.Meta.debug true      -- Too verbose, commented out
 -- set_option diagnostics true              -- Enable diagnostics
 -- set_option maxRecDepth 1000              -- Prevent recursion errors
+
+set_option diagnostics true
+set_option diagnostics.threshold 100
+set_option trace.Meta.Tactic.simp.rewrite true
+
+-- Add this somewhere in Termination.lean to verify errors break the build
+theorem test_error : 2 + 2 = 5 := by
+  sorry  -- Using sorry explicitly to test if build fails
 
 -- ------------------------------------------------------------------
 --  Tail payload is below the big tower
@@ -1045,6 +1043,9 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hdec : mu x < mu y := mu_decreases hk
   simpa using hdec
 
+end TailLtADebug
+
+
 namespace _dup  -- ADD THIS LINE HERE
 
 def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
@@ -1055,6 +1056,10 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hk : KernelStep y x := hxy
   have hdec : mu x < mu y := mu_decreases hk
   simpa using hdec
+
+-- Delete everything after this line
+-- Delete everything after this line
+
 
 end _dup  -- ADD THIS LINE HERE
 

@@ -5,7 +5,7 @@
   "c": "7686133055895812856"},
  "log":
  [{"message":
-   ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Meta.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Meta.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Meta.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Meta.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Meta.setup.json --json",
+   ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Meta.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Meta.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Meta.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Meta.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Meta.setup.json --json",
    "level": "trace"}],
  "inputs":
  [["OperatorKernelO6.Meta.Meta:deps",
@@ -34,6 +34,9 @@
    "7333961747739924687"],
   ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Meta.lean",
    "8663177470954369952"],
-  ["options", "1723"],
+  ["options",
+   [["-Dpp.proofs=true", "520470136645659774"],
+    ["-Ddiagnostics.threshold=\"100\"", "1845651394719746939"],
+    ["-Ddiagnostics=true", "3649818481059726278"]]],
   ["Module.leanArgs: #[]", "1723"]],
- "depHash": "10440667196407745578"}
+ "depHash": "16235426621725619014"}

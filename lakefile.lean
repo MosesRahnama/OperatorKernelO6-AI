@@ -1,24 +1,20 @@
--- import Lake
--- open Lake DSL
+import Lake
+open Lake DSL
 
--- -- package «OperatorKernelO6» where
--- --   -- Package configuration goes inside this block
--- --   moreLeanArgs := #[
--- --     -- Remove the problematic warning flags
--- --     "-Ddiagnostics.errors=true",
--- --     "-Dpp.proofs=true",
--- --     "-Ddiagnostics.showGoals=true",
--- --     "-Dlinter.all=true",        -- Enable all linters
--- --     "-Dtactic.proofRecErrorTolerance=0",  -- Important! Makes proof errors fail compilation
--- --     "-Dtactic.hygiene=false"   -- Don't require all variables to be used
--- --   ]
+package «OperatorKernelO6» where
+  -- 1️⃣  Turn every warning or ‘sorry’ into a hard error
+  moreLeanArgs := #[
+    "-DwarningAsError=true",
+    "-DsorryAsError=true"
+  ]
 
--- -- Add this lean_lib declaration to ensure your module is built with proper settings
--- @[default_target]
--- lean_lib OperatorKernelO6 where
---   -- This ensures the module gets proper error reporting
---   leanOptions := #[
---     ⟨`tactic.proofRecErrorTolerance, .ofNat 0⟩  -- Make errors fail compilation
---   ]
+@[default_target]                        -- 2️⃣  Make this the target ‘lake build’ checks
+lean_lib «OperatorKernelO6» where
+  -- 3️⃣  Tell Lake to compile every sub-module under this folder
+  roots := #[`OperatorKernelO6]          -- adjust to your top-level namespace
+  globs := #[.submodules `OperatorKernelO6]
 
--- require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "master"
+-- Optional: if Termination.lean lives at the repo root:
+lean_lib Termination where
+  roots := #[`Termination]
+  globs := #[`Termination]

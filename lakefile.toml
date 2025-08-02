@@ -1,20 +1,24 @@
-name         = "OperatorKernelO6"
-lean_version = "lean4:v4.22.0-rc4"
+name = "OperatorKernelO6"
+version = "0.1.0"
+lean_version = "4.22.0-rc4"
+
+# Make builds fail on warnings (including sorry)
+leanArgs = ["--wfail"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "master"
 
 [[require]]
 name = "batteries"
 scope = "leanprover-community"
 rev = "main"
 
-[[require]]
-name  = "mathlib"
-scope = "leanprover-community"
-rev   = "master"
-
 [[lean_lib]]
-name   = "OperatorKernelO6"
+name = "OperatorKernelO6"
 srcDir = "."
 
 [[lean_exe]]
-name = "OperatorKernelO6Main"
+name = "main"
 root = "Main.lean"
