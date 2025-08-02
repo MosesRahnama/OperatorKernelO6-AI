@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lean:*)",
+      "Bash(lake build:*)",
+      "Bash(timeout 20 lake build:*)",
+      "Bash(timeout 15 lake build:*)",
+      "Bash(timeout 10 lake build:*)"
+    ],
+    "deny": []
+  }
+}
