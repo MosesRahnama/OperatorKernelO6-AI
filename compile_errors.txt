@@ -1,7 +1,7 @@
-Termination.lean:1039:29
+Termination.lean:27:30
 No info found.
-All Messages (41)
-Termination.lean:872:6
+All Messages (34)
+Termination.lean:883:6
 [Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu b + 1
@@ -15,12 +15,12 @@ Termination.lean:872:6
       α
     ==>
       mu n + mu s + 6 
-Termination.lean:874:8
+Termination.lean:885:8
 [Meta.Tactic.simp.rewrite] hα:1000:
       α
     ==>
       mu n + mu s + 6 
-Termination.lean:875:36
+Termination.lean:886:36
 Function expected at
   le_add_of_nonneg_right ?m.31071
 but this term has type
@@ -28,20 +28,20 @@ but this term has type
 
 Note: Expected a function because this term is being applied to the argument
   (Ordinal.zero_le _)
-Termination.lean:876:6
+Termination.lean:887:6
 type mismatch
   opow_mul_lt_of_exp_lt h_pos (nat_lt_omega0 ?m.33765)
 has type
   ω ^ 0 * ↑?m.33765 < ω ^ α : Prop
 but is expected to have type
   Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) < ω ^ (mu n + mu s + 6) : Prop
-Termination.lean:883:6
+Termination.lean:894:6
 failed to synthesize
   AddRightStrictMono Ordinal.{?u.39164}
-Termination.lean:885:6
+Termination.lean:896:6
 failed to synthesize
   AddRightStrictMono Ordinal.{?u.38991}
-Termination.lean:887:57
+Termination.lean:898:57
 Application type mismatch: In the application
   lt_of_le_of_lt (Ordinal.le_add_right (ω ^ α + 3) ?m.91678) h2
 the argument
@@ -50,14 +50,14 @@ has type
   mu n + mu s + 6 < mu n.delta + mu s + 6 : Prop
 but is expected to have type
   ω ^ α + 3 + ?m.91678 < mu n.delta + mu s + 6 : Prop
-Termination.lean:855:0
+Termination.lean:866:0
 [diag] Diagnostics ▼
   [reduction] unfolded declarations (max: 3248, num: 17): ▶
   [reduction] unfolded instances (max: 1210, num: 12): ▶
   [reduction] unfolded reducible declarations (max: 6786, num: 9): ▶
   [def_eq] heuristic for solving `f a =?= f b` (max: 591, num: 7): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:903:4
+Termination.lean:914:4
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu s + 1
     ==>
@@ -70,7 +70,7 @@ Termination.lean:903:4
       mu s + 1
     ==>
       Order.succ (mu s) 
-Termination.lean:906:4
+Termination.lean:917:4
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu (b.recΔ s n) + 1
     ==>
@@ -83,7 +83,7 @@ Termination.lean:906:4
       mu (b.recΔ s n) + 1
     ==>
       Order.succ (mu (b.recΔ s n)) 
-Termination.lean:914:24
+Termination.lean:925:24
 unsolved goals
 b s n : Trace
 A : Ordinal.{?u.34658} := ω ^ (mu n.delta + mu s + 6)
@@ -91,7 +91,7 @@ hA : A = ω ^ (mu n.delta + mu s + 6)
 h_head : ω ^ 3 * (mu s + 1) < A
 h_tail : ω ^ 2 * (mu (b.recΔ s n) + 1) < A
 ⊢ 0 < mu n.delta + mu s + 6
-Termination.lean:917:38
+Termination.lean:928:38
 Function expected at
   opow_pos ?m.41099 ?m.41100
 but this term has type
@@ -99,9 +99,9 @@ but this term has type
 
 Note: Expected a function because this term is being applied to the argument
   omega0_pos
-Termination.lean:918:32
+Termination.lean:929:32
 unknown identifier 'one_le_of_lt'
-Termination.lean:922:24
+Termination.lean:933:24
 unsolved goals
 b s n : Trace
 A : Ordinal.{?u.34658} := ω ^ (mu n.delta + mu s + 6)
@@ -110,7 +110,7 @@ h_head : ω ^ 3 * (mu s + 1) < A
 h_tail : ω ^ 2 * (mu (b.recΔ s n) + 1) < A
 h_tail1 : ω ^ 2 * (mu (b.recΔ s n) + 1) + 1 < A
 ⊢ 0 < mu n.delta + mu s + 6
-Termination.lean:923:25
+Termination.lean:934:25
 [Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
       ?m.42250 < ω ^ (mu n.delta + mu s + 6)
     ==>
@@ -123,7 +123,7 @@ Termination.lean:923:25
       ω ^ 2 * Order.succ (mu (b.recΔ s n)) + 1
     ==>
       Order.succ (ω ^ 2 * Order.succ (mu (b.recΔ s n))) 
-Termination.lean:921:4
+Termination.lean:932:4
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu s + 1
     ==>
@@ -148,14 +148,14 @@ Termination.lean:921:4
       mu n.delta + mu s + 6
     ==>
       mu n.delta + (mu s + 6) 
-Termination.lean:929:39
+Termination.lean:940:39
 type mismatch
   ω * (mu b + 1)
 has type
   Ordinal.{?u.106468} : outParam (Type (?u.106468 + 1))
 but is expected to have type
   0 ≤ ?m.106464 : Prop
-Termination.lean:929:16
+Termination.lean:940:16
 Function expected at
   le_add_of_nonneg_left ?m.106737
 but this term has type
@@ -163,7 +163,7 @@ but this term has type
 
 Note: Expected a function because this term is being applied to the argument
   (le_of_lt (succ_pos 0))
-Termination.lean:931:6
+Termination.lean:942:6
 [Meta.Tactic.simp.rewrite] hA:1000:
       A
     ==>
@@ -199,7 +199,7 @@ Termination.lean:931:6
         Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b))
     ==>
       True 
-Termination.lean:932:4
+Termination.lean:943:4
 [Meta.Tactic.simp.rewrite] hA:1000:
       A
     ==>
@@ -236,7 +236,7 @@ Termination.lean:932:4
         Order.succ (ω ^ (Order.succ (ω ^ 5 * Order.succ (mu n)) + mu s + 6) + ω * Order.succ (mu b))
     ==>
       True 
-Termination.lean:938:64
+Termination.lean:949:64
 unsolved goals
 b s n : Trace
 A : Ordinal.{?u.104846} := ω ^ (mu n.delta + mu s + 6)
@@ -247,7 +247,7 @@ h_sum : ω ^ 3 * (mu s + 1) + (ω ^ 2 * (mu (b.recΔ s n) + 1) + 1) < A
 h_rhs_gt_A : A < mu (b.recΔ s n.delta)
 ⊢ Order.succ (ω ^ 3 * Order.succ (mu s) + ω ^ 2 * (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 2)) =
   ω ^ 3 * Order.succ (mu s) + Order.succ (ω ^ 2 * (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 2))
-Termination.lean:939:6
+Termination.lean:950:6
 [Meta.Tactic.simp.rewrite] unfold mu, mu (s.merge (b.recΔ s n)) ==> ω ^ 3 * (mu s + 1) + ω ^ 2 * (mu (b.recΔ s n) + 1) + 1 
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu s + 1
@@ -278,14 +278,14 @@ Termination.lean:939:6
       ω ^ 2 * (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 2) + 1
     ==>
       Order.succ (ω ^ 2 * (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 2)) 
-Termination.lean:940:4
+Termination.lean:951:4
 type mismatch, term
   h_sum
 after simplification has type
   ω ^ 3 * Order.succ (mu s) + Order.succ (ω ^ 2 * Order.succ (mu (b.recΔ s n))) < A : Prop
 but is expected to have type
   mu (s.merge (b.recΔ s n)) < A : Prop
-Termination.lean:940:4
+Termination.lean:951:4
 [Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
       mu (s.merge (b.recΔ s n)) < A
     ==>
@@ -302,11 +302,11 @@ Termination.lean:940:4
       ω ^ 2 * Order.succ (mu (b.recΔ s n)) + 1
     ==>
       Order.succ (ω ^ 2 * Order.succ (mu (b.recΔ s n))) 
-Termination.lean:897:0
+Termination.lean:908:0
 [diag] Diagnostics ▼
   [kernel] unfolded declarations (max: 190, num: 3): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:897:0
+Termination.lean:908:0
 [diag] Diagnostics ▼
   [reduction] unfolded declarations (max: 4435, num: 18): ▶
   [reduction] unfolded instances (max: 607, num: 5): ▶
@@ -315,14 +315,14 @@ Termination.lean:897:0
   [def_eq] heuristic for solving `f a =?= f b` (max: 326, num: 1): ▶
   [kernel] unfolded declarations (max: 190, num: 3): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:960:6
+Termination.lean:971:6
 type mismatch, term
   hpayload
 after simplification has type
   ω ^ 3 * Order.succ (mu a) + Order.succ (ω ^ 2 * Order.succ (mu a)) ≤ ω ^ (mu a + 5) : Prop
 but is expected to have type
   mu (a.merge b) < ω ^ (mu a + 5) : Prop
-Termination.lean:960:6
+Termination.lean:971:6
 [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
       mu (a.merge b) + 1
     ==>
@@ -339,7 +339,7 @@ Termination.lean:960:6
       ω ^ 2 * Order.succ (mu a) + 1
     ==>
       Order.succ (ω ^ 2 * Order.succ (mu a)) 
-Termination.lean:961:30
+Termination.lean:972:30
 Application type mismatch: In the application
   lt_of_le_of_lt this (lt_add_of_pos_right ?m.29291 (succ_pos ?m.29648))
 the argument
@@ -348,7 +348,7 @@ has type
   ?m.29291 < ?m.29291 + Order.succ ?m.29648 : Prop
 but is expected to have type
   ω ^ (mu a + 5) < ω ^ (C + 5) : Prop
-Termination.lean:950:47
+Termination.lean:961:47
 unsolved goals
 a b : Trace
 C : Ordinal.{?u.32636} := mu a + mu b
@@ -357,33 +357,20 @@ B : Ordinal.{?u.32636} := ω ^ (C + 9)
 hB : B = ω ^ (C + 9)
 h_inner : mu (a.merge b) + 1 < ω ^ (C + 5)
 ⊢ mu (a.merge b).integrate < mu (a.eqW b)
-Termination.lean:949:0
+Termination.lean:960:0
 [diag] Diagnostics ▼
   [reduction] unfolded declarations (max: 474, num: 7): ▶
   [reduction] unfolded instances (max: 286, num: 2): ▶
   [reduction] unfolded reducible declarations (max: 262, num: 5): ▶
   [def_eq] heuristic for solving `f a =?= f b` (max: 138, num: 1): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:988:0
+Termination.lean:999:0
 [diag] Diagnostics ▼
   [reduction] unfolded reducible declarations (max: 107, num: 1): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:1029:14
+Termination.lean:1040:14
 failed to infer universe levels in 'have' declaration type
   mu.{?u.25558} x < mu.{?u.25558} y
-Termination.lean:1031:4
-'MetaSN.KernelStep' has already been declared
-Termination.lean:1033:8
-'MetaSN.step_strong_normalization' has already been declared
-Termination.lean:1044:8
-'MetaSN.mu_decreases' has already been declared
-Termination.lean:1057:4
-'MetaSN.StepRev' has already been declared
-Termination.lean:1059:8
-'MetaSN.strong_normalization_forward_trace' has already been declared
-Termination.lean:1069:8
-'MetaSN.strong_normalization_backward' has already been declared
-Termination.lean:1079:4
-'MetaSN.KernelStep' has already been declared
-Termination.lean:1081:8
-'MetaSN.step_strong_normalization' has already been declared
+Termination.lean:1051:14
+failed to infer universe levels in 'have' declaration type
+  mu.{?u.25590} x < mu.{?u.25590} y

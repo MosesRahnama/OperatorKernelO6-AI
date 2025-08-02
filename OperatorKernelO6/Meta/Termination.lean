@@ -18,9 +18,17 @@ import Mathlib.Tactic
 -- import Mathlib.Tactic.Alias
 
 
+-- Add this somewhere in Termination.lean to verify errors break the build
+theorem test_error : 2 + 2 = 5 := by
+  -- Using contradiction instead of sorry to force an error
+  have h : 2 + 2 = 4 := by simp
+  exact h  -- This will fail because we're trying to prove 5 = 4
 
-
--- set_option tactic.proofRecErrorTolerance 0  -- Make proof errors fail compilation
+-- Replace the unknown option with one that will cause errors to be reported
+-- set_option diagnostics.errors true
+-- You can also add this to make unsolved goals fail compilation
+set_option pp.proofs true
+set_option warningAsError true
 
 set_option linter.unnecessarySimpa false
 
@@ -836,6 +844,7 @@ Invert the strict-monotone ω-power:
   simpa using (le_add_of_nonneg_right (a := a) hc')
 
 
+-- 'sorry' should make lake build fail with your lakefile settings
 
 set_option diagnostics true
 set_option diagnostics.threshold 100
@@ -843,7 +852,7 @@ set_option trace.Meta.Tactic.simp.rewrite true
 set_option trace.Meta.debug true
 set_option maxRecDepth 1000
 set_option trace.linarith true
-set_option trace.compiler.ir.result true
+-- set_option trace.compiler.ir.result true
 -- set_option pp.explicit true (only turn on when you suspect hidden implicits)
 -- set_option pp.universes true (rarely needed)
 -- set_option trace.Meta.isDefEq true (use only for a single failing goal)

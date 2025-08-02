@@ -1,5 +1,5 @@
 {"plugins": [],
- "options": {},
+ "options": {"tactic.proofRecErrorTolerance": 0},
  "name": "OperatorKernelO6.Kernel",
  "isModule": false,
  "importArts": {},
