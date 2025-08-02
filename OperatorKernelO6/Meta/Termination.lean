@@ -917,3 +917,5 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   simpa using hdec
 
 end DebugTail
+
+end MetaSN
