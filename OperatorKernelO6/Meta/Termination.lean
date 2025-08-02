@@ -895,7 +895,7 @@ lemma mu_merge_lt_rec {b s n : Trace} :
         exact this) h_head h_tail1
     -- Need to massage the associativity to match expected form
     have : omega0 ^ (3 : Ordinal) * (mu s + 1) + (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) < A := by
-      -- h_fold has type: ω^3 * (μs + 1) + (ω^2 * (μ(recΔ b s n) + 1) + 1) < ω^(μ(δn) + μs + 6)
+      -- h_fold has type: ω^3 * (μa + 1) + (ω^2 * (μ(recΔ b s n) + 1) + 1) < ω^(μ(δn) + μs + 6)
       -- A = ω^(μ(δn) + μs + 6) by definition
       rw [hA]
       exact h_fold
@@ -933,13 +933,6 @@ lemma mu_merge_lt_rec {b s n : Trace} :
   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
   simpa using mu_merge_lt_rec
 
-
-section DebugTail
-
-set_option diagnostics true
-set_option diagnostics.threshold 500
-
-open Ordinal
 
 lemma mu_lt_eq_diff (a b : Trace) :
   mu (integrate (merge a b)) < mu (eqW a b) := by

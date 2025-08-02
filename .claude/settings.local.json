@@ -5,7 +5,8 @@
       "Bash(lake build:*)",
       "Bash(timeout 20 lake build:*)",
       "Bash(timeout 15 lake build:*)",
-      "Bash(timeout 10 lake build:*)"
+      "Bash(timeout 10 lake build:*)",
+      "Bash(timeout 120 lake:*)"
     ],
     "deny": []
   }

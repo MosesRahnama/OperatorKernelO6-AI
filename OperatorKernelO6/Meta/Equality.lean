@@ -12,14 +12,14 @@ def eq_trace (a b : Trace) : Trace := eqW a b
 theorem eq_refl_reduces (a : Trace) : StepStar (eq_trace a a) void := by
   unfold eq_trace
   apply stepstar_of_step
-  apply R_eq_refl
+  apply Step.R_eq_refl
 
 -- Inequality witness: if a ≠ b, then eqW a b reduces to integrate (merge a b)
-theorem eq_diff_reduces (a b : Trace) : 
+theorem eq_diff_reduces (a b : Trace) (h : a ≠ b) : 
   StepStar (eq_trace a b) (integrate (merge a b)) := by
   unfold eq_trace
   apply stepstar_of_step  
-  apply R_eq_diff
+  apply Step.R_eq_diff h
 
 -- Equality is decidable in normal forms
 def eq_decidable (a b : Trace) (ha : NormalForm a) (hb : NormalForm b) : 
@@ -38,8 +38,8 @@ theorem eq_symm (a b : Trace) :
   | inr h =>
     use integrate (merge a b)
     constructor
-    · apply eq_diff_reduces
-    · rw [merge_comm] at *; apply eq_diff_reduces
+    · apply eq_diff_reduces h
+    · rw [merge_comm] at *; apply eq_diff_reduces h.symm
   where
     merge_comm : merge a b = merge b a := by sorry -- Needs confluence
 
