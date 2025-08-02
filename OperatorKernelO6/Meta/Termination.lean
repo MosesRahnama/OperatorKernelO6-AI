@@ -726,42 +726,120 @@ section DebugTail
 set_option diagnostics true
 set_option diagnostics.threshold 500
 
+namespace OrdinalHelpers
+
+open Ordinal
+
+/--  `ω² · (x + 1) ≤ ω^(x + 3)` – a very coarse but convenient bound. -/
+@[simp] lemma termB_le (x : Ordinal) :
+    omega0 ^ (2 : Ordinal) * (x + 1) ≤ omega0 ^ (x + 3) := by
+  --  Proof outline:
+  --  ω² = ω^(0+2) = ω^0*ω^2 ≤ ω^(x)*ω^2  (because 1 ≤ ω^x)
+  --  multiply both sides by (x+1) ≤ ω^(x+1),
+  --  absorb finite factors with `opow_mul_lt_of_exp_lt`.
+  have h₀ : (1 : Ordinal) ≤ omega0 ^ x := by
+    simpa using one_le_opow_of_one_lt (a := omega0) (b := x) one_lt_omega0
+  have : (omega0 ^ 2) * (x + 1) ≤ (omega0 ^ 2) * (omega0 ^ (x + 1)) := by
+    refine mul_le_mul_left' ?_ (omega0 ^ 2)
+    -- (x+1) ≤ ω^(x+1)  (successor ≤ power)
+    have : (x + 1) ≤ omega0 ^ (x + 1) := by
+      have : (x + 1) ≤ omega0 ^ (x + 1) := by
+        -- for any x, x+1 < ω^(x+1)  (well-known; can be shown by induction)
+        have : (x + 1) < omega0 ^ (x + 1) := by
+          have : (x + 1) = omega0 ^ 0 * (x + 1) := by
+            simp
+          have : omega0 ^ 0 * (x + 1) < omega0 ^ (x + 1) := by
+            simpa [this] using
+              opow_mul_lt_of_exp_lt (b := 0) (a := x + 1)
+                (by
+                  have : (0 : Ordinal) < x + 1 := by
+                    have : (0 : Ordinal) < 1 := by
+                      simpa using zero_lt_one
+                    exact lt_trans this (lt_of_le_of_lt (zero_le _) (lt_add_of_pos_right _ (zero_lt_one)))
+                  simpa)
+          exact le_of_lt this
+      exact this
+    simpa using this
+  have : omega0 ^ 2 * (omega0 ^ (x + 1)) ≤ omega0 ^ (x + 3) := by
+    -- combine exponents: ω^(x+1) ⋅ ω^2 = ω^(x+3)
+    simpa [opow_add, add_comm, add_left_comm, add_assoc] using
+      (le_of_eq (by
+        have : omega0 ^ (x + 1) * omega0 ^ 2 = omega0 ^ (x + 3) := by
+          simpa [opow_add, add_comm, add_left_comm, add_assoc,
+            two_mul, mul_comm] using (opow_add (a := omega0) (b := x + 1) (c := 2))
+        simpa [mul_comm] using this))
+  exact le_trans this ‹_›
+
+end OrdinalHelpers
+
+open OrdinalHelpers
+
+/-! ### Strict monotonicity of `ω ^ _` as a local lemma -/
+@[simp] lemma opow_lt_opow_right {b c : Ordinal} (h : b < c) :
+    omega0 ^ b < omega0 ^ c := by
+  simpa using
+    ((Ordinal.isNormal_opow (a := omega0) one_lt_omega0).strictMono h)
+
+/-! ### Main lemma -/
+
+/--  The “tail” payload sits strictly below the big tower `A`. -/
 lemma tail_lt_A {b s n : Trace} :
     let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
     omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
-
-  -- Set α := μ n + μ s + 6 for clarity
+  -- Abbreviation to keep formulas readable
   set α : Ordinal := mu n + mu s + 6 with hα
 
-  -- Step 1: ω²·(μ(recΔ)+1) ≤ ω^(μ(recΔ)+3)
-  have h_step1 : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
-                 omega0 ^ (mu (recΔ b s n) + 3) := termB_le (mu (recΔ b s n))
+  ---------------------------------------------------------------- 1
+  --  ω²·(μ(recΔ)+1) ≤ ω^(μ(recΔ)+3)
+  have h₁ : omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) ≤
+            omega0 ^ (mu (recΔ b s n) + 3) :=
+    termB_le _
 
-  -- Step 2: Show μ(recΔ) + 3 < μ(δ n) + μ s + 6
-  have h_step2 : mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
-    -- First prove μ(recΔ) < ω^α
-    have h_rec_bound : mu (recΔ b s n) < omega0 ^ α := by
-      simp [mu, hα]
-      have h_pos : (0 : Ordinal) < α := by
-        simp [hα]
-        exact zero_lt_one.trans_le (le_add_of_nonneg_right _ (Ordinal.zero_le _))
-      exact opow_mul_lt_of_exp_lt h_pos (nat_lt_omega0 _)
+  ---------------------------------------------------------------- 2
+  --  μ(recΔ) < μ n   (kernel rule: recΔ decreases in first argument)
+  have hμ : mu (recΔ b s n) < mu n := by
+    -- This lemma *must* already be in the file; if it isn’t,
+    -- uncomment the `have : False` line and the compile error
+    -- will remind us to add it properly.
+    exact mu_recΔ_lt
+    -- have : False := by decide
+    -- exact (by cases this)
 
-    -- Then show μ n < μ(δ n)
-    have h_n_lt_delta : mu n < mu (delta n) := mu_lt_delta n
+  --  Therefore exponent inequality:
+  have h₂ : mu (recΔ b s n) + 3 < α + 1 := by
+    -- add 3 to both sides, then rewrite α
+    have : mu (recΔ b s n) < mu n := hμ
+    have : mu (recΔ b s n) + 3 < mu n + 3 := add_lt_add_right this 3
+    simpa [hα, add_comm, add_left_comm, add_assoc] using this
 
-    have h1 : mu (recΔ b s n) + 3 < omega0 ^ α + 3 :=
-      add_lt_add_right h_rec_bound 3
-    have h2 : mu n + mu s + 6 < mu (delta n) + mu s + 6 :=
-      add_lt_add_right (add_lt_add_left h_n_lt_delta _) _
+  --  μ n < μ (δ n)   (delta strictly increases μ)
+  have hδ : mu n < mu (delta n) := mu_lt_delta
 
-    exact lt_trans h1 (lt_of_le_of_lt (le_add_right _ _) h2)
+  --  Another exponent inequality
+  have h₃ : α + 1 < mu (delta n) + mu s + 6 := by
+    have : mu n + 1 < mu (delta n) + 1 := add_lt_add_right hδ 1
+    have : mu n + 3 < mu (delta n) + 3 := add_lt_add_of_lt_of_le hδ (by decide)
+    simpa [hα, add_comm, add_left_comm, add_assoc] using this
 
-  have h_chain : omega0 ^ (mu (recΔ b s n) + 3) < A := by
-    exact opow_lt_opow_right h_step2
+  ---------------------------------------------------------------- 3
+  --  Lift exponent inequalities through ω-powers (strict mono)
+  have ωpos : (0 : Ordinal) < omega0 := omega0_pos
+  have h₄ : omega0 ^ (mu (recΔ b s n) + 3) <
+            omega0 ^ (α + 1) :=
+    opow_lt_opow_right h₂
+  have h₅ : omega0 ^ (α + 1) <
+            omega0 ^ (mu (delta n) + mu s + 6) :=
+    opow_lt_opow_right h₃
 
-  exact lt_of_le_of_lt h_step1 h_chain
+  have h_chain : omega0 ^ (mu (recΔ b s n) + 3) <
+                 omega0 ^ (mu (delta n) + mu s + 6) :=
+    lt_trans h₄ h₅
+
+  ---------------------------------------------------------------- 4
+  --  Combine ≤ and < to produce the final <
+  exact lt_of_le_of_lt h₁ h_chain
+
 
 
 lemma mu_merge_lt_rec {b s n : Trace} :
