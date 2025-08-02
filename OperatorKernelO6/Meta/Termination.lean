@@ -1022,6 +1022,7 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   simpa using hdec
 
 end DebugTail
+---end of section DebugTail
 
 
 namespace _dup  -- ADD THIS LINE HERE
