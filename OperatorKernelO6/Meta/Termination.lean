@@ -846,30 +846,23 @@ lemma mu_merge_lt_rec {b s n : Trace} :
       omega_pow_add_lt (by
         -- Prove positivity of exponent
         have : (0 : Ordinal) < mu (delta n) + mu s + 6 := by
-          have : (0 : Ordinal) < 6 := by norm_num
-          have hmu : (0 : Ordinal) ≤ mu (delta n) + mu s :=
-            add_nonneg (zero_le _) (zero_le _)
-          exact lt_of_lt_of_le this (le_add_left (6 : Ordinal) (mu (delta n) + mu s))
+          -- Simple positivity: 0 < 6 ≤ μ(δn) + μs + 6
+          have h6_pos : (0 : Ordinal) < 6 := by norm_num
+          exact lt_of_lt_of_le h6_pos (le_add_left 6 (mu (delta n) + mu s))
         exact this) h_tail (by
         -- `1 < A` trivially (tower is non‑zero)
         have : (1 : Ordinal) < A := by
           have hpos : (0 : Ordinal) < A := by
             rw [hA]
-            have hexp_pos : (0 : Ordinal) < mu (delta n) + mu s + 6 := by
-              have : (0 : Ordinal) < 6 := by norm_num
-              have hmu : (0 : Ordinal) ≤ mu (delta n) + mu s :=
-                add_nonneg (zero_le _) (zero_le _)
-              exact lt_of_lt_of_le this (le_add_left (6 : Ordinal) (mu (delta n) + mu s))
             exact Ordinal.opow_pos (b := mu (delta n) + mu s + 6) (a0 := omega0_pos)
           -- We need 1 < A. We have 0 < A and 1 ≤ ω, and we need ω ≤ A
           have omega_le_A : omega0 ≤ A := by
             rw [hA]
             -- Need to show mu (delta n) + mu s + 6 > 0
             have hpos : (0 : Ordinal) < mu (delta n) + mu s + 6 := by
-              have : (0 : Ordinal) < 6 := by norm_num
-              have hmu : (0 : Ordinal) ≤ mu (delta n) + mu s :=
-                add_nonneg (zero_le _) (zero_le _)
-              exact lt_of_lt_of_le this (le_add_left (6 : Ordinal) (mu (delta n) + mu s))
+              -- Positivity: μ(δn) + μs + 6 ≥ 6 > 0
+              have h6_pos : (0 : Ordinal) < 6 := by norm_num
+              exact lt_of_lt_of_le h6_pos (le_add_left 6 (mu (delta n) + mu s))
             exact Ordinal.left_le_opow (a := omega0) (b := mu (delta n) + mu s + 6) hpos
           -- Need to show 1 < A. We have 1 ≤ ω ≤ A, so 1 ≤ A. We need strict.
           -- Since A = ω^(μ(δn) + μs + 6) and the exponent > 0, we have ω < A
@@ -877,10 +870,9 @@ lemma mu_merge_lt_rec {b s n : Trace} :
             rw [hA]
             -- Use the fact that ω < ω^k when k > 1
             have : (1 : Ordinal) < mu (delta n) + mu s + 6 := by
-              have : (1 : Ordinal) < 6 := by norm_num
-              have hmu : (0 : Ordinal) ≤ mu (delta n) + mu s :=
-                add_nonneg (zero_le _) (zero_le _)
-              exact lt_of_lt_of_le this (le_add_left (6 : Ordinal) (mu (delta n) + mu s))
+              -- Positivity: μ(δn) + μs + 6 ≥ 6 > 1
+              have h6_gt_1 : (1 : Ordinal) < 6 := by norm_num
+              exact lt_of_lt_of_le h6_gt_1 (le_add_left 6 (mu (delta n) + mu s))
             have : omega0 ^ (1 : Ordinal) < omega0 ^ (mu (delta n) + mu s + 6) :=
               opow_lt_opow_right this
             simpa using this
@@ -890,10 +882,9 @@ lemma mu_merge_lt_rec {b s n : Trace} :
     have h_fold := omega_pow_add_lt (by
         -- Same positivity proof
         have : (0 : Ordinal) < mu (delta n) + mu s + 6 := by
-          have : (0 : Ordinal) < 6 := by norm_num
-          have hmu : (0 : Ordinal) ≤ mu (delta n) + mu s :=
-            add_nonneg (zero_le _) (zero_le _)
-          exact lt_of_lt_of_le this (le_add_left (6 : Ordinal) (mu (delta n) + mu s))
+          -- Simple positivity: 0 < 6 ≤ μ(δn) + μs + 6
+          have h6_pos : (0 : Ordinal) < 6 := by norm_num
+          exact lt_of_lt_of_le h6_pos (le_add_left 6 (mu (delta n) + mu s))
         exact this) h_head h_tail1
     -- Need to massage the associativity to match expected form
     have : omega0 ^ (3 : Ordinal) * (mu s + 1) + (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) < A := by
@@ -907,11 +898,9 @@ lemma mu_merge_lt_rec {b s n : Trace} :
     -- by definition of μ(recΔ … (δ n)) (see new μ)
     have : A < A + omega0 * (mu b + 1) + 1 := by
       have hpos : (0 : Ordinal) < omega0 * (mu b + 1) + 1 := by
-        have h1 : (0 : Ordinal) < omega0 * (mu b + 1) := by
-          have hb_pos : (0 : Ordinal) < mu b + 1 :=
-            lt_of_le_of_lt (zero_le _) (lt_add_one (mu b))
-          exact Ordinal.mul_pos omega0_pos hb_pos
-        exact lt_of_le_of_lt (zero_le _) (lt_add_of_pos_right _ zero_lt_one)
+        -- ω*(μb + 1) + 1 ≥ 1 > 0
+        have h1_pos : (0 : Ordinal) < 1 := by norm_num
+        exact lt_of_lt_of_le h1_pos (le_add_left 1 (omega0 * (mu b + 1)))
       -- A + (ω·(μb + 1) + 1) = (A + ω·(μb + 1)) + 1
       have : A + omega0 * (mu b + 1) + 1 = A + (omega0 * (mu b + 1) + 1) := by
         simp [add_assoc]
