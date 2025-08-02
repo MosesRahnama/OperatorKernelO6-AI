@@ -962,8 +962,14 @@ lemma mu_lt_eq_diff (a b : Trace) :
       have : omega0 ^ (mu a + 4) + omega0 ^ (mu b + 3) + 1 < omega0 ^ (mu a + mu b + 4) := by
         -- Key insight: max(μa + 4, μb + 3) + 1 ≤ μa + μb + 4, so the sum is absorbed
         have κ_pos : (0 : Ordinal) < mu a + mu b + 4 := by
-          have : (0 : Ordinal) < (4 : Ordinal) := by norm_num
-          exact lt_of_lt_of_le this (le_add_left _ _)
+          -- Positivity: follows from mu a + mu b + 4 ≥ 4 > 0
+          apply Ordinal.pos_iff_ne_zero.mpr
+          intro h
+          -- If mu a + mu b + 4 = 0, then 4 = 0 (impossible)
+          have : (4 : Ordinal) = 0 := by
+            rw [← add_zero (4 : Ordinal), ← h]
+            simp [add_assoc]
+          norm_num at this
         -- Use the fact that μb + 3 < μa + μb + 4 (always true since μa ≥ 0)
         have exp2_lt : omega0 ^ (mu b + 3) < omega0 ^ (mu a + mu b + 4) := by
           apply opow_lt_opow_right
@@ -1085,7 +1091,7 @@ lemma mu_lt_eq_diff (a b : Trace) :
         · -- Case: sum is strictly less than target
           -- If ω^(μa + 4) + ω^(μb + 3) < ω^(μa + μb + 4), then adding 1 gives us the result
           -- Since ordinals have: a < b → a + c < b + c when 0 < c
-          have : (0 : Ordinal) < (1 : Ordinal) := by norm_num
+          have one_pos : (0 : Ordinal) < 1 := by norm_num
           -- For ordinals: a < b → a + c < b + c (right monotonicity)
           -- Need to show: (ω^(μa + 4) + ω^(μb + 3)) + 1 < ω^(μa + μb + 4) + 1
           -- But we have: ω^(μa + 4) + ω^(μb + 3) < ω^(μa + μb + 4)
@@ -1096,31 +1102,25 @@ lemma mu_lt_eq_diff (a b : Trace) :
             -- Use the fact that ω^γ is a limit ordinal for γ > 0
             -- so if α < ω^γ, then α + 1 < ω^γ as well
             have γ_pos : (0 : Ordinal) < mu a + mu b + 4 := by
-              have : (0 : Ordinal) < (4 : Ordinal) := by norm_num
-              exact lt_of_lt_of_le this (le_add_left _ _)
+              apply lt_of_lt_of_le (b := (4 : Ordinal))
+              · norm_num
+              · exact Ordinal.le_add_left (4 : Ordinal) (mu a + mu b)
             -- Use the fact that ω^γ is a limit ordinal for γ > 0
             -- If α < ω^γ, then α + n < ω^γ for any finite n
-            -- This follows from ω^γ being closed under addition of finite ordinals
             have α_lt : omega0 ^ (mu a + 4) + omega0 ^ (mu b + 3) < omega0 ^ (mu a + mu b + 4) := strict_sum
             have one_finite : (1 : Ordinal) < omega0 := one_lt_omega0
-            -- Use limit ordinal properties: if α < ω^γ and γ > 0, then α + n < ω^γ for finite n
-            -- This is a standard result in ordinal theory
-            -- For limit ordinals ω^γ where γ > 0: if α < ω^γ, then α + n < ω^γ for finite n
-            -- Since ω^(μa + μb + 4) is a limit ordinal and α_lt shows the sum is strictly less,
-            -- adding 1 preserves the strict inequality due to limit ordinal properties
-            -- For limit ordinals ω^γ: if α < ω^γ then α + n < ω^γ for finite n
-            -- For limit ordinals ω^γ where γ > 0: if α < ω^γ, then α + n < ω^γ for finite n
-            -- Use the exact pattern from omega_pow_add_lt with finite ordinal
-            -- Since α_lt: α < ω^γ and 1 < ω < ω^γ, we can apply omega_pow_add_lt
-            have γ_pos : (0 : Ordinal) < mu a + mu b + 4 := by
-              have : (0 : Ordinal) < (4 : Ordinal) := by norm_num
-              exact lt_of_lt_of_le this (le_add_left _ _)
+            -- Apply omega_pow_add_lt to get α + 1 < ω^γ from α < ω^γ and 1 < ω^γ
+            have γ_pos2 : (0 : Ordinal) < mu a + mu b + 4 := by
+              apply lt_of_lt_of_le (b := (4 : Ordinal))
+              · norm_num
+              · exact Ordinal.le_add_left (4 : Ordinal) (mu a + mu b)
             have one_bound : (1 : Ordinal) < omega0 ^ (mu a + mu b + 4) := by
               -- Since γ > 0, we have ω ≤ ω^γ, and 1 < ω
               have : omega0 ≤ omega0 ^ (mu a + mu b + 4) := by
                 have bound : (1 : Ordinal) ≤ mu a + mu b + 4 := by
-                  have : (1 : Ordinal) ≤ (4 : Ordinal) := by norm_num
-                  exact le_trans this (le_add_left _ _)
+                  apply le_trans (b := (4 : Ordinal))
+                  · norm_num
+                  · exact Ordinal.le_add_left (4 : Ordinal) (mu a + mu b)
                 convert Ordinal.opow_le_opow_right omega0_pos bound
                 exact (opow_one omega0).symm
               exact lt_of_lt_of_le one_lt_omega0 this
@@ -1128,9 +1128,10 @@ lemma mu_lt_eq_diff (a b : Trace) :
             -- First prove the required goal: 1 ≤ mu a + mu b + 4
             have goal_bound : (1 : Ordinal) ≤ mu a + mu b + 4 := by
               -- 1 ≤ 4 and 4 ≤ mu a + mu b + 4 since all mu values are ≥ 0
-              have : (1 : Ordinal) ≤ (4 : Ordinal) := by norm_num
-              exact le_trans this (le_add_left _ _)
-            exact omega_pow_add_lt γ_pos α_lt one_bound
+              apply le_trans (b := (4 : Ordinal))
+              · norm_num
+              · exact Ordinal.le_add_left (4 : Ordinal) (mu a + mu b)
+            exact omega_pow_add_lt γ_pos2 α_lt one_bound
           exact limit_prop
         · -- Case: sum equals target - contradiction with exp2_lt being strict
           -- If ω^(μa + 4) + ω^(μb + 3) = ω^(μa + μb + 4), then by ordinal addition properties,
