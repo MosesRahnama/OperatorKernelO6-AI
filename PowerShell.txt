@@ -1,0 +1,1019 @@
+       A
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?a
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?b
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+    ==>
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu s) 1
+    ==>
+      Order.succ (mu s)
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.42250
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6
+    ==>
+      HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s))) ?m.42250)
+        (HPow.hPow omega0 (HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)))
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?a
+    with
+      LT.lt (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s))) ?m.42250)
+        (HPow.hPow omega0 (HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)))
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?b
+    with
+      LT.lt (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s))) ?m.42250)
+        (HPow.hPow omega0 (HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s))) ?m.42250)
+        (HPow.hPow omega0 (HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)))
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?a
+    with
+      LT.lt (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s))) ?m.42250)
+        (HPow.hPow omega0 (HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)))
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?b
+    with
+      LT.lt (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s))) ?m.42250)
+        (HPow.hPow omega0 (HAdd.hAdd (mu n.delta) (HAdd.hAdd (mu s) 6)))
+info: OperatorKernelO6/Meta/Termination.lean:917:27: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.unify] lt_add_iff_pos_right:1000, failed to unify
+      LT.lt ?a (HAdd.hAdd ?a ?b)
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.unify] lt_add_iff_pos_left:1000, failed to unify
+      LT.lt ?a (HAdd.hAdd ?b ?a)
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.unify] Nat.ofNat_pos:1000, failed to unify
+      LT.lt 0 (OfNat.ofNat ?n)
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.unify] pos_add_self_iff:1000, failed to unify
+      LT.lt 0 (HAdd.hAdd ?a ?a)
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.unify] add_pos_iff:1000, failed to unify
+      LT.lt 0 (HAdd.hAdd ?a ?b)
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.unify] Nat.ofNat_pos':100, failed to unify
+      LT.lt 0 (OfNat.ofNat ?n)
+    with
+      LT.lt 0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+info: OperatorKernelO6/Meta/Termination.lean:918:25: [Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.42250
+[Meta.Tactic.simp.unify] add_comm:1000:perm, failed to unify
+      HAdd.hAdd ?a ?b
+    with
+      HAdd.hAdd (mu n.delta) (mu s)
+[Meta.Tactic.simp.unify] add_comm:1000:perm, failed to unify
+      HAdd.hAdd ?a ?b
+    with
+      HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt ?m.42250 (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6))
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      LT.lt ?m.42250 (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6))
+    ==>
+      LT.lt ?m.42250 (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6))
+[Meta.Tactic.simp.unify] add_comm:1000:perm, failed to unify
+      HAdd.hAdd ?a ?b
+    with
+      HAdd.hAdd (mu (b.recΔ s n)) 1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu (b.recΔ s n)) 1
+    ==>
+      Order.succ (mu (b.recΔ s n))
+[Meta.Tactic.simp.unify] add_comm:1000:perm, failed to unify
+      HAdd.hAdd ?a ?b
+    with
+      HAdd.hAdd (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n)))) 1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n)))) 1
+    ==>
+      Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))) A
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))) A
+info: OperatorKernelO6/Meta/Termination.lean:926:6: [Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.rewrite] unfold mu, mu n.delta ==> HAdd.hAdd (HMul.hMul (HPow.hPow omega0 5) (HAdd.hAdd (mu n) 1)) 1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu n) 1
+    ==>
+      Order.succ (mu n)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n))) 1
+    ==>
+      Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu b) 1
+    ==>
+      Order.succ (mu b)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd
+        (HAdd.hAdd
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HMul.hMul omega0 (Order.succ (mu b))))
+        1
+    ==>
+      Order.succ
+        (HAdd.hAdd
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HMul.hMul omega0 (Order.succ (mu b))))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (Order.succ
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b)))))
+[Meta.Tactic.simp.unify] Order.lt_succ_iff_not_isMax:1000, failed to unify
+      LT.lt ?a (Order.succ ?a)
+    with
+      LT.lt
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (Order.succ
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b)))))
+[Meta.Tactic.simp.discharge] Order.lt_succ_of_le discharge ✅️
+      LE.le
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (HAdd.hAdd
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HMul.hMul omega0 (Order.succ (mu b))))
+  [Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+        LE.le ?a ?a
+      with
+        LE.le
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b))))
+  [Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+        LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+      with
+        LE.le
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b))))
+  [Meta.Tactic.simp.rewrite] le_add_iff_nonneg_right:1000:
+        LE.le
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b))))
+      ==>
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+        LE.le ?a ?a
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+        LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_right':1000, failed to unify
+        LE.le ?a (HMul.hMul ?a ?b)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_left':1000, failed to unify
+        LE.le ?a (HMul.hMul ?b ?a)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] self_le_mul_right:1000, failed to unify
+        LE.le ?a (HMul.hMul ?a ?b)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] self_le_mul_left:1000, failed to unify
+        LE.le ?a (HMul.hMul ?b ?a)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_right:1000, failed to unify
+        LE.le ?a (HMul.hMul ?a ?b)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_left:1000, failed to unify
+        LE.le ?a (HMul.hMul ?b ?a)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.rewrite] zero_le:1000:
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+      ==>
+        True
+[Meta.Tactic.simp.rewrite] Order.lt_succ_of_le:1000:
+      LT.lt
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (Order.succ
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b)))))
+    ==>
+      True
+info: OperatorKernelO6/Meta/Termination.lean:927:4: [Meta.Tactic.simp.rewrite] hA:1000:
+      A
+    ==>
+      HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6)
+[Meta.Tactic.simp.rewrite] unfold mu, mu n.delta ==> HAdd.hAdd (HMul.hMul (HPow.hPow omega0 5) (HAdd.hAdd (mu n) 1)) 1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu n) 1
+    ==>
+      Order.succ (mu n)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n))) 1
+    ==>
+      Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))
+[Meta.Tactic.simp.rewrite] unfold mu, mu
+      (b.recΔ s
+        n.delta) ==> HAdd.hAdd
+      (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n.delta) (mu s)) 6))
+        (HMul.hMul omega0 (HAdd.hAdd (mu b) 1)))
+      1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu b) 1
+    ==>
+      Order.succ (mu b)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd
+        (HAdd.hAdd
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HMul.hMul omega0 (Order.succ (mu b))))
+        1
+    ==>
+      Order.succ
+        (HAdd.hAdd
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HMul.hMul omega0 (Order.succ (mu b))))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (Order.succ
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b)))))
+[Meta.Tactic.simp.unify] Order.lt_succ_iff_not_isMax:1000, failed to unify
+      LT.lt ?a (Order.succ ?a)
+    with
+      LT.lt
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (Order.succ
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b)))))
+[Meta.Tactic.simp.discharge] Order.lt_succ_of_le discharge ✅️
+      LE.le
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (HAdd.hAdd
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HMul.hMul omega0 (Order.succ (mu b))))
+  [Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+        LE.le ?a ?a
+      with
+        LE.le
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b))))
+  [Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+        LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+      with
+        LE.le
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b))))
+  [Meta.Tactic.simp.rewrite] le_add_iff_nonneg_right:1000:
+        LE.le
+          (HPow.hPow omega0
+            (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b))))
+      ==>
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+        LE.le ?a ?a
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+        Subsingleton Ordinal.{?u.104846}
+  [Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+        LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_right':1000, failed to unify
+        LE.le ?a (HMul.hMul ?a ?b)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_left':1000, failed to unify
+        LE.le ?a (HMul.hMul ?b ?a)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] self_le_mul_right:1000, failed to unify
+        LE.le ?a (HMul.hMul ?a ?b)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] self_le_mul_left:1000, failed to unify
+        LE.le ?a (HMul.hMul ?b ?a)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_right:1000, failed to unify
+        LE.le ?a (HMul.hMul ?a ?b)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.unify] le_mul_iff_one_le_left:1000, failed to unify
+        LE.le ?a (HMul.hMul ?b ?a)
+      with
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+  [Meta.Tactic.simp.rewrite] zero_le:1000:
+        LE.le 0 (HMul.hMul omega0 (Order.succ (mu b)))
+      ==>
+        True
+[Meta.Tactic.simp.rewrite] Order.lt_succ_of_le:1000:
+      LT.lt
+        (HPow.hPow omega0
+          (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+        (Order.succ
+          (HAdd.hAdd
+            (HPow.hPow omega0
+              (HAdd.hAdd (HAdd.hAdd (Order.succ (HMul.hMul (HPow.hPow omega0 5) (Order.succ (mu n)))) (mu s)) 6))
+            (HMul.hMul omega0 (Order.succ (mu b)))))
+    ==>
+      True
+info: OperatorKernelO6/Meta/Termination.lean:934:6: [Meta.Tactic.simp.rewrite] unfold mu, mu
+      (s.merge
+        (b.recΔ s
+          n)) ==> HAdd.hAdd
+      (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (HAdd.hAdd (mu s) 1))
+        (HMul.hMul (HPow.hPow omega0 2) (HAdd.hAdd (mu (b.recΔ s n)) 1)))
+      1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu s) 1
+    ==>
+      Order.succ (mu s)
+[Meta.Tactic.simp.rewrite] unfold mu, mu
+      (b.recΔ s
+        n) ==> HAdd.hAdd
+      (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (HAdd.hAdd (mu b) 1))) 1
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu b) 1
+    ==>
+      Order.succ (mu b)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd
+        (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (Order.succ (mu b)))) 1
+    ==>
+      Order.succ
+        (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (Order.succ (mu b))))
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd
+        (Order.succ
+          (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (Order.succ (mu b)))))
+        1
+    ==>
+      Order.succ
+        (Order.succ
+          (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (Order.succ (mu b)))))
+[Meta.Tactic.simp.rewrite] succ_succ:1000:
+      Order.succ
+        (Order.succ
+          (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (Order.succ (mu b)))))
+    ==>
+      HAdd.hAdd
+        (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6)) (HMul.hMul omega0 (Order.succ (mu b)))) 2
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (HMul.hMul (HPow.hPow omega0 2)
+            (HAdd.hAdd
+              (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                (HMul.hMul omega0 (Order.succ (mu b))))
+              2)))
+        1
+    ==>
+      Order.succ
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (HMul.hMul (HPow.hPow omega0 2)
+            (HAdd.hAdd
+              (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                (HMul.hMul omega0 (Order.succ (mu b))))
+              2)))
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd
+        (HMul.hMul (HPow.hPow omega0 2)
+          (HAdd.hAdd
+            (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+              (HMul.hMul omega0 (Order.succ (mu b))))
+            2))
+        1
+    ==>
+      Order.succ
+        (HMul.hMul (HPow.hPow omega0 2)
+          (HAdd.hAdd
+            (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+              (HMul.hMul omega0 (Order.succ (mu b))))
+            2))
+[Meta.Tactic.simp.unify] eq_self:1000, failed to unify
+      Eq ?a ?a
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] OfNat.ofNat_eq_ofNat:1000, failed to unify
+      Eq (OfNat.ofNat ?m) (OfNat.ofNat ?n)
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] left_eq_add:1000, failed to unify
+      Eq ?a (HAdd.hAdd ?a ?b)
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] right_eq_add:1000, failed to unify
+      Eq ?b (HAdd.hAdd ?a ?b)
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] Order.succ_eq_iff_isMax:1000, failed to unify
+      Eq (Order.succ ?a) ?a
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] eq_self:1000, failed to unify
+      Eq ?a ?a
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] OfNat.ofNat_eq_ofNat:1000, failed to unify
+      Eq (OfNat.ofNat ?m) (OfNat.ofNat ?n)
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] left_eq_add:1000, failed to unify
+      Eq ?a (HAdd.hAdd ?a ?b)
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] right_eq_add:1000, failed to unify
+      Eq ?b (HAdd.hAdd ?a ?b)
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+[Meta.Tactic.simp.unify] Order.succ_eq_iff_isMax:1000, failed to unify
+      Eq (Order.succ ?a) ?a
+    with
+      Eq
+        (Order.succ
+          (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ
+            (HMul.hMul (HPow.hPow omega0 2)
+              (HAdd.hAdd
+                (HAdd.hAdd (HPow.hPow omega0 (HAdd.hAdd (HAdd.hAdd (mu n) (mu s)) 6))
+                  (HMul.hMul omega0 (Order.succ (mu b))))
+                2))))
+info: OperatorKernelO6/Meta/Termination.lean:935:4: [Meta.Tactic.simp.unify] this:1000, failed to unify
+      mu (s.merge (b.recΔ s n))
+    with
+      mu (s.merge (b.recΔ s n))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu (s.merge (b.recΔ s n))) A
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      LT.lt (mu (s.merge (b.recΔ s n))) A
+    ==>
+      LT.lt (mu (s.merge (b.recΔ s n))) A
+[Meta.Tactic.simp.unify] this:1000, failed to unify
+      mu (s.merge (b.recΔ s n))
+    with
+      mu s
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu s) 1
+    ==>
+      Order.succ (mu s)
+[Meta.Tactic.simp.unify] this:1000, failed to unify
+      mu (s.merge (b.recΔ s n))
+    with
+      mu (b.recΔ s n)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu (b.recΔ s n)) 1
+    ==>
+      Order.succ (mu (b.recΔ s n))
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n)))) 1
+    ==>
+      Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?a
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?b
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.unify] add_lt_iff_neg_left:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?a
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+[Meta.Tactic.simp.unify] add_lt_iff_neg_right:1000, failed to unify
+      LT.lt (HAdd.hAdd ?a ?b) ?b
+    with
+      LT.lt
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu s)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu (b.recΔ s n))))))
+        A
+info: OperatorKernelO6/Meta/Termination.lean:940:3: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu (s.merge (b.recΔ s n))) (mu (b.recΔ s n.delta))
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.25251
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.25250
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.25252
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu (merge ?m.25251 (recΔ ?m.25250 ?m.25251 ?m.25252))) (mu (recΔ ?m.25250 ?m.25251 (delta ?m.25252)))
+error: OperatorKernelO6/Meta/Termination.lean:955:6: type mismatch, term
+  hpayload
+after simplification has type
+  LE.le
+    (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+      (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+    (HPow.hPow omega0 (HAdd.hAdd (mu a) 5)) : Prop
+but is expected to have type
+  LT.lt (mu (a.merge b)) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5)) : Prop
+error: OperatorKernelO6/Meta/Termination.lean:956:30: Application type mismatch: In the application
+  lt_of_le_of_lt this (lt_add_of_pos_right ?m.29291 (succ_pos ?m.29648))
+the argument
+  lt_add_of_pos_right ?m.29291 (succ_pos ?m.29648)
+has type
+  LT.lt ?m.29291 (HAdd.hAdd ?m.29291 (Order.succ ?m.29648)) : Prop
+but is expected to have type
+  LT.lt (HPow.hPow omega0 (HAdd.hAdd (mu a) 5)) (HPow.hPow omega0 (HAdd.hAdd C 5)) : Prop
+error: OperatorKernelO6/Meta/Termination.lean:945:47: unsolved goals
+a b : Trace
+C : Ordinal.{?u.32636} := HAdd.hAdd (mu a) (mu b)
+hC : Eq C (HAdd.hAdd (mu a) (mu b))
+B : Ordinal.{?u.32636} := HPow.hPow omega0 (HAdd.hAdd C 9)
+hB : Eq B (HPow.hPow omega0 (HAdd.hAdd C 9))
+h_inner : LT.lt (HAdd.hAdd (mu (a.merge b)) 1) (HPow.hPow omega0 (HAdd.hAdd C 5))
+⊢ LT.lt (mu (a.merge b).integrate) (mu (a.eqW b))
+info: OperatorKernelO6/Meta/Termination.lean:944:0: [diag] Diagnostics
+  [reduction] unfolded declarations (max: 474, num: 7):
+    [reduction] Add.add ↦ 474
+    [reduction] HAdd.hAdd ↦ 432
+    [reduction] Pow.pow ↦ 321
+    [reduction] HPow.hPow ↦ 279
+    [reduction] ite ↦ 233
+    [reduction] Quotient ↦ 172
+    [reduction] Ordinal ↦ 162
+  [reduction] unfolded instances (max: 286, num: 2):
+    [reduction] instHAdd ↦ 286
+    [reduction] AddZeroClass.toAdd ↦ 107
+  [reduction] unfolded reducible declarations (max: 262, num: 5):
+    [reduction] Quotient.lift ↦ 262
+    [reduction] Decidable.casesOn ↦ 250
+    [reduction] Quotient.liftOn₂ ↦ 229
+    [reduction] Quotient.lift₂ ↦ 229
+    [reduction] outParam ↦ 165
+  [def_eq] heuristic for solving `f a =?= f b` (max: 138, num: 1):
+    [def_eq] instHAdd ↦ 138
+  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+info: OperatorKernelO6/Meta/Termination.lean:955:6: [Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu (a.merge b)) 1
+    ==>
+      Order.succ (mu (a.merge b))
+[Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+      LE.le ?a ?a
+    with
+      LE.le (Order.succ (mu (a.merge b))) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+      Subsingleton Ordinal.{?u.25878}
+[Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+      Subsingleton Ordinal.{?u.25878}
+[Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+      LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+    with
+      LE.le (Order.succ (mu (a.merge b))) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] Order.succ_le_iff_isMax:1000, failed to unify
+      LE.le (Order.succ ?a) ?a
+    with
+      LE.le (Order.succ (mu (a.merge b))) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.rewrite] Order.succ_le_iff:1000:
+      LE.le (Order.succ (mu (a.merge b))) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+    ==>
+      LT.lt (mu (a.merge b)) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu (a.merge b)) (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (mu a) 1
+    ==>
+      Order.succ (mu a)
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      HAdd.hAdd (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a))) 1
+    ==>
+      Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))
+[Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+      LE.le ?a ?a
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+      Subsingleton Ordinal.{?u.25834}
+[Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+      Subsingleton Ordinal.{?u.25834}
+[Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+      LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] add_le_iff_nonpos_right:1000, failed to unify
+      LE.le (HAdd.hAdd ?a ?b) ?a
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] add_le_iff_nonpos_left:1000, failed to unify
+      LE.le (HAdd.hAdd ?a ?b) ?b
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] le_refl:1000, failed to unify
+      LE.le ?a ?a
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.discharge] le_of_subsingleton, failed to synthesize instance
+      Subsingleton Ordinal.{?u.25834}
+[Meta.Tactic.simp.discharge] le_of_subsingleton discharge ❌️
+      Subsingleton Ordinal.{?u.25834}
+[Meta.Tactic.simp.unify] LowerAdjoint.closure_le_closed_iff_le:1000, failed to unify
+      LE.le (?u (LowerAdjoint.toFun ?l ?x)) ?y
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] add_le_iff_nonpos_right:1000, failed to unify
+      LE.le (HAdd.hAdd ?a ?b) ?a
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+[Meta.Tactic.simp.unify] add_le_iff_nonpos_left:1000, failed to unify
+      LE.le (HAdd.hAdd ?a ?b) ?b
+    with
+      LE.le
+        (HAdd.hAdd (HMul.hMul (HPow.hPow omega0 3) (Order.succ (mu a)))
+          (Order.succ (HMul.hMul (HPow.hPow omega0 2) (Order.succ (mu a)))))
+        (HPow.hPow omega0 (HAdd.hAdd (mu a) 5))
+info: OperatorKernelO6/Meta/Termination.lean:983:0: [diag] Diagnostics
+  [reduction] unfolded reducible declarations (max: 107, num: 1):
+    [reduction] Quotient.lift ↦ 107
+  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+info: OperatorKernelO6/Meta/Termination.lean:987:31: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu void) (mu t.delta.integrate)
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu void) (mu t.delta.integrate)
+info: OperatorKernelO6/Meta/Termination.lean:988:31: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (void.merge b))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (void.merge b))
+info: OperatorKernelO6/Meta/Termination.lean:989:31: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (b.merge void))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (b.merge void))
+info: OperatorKernelO6/Meta/Termination.lean:990:31: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (b.merge b))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (b.merge b))
+info: OperatorKernelO6/Meta/Termination.lean:991:31: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu b) (mu (b.recΔ s✝ void))
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.27477
+[Meta.Tactic.simp.unify] Array.filterMap_some_fun:1000, failed to unify
+      fun as => Array.filterMap some as
+    with
+      ?m.27478
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu ?m.27477) (mu (recΔ ?m.27477 ?m.27478 void))
+info: OperatorKernelO6/Meta/Termination.lean:993:31: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu void) (mu (a.eqW a))
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu void) (mu (a.eqW a))
+error: OperatorKernelO6/Meta/Termination.lean:1024:14: failed to infer universe levels in 'have' declaration type
+  LT.lt (mu.{?u.25558} x) (mu.{?u.25558} y)
+info: OperatorKernelO6/Meta/Termination.lean:1025:2: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt x1✝ x2✝
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu x) (mu y)
+error: OperatorKernelO6/Meta/Termination.lean:1027:0: Invalid name after `end`: Expected `DebugSection`, but found `TailLtADebug`
+
+Note: The current scopes are `MetaSN.DebugSection`
+error: OperatorKernelO6/Meta/Termination.lean:1038:14: failed to infer universe levels in 'have' declaration type
+  LT.lt (mu.{?u.25590} x) (mu.{?u.25590} y)
+info: OperatorKernelO6/Meta/Termination.lean:1039:2: [Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt x1✝ x2✝
+[Meta.Tactic.simp.unify] lt_self_iff_false:1000, failed to unify
+      LT.lt ?x ?x
+    with
+      LT.lt (mu x) (mu y)
+error: OperatorKernelO6/Meta/Termination.lean:1051:4: 'MetaSN._dup.KernelStep' has already been declared
+error: OperatorKernelO6/Meta/Termination.lean:1053:8: 'MetaSN._dup.step_strong_normalization' has already been declared
+error: Lean exited with code 1
+Some required builds logged failures:
+- OperatorKernelO6.Meta.Equality
+- OperatorKernelO6.Meta.Termination
+error: build failed
+PS C:\Users\Moses\math_ops\OperatorKernelO6> 

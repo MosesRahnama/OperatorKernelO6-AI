@@ -1,5 +1,5 @@
 import OperatorKernelO6.Kernel
-import OperatorKernelO6.Meta
+import OperatorKernelO6.Meta.Meta
 
 open OperatorKernelO6 Trace
 

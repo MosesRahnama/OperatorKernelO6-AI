@@ -834,38 +834,16 @@ Invert the strict-monotone ω-power:
 
 -- 'sorry' should make lake build fail with your lakefile settings
 
-section TailLtADebug
-
--- set_option diagnostics true
--- set_option diagnostics.threshold 100
--- set_option trace.Meta.Tactic.simp.rewrite true
--- set_option trace.Meta.debug true
--- set_option maxRecDepth 1000
--- set_option trace.linarith true
--- -- set_option trace.compiler.ir.result true
--- -- set_option pp.explicit true (only turn on when you suspect hidden implicits)
--- -- set_option pp.universes true (rarely needed)
--- -- set_option trace.Meta.isDefEq true (use only for a single failing goal)
--- -- Variation 3: Unfold definitions carefully
--- -- -- Add these settings at the top of the file to make errors visible
--- -- set_option pp.proofs true
--- -- -- Remove invalid options and add useful ones
--- set_option trace.Meta.Tactic true        -- Keep this one for tactic debugging
--- set_option trace.Meta.debug true      -- Too verbose, commented out
--- set_option diagnostics true              -- Enable diagnostics
--- set_option maxRecDepth 1000              -- Prevent recursion errors
+section DebugTail
 
 set_option diagnostics true
-set_option diagnostics.threshold 100
-set_option trace.Meta.Tactic.simp.rewrite true
+set_option diagnostics.threshold 500     -- counters only if truly hot
+-- set_option trace.Meta.Tactic.simp.rewrite true
+-- set_option trace.profiler true           -- pairs with lakefile threshold
+-- keep notation ON for compact lines
+-- set_option pp.notation true
 
--- Add this somewhere in Termination.lean to verify errors break the build
-theorem test_error : 2 + 2 = 5 := by
-  sorry  -- Using sorry explicitly to test if build fails
-
--- ------------------------------------------------------------------
---  Tail payload is below the big tower
--- ------------------------------------------------------------------
+-- The lemma that you're focusing on
 lemma tail_lt_A {b s n : Trace} :
     let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
     omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
@@ -1043,9 +1021,28 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hdec : mu x < mu y := mu_decreases hk
   simpa using hdec
 
-end TailLtADebug
+end DebugTail
 
 
+namespace _dup  -- ADD THIS LINE HERE
+
+def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
+
+theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
+  refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
+  intro x y hxy
+  have hk : KernelStep y x := hxy
+  have hdec : mu x < mu y := mu_decreases hk
+  simpa using hdec
+
+-- Delete everything after this line
+-- Delete everything after this line
+
+
+end _dup  -- ADD THIS LINE HERE
+
+-- Delete everything after this line
+-- Delete everything after this line
 namespace _dup  -- ADD THIS LINE HERE
 
 def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b

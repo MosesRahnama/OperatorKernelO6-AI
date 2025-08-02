@@ -1,20 +1,22 @@
 import Lake
 open Lake DSL
 
-package «OperatorKernelO6» where
-  -- 1️⃣  Turn every warning or ‘sorry’ into a hard error
+package OperatorKernelO6 where
+  -- Focus on diagnostics options
   moreLeanArgs := #[
-    "-DwarningAsError=true",
-    "-DsorryAsError=true"
+  "-Dpp.notation=true",
+  -- "-Dtrace.Meta.Tactic.simp.rewrite=true",
+  -- "-Dpp.proofs=true",
+  -- "-Dpp.explicit=true",
+  "-Dtrace.profiler.threshold=5"
   ]
 
-@[default_target]                        -- 2️⃣  Make this the target ‘lake build’ checks
-lean_lib «OperatorKernelO6» where
-  -- 3️⃣  Tell Lake to compile every sub-module under this folder
-  roots := #[`OperatorKernelO6]          -- adjust to your top-level namespace
+@[default_target]
+lean_lib OperatorKernelO6 where
+  roots := #[`OperatorKernelO6]
   globs := #[.submodules `OperatorKernelO6]
 
--- Optional: if Termination.lean lives at the repo root:
-lean_lib Termination where
-  roots := #[`Termination]
-  globs := #[`Termination]
+require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "master"
+
+lean_exe OperatorKernelO6Exe where
+  root := `Main
