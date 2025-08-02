@@ -193,36 +193,36 @@ theorem mu_recΔ_plus_3_lt (b s n : Trace) :
   -- the core domination lemmas that would be proven separately.
 
   -- Step 1: Show μ(recΔ b s n) < μ(δn) by tower domination
-  have h_dom : mu (recΔ b s n) < mu (delta n) := by
+  -- have h_dom : mu (recΔ b s n) < mu (delta n) := by
     -- μ(recΔ) = ω^(μn + μs + 6) + ω·(μb + 1) + 1
     -- μ(δn) = ω^5·(μn + 1) + 1
     -- Key: ω^5 coefficient dominates the exponential tower
-    simp [mu]
+    -- simp [mu]
     -- This follows from deep ordinal arithmetic properties
     sorry
 
   -- Step 2: Add the margins
-  have h_margin : mu (delta n) + 3 ≤ mu (delta n) + mu s + 6 := by
+  -- have h_margin : mu (delta n) + 3 ≤ mu (delta n) + mu s + 6 := by
     -- Basic arithmetic: a + 3 ≤ a + b + 6 when b ≥ 0
-    have : (3 : Ordinal) ≤ mu s + 6 := by
+    -- have : (3 : Ordinal) ≤ mu s + 6 := by
       -- 3 ≤ 0 + 6 ≤ μs + 6
-      have : (3 : Ordinal) ≤ 6 := by norm_num
-      have : (0 : Ordinal) ≤ mu s := zero_le _
-      exact le_trans ‹(3 : Ordinal) ≤ 6› (le_add_left 6 (mu s))
-    rw [add_assoc]
-    exact add_le_add_left this (mu (delta n))
+      -- have : (3 : Ordinal) ≤ 6 := by norm_num
+      -- have : (0 : Ordinal) ≤ mu s := zero_le _
+    --   exact le_trans ‹(3 : Ordinal) ≤ 6› (le_add_left 6 (mu s))
+    -- rw [add_assoc]
+    -- exact add_le_add_left this (mu (delta n))
 
   -- Chain the inequalities
-  have h_lt : mu (recΔ b s n) + 3 < mu (delta n) + 3 := by
+  -- have h_lt : mu (recΔ b s n) + 3 < mu (delta n) + 3 := by
     -- Since 3 is a finite ordinal, and we have mu(recΔ) < mu(δn),
     -- we can directly use the monotonicity for small finite addends
     -- This is a technical detail that would be proven via induction on natural numbers
-    have h_finite : (3 : Ordinal) = (3 : ℕ) := by simp
+    -- have h_finite : (3 : Ordinal) = (3 : ℕ) := by simp
     -- For finite ordinals, right addition is monotonic
-    rw [h_finite, h_finite]
+    -- rw [h_finite, h_finite]
     -- This follows from standard finite ordinal arithmetic properties
-    sorry
-  exact lt_of_lt_of_le h_lt h_margin
+    -- sorry
+  -- exact lt_of_lt_of_le h_lt h_margin
 
 private lemma le_omega_pow (x : Ordinal) : x ≤ omega0 ^ x :=
   right_le_opow (a := omega0) (b := x) one_lt_omega0
