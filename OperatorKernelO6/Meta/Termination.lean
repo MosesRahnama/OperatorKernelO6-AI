@@ -774,13 +774,6 @@ end OrdinalHelpers
 
 open OrdinalHelpers
 
-/-! ### Strict monotonicity of `ω ^ _` as a local lemma -/
-@[simp] lemma opow_lt_opow_right {b c : Ordinal} (h : b < c) :
-    omega0 ^ b < omega0 ^ c := by
-  simpa using
-    ((Ordinal.isNormal_opow (a := omega0) one_lt_omega0).strictMono h)
-
-/-! ### Main lemma -/
 
 /--  The “tail” payload sits strictly below the big tower `A`. -/
 lemma tail_lt_A {b s n : Trace} :
