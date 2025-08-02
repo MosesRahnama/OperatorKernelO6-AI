@@ -185,11 +185,19 @@ theorem mu_void_lt_eq_refl (a : Trace) :
 theorem mu_recΔ_plus_3_lt (b s n : Trace) :
   mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
   -- The key insight: recΔ has exponent μn + μs + 6, delta has much larger coefficient
-  -- ω^(μn + μs + 6) + ω·(μb + 1) + 1 + 3 should be less than ω^5·(μn + 1) + μs + 6
-  simp [mu]
-  -- This follows from careful ordinal arithmetic showing the delta tower dominates
-  -- We can use the fact that ω^5 coefficient in delta makes it much larger
-  sorry
+  -- We need to show that the recΔ term is bounded appropriately
+  -- Since μ(recΔ b s n) = ω^(μn + μs + 6) + ω·(μb + 1) + 1
+  -- and μ(delta n) = ω^5·(μn + 1) + 1
+  -- We can show that μ(recΔ) + 3 < something involving μ(delta n)
+
+  -- First, we know that ω^(μn + μs + 6) dominates the recΔ term
+  -- And ω^5 coefficient in delta makes μ(delta n) very large
+  -- The finite addition of 3 on the left and 6 on the right maintains the inequality
+
+  -- This is a key technical lemma that requires careful ordinal arithmetic
+  -- For now we assume it holds, but it would need a detailed proof
+  -- involving the specific structure of the mu function
+  sorry  -- TODO: Provide detailed ordinal arithmetic proof
 
 private lemma le_omega_pow (x : Ordinal) : x ≤ omega0 ^ x :=
   right_le_opow (a := omega0) (b := x) one_lt_omega0
@@ -654,7 +662,7 @@ private lemma two_lt_three : (2 : Ordinal) < 3 := by
 
 
 lemma omega_pow_add_lt
-    {κ α β : Ordinal} (hκ : 0 < κ)
+    {κ α β : Ordinal} (_ : 0 < κ)
     (hα : α < omega0 ^ κ) (hβ : β < omega0 ^ κ) :
     α + β < omega0 ^ κ := by
   have hprin : Principal (fun x y : Ordinal => x + y) (omega0 ^ κ) :=
@@ -707,9 +715,14 @@ lemma zero_lt_one : (0 : Ordinal) < 1 := by norm_num
 
 -- Helper for successor positivity
 lemma succ_pos (a : Ordinal) : (0 : Ordinal) < Order.succ a := by
+  -- Order.succ a = a + 1, and we need 0 < a + 1
+  -- This is true because 0 < 1 and a ≥ 0
+  have h1 : (0 : Ordinal) ≤ a := Ordinal.zero_le a
+  have h2 : (0 : Ordinal) < 1 := zero_lt_one
+  -- Since Order.succ a = a + 1
   rw [Order.succ]
-  exact lt_add_of_pos_right _ zero_lt_one
-
+  -- 0 < a + 1 follows from 0 ≤ a and 0 < 1
+  exact lt_of_lt_of_le h2 (le_add_of_nonneg_left h1)
 
 @[simp] lemma succ_succ (a : Ordinal) :
     Order.succ (Order.succ a) = a + 2 := by
@@ -749,13 +762,12 @@ open Ordinal
 
 
 
-/--  The “tail” payload sits strictly below the big tower `A`. -/
+/--  The "tail" payload sits strictly below the big tower `A`. -/
 lemma tail_lt_A {b s n : Trace} :
     let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
     omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
-  -- Abbreviation to keep formulas readable
-  let α : Ordinal := mu n + mu s + 6
+  -- Don't define α separately - just use the expression directly
 
   ---------------------------------------------------------------- 1
   --  ω²·(μ(recΔ)+1) ≤ ω^(μ(recΔ)+3)
@@ -926,4 +938,5 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
 
 end DebugTail
 
+end MetaSN
 end MetaSN
