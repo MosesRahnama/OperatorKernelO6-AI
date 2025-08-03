@@ -13,8 +13,6 @@ namespace MetaSN
 
 
 
-set_option linter.unnecessarySimpa false
-
 
 
 
@@ -134,6 +132,16 @@ theorem mu_lt_eq_diff_both_void :
 
 
 
+set_option diagnostics true
+set_option diagnostics.threshold 500
+set_option linter.unnecessarySimpa false
+set_option diagnostics true
+set_option trace.Meta.Tactic.simp.rewrite true
+set_option trace.Meta.debug true
+set_option autoImplicit false
+set_option maxRecDepth 1000
+set_option trace.linarith true
+set_option trace.compiler.ir.result true
 
 /-- Any non-void trace has `μ ≥ ω`.  Exhaustive on constructors. -/
 private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
@@ -143,9 +151,8 @@ private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
 
   | delta s =>
       -- ω ≤ ω⁵ ≤ ω⁵·(μ s + 1) + 1
-      have hω_pow : omega0 ≤ omega0 ^ (5 : Ordinal) := by
-        simpa [Ordinal.opow_one] using
-          Ordinal.opow_le_opow_right omega0_pos (by norm_num : (1 : Ordinal) ≤ 5)
+      have hω_pow : omega0 ≤ omega0 ^ (5 : Ordinal) :=
+        Ordinal.opow_le_opow_right omega0_pos (by norm_num)
       have h_one_le : (1 : Ordinal) ≤ mu s + 1 := by
         have : (0 : Ordinal) ≤ mu s := zero_le _
         simpa [zero_add] using add_le_add_right this 1
@@ -158,16 +165,14 @@ private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
           omega0 ≤ omega0 ^ (5 : Ordinal) := hω_pow
           _      ≤ (omega0 ^ (5 : Ordinal)) * (mu s + 1) := hmul
           _      ≤ (omega0 ^ (5 : Ordinal)) * (mu s + 1) + 1 :=
-                   le_add_of_nonneg_right (show (0 : Ordinal) ≤ 1 by
-                     simpa using zero_le_one)
+                   le_add_of_nonneg_right (zero_le _)
           _      = mu (.delta s) := by simp [mu]
       simpa [mu, add_comm, add_left_comm, add_assoc] using this
 
   | integrate s =>
       -- ω ≤ ω⁴ ≤ ω⁴·(μ s + 1) + 1
-      have hω_pow : omega0 ≤ omega0 ^ (4 : Ordinal) := by
-        simpa [Ordinal.opow_one] using
-          Ordinal.opow_le_opow_right omega0_pos (by norm_num : (1 : Ordinal) ≤ 4)
+      have hω_pow : omega0 ≤ omega0 ^ (4 : Ordinal) :=
+        Ordinal.opow_le_opow_right omega0_pos (by norm_num)
       have h_one_le : (1 : Ordinal) ≤ mu s + 1 := by
         have : (0 : Ordinal) ≤ mu s := zero_le _
         simpa [zero_add] using add_le_add_right this 1
@@ -186,9 +191,8 @@ private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
 
   | merge a b =>
       -- ω ≤ ω² ≤ ω²·(μ b + 1) ≤ μ(merge a b)
-      have hω_pow : omega0 ≤ omega0 ^ (2 : Ordinal) := by
-        simpa [Ordinal.opow_one] using
-          Ordinal.opow_le_opow_right omega0_pos (by norm_num : (1 : Ordinal) ≤ 2)
+      have hω_pow : omega0 ≤ omega0 ^ (2 : Ordinal) :=
+        Ordinal.opow_le_opow_right omega0_pos (by norm_num)
       have h_one_le : (1 : Ordinal) ≤ mu b + 1 := by
         have : (0 : Ordinal) ≤ mu b := zero_le _
         simpa [zero_add] using add_le_add_right this 1
@@ -199,21 +203,17 @@ private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
       have h_mid :
           omega0 ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 := by
         calc
-          omega0 ≤ omega0 ^ (2 : Ordinal) := hω_pow
-          _      ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) := hmul
+          omega0 ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) := hmul
           _      ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 :=
                    le_add_of_nonneg_right (zero_le _)
       have : omega0 ≤ mu (.merge a b) := by
-        have h_expand : (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 ≤
-                        (omega0 ^ (3 : Ordinal)) * (mu a + 1) + (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 := by
-          -- Goal: ω^2*(μb+1)+1 ≤ ω^3*(μa+1) + ω^2*(μb+1) + 1
-          -- Use add_assoc to change RHS from a+(b+c) to (a+b)+c
-          rw [add_assoc]
-          exact Ordinal.le_add_left ((omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1) ((omega0 ^ (3 : Ordinal)) * (mu a + 1))
-        calc
-          omega0 ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 := h_mid
-          _      ≤ (omega0 ^ (3 : Ordinal)) * (mu a + 1) + (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 := h_expand
-          _      = mu (.merge a b) := by simp [mu]
+        have h_left_nonneg :
+            (0 : Ordinal) ≤ (omega0 ^ (3 : Ordinal)) * (mu a + 1) :=
+          zero_le _
+        exact
+          le_trans h_mid
+            (le_add_of_nonneg_left
+              (le_add_of_nonneg_left h_left_nonneg))
       simpa [mu, add_comm, add_left_comm, add_assoc] using this
 
   | recΔ b s n =>
@@ -344,59 +344,3 @@ theorem mu_lt_eq_diff (a b : Trace) :
       lt_add_one_of_le (Order.add_one_le_of_lt h_chain)
 
     simpa [mu, hC] using h_final
-
-theorem mu_decreases :
-  ∀ {a b : Trace}, OperatorKernelO6.Step a b → mu b < mu a := by
-  intro a b h
-  cases h with
-  | @R_int_delta t          => simpa using mu_void_lt_integrate_delta t
-  | R_merge_void_left       => simpa using mu_lt_merge_void_left  b
-  | R_merge_void_right      => simpa using mu_lt_merge_void_right b
-  | R_merge_cancel          => simpa using mu_lt_merge_cancel     b
-  | @R_rec_zero _ _         => simpa using mu_lt_rec_zero _ _
-  | @R_rec_succ b s n       =>
-    -- Use the parameterized theorem mu_lt_rec_succ from TerminationBase
-    -- This requires the sophisticated ordinal bound which is a research challenge
-    have h_bound : omega0 ^ (mu n + mu s + (6 : Ordinal)) + omega0 * (mu b + 1) + 1 + 3 <
-                   (omega0 ^ (5 : Ordinal)) * (mu n + 1) + 1 + mu s + 6 := by
-      -- CONSTRAINT BLOCKER: This requires ordinal domination theory proof
-      -- The core challenge: ω^(μn + μs + 6) + ω·(μb + 1) + 4 < ω^5·(μn + 1) + μs + 7
-      -- This bound is well-founded but requires advanced ordinal analysis
-      admit
-    exact mu_lt_rec_succ b s n h_bound
-  | @R_eq_refl a            => simpa using mu_void_lt_eq_refl a
-  | @R_eq_diff a b _        => exact mu_lt_eq_diff a b
-
-def StepRev (R : Trace → Trace → Prop) : Trace → Trace → Prop := fun a b => R b a
-
-theorem strong_normalization_forward_trace
-  (R : Trace → Trace → Prop)
-  (hdec : ∀ {a b : Trace}, R a b → mu b < mu a) :
-  WellFounded (StepRev R) := by
-  have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
-    InvImage.wf (f := mu) (h := Ordinal.lt_wf)
-  have hsub : Subrelation (StepRev R) (fun x y : Trace => mu x < mu y) := by
-    intro x y h; exact hdec (a := y) (b := x) h
-  exact Subrelation.wf hsub hwf
-
-theorem strong_normalization_backward
-  (R : Trace → Trace → Prop)
-  (hinc : ∀ {a b : Trace}, R a b → mu a < mu b) :
-  WellFounded R := by
-  have hwf : WellFounded (fun x y : Trace => mu x < mu y) :=
-    InvImage.wf (f := mu) (h := Ordinal.lt_wf)
-  have hsub : Subrelation R (fun x y : Trace => mu x < mu y) := by
-    intro x y h
-    exact hinc h
-  exact Subrelation.wf hsub hwf
-
-def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
-
-theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
-  refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
-  intro x y hxy
-  have hk : KernelStep y x := hxy
-  have hdec : mu x < mu y := mu_decreases hk
-  exact hdec
-
-end MetaSN

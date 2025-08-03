@@ -1,24 +1,18 @@
 {"synthetic": false,
  "outputs":
- {"o": ["9261742184420928825"],
-  "i": "18191128496143655648",
+ {"o": ["4470300972030281237"],
+  "i": "16923038725762670616",
   "c": "1534093523858580985"},
  "log":
  [{"message":
    ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Termination.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Termination.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Termination.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Termination.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Termination.setup.json --json",
    "level": "trace"},
   {"message":
-   "OperatorKernelO6/Meta/Termination.lean:42:0: [diag] Diagnostics\n  [reduction] unfolded reducible declarations (max: 643, num: 1):\n    [reduction] outParam ↦ 643\n  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters",
+   "OperatorKernelO6/Meta/Termination.lean:146:0: [diag] Diagnostics\n  [reduction] unfolded declarations (max: 2127, num: 6):\n    [reduction] Mul.mul ↦ 2127\n    [reduction] Add.add ↦ 1560\n    [reduction] One.one ↦ 689\n    [reduction] HAdd.hAdd ↦ 588\n    [reduction] Ordinal ↦ 552\n    [reduction] Quotient ↦ 552\n  [reduction] unfolded instances (max: 5736, num: 23):\n    [reduction] Group.toDivInvMonoid ↦ 5736\n    [reduction] CommMonoid.toMonoid ↦ 4473\n    [reduction] LinearOrderedCommGroupWithZero.toLinearOrderedCommMonoidWithZero ↦ 3237\n    [reduction] DivInvMonoid.toMonoid ↦ 2856\n    [reduction] CommGroupWithZero.toCommMonoidWithZero ↦ 2817\n    [reduction] LinearOrderedCommGroupWithZero.toCommGroupWithZero ↦ 2817\n    [reduction] LinearOrderedCommMonoidWithZero.toCommMonoidWithZero ↦ 2817\n    [reduction] Monoid.toSemigroup ↦ 2663\n    [reduction] CommMonoidWithZero.toCommMonoid ↦ 2397\n    [reduction] AddCommMagma.toAdd ↦ 1840\n    [reduction] MonoidWithZero.toMonoid ↦ 1336\n    [reduction] CancelMonoid.toLeftCancelMonoid ↦ 1323\n    [reduction] instHAdd ↦ 1322\n    [reduction] Semigroup.toMul ↦ 1040\n    [reduction] CommGroupWithZero.toGroupWithZero ↦ 996\n    [reduction] GroupWithZero.toMonoidWithZero ↦ 996\n    [reduction] AddCommSemigroup.toAddSemigroup ↦ 888\n    [reduction] MulOneClass.toMul ↦ 704\n    [reduction] LeftCancelMonoid.toMonoid ↦ 666\n    [reduction] CancelMonoid.toRightCancelMonoid ↦ 648\n    [reduction] RightCancelMonoid.toMonoid ↦ 648\n    [reduction] AddSemigroup.toAdd ↦ 621\n    [reduction] Monoid.toMulOneClass ↦ 564\n  [reduction] unfolded reducible declarations (max: 1627, num: 4):\n    [reduction] outParam ↦ 1627\n    [reduction] Quotient.lift ↦ 1486\n    [reduction] Quotient.liftOn₂ ↦ 1316\n    [reduction] Quotient.lift₂ ↦ 1316\n  [def_eq] heuristic for solving `f a =?= f b` (max: 695, num: 1):\n    [def_eq] instHAdd ↦ 695\n  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters",
    "level": "info"},
   {"message":
-   "OperatorKernelO6/Meta/Termination.lean:146:0: [diag] Diagnostics\n  [reduction] unfolded reducible declarations (max: 517, num: 1):\n    [reduction] outParam ↦ 517\n  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters",
-   "level": "info"},
-  {"message":
-   "OperatorKernelO6/Meta/Termination.lean:147:8: declaration uses 'sorry'",
-   "level": "warning"},
-  {"message":
-   "OperatorKernelO6/Meta/Termination.lean:219:8: declaration uses 'sorry'",
-   "level": "warning"}],
+   "OperatorKernelO6/Meta/Termination.lean:288:0: [diag] Diagnostics\n  [reduction] unfolded instances (max: 1064, num: 6):\n    [reduction] Semiring.toNonUnitalSemiring ↦ 1064\n    [reduction] NonAssocSemiring.toNonUnitalNonAssocSemiring ↦ 940\n    [reduction] NonUnitalSemiring.toNonUnitalNonAssocSemiring ↦ 940\n    [reduction] Semiring.toNonAssocSemiring ↦ 940\n    [reduction] AddCommMonoid.toAddMonoid ↦ 820\n    [reduction] NonUnitalNonAssocSemiring.toAddCommMonoid ↦ 816\n  [reduction] unfolded reducible declarations (max: 502, num: 1):\n    [reduction] outParam ↦ 502\n  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters",
+   "level": "info"}],
  "inputs":
  [["OperatorKernelO6.Meta.Termination:deps",
    [["deps",
@@ -50,8 +44,8 @@
   ["Lean 4.22.0, commit 30ceb3260d7d7536092fedff969b4b2e8de7f942",
    "7333961747739924687"],
   ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Termination.lean",
-   "8771274800927699598"],
+   "9655202273336432288"],
   ["options", "1723"],
   ["Module.leanArgs: #[-Dpp.notation=true, -Dtrace.profiler.threshold=5]",
    "11004081667271888933"]],
- "depHash": "9687491083802056799"}
+ "depHash": "14162299820777643103"}
