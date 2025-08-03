@@ -1,36 +1,10 @@
 PS C:\Users\Moses\math_ops\OperatorKernelO6> lake build
 warning: manifest out of date: git url of dependency 'mathlib' changed; use `lake update mathlib` to update it
 warning: mathlib: repository 'C:\Users\Moses\math_ops\OperatorKernelO6\.lake/packages\mathlib' has local changes
-✖ [2989/2997] Building OperatorKernelO6.Meta.Equality
-trace: .> LEAN_PATH=C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean c:\Users\Moses\.elan\toolchains\leanprover--lean4---v4.22.0-rc4\bin\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Equality.lean -o C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Equality.olean -i C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Equality.ilean -c C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Equality.c --setup C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Equality.setup.json --json
-warning: OperatorKernelO6/Meta/Equality.lean:25:32: unused variable `ha`
-
-Note: This linter can be disabled with `set_option linter.unusedVariables false`
-warning: OperatorKernelO6/Meta/Equality.lean:25:52: unused variable `hb`
-
-Note: This linter can be disabled with `set_option linter.unusedVariables false`
-error: OperatorKernelO6/Meta/Equality.lean:41:28: Application type mismatch: In the application
-  eq_diff_reduces h
-the argument
-  h
-has type
-  ¬a = b : Prop
-but is expected to have type
-  Trace : Type
-error: OperatorKernelO6/Meta/Equality.lean:42:50: Invalid field `symm`: The environment does not contain `Not.symm`
-  h
-has type
-  ¬a = b
-error: OperatorKernelO6/Meta/Equality.lean:42:50: Invalid field notation: Type is not of the form `C ...` where C is a constant
-  h
-has type
-  a = b → False
-warning: OperatorKernelO6/Meta/Equality.lean:46:8: declaration uses 'sorry'
-warning: OperatorKernelO6/Meta/Equality.lean:56:8: declaration uses 'sorry'
-error: Lean exited with code 1
-⚠ [2992/2997] Built OperatorKernelO6.Meta.Termination
-warning: OperatorKernelO6/Meta/Termination.lean:188:8: declaration uses 'sorry'
-info: OperatorKernelO6/Meta/Termination.lean:939:0: [diag] Diagnostics
+⚠ [2989/2998] Replayed OperatorKernelO6.Meta.TerminationBase
+warning: OperatorKernelO6/Meta/TerminationBase.lean:188:8: declaration uses 'sorry'
+⚠ [2990/2998] Replayed OperatorKernelO6.Meta.Termination
+info: OperatorKernelO6/Meta/Termination.lean:26:0: [diag] Diagnostics
   [reduction] unfolded declarations (max: 1007, num: 4):
     [reduction] HAdd.hAdd ↦ 1007
     [reduction] Add.add ↦ 1001
@@ -38,16 +12,29 @@ info: OperatorKernelO6/Meta/Termination.lean:939:0: [diag] Diagnostics
     [reduction] WellOrder.rec ↦ 542
   [reduction] unfolded instances (max: 661, num: 1):
     [reduction] instHAdd ↦ 661
-  [reduction] unfolded reducible declarations (max: 2498, num: 5):
-    [reduction] outParam ↦ 2498
+  [reduction] unfolded reducible declarations (max: 2495, num: 5):
+    [reduction] outParam ↦ 2495
     [reduction] Quotient.lift ↦ 1616
     [reduction] Quotient.liftOn₂ ↦ 1210
     [reduction] Quotient.lift₂ ↦ 1210
     [reduction] WellOrder.casesOn ↦ 542
   use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-warning: OperatorKernelO6/Meta/Termination.lean:939:6: declaration uses 'sorry'
-warning: OperatorKernelO6/Meta/Termination.lean:1471:8: declaration uses 'sorry'
-✖ [2993/2997] Building OperatorKernelO6.Meta.Normalize
+warning: OperatorKernelO6/Meta/Termination.lean:26:6: declaration uses 'sorry'
+warning: OperatorKernelO6/Meta/Termination.lean:558:8: declaration uses 'sorry'
+✖ [2992/2998] Building OperatorKernelO6.Meta.ProofSystem
+trace: .> LEAN_PATH=C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean c:\Users\Moses\.elan\toolchains\leanprover--lean4---v4.22.0-rc4\bin\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\ProofSystem.lean -o C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\ProofSystem.olean -i C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\ProofSystem.ilean -c C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\ProofSystem.c --setup C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\ProofSystem.setup.json --json
+warning: OperatorKernelO6/Meta/ProofSystem.lean:29:8: declaration uses 'sorry'
+warning: OperatorKernelO6/Meta/ProofSystem.lean:37:8: declaration uses 'sorry'
+error: OperatorKernelO6/Meta/ProofSystem.lean:45:34: Function expected at
+  complement
+but this term has type
+  ?m.1143
+
+Note: Expected a function because this term is being applied to the argument
+  formula
+error: OperatorKernelO6/Meta/ProofSystem.lean:50:25: unknown identifier 'numeral'
+error: Lean exited with code 1
+✖ [2994/2998] Building OperatorKernelO6.Meta.Normalize
 trace: .> LEAN_PATH=C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean c:\Users\Moses\.elan\toolchains\leanprover--lean4---v4.22.0-rc4\bin\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Normalize.lean -o C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Normalize.olean -i C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Normalize.ilean -c C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Normalize.c --setup C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Normalize.setup.json --json
 error: OperatorKernelO6/Meta/Normalize.lean:16:0: 2 parameters bound in `termination_by`, but the body of OperatorKernelO6.Meta.normalize only binds one parameter. (Since Lean v4.6.0, the `termination_by` clause no longer expects the function name here.)
 error: OperatorKernelO6/Meta/Normalize.lean:31:6: type mismatch, term
@@ -95,7 +82,7 @@ b : Trace
 hab : StepStar a✝ b
 ⊢ StepStar b c✝
 error: Lean exited with code 1
-✖ [2996/2997] Building OperatorKernelO6.Meta.FixedPoint
+✖ [2997/2998] Building OperatorKernelO6.Meta.FixedPoint
 trace: .> LEAN_PATH=C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean c:\Users\Moses\.elan\toolchains\leanprover--lean4---v4.22.0-rc4\bin\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\FixedPoint.lean -o C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\FixedPoint.olean -i C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\FixedPoint.ilean -c C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\FixedPoint.c --setup C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\FixedPoint.setup.json --json
 warning: OperatorKernelO6/Meta/FixedPoint.lean:9:4: declaration uses 'sorry'
 error: OperatorKernelO6/Meta/FixedPoint.lean:23:0: type of theorem 'OperatorKernelO6.Meta.mk_fixed' is not a proposition
@@ -105,3 +92,9 @@ error: OperatorKernelO6/Meta/FixedPoint.lean:27:0: type of theorem 'OperatorKern
 warning: OperatorKernelO6/Meta/FixedPoint.lean:35:8: declaration uses 'sorry'
 warning: OperatorKernelO6/Meta/FixedPoint.lean:43:8: declaration uses 'sorry'
 error: Lean exited with code 1
+Some required builds logged failures:
+- OperatorKernelO6.Meta.ProofSystem
+- OperatorKernelO6.Meta.Normalize
+- OperatorKernelO6.Meta.FixedPoint
+error: build failed
+PS C:\Users\Moses\math_ops\OperatorKernelO6> 
