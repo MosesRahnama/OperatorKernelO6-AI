@@ -1,20 +1,20 @@
 {"synthetic": false,
  "outputs":
- {"o": ["16774485079633181352"],
-  "i": "12687107697025706060",
+ {"o": ["1007327793392408596"],
+  "i": "15872695268048905525",
   "c": "1534093523858580985"},
  "log":
  [{"message":
    ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Termination.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Termination.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Termination.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Termination.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Termination.setup.json --json",
    "level": "trace"},
   {"message":
-   "OperatorKernelO6/Meta/Termination.lean:26:0: [diag] Diagnostics\n  [reduction] unfolded declarations (max: 1007, num: 4):\n    [reduction] HAdd.hAdd ↦ 1007\n    [reduction] Add.add ↦ 1001\n    [reduction] Quot.lift ↦ 714\n    [reduction] WellOrder.rec ↦ 542\n  [reduction] unfolded instances (max: 661, num: 1):\n    [reduction] instHAdd ↦ 661\n  [reduction] unfolded reducible declarations (max: 2495, num: 5):\n    [reduction] outParam ↦ 2495\n    [reduction] Quotient.lift ↦ 1616\n    [reduction] Quotient.liftOn₂ ↦ 1210\n    [reduction] Quotient.lift₂ ↦ 1210\n    [reduction] WellOrder.casesOn ↦ 542\n  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters",
+   "OperatorKernelO6/Meta/Termination.lean:40:0: [diag] Diagnostics\n  [reduction] unfolded reducible declarations (max: 643, num: 1):\n    [reduction] outParam ↦ 643\n  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters",
    "level": "info"},
   {"message":
-   "OperatorKernelO6/Meta/Termination.lean:26:6: declaration uses 'sorry'",
+   "OperatorKernelO6/Meta/Termination.lean:143:8: declaration uses 'sorry'",
    "level": "warning"},
   {"message":
-   "OperatorKernelO6/Meta/Termination.lean:558:8: declaration uses 'sorry'",
+   "OperatorKernelO6/Meta/Termination.lean:213:8: declaration uses 'sorry'",
    "level": "warning"}],
  "inputs":
  [["OperatorKernelO6.Meta.Termination:deps",
@@ -30,7 +30,7 @@
          [["OperatorKernelO6.Meta.TerminationBase:deps",
            "13292616449456744361"],
           ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\TerminationBase.olean",
-           "7247675174533661133"]]],
+           "11129113667511004984"]]],
         ["Mathlib.SetTheory.Ordinal.Principal:olean",
          [["Mathlib.SetTheory.Ordinal.Principal:deps", "12297854565871888625"],
           ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean\\Mathlib\\SetTheory\\Ordinal\\Principal.olean",
@@ -47,8 +47,8 @@
   ["Lean 4.22.0, commit 30ceb3260d7d7536092fedff969b4b2e8de7f942",
    "7333961747739924687"],
   ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Termination.lean",
-   "9354138217675799186"],
+   "15761226935547305575"],
   ["options", "1723"],
   ["Module.leanArgs: #[-Dpp.notation=true, -Dtrace.profiler.threshold=5]",
    "11004081667271888933"]],
- "depHash": "17864505149739213003"}
+ "depHash": "6093091813452855713"}
