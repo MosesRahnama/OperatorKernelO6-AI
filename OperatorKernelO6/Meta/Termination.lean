@@ -12,16 +12,6 @@ open Trace
 namespace MetaSN
 
 
-set_option diagnostics true
-set_option diagnostics.threshold 500
-set_option linter.unnecessarySimpa false
-set_option diagnostics true
--- set_option trace.Meta.Tactic.simp.rewrite true
-set_option trace.Meta.debug true
--- set_option autoImplicit false
-set_option maxRecDepth 1000
-set_option trace.linarith true
-set_option trace.compiler.ir.result true
 
 
 
@@ -141,69 +131,123 @@ theorem mu_lt_eq_diff_both_void :
   simpa [mu] using h_core
 
 
---------------------------------------------------------------------------------
-/-- Any non-void trace has `μ ≥ ω`.  Exhaustive on the six constructors. -/
+
+
+/-- Any non-void trace has `μ ≥ ω`.  Exhaustive on constructors. -/
 private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
     omega0 ≤ mu t := by
   cases t with
   | void        => exact (h rfl).elim
-  | delta s     =>
-      -- ω ≤ ω⁵ ≤ ω⁵·(μ s + 1) ≤ μ(δ s)
-      have hω₅ : omega0 ≤ omega0 ^ (5 : Ordinal) :=
+
+  | delta s =>
+      -- ω ≤ ω⁵ ≤ ω⁵·(μ s + 1) + 1
+      have hω_pow : omega0 ≤ omega0 ^ (5 : Ordinal) :=
         Ordinal.opow_le_opow_right omega0_pos (by norm_num)
-      have hmul : omega0 ^ (5 : Ordinal) ≤ omega0 ^ (5 : Ordinal) * (mu s + 1) := by
-        have : (1 : Ordinal) ≤ mu s + 1 := le_add_left 1 (mu s)
-        simpa using mul_le_mul_left' this (omega0 ^ (5 : Ordinal))
-      have : omega0 ≤ (omega0 ^ (5 : Ordinal)) * (mu s + 1) + 1 :=
-        le_add_of_nonneg_left ((le_trans hω₅ hmul))
-      simpa [mu] using this
+      have h_one_le : (1 : Ordinal) ≤ mu s + 1 := by
+        have : (0 : Ordinal) ≤ mu s := zero_le _
+        simpa [zero_add] using add_le_add_right this 1
+      have hmul :
+          omega0 ^ (5 : Ordinal) ≤ (omega0 ^ (5 : Ordinal)) * (mu s + 1) := by
+        simpa [mul_one] using
+          mul_le_mul_left' h_one_le (omega0 ^ (5 : Ordinal))
+      have : omega0 ≤ mu (.delta s) := by
+        calc
+          omega0 ≤ omega0 ^ (5 : Ordinal) := hω_pow
+          _      ≤ (omega0 ^ (5 : Ordinal)) * (mu s + 1) := hmul
+          _      ≤ (omega0 ^ (5 : Ordinal)) * (mu s + 1) + 1 :=
+                   le_add_of_nonneg_right (zero_le _)
+          _      = mu (.delta s) := by simp [mu]
+      simpa [mu, add_comm, add_left_comm, add_assoc] using this
+
   | integrate s =>
-      -- replicate the ω⁴ reasoning pattern
-      have hω₄ : omega0 ≤ omega0 ^ (4 : Ordinal) :=
+      -- ω ≤ ω⁴ ≤ ω⁴·(μ s + 1) + 1
+      have hω_pow : omega0 ≤ omega0 ^ (4 : Ordinal) :=
         Ordinal.opow_le_opow_right omega0_pos (by norm_num)
-      have hmul : omega0 ^ (4 : Ordinal) ≤ omega0 ^ (4 : Ordinal) * (mu s + 1) := by
-        have : (1 : Ordinal) ≤ mu s + 1 := le_add_left 1 (mu s)
-        simpa using mul_le_mul_left' this (omega0 ^ (4 : Ordinal))
-      have : omega0 ≤ (omega0 ^ (4 : Ordinal)) * (mu s + 1) + 1 :=
-        le_add_of_nonneg_left (le_trans hω₄ hmul)
-      simpa [mu] using this
-  | merge a b   =>
-      -- ω ≤ ω²·(μ b + 1) ≤ μ(merge a b)
-      have hω₂ : omega0 ≤ omega0 ^ (2 : Ordinal) :=
+      have h_one_le : (1 : Ordinal) ≤ mu s + 1 := by
+        have : (0 : Ordinal) ≤ mu s := zero_le _
+        simpa [zero_add] using add_le_add_right this 1
+      have hmul :
+          omega0 ^ (4 : Ordinal) ≤ (omega0 ^ (4 : Ordinal)) * (mu s + 1) := by
+        simpa [mul_one] using
+          mul_le_mul_left' h_one_le (omega0 ^ (4 : Ordinal))
+      have : omega0 ≤ mu (.integrate s) := by
+        calc
+          omega0 ≤ omega0 ^ (4 : Ordinal) := hω_pow
+          _      ≤ (omega0 ^ (4 : Ordinal)) * (mu s + 1) := hmul
+          _      ≤ (omega0 ^ (4 : Ordinal)) * (mu s + 1) + 1 :=
+                   le_add_of_nonneg_right (zero_le _)
+          _      = mu (.integrate s) := by simp [mu]
+      simpa [mu, add_comm, add_left_comm, add_assoc] using this
+
+  | merge a b =>
+      -- ω ≤ ω² ≤ ω²·(μ b + 1) ≤ μ(merge a b)
+      have hω_pow : omega0 ≤ omega0 ^ (2 : Ordinal) :=
         Ordinal.opow_le_opow_right omega0_pos (by norm_num)
-      have hmul : omega0 ^ (2 : Ordinal) ≤ omega0 ^ (2 : Ordinal) * (mu b + 1) := by
-        have : (1 : Ordinal) ≤ mu b + 1 := le_add_left 1 (mu b)
-        simpa using mul_le_mul_left' this (omega0 ^ (2 : Ordinal))
-      have : omega0 ≤ (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
-                     (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 :=
-        by
-          have h₁ := le_add_of_nonneg_left (le_trans hω₂ hmul)
-          exact le_add_of_nonneg_left (le_add_of_nonneg_left h₁)
-      simpa [mu] using this
-  | recΔ b s n  =>
-      -- ω ≤ ω^(μ n+μ s+6) ≤ μ(recΔ b s n)
-      have one_le_six : (1 : Ordinal) ≤ 6 := by norm_num
-      have h₁ : (1 : Ordinal) ≤ mu n + mu s + 6 :=
-        le_trans one_le_six (le_add_of_nonneg_left (zero_le _))
-      have hpow : omega0 ≤ omega0 ^ (mu n + mu s + 6) := by
+      have h_one_le : (1 : Ordinal) ≤ mu b + 1 := by
+        have : (0 : Ordinal) ≤ mu b := zero_le _
+        simpa [zero_add] using add_le_add_right this 1
+      have hmul :
+          omega0 ^ (2 : Ordinal) ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) := by
+        simpa [mul_one] using
+          mul_le_mul_left' h_one_le (omega0 ^ (2 : Ordinal))
+      have h_mid :
+          omega0 ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 := by
+        calc
+          omega0 ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) := hmul
+          _      ≤ (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1 :=
+                   le_add_of_nonneg_right (zero_le _)
+      have : omega0 ≤ mu (.merge a b) := by
+        have h_left_nonneg :
+            (0 : Ordinal) ≤ (omega0 ^ (3 : Ordinal)) * (mu a + 1) :=
+          zero_le _
+        exact
+          le_trans h_mid
+            (le_add_of_nonneg_left
+              (le_add_of_nonneg_left h_left_nonneg))
+      simpa [mu, add_comm, add_left_comm, add_assoc] using this
+
+  | recΔ b s n =>
+      -- ω ≤ ω^(μ n + μ s + 6) ≤ μ(recΔ b s n)
+      have six_le : (6 : Ordinal) ≤ mu n + mu s + 6 := by
+        have : (0 : Ordinal) ≤ mu n + mu s :=
+          add_nonneg (zero_le _) (zero_le _)
+        simpa [add_comm, add_left_comm, add_assoc] using
+          add_le_add_right this 6
+      have one_le : (1 : Ordinal) ≤ mu n + mu s + 6 :=
+        le_trans (by norm_num) six_le
+      have hω_pow : omega0 ≤ omega0 ^ (mu n + mu s + 6) := by
         simpa [Ordinal.opow_one] using
-          Ordinal.opow_le_opow_right omega0_pos h₁
-      have : omega0 ≤ omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1) + 1 := by
-        have h1 : omega0 ≤ omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1) :=
-          le_trans hpow (le_add_of_nonneg_right (zero_le _))
-        exact le_trans h1 (le_add_of_nonneg_right (zero_le _))
-      simpa [mu] using this
-  | eqW a b     =>
-      -- ω ≤ ω^(μ a+μ b+9) ≤ μ(eqW a b)
-      have one_le_nine : (1 : Ordinal) ≤ 9 := by norm_num
-      have h₁ : (1 : Ordinal) ≤ mu a + mu b + 9 :=
-        le_trans one_le_nine (le_add_of_nonneg_left (zero_le _))
-      have hpow : omega0 ≤ omega0 ^ (mu a + mu b + 9) := by
+          Ordinal.opow_le_opow_right omega0_pos one_le
+      have : omega0 ≤ mu (.recΔ b s n) := by
+        calc
+          omega0 ≤ omega0 ^ (mu n + mu s + 6) := hω_pow
+          _      ≤ omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1) :=
+                   le_add_of_nonneg_right (zero_le _)
+          _      ≤ omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1) + 1 :=
+                   le_add_of_nonneg_right (zero_le _)
+          _      = mu (.recΔ b s n) := by simp [mu]
+      simpa [mu, add_comm, add_left_comm, add_assoc] using this
+
+  | eqW a b =>
+      -- ω ≤ ω^(μ a + μ b + 9) ≤ μ(eqW a b)
+      have nine_le : (9 : Ordinal) ≤ mu a + mu b + 9 := by
+        have : (0 : Ordinal) ≤ mu a + mu b :=
+          add_nonneg (zero_le _) (zero_le _)
+        simpa [add_comm, add_left_comm, add_assoc] using
+          add_le_add_right this 9
+      have one_le : (1 : Ordinal) ≤ mu a + mu b + 9 :=
+        le_trans (by norm_num) nine_le
+      have hω_pow : omega0 ≤ omega0 ^ (mu a + mu b + 9) := by
         simpa [Ordinal.opow_one] using
-          Ordinal.opow_le_opow_right omega0_pos h₁
-      have : omega0 ≤ omega0 ^ (mu a + mu b + 9) + 1 :=
-        le_trans hpow (le_add_of_nonneg_right (zero_le _))
-      simpa [mu] using this
+          Ordinal.opow_le_opow_right omega0_pos one_le
+      have : omega0 ≤ mu (.eqW a b) := by
+        calc
+          omega0 ≤ omega0 ^ (mu a + mu b + 9) := hω_pow
+          _      ≤ omega0 ^ (mu a + mu b + 9) + 1 :=
+                   le_add_of_nonneg_right (zero_le _)
+          _      = mu (.eqW a b) := by simp [mu]
+      simpa [mu, add_comm, add_left_comm, add_assoc] using this
+
 
 /-- If `a` and `b` are **not** both `void`, then `ω ≤ μ a + μ b`. -/
 theorem mu_sum_ge_omega_of_not_both_void
