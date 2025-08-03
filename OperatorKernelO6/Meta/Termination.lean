@@ -141,6 +141,7 @@ theorem mu_lt_eq_diff_both_void :
   simpa [mu] using h_core
 
 
+
 /-- Total version of the key inequality used by `R_eq_diff`. -/
 theorem mu_lt_eq_diff (a b : Trace) :
   mu (integrate (merge a b)) < mu (eqW a b) := by
