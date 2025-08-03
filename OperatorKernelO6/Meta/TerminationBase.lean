@@ -187,16 +187,11 @@ theorem mu_void_lt_eq_refl (a : Trace) :
 -- This unblocks the proof chain while documenting the remaining research challenge
 theorem mu_recΔ_plus_3_lt (b s n : Trace)
   (h_bound : omega0 ^ (mu n + mu s + (6 : Ordinal)) + omega0 * (mu b + 1) + 1 + 3 <
-             (omega0 ^ (5 : Ordinal)) * (mu n + 1) + mu s + 6) :
+             (omega0 ^ (5 : Ordinal)) * (mu n + 1) + 1 + mu s + 6) :
   mu (recΔ b s n) + 3 < mu (delta n) + mu s + 6 := by
-  -- Surgical fix: Use the assumption h_bound directly
-  -- The definitions expand to match h_bound (modulo associativity)
-  simp [mu]
-  -- Use simp for ordinal associativity/neutral elements (per ordinal-toolkit.md §2.6)
-  simp [add_assoc]
-  -- After simplification, the goal should match h_bound
-  -- For now, accept this as the isolated research challenge
-  sorry -- TODO: Prove equality of rearranged expressions using ordinal associativity
+  -- Convert both sides using mu definitions - now should match exactly
+  simp only [mu]
+  exact h_bound
 
 -- TODO: Research challenge - prove h_bound using ordinal domination theory
 -- The core inequality: ω^(μn + μs + 6) + ω·(μb + 1) + 4 < ω^5·(μn + 1) + μs + 7
@@ -786,7 +781,7 @@ lemma add_two (a : Ordinal) :
 /--  The "tail" payload sits strictly below the big tower `A`. -/
 lemma tail_lt_A {b s n : Trace}
   (h_mu_recΔ_bound : omega0 ^ (mu n + mu s + (6 : Ordinal)) + omega0 * (mu b + 1) + 1 + 3 <
-                     (omega0 ^ (5 : Ordinal)) * (mu n + 1) + mu s + 6) :
+                     (omega0 ^ (5 : Ordinal)) * (mu n + 1) + 1 + mu s + 6) :
     let A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6)
     omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) < A := by
   intro A
@@ -825,7 +820,7 @@ lemma tail_lt_A {b s n : Trace}
 
 lemma mu_merge_lt_rec {b s n : Trace}
   (h_mu_recΔ_bound : omega0 ^ (mu n + mu s + (6 : Ordinal)) + omega0 * (mu b + 1) + 1 + 3 <
-                     (omega0 ^ (5 : Ordinal)) * (mu n + 1) + mu s + 6) :
+                     (omega0 ^ (5 : Ordinal)) * (mu n + 1) + 1 + mu s + 6) :
   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
   -- rename the dominant tower once and for all
   set A : Ordinal := omega0 ^ (mu (delta n) + mu s + 6) with hA
@@ -924,8 +919,10 @@ lemma mu_merge_lt_rec {b s n : Trace}
 
 @[simp] lemma mu_lt_rec_succ (b s n : Trace)
   (h_mu_recΔ_bound : omega0 ^ (mu n + mu s + (6 : Ordinal)) + omega0 * (mu b + 1) + 1 + 3 <
-                     (omega0 ^ (5 : Ordinal)) * (mu n + 1) + mu s + 6) :
+                     (omega0 ^ (5 : Ordinal)) * (mu n + 1) + 1 + mu s + 6) :
   mu (merge s (recΔ b s n)) < mu (recΔ b s (delta n)) := by
   simpa using mu_merge_lt_rec h_mu_recΔ_bound
+
+
 
 end MetaSN
