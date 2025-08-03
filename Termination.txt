@@ -1,238 +1,394 @@
-Termination.lean:145:65
+Termination.lean:164:12
+Tactic state
+1 goal
+case delta
+s : Trace
+h : s.delta ≠ void
+⊢ ω ≤ mu s.delta
 Messages (1)
-Termination.lean:144:0
+Termination.lean:146:0
 [diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 2127, num: 13): ▶
-  [reduction] unfolded instances (max: 1034, num: 1): ▶
-  [reduction] unfolded reducible declarations (max: 2320, num: 6): ▶
+  [reduction] unfolded declarations (max: 2518, num: 4): ▼
+    [] HPow.hPow ↦ 2518 
+    [] Pow.pow ↦ 2518 
+    [] Add.add ↦ 1099 
+    [] ite ↦ 934 
+  [reduction] unfolded instances (max: 1324, num: 3): ▼
+    [] AddCommMagma.toAdd ↦ 1324 
+    [] AddCommSemigroup.toAddSemigroup ↦ 888 
+    [] instHAdd ↦ 833 
+  [reduction] unfolded reducible declarations (max: 1075, num: 5): ▼
+    [] Decidable.casesOn ↦ 1075 
+    [] Quotient.lift ↦ 819 
+    [] outParam ↦ 710 
+    [] Quotient.liftOn₂ ↦ 600 
+    [] Quotient.lift₂ ↦ 600 
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-All Messages (25)
-Termination.lean:42:0
-[diag] Diagnostics ▼
-  [reduction] unfolded reducible declarations (max: 643, num: 1): ▼
-    [] outParam ↦ 643 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:151:48
-type mismatch
-  opow_le_opow_right omega0_pos ?m.1970
-has type
-  ω ^ 1 ≤ ω ^ 5 : Prop
-but is expected to have type
-  ω ≤ ω ^ 5 : Prop
-Termination.lean:152:75
-overloaded, errors 
-  Function expected at
-    _root_.le_mul_right ?m.3478
-  but this term has type
-    ?m.3475 ≤ ?m.3476 * ?m.3477
-  
-  Note: Expected a function because this term is being applied to the argument
-    _
-  
-  Function expected at
-    Ordinal.le_mul_right ?m.3697 ?m.3699
-  but this term has type
-    ?m.3697 ≤ ?m.3698 * ?m.3697
-  
-  Note: Expected a function because this term is being applied to the argument
-    (succ_pos _)
-Termination.lean:153:34
-Application type mismatch: In the application
-  le_add_of_nonneg_left this
-the argument
-  this
-has type
-  ω ≤ ω ^ 5 * (mu s + 1) : Prop
-but is expected to have type
-  0 ≤ ?m.3748 : Prop
-Termination.lean:157:48
-type mismatch
-  opow_le_opow_right omega0_pos ?m.10518
-has type
-  ω ^ 1 ≤ ω ^ 4 : Prop
-but is expected to have type
-  ω ≤ ω ^ 4 : Prop
-Termination.lean:158:75
-overloaded, errors 
-  Function expected at
-    _root_.le_mul_right ?m.12026
-  but this term has type
-    ?m.12023 ≤ ?m.12024 * ?m.12025
-  
-  Note: Expected a function because this term is being applied to the argument
-    _
-  
-  Function expected at
-    Ordinal.le_mul_right ?m.12245 ?m.12247
-  but this term has type
-    ?m.12245 ≤ ?m.12246 * ?m.12245
-  
-  Note: Expected a function because this term is being applied to the argument
-    (succ_pos _)
-Termination.lean:159:34
-Application type mismatch: In the application
-  le_add_of_nonneg_left this
-the argument
-  this
-has type
-  ω ≤ ω ^ 4 * (mu s + 1) : Prop
-but is expected to have type
-  0 ≤ ?m.12296 : Prop
-Termination.lean:164:48
-type mismatch
-  opow_le_opow_right omega0_pos ?m.18992
-has type
-  ω ^ 1 ≤ ω ^ 2 : Prop
-but is expected to have type
-  ω ≤ ω ^ 2 : Prop
-Termination.lean:165:24
-overloaded, errors 
-  Function expected at
-    _root_.le_mul_right ?m.19700
-  but this term has type
-    ?m.19697 ≤ ?m.19698 * ?m.19699
-  
-  Note: Expected a function because this term is being applied to the argument
-    _
-  
-  Function expected at
-    Ordinal.le_mul_right ?m.19919 ?m.19921
-  but this term has type
-    ?m.19919 ≤ ?m.19920 * ?m.19919
-  
-  Note: Expected a function because this term is being applied to the argument
-    (succ_pos _)
-Termination.lean:167:67
-Function expected at
-  le_rfl
-but this term has type
-  ?m.21979 ≤ ?m.21979
-
-Note: Expected a function because this term is being applied to the argument
-  _
-Termination.lean:176:10
-type mismatch
-  add_le_add_right hsum 6
-has type
-  0 + 6 ≤ mu n + mu s + 6 : Prop
-but is expected to have type
-  1 ≤ mu n + mu s + 6 : Prop
-Termination.lean:171:45
+All Messages (21)
+Termination.lean:155:47
 unsolved goals
-b s n : Trace
-h : b.recΔ s n ≠ void
-this : 1 ≤ mu n + mu s + 6
-⊢ ?m.25648 ≤ ?m.25649
-Termination.lean:187:10
-type mismatch
-  add_le_add_right hsum 9
-has type
-  0 + 9 ≤ mu a + mu b + 9 : Prop
-but is expected to have type
-  1 ≤ mu a + mu b + 9 : Prop
-Termination.lean:182:45
+s : Trace
+h : s.delta ≠ void
+⊢ ?m.636 ≤ ?m.637
+Termination.lean:175:47
+unsolved goals
+s : Trace
+h : s.integrate ≠ void
+⊢ ?m.3147 ≤ ?m.3148
+Termination.lean:195:47
 unsolved goals
 a b : Trace
-h : a.eqW b ≠ void
-this : 1 ≤ mu a + mu b + 9
-⊢ ?m.28972 ≤ ?m.28973
-Termination.lean:144:0
+h : a.merge b ≠ void
+⊢ ?m.5657 ≤ ?m.5658
+Termination.lean:224:8
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n + mu s + 6
+    ==>
+      mu n + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
+      6 ≤ mu n + (mu s + 6)
+    ==>
+      6 ≤ mu n + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] zero_add:1000:
+      0 + 6
+    ==>
+      6 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n + mu s + 6
+    ==>
+      mu n + (mu s + 6) 
+Termination.lean:229:8
+[Meta.Tactic.simp.rewrite] opow_one:1000:
+      ω ^ 1
+    ==>
+      ω 
+Termination.lean:238:42
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b)) =
+        Order.succ (ω ^ (mu n + mu s + 6) + ω * Order.succ (mu b))
+    ==>
+      True 
+Termination.lean:239:6
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n + mu s + 6
+    ==>
+      mu n + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      ω ^ (mu n + (mu s + 6)) + ω * Order.succ (mu b) + 1
+    ==>
+      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 1) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
+      ω ≤ ω ^ (mu n + (mu s + 6)) + Order.succ (ω * Order.succ (mu b))
+    ==>
+      ω ≤ ω ^ (mu n + (mu s + 6)) + Order.succ (ω * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (b.recΔ s n) ==> ω ^ (mu n + mu s + 6) + ω * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu n + mu s + 6
+    ==>
+      mu n + (mu s + 6) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      ω ^ (mu n + (mu s + 6)) + ω * Order.succ (mu b) + 1
+    ==>
+      ω ^ (mu n + (mu s + 6)) + (ω * Order.succ (mu b) + 1) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω * Order.succ (mu b)) 
+Termination.lean:246:8
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu a + mu b + 9
+    ==>
+      mu a + (mu b + 9) 
+[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
+      9 ≤ mu a + (mu b + 9)
+    ==>
+      9 ≤ mu a + (mu b + 9) 
+[Meta.Tactic.simp.rewrite] zero_add:1000:
+      0 + 9
+    ==>
+      9 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu a + mu b + 9
+    ==>
+      mu a + (mu b + 9) 
+Termination.lean:251:8
+[Meta.Tactic.simp.rewrite] opow_one:1000:
+      ω ^ 1
+    ==>
+      ω 
+Termination.lean:258:39
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + mu b + 9) + 1
+    ==>
+      Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.eqW b) ==> ω ^ (mu a + mu b + 9) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + mu b + 9) + 1
+    ==>
+      Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      Order.succ (ω ^ (mu a + mu b + 9)) = Order.succ (ω ^ (mu a + mu b + 9))
+    ==>
+      True 
+Termination.lean:146:0
 [diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 2127, num: 13): ▼
-    [] HPow.hPow ↦ 2127 
-    [] Pow.pow ↦ 2121 
-    [] Mul.mul ↦ 1241 
-    [] HMul.hMul ↦ 1179 
-    [] ite ↦ 823 
-    [] OfNat.ofNat ↦ 708 
-    [] Add.add ↦ 658 
-    [] HAdd.hAdd ↦ 656 
-    [] Quot.lift ↦ 630 
-    [] Zero.zero ↦ 625 
-    [] type ↦ 516 
-    [] Quotient.mk ↦ 516 
-    [] WellOrder.rec ↦ 514 
-  [reduction] unfolded instances (max: 1034, num: 1): ▼
-    [] AddZeroClass.toZero ↦ 1034 
-  [reduction] unfolded reducible declarations (max: 2320, num: 6): ▼
-    [] Quotient.lift ↦ 2320 
-    [] Quotient.liftOn₂ ↦ 1922 
-    [] Quotient.lift₂ ↦ 1922 
-    [] Decidable.casesOn ↦ 1046 
-    [] Function.swap ↦ 992 
-    [] WellOrder.casesOn ↦ 514 
+  [reduction] unfolded declarations (max: 2518, num: 4): ▼
+    [] HPow.hPow ↦ 2518 
+    [] Pow.pow ↦ 2518 
+    [] Add.add ↦ 1099 
+    [] ite ↦ 934 
+  [reduction] unfolded instances (max: 1324, num: 3): ▼
+    [] AddCommMagma.toAdd ↦ 1324 
+    [] AddCommSemigroup.toAddSemigroup ↦ 888 
+    [] instHAdd ↦ 833 
+  [reduction] unfolded reducible declarations (max: 1075, num: 5): ▼
+    [] Decidable.casesOn ↦ 1075 
+    [] Quotient.lift ↦ 819 
+    [] outParam ↦ 710 
+    [] Quotient.liftOn₂ ↦ 600 
+    [] Quotient.lift₂ ↦ 600 
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:198:10
-This simp argument is unused:
-  ha
-
-Hint: Omit it from the simp argument list.
-  simp [ha, mu, zero_add] at this
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:198:14
-This simp argument is unused:
-  mu
-
-Hint: Omit it from the simp argument list.
-  simp [ha, mu, zero_add] at this
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:198:18
-This simp argument is unused:
-  zero_add
-
-Hint: Omit it from the simp argument list.
-  simp [ha, mu, zero_add] at this
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:199:4
-type mismatch
-  add_le_add_right this (mu void)
-has type
-  ω + mu void ≤ mu b + mu void : Prop
-but is expected to have type
-  ω ≤ mu a + mu b : Prop
-Termination.lean:202:10
-This simp argument is unused:
-  mu
-
-Hint: Omit it from the simp argument list.
-  simp [mu, add_zero] at this
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:202:14
-This simp argument is unused:
-  add_zero
-
-Hint: Omit it from the simp argument list.
-  simp [mu, add_zero] at this
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:203:4
-type mismatch
-  add_le_add_left this (mu b)
-has type
-  mu b + ω ≤ mu b + mu a : Prop
-but is expected to have type
-  ω ≤ mu a + mu b : Prop
-Termination.lean:280:6
-failed to synthesize
-  AddRightStrictMono Ordinal.{0}
-Termination.lean:207:0
+Termination.lean:259:6
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.eqW b) ==> ω ^ (mu a + mu b + 9) + 1 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu a + mu b + 9
+    ==>
+      mu a + (mu b + 9) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + (mu b + 9)) + 1
+    ==>
+      Order.succ (ω ^ (mu a + (mu b + 9))) 
+[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
+      ω ≤ Order.succ (ω ^ (mu a + (mu b + 9)))
+    ==>
+      ω ≤ Order.succ (ω ^ (mu a + (mu b + 9))) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.eqW b) ==> ω ^ (mu a + mu b + 9) + 1 
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      mu a + mu b + 9
+    ==>
+      mu a + (mu b + 9) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + (mu b + 9)) + 1
+    ==>
+      Order.succ (ω ^ (mu a + (mu b + 9))) 
+Termination.lean:286:4
+[Meta.Tactic.simp.rewrite] ha:1000:
+      a
+    ==>
+      void 
+[Meta.Tactic.simp.rewrite] hb:1000:
+      b
+    ==>
+      void 
+Termination.lean:292:8
+[Meta.Tactic.simp.rewrite] hC:1000:
+      C
+    ==>
+      mu a + mu b 
+[Meta.Tactic.simp.rewrite] ge_iff_le:1000:
+      ω ≤ mu a + mu b
+    ==>
+      ω ≤ mu a + mu b 
+Termination.lean:297:8
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (a.merge b) + 1
+    ==>
+      Order.succ (mu (a.merge b)) 
+[Meta.Tactic.simp.rewrite] hC:1000:
+      C
+    ==>
+      mu a + mu b 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (a.merge b) + 1
+    ==>
+      Order.succ (mu (a.merge b)) 
+Termination.lean:313:8
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (a.merge b) + 1
+    ==>
+      Order.succ (mu (a.merge b)) 
+[Meta.Tactic.simp.rewrite] lt_add_iff_pos_right:1000:
+      4 < 4 + (C + 5)
+    ==>
+      0 < C + 5 
+[Meta.Tactic.simp.rewrite] lt_add_iff_pos_right:1000:
+      4 < 4 + (C + 5)
+    ==>
+      0 < C + 5 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      ω ^ 4 * Order.succ (mu (a.merge b)) < ω ^ (4 + (C + 5))
+    ==>
+      ω ^ 4 * Order.succ (mu (a.merge b)) < ω ^ (4 + (C + 5)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (a.merge b) + 1
+    ==>
+      Order.succ (mu (a.merge b)) 
+[Meta.Tactic.simp.rewrite] this:1000:
+      ω ^ 4 * ω ^ (C + 5)
+    ==>
+      ω ^ (4 + (C + 5)) 
+[Meta.Tactic.simp.rewrite] lt_add_iff_pos_right:1000:
+      4 < 4 + (C + 5)
+    ==>
+      0 < C + 5 
+[Meta.Tactic.simp.rewrite] lt_add_iff_pos_right:1000:
+      4 < 4 + (C + 5)
+    ==>
+      0 < C + 5 
+Termination.lean:322:16
+[Meta.Tactic.simp.rewrite] add_assoc:1000:
+      4 + C + 5
+    ==>
+      4 + (C + 5) 
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      4 + (C + 5) = 4 + (C + 5)
+    ==>
+      True 
+Termination.lean:324:16
+[Meta.Tactic.simp.rewrite] absorb4:1000:
+      4 + C
+    ==>
+      C 
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      C + 5 = C + 5
+    ==>
+      True 
+Termination.lean:330:6
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (a.merge b) + 1
+    ==>
+      Order.succ (mu (a.merge b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu (a.merge b) + 1
+    ==>
+      Order.succ (mu (a.merge b)) 
+[Meta.Tactic.simp.rewrite] exp_eq:1000:
+      4 + (C + 5)
+    ==>
+      C + 5 
+Termination.lean:280:0
 [diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 672, num: 1): ▼
-    [] Add.add ↦ 672 
-  [reduction] unfolded instances (max: 1152, num: 6): ▼
-    [] Semiring.toNonUnitalSemiring ↦ 1152 
-    [] NonAssocSemiring.toNonUnitalNonAssocSemiring ↦ 1018 
-    [] NonUnitalSemiring.toNonUnitalNonAssocSemiring ↦ 1018 
-    [] Semiring.toNonAssocSemiring ↦ 1018 
-    [] AddCommMonoid.toAddMonoid ↦ 899 
-    [] NonUnitalNonAssocSemiring.toAddCommMonoid ↦ 884 
-  [reduction] unfolded reducible declarations (max: 562, num: 2): ▼
-    [] outParam ↦ 562 
-    [] Quotient.lift ↦ 516 
+  [reduction] unfolded instances (max: 1064, num: 6): ▶
+  [reduction] unfolded reducible declarations (max: 502, num: 1): ▶
 use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:288:8
-declaration uses 'sorry'
+Termination.lean:346:4
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b).integrate ==> ω ^ 4 * (mu (a.merge b) + 1) + 1 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b) ==> ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu a + 1
+    ==>
+      Order.succ (mu a) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] succ_succ:1000:
+      Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)))
+    ==>
+      ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) + 1
+    ==>
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.eqW b) ==> ω ^ (mu a + mu b + 9) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + mu b + 9) + 1
+    ==>
+      Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] Order.succ_le_iff:1000:
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) ≤ ω ^ (mu a + mu b + 9)
+    ==>
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) < ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_iff:1000:
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) <
+        Order.succ (ω ^ (mu a + mu b + 9))
+    ==>
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) ≤ ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] Order.succ_le_iff:1000:
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) ≤ ω ^ (mu a + mu b + 9)
+    ==>
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) < ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] gt_iff_lt:1000:
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) < ω ^ (mu a + mu b + 9)
+    ==>
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) < ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] unfold mu, mu (a.merge b) ==> ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu a + 1
+    ==>
+      Order.succ (mu a) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      mu b + 1
+    ==>
+      Order.succ (mu b) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 1
+    ==>
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)) + 1
+    ==>
+      Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b))) 
+[Meta.Tactic.simp.rewrite] succ_succ:1000:
+      Order.succ (Order.succ (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b)))
+    ==>
+      ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) + 1
+    ==>
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) 
+[Meta.Tactic.simp.rewrite] hC:1000:
+      C
+    ==>
+      mu a + mu b 
+[Meta.Tactic.simp.rewrite] add_one_eq_succ:1000:
+      ω ^ (mu a + mu b + 9) + 1
+    ==>
+      Order.succ (ω ^ (mu a + mu b + 9)) 
+[Meta.Tactic.simp.rewrite] Order.succ_le_iff:1000:
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) ≤ ω ^ (mu a + mu b + 9)
+    ==>
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) < ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] Order.lt_succ_iff:1000:
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) <
+        Order.succ (ω ^ (mu a + mu b + 9))
+    ==>
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) ≤ ω ^ (mu a + mu b + 9) 
+[Meta.Tactic.simp.rewrite] Order.succ_le_iff:1000:
+      Order.succ (ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2)) ≤ ω ^ (mu a + mu b + 9)
+    ==>
+      ω ^ 4 * (ω ^ 3 * Order.succ (mu a) + ω ^ 2 * Order.succ (mu b) + 2) < ω ^ (mu a + mu b + 9) 
