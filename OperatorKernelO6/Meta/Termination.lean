@@ -124,8 +124,11 @@ theorem mu_lt_eq_diff_both_void :
     have h_mul : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
                  omega0 ^ (4 : Ordinal) * omega0 ^ (5 : Ordinal) :=
       Ordinal.mul_lt_mul_of_pos_left h_bound (Ordinal.opow_pos (b := (4 : Ordinal)) omega0_pos)
-    rw [opow_add] at h_mul
-    norm_num at h_mul
+    -- Use opow_add: ω^4 * ω^5 = ω^(4+5) = ω^9
+    have h_exp : omega0 ^ (4 : Ordinal) * omega0 ^ (5 : Ordinal) = omega0 ^ (9 : Ordinal) := by
+      rw [←opow_add]
+      norm_num
+    rw [h_exp] at h_mul
     exact h_mul
   -- add +1 and finish
   have h_core :

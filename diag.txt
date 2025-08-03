@@ -2,41 +2,17 @@ warning: manifest out of date: git url of dependency 'mathlib' changed; use `lak
 warning: mathlib: repository 'C:\Users\Moses\math_ops\OperatorKernelO6\.lake/packages\mathlib' has local changes
 ✖ [2988/2988] Building OperatorKernelO6.Meta.Termination
 trace: .> LEAN_PATH=C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean c:\Users\Moses\.elan\toolchains\leanprover--lean4---v4.22.0-rc4\bin\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Termination.lean -o C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Termination.olean -i C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Termination.ilean -c C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Termination.c --setup C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Termination.setup.json --json
-error: OperatorKernelO6/Meta/Termination.lean:77:6: type mismatch
-  opow_le_opow_right omega0_pos one_le_exp
-has type
-  ω ^ 1 ≤ ω ^ (C + 5) : Prop
-but is expected to have type
-  ω ^ 1 ≤ (ω ^ 1) ^ (C + 5) : Prop
 info: OperatorKernelO6/Meta/Termination.lean:40:0: [diag] Diagnostics
-  [reduction] unfolded reducible declarations (max: 626, num: 1):
-    [reduction] outParam ↦ 626
+  [reduction] unfolded reducible declarations (max: 643, num: 1):
+    [reduction] outParam ↦ 643
   use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-error: OperatorKernelO6/Meta/Termination.lean:111:8: type mismatch
-  opow_le_opow_right omega0_pos this
-has type
-  ω ^ 1 ≤ ω ^ 5 : Prop
-but is expected to have type
-  ω ^ 1 ≤ (ω ^ 1) ^ 5 : Prop
-error: OperatorKernelO6/Meta/Termination.lean:126:8: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
-  ?a ^ (?b + ?c)
-h_inner : ω ^ 3 + ω ^ 2 + 2 < ω ^ 5
-rew : mu (void.merge void) + 1 = ω ^ 3 + ω ^ 2 + 2
-h_bound : ω ^ 3 + ω ^ 2 + 2 < ω ^ 5
-h_mul : ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) < ω ^ 4 * ω ^ 5
-⊢ ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) < ω ^ 9
-info: OperatorKernelO6/Meta/Termination.lean:96:0: [diag] Diagnostics
-  [reduction] unfolded declarations (max: 525, num: 2):
-    [reduction] HPow.hPow ↦ 525
-    [reduction] Pow.pow ↦ 513
-  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-error: OperatorKernelO6/Meta/Termination.lean:155:10: type mismatch
+error: OperatorKernelO6/Meta/Termination.lean:159:10: type mismatch
   h_both
 has type
   a = void → ¬b = void : Prop
 but is expected to have type
   b ≠ void : Prop
-error: OperatorKernelO6/Meta/Termination.lean:179:10: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
+error: OperatorKernelO6/Meta/Termination.lean:183:10: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
   4 + C
 a b : Trace
 h_both : ¬(a = void ∧ b = void)
@@ -48,7 +24,7 @@ h_mul : ω ^ 4 * (mu (a.merge b) + 1) < ω ^ 4 * ω ^ (C + 5)
 h_opow : ω ^ 4 * ω ^ (C + 5) = ω ^ (4 + (C + 5))
 absorb4 : 4 + C = C
 ⊢ 4 + (mu a + (mu b + 5)) = mu a + (mu b + 5)
-warning: OperatorKernelO6/Meta/Termination.lean:205:8: declaration uses 'sorry'
+warning: OperatorKernelO6/Meta/Termination.lean:209:8: declaration uses 'sorry'
 error: Lean exited with code 1
 Some required builds logged failures:
 - OperatorKernelO6.Meta.Termination
