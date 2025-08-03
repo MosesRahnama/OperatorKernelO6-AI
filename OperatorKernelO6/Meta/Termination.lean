@@ -1278,6 +1278,4 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hdec : mu x < mu y := mu_decreases hk
   exact hdec
 
-
-
 end MetaSN
