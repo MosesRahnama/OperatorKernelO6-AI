@@ -38,6 +38,12 @@ READ IN THIS ORDER BEFORE PROCEEDING:
 - **Strategic absorption**: Apply `nat_left_add_absorb` only when `ω ≤ C` is established
 - **No manual ordinal arithmetic**: Avoid complex derivations, use established lemmas
 
+### **CRITICAL ORDINAL FIXES DISCOVERED:**
+- **opow_le_opow_right pattern**: Use `calc` blocks instead of direct rewrite to avoid `ω^1 ≤ (ω^1)^(C+5)` type errors
+- **h_both logic extraction**: When `h_both : ¬(a = void ∧ b = void)` and `ha : a = void`, use `rw [ha] at h_both; simp at h_both` to get `b ≠ void`
+- **add_assoc + absorb pattern**: For `4 + (C + 5) = C + 5` use `(add_assoc).symm` then `rw [absorb4]`
+- **opow_add explicit usage**: Don't rely on pattern matching; use explicit `rw [←opow_add]; norm_num` or separate lemma
+
 ---
 
 ## 🔧 **CRITICAL: ERROR FILTERING INSTRUCTIONS** 
