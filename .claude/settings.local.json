@@ -6,7 +6,14 @@
       "Bash(timeout 20 lake build:*)",
       "Bash(timeout 15 lake build:*)",
       "Bash(timeout 10 lake build:*)",
-      "Bash(timeout 120 lake:*)"
+      "Bash(timeout 120 lake:*)",
+      "Bash(timeout 60 lake:*)",
+      "Bash(timeout 90 lake:*)",
+      "Bash(timeout 30 lake:*)",
+      "Bash(sed:*)",
+      "Bash(cp:*)",
+      "Bash(rm:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }
