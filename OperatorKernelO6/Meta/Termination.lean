@@ -14,8 +14,14 @@ namespace MetaSN
 
 set_option diagnostics true
 set_option diagnostics.threshold 500
-
-
+set_option linter.unnecessarySimpa false
+set_option diagnostics true
+-- set_option trace.Meta.Tactic.simp.rewrite true
+set_option trace.Meta.debug true
+-- set_option autoImplicit false
+set_option maxRecDepth 1000
+set_option trace.linarith true
+set_option trace.compiler.ir.result true
 
 lemma mu_lt_eq_diff (a b : Trace) :
   mu (integrate (merge a b)) < mu (eqW a b) := by
@@ -598,7 +604,5 @@ theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   have hk : KernelStep y x := hxy
   have hdec : mu x < mu y := mu_decreases hk
   exact hdec
-
-end DebugTail
 
 end MetaSN
