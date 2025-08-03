@@ -1,15 +1,12 @@
 {"synthetic": false,
  "outputs":
- {"o": ["7247675174533661133"],
-  "i": "8704592110552960826",
-  "c": "10071999306968090977"},
+ {"o": ["11129113667511004984"],
+  "i": "14248820510089022688",
+  "c": "15008239598069038491"},
  "log":
  [{"message":
    ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\TerminationBase.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\TerminationBase.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\TerminationBase.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\TerminationBase.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\TerminationBase.setup.json --json",
-   "level": "trace"},
-  {"message":
-   "OperatorKernelO6/Meta/TerminationBase.lean:188:8: declaration uses 'sorry'",
-   "level": "warning"}],
+   "level": "trace"}],
  "inputs":
  [["OperatorKernelO6.Meta.TerminationBase:deps",
    [["deps",
@@ -87,8 +84,8 @@
   ["Lean 4.22.0, commit 30ceb3260d7d7536092fedff969b4b2e8de7f942",
    "7333961747739924687"],
   ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\TerminationBase.lean",
-   "11524836353297091729"],
+   "17290171348656828333"],
   ["options", "1723"],
   ["Module.leanArgs: #[-Dpp.notation=true, -Dtrace.profiler.threshold=5]",
    "11004081667271888933"]],
- "depHash": "377972555718141790"}
+ "depHash": "8492919165922821875"}

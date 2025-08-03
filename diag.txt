@@ -1,258 +1,55 @@
-Termination.lean:987:41
-Tactic state
-2 goals
-case pos
-a b : Trace
-C : Ordinal.{0} := mu a + mu b
-hC : C = mu a + mu b
-h_void : a = void ∧ b = void
-⊢ mu (a.merge b).integrate < mu (a.eqW b)
-case neg
-a b : Trace
-C : Ordinal.{0} := mu a + mu b
-hC : C = mu a + mu b
-h_void : ¬(a = void ∧ b = void)
-⊢ mu (a.merge b).integrate < mu (a.eqW b)
-Expected type
-a b : Trace
-C : Ordinal.{0} := ⋯
-hC : C = mu a + mu b
-⊢ Trace
-Messages (1)
-Termination.lean:978:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 939, num: 11): ▼
-    [] Quot.lift ↦ 939 
-    [] Add.add ↦ 894 
-    [] OfNat.ofNat ↦ 872 
-    [] WellOrder.rec ↦ 866 
-    [] HAdd.hAdd ↦ 803 
-    [] Quotient ↦ 698 
-    [] Ordinal ↦ 639 
-    [] Quotient.mk ↦ 609 
-    [] LT.lt ↦ 554 
-    [] type ↦ 507 
-    [] Pow.pow ↦ 501 
-  [reduction] unfolded instances (max: 698, num: 1): ▼
-    [] instHAdd ↦ 698 
-  [reduction] unfolded reducible declarations (max: 2229, num: 5): ▼
-    [] outParam ↦ 2229 
-    [] Quotient.lift ↦ 1655 
-    [] Quotient.liftOn₂ ↦ 1074 
-    [] Quotient.lift₂ ↦ 1074 
-    [] WellOrder.casesOn ↦ 866 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-All Messages (23)
-Termination.lean:188:8
-declaration uses 'sorry'
-Termination.lean:973:6
-declaration uses 'sorry'
-Termination.lean:1000:8
-no goals to be solved
-Termination.lean:1002:18
-This simp argument is unused:
-  h_merge_void
-
-Hint: Omit it from the simp argument list.
-  simp [mu, h_merge_void]
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:1022:16
-tactic 'apply' failed, could not unify the type of `opow_pos 2 omega0_pos`
-  0 < ω ^ 2
-with the goal
-  ω < ω ^ 2
-C : Ordinal.{0} := ⋯
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h_two_omega : 2 < ω
-h_omega2_omega3 h_omega3_bound : ω ^ 2 < ω ^ 3
-this : 2 < ω
-⊢ ω < ω ^ 2
-Termination.lean:1026:121
-tactic 'rfl' failed, the left-hand side
-  ω ^ 2 + ω ^ 2
-is not definitionally equal to the right-hand side
-  2 * ω ^ 2
-C : Ordinal.{0} := mu void + mu void
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h_two_omega : 2 < ω
-h_omega2_omega3 h_omega3_bound : ω ^ 2 < ω ^ 3
-h_add_bound : ω ^ 2 + 2 ≤ ω ^ 2 + ω ^ 2
-⊢ ω ^ 2 + ω ^ 2 = 2 * ω ^ 2
-Termination.lean:1030:20
-tactic 'rewrite' failed, did not find instance of the pattern in the target expression
-  ?a ^ ?b * ?a ^ ?c
-C : Ordinal.{0} := mu void + mu void
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h_two_omega✝ : 2 < ω
-h_omega2_omega3 h_omega3_bound : ω ^ 2 < ω ^ 3
-h_add_bound : ω ^ 2 + 2 ≤ ω ^ 2 + ω ^ 2
-h_eq : ω ^ 2 + ω ^ 2 = 2 * ω ^ 2
-h_two_omega : 2 < ω
-⊢ ω * ω ^ 2 = ω ^ 3
-Termination.lean:1032:14
-type mismatch
-  Ordinal.mul_lt_mul_of_pos_left h_two_omega (opow_pos 2 omega0_pos)
+warning: manifest out of date: git url of dependency 'mathlib' changed; use `lake update mathlib` to update it
+warning: mathlib: repository 'C:\Users\Moses\math_ops\OperatorKernelO6\.lake/packages\mathlib' has local changes
+✖ [2988/2988] Building OperatorKernelO6.Meta.Termination
+trace: .> LEAN_PATH=C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean c:\Users\Moses\.elan\toolchains\leanprover--lean4---v4.22.0-rc4\bin\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Termination.lean -o C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Termination.olean -i C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\lib\lean\OperatorKernelO6\Meta\Termination.ilean -c C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Termination.c --setup C:\Users\Moses\math_ops\OperatorKernelO6\.lake\build\ir\OperatorKernelO6\Meta\Termination.setup.json --json
+error: OperatorKernelO6/Meta/Termination.lean:77:6: type mismatch
+  opow_le_opow_right omega0_pos one_le_exp
 has type
-  ω ^ 2 * 2 < ω ^ 2 * ω : Prop
+  ω ^ 1 ≤ ω ^ (C + 5) : Prop
 but is expected to have type
-  2 * ω ^ 2 < ω * ω ^ 2 : Prop
-Termination.lean:1040:14
-tactic 'rfl' failed, the left-hand side
-  ω ^ 3 + ω ^ 3
-is not definitionally equal to the right-hand side
-  2 * ω ^ 3
-C : Ordinal.{0} := mu void + mu void
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h1 : ω ^ 2 + 2 < ω ^ 3
-h2 : ω ^ 3 + (ω ^ 2 + 2) < ω ^ 3 + ω ^ 3
-⊢ ω ^ 3 + ω ^ 3 = 2 * ω ^ 3
-Termination.lean:1046:20
-tactic 'rewrite' failed, did not find instance of the pattern in the target expression
-  ?a ^ ?b * ?a ^ ?c
-C : Ordinal.{0} := mu void + mu void
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h1 : ω ^ 2 + 2 < ω ^ 3
-h2 : ω ^ 3 + (ω ^ 2 + 2) < ω ^ 3 + ω ^ 3
-h_two_omega3 : ω ^ 3 + ω ^ 3 = 2 * ω ^ 3
-h_two_omega : 2 < ω
-⊢ ω * ω ^ 3 = ω ^ 4
-Termination.lean:1049:14
-type mismatch
-  Ordinal.mul_lt_mul_of_pos_left h_two_omega (opow_pos 3 omega0_pos)
+  ω ^ 1 ≤ (ω ^ 1) ^ (C + 5) : Prop
+info: OperatorKernelO6/Meta/Termination.lean:40:0: [diag] Diagnostics
+  [reduction] unfolded reducible declarations (max: 626, num: 1):
+    [reduction] outParam ↦ 626
+  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+error: OperatorKernelO6/Meta/Termination.lean:111:8: type mismatch
+  opow_le_opow_right omega0_pos this
 has type
-  ω ^ 3 * 2 < ω ^ 3 * ω : Prop
+  ω ^ 1 ≤ ω ^ 5 : Prop
 but is expected to have type
-  2 * ω ^ 3 < ω * ω ^ 3 : Prop
-Termination.lean:1074:16
-failed to synthesize
-  AddRightStrictMono Ordinal.{?u.57431}
-Termination.lean:1078:20
-This simp argument is unused:
-  h_merge_void
-
-Hint: Omit it from the simp argument list.
-  simp [mu, h_merge_void]
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Termination.lean:1081:12
-tactic 'rewrite' failed, did not find instance of the pattern in the target expression
-  mu (void.merge void).integrate
-C : Ordinal.{0} := mu void + mu void
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h_inner_bound : ω ^ 3 + ω ^ 2 + 2 < ω ^ 4
-h_mult_bound : ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) < ω ^ 8
-h_exp_calc : ω ^ 4 * ω ^ 4 = ω ^ 8
-h_final : ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) + 1 < ω ^ 9 + 1
-h_integrate_def : mu (void.merge void).integrate = ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) + 1
-h_eqW_def : mu (void.eqW void) = ω ^ 9 + 1
+  ω ^ 1 ≤ (ω ^ 1) ^ 5 : Prop
+error: OperatorKernelO6/Meta/Termination.lean:126:8: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
+  ?a ^ (?b + ?c)
+h_inner : ω ^ 3 + ω ^ 2 + 2 < ω ^ 5
+rew : mu (void.merge void) + 1 = ω ^ 3 + ω ^ 2 + 2
+h_bound : ω ^ 3 + ω ^ 2 + 2 < ω ^ 5
+h_mul : ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) < ω ^ 4 * ω ^ 5
 ⊢ ω ^ 4 * (ω ^ 3 + ω ^ 2 + 2) < ω ^ 9
-Termination.lean:990:18
-unsolved goals
-case pos.intro
-C : Ordinal.{0} := mu void + mu void
-hC : C = mu void + mu void
-h_merge_void : mu (void.merge void) = ω ^ 3 + ω ^ 2 + 1
-h_integrate_bound : mu (void.merge void).integrate < ω ^ 9 + 1
-⊢ mu (void.merge void).integrate < mu (void.eqW void)
-Termination.lean:1088:12
-unknown identifier 'mu_sum_ge_omega_of_not_both_void'
-Termination.lean:1158:33
-Application type mismatch: In the application
-  lt_of_lt_of_le h_one_omega
-the argument
-  h_one_omega
+info: OperatorKernelO6/Meta/Termination.lean:96:0: [diag] Diagnostics
+  [reduction] unfolded declarations (max: 525, num: 2):
+    [reduction] HPow.hPow ↦ 525
+    [reduction] Pow.pow ↦ 513
+  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+error: OperatorKernelO6/Meta/Termination.lean:155:10: type mismatch
+  h_both
 has type
-  1 < ω : Prop
+  a = void → ¬b = void : Prop
 but is expected to have type
-  ω < ω : Prop
-Termination.lean:1185:16
-tactic 'rewrite' failed, did not find instance of the pattern in the target expression
-  ?a + (?b + ?c)
-a b : Trace
-C : Ordinal.{0} := mu a + mu b
-hC : C = mu a + mu b
-h_void : ¬(a = void ∧ b = void)
-h_omega_le_C : ω ≤ C
-h_def : mu (a.merge b) = ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1
-h_termA : ω ^ 3 * (mu a + 1) ≤ ω ^ (mu a + 4)
-h_termB : ω ^ 2 * (mu b + 1) ≤ ω ^ (mu b + 3)
-h_a_exp : mu a + 4 < C + 5
-h_b_exp : mu b + 3 < C + 5
-h_a_pow : ω ^ (mu a + 4) < ω ^ (C + 5)
-h_b_pow : ω ^ (mu b + 3) < ω ^ (C + 5)
-h_a_strict : ω ^ 3 * (mu a + 1) < ω ^ (C + 5)
-h_b_strict : ω ^ 2 * (mu b + 1) < ω ^ (C + 5)
-h_two_small : 2 < ω ^ (C + 5)
-h_pos : 0 < C + 5
-h_combined : ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 < ω ^ (C + 5)
-h_eq : ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 + 1 = ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 2
-h_combined_plus_1 : ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 < ω ^ (C + 5)
-⊢ ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 2 = ω ^ 3 * (mu a + 1) + ω ^ 2 * (mu b + 1) + 1 + 1
-Termination.lean:1191:12
-type mismatch
-  left_le_opow ω h_pos
-has type
-  ω ≤ ω ^ (C + 5) : Prop
-but is expected to have type
-  ω < ω ^ (C + 5) : Prop
-Termination.lean:1218:12
-tactic 'rewrite' failed, did not find instance of the pattern in the target expression
+  b ≠ void : Prop
+error: OperatorKernelO6/Meta/Termination.lean:179:10: tactic 'rewrite' failed, did not find instance of the pattern in the target expression
   4 + C
 a b : Trace
+h_both : ¬(a = void ∧ b = void)
 C : Ordinal.{0} := mu a + mu b
 hC : C = mu a + mu b
-h_void : ¬(a = void ∧ b = void)
-h_omega_le_C : ω ≤ C
-h_merge_bound : mu (a.merge b) + 1 < ω ^ (C + 5)
-h_mult : ω ^ 4 * (mu (a.merge b) + 1) < ω ^ 4 * ω ^ (C + 5)
-h_exp : ω ^ 4 * ω ^ (C + 5) = ω ^ (4 + C + 5)
-h_absorb : 4 + C = C
-⊢ 4 + mu a + mu b + 5 = C + 5
-Termination.lean:1231:8
-tactic 'apply' failed, could not unify the conclusion of `lt_trans h_key`
-  ω ^ 4 * (mu (a.merge b) + 1) < ?m.92532
-with the goal
-  ω ^ 4 * (mu (a.merge b) + 1) + 1 < ω ^ (C + 9) + 1
-
-Note: The full type of `lt_trans h_key` is
-  ω ^ (C + 9) < ?m.92532 → ω ^ 4 * (mu (a.merge b) + 1) < ?m.92532
-a b : Trace
-C : Ordinal.{0} := mu a + mu b
-hC : C = mu a + mu b
-h_void : ¬(a = void ∧ b = void)
-h_omega_le_C : ω ≤ C
-h_merge_bound : mu (a.merge b) + 1 < ω ^ (C + 5)
-h_key : ω ^ 4 * (mu (a.merge b) + 1) < ω ^ (C + 9)
-⊢ ω ^ 4 * (mu (a.merge b) + 1) + 1 < ω ^ (C + 9) + 1
-Termination.lean:978:0
-[diag] Diagnostics ▼
-  [reduction] unfolded declarations (max: 939, num: 11): ▼
-    [] Quot.lift ↦ 939 
-    [] Add.add ↦ 894 
-    [] OfNat.ofNat ↦ 872 
-    [] WellOrder.rec ↦ 866 
-    [] HAdd.hAdd ↦ 803 
-    [] Quotient ↦ 698 
-    [] Ordinal ↦ 639 
-    [] Quotient.mk ↦ 609 
-    [] LT.lt ↦ 554 
-    [] type ↦ 507 
-    [] Pow.pow ↦ 501 
-  [reduction] unfolded instances (max: 698, num: 1): ▼
-    [] instHAdd ↦ 698 
-  [reduction] unfolded reducible declarations (max: 2229, num: 5): ▼
-    [] outParam ↦ 2229 
-    [] Quotient.lift ↦ 1655 
-    [] Quotient.liftOn₂ ↦ 1074 
-    [] Quotient.lift₂ ↦ 1074 
-    [] WellOrder.casesOn ↦ 866 
-use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
-Termination.lean:1241:8
-declaration uses 'sorry'
+hCω : ω ≤ C
+h_inner : mu (a.merge b) + 1 < ω ^ (C + 5)
+h_mul : ω ^ 4 * (mu (a.merge b) + 1) < ω ^ 4 * ω ^ (C + 5)
+h_opow : ω ^ 4 * ω ^ (C + 5) = ω ^ (4 + (C + 5))
+absorb4 : 4 + C = C
+⊢ 4 + (mu a + (mu b + 5)) = mu a + (mu b + 5)
+warning: OperatorKernelO6/Meta/Termination.lean:205:8: declaration uses 'sorry'
+error: Lean exited with code 1
+Some required builds logged failures:
+- OperatorKernelO6.Meta.Termination
+error: build failed
