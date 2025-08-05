@@ -1,12 +1,12 @@
 ﻿# Termination Analysis - OperatorKernelO6
 
-**File:** OperatorKernelO6/Meta/Termination.lean  
+**File:** OperatorKernelO6/Meta\Termination.lean  
 **Author:** Moses  
 **Date:** 2025-08-04
 
 ## Overview
 
-This file contains the main termination proof for the OperatorKernelO6 system using ordinal-based measures.
+Complete termination proof with ordinal measures and mu_decreases theorem
 
 ## Source Code
 
