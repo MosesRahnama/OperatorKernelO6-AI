@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termination Analysis - OperatorKernelO6</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 1px solid #bdc3c7;
+            margin-top: 40px;
+            padding-bottom: 5px;
+        }
+        
+        .metadata {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        
+        .theorems {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+            font-size: 12px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #f1f2f6;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 85%;
+        }
+        
+        .print-instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin-top: 40px;
+        }
+        
+        kbd {
+            background: #333;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        @media print {
+            body {
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 11px;
+            }
+            pre {
+                font-size: 9px;
+                page-break-inside: avoid;
+            }
+            .print-instructions {
+                display: none;
+            }
+            h1, h2 {
+                page-break-after: avoid;
+            }
+        }
+        
+        @page {
+            margin: 0.75in;
+        }
+    </style>
+</head>
+<body>
+    <h1>Termination Analysis - OperatorKernelO6</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>File:</strong> <code>OperatorKernelO6/Meta/Termination.lean</code><br>
+            <strong>Author:</strong> Moses<br>
+            <strong>Generated:</strong> 2025-08-04 23:08:06
+        </p>
+    </div>
+    
+    <h2>Overview</h2>
+    <p>
+        This file contains the main termination proof for the OperatorKernelO6 system using 
+        ordinal-based measures. The key result is that every reduction step decreases the 
+        ordinal measure mu, ensuring strong normalization.
+    </p>
+    
+    <div class="theorems">
+        <h3>Key Theorems</h3>
+        <ul>
+            <li><strong><code>mu_decreases</code></strong>: Every step <code>a -&gt; b</code> satisfies <code>mu(b) &lt; mu(a)</code></li>
+            <li><strong><code>step_strong_normalization</code></strong>: The reduction relation is well-founded</li>
+            <li><strong><code>mu</code></strong>: Ordinal measure mapping traces to ordinals</li>
+            <li><strong><code>rec_succ_bound</code></strong>: Concrete bound for successor-recursor case</li>
+            <li><strong><code>mu_lt_eq_diff</code></strong>: Inequality for equality-difference rules</li>
+        </ul>
+    </div>
+    
+    <h2>Source Code</h2>
+    <pre><code></code></pre>
+    
+    <div class="print-instructions">
+        <h3>Print to PDF Instructions</h3>
+        <ol>
+            <li>Press <kbd>Ctrl+P</kbd> to open the print dialog</li>
+            <li>Choose "Save as PDF" or "Microsoft Print to PDF"</li>
+            <li>Set margins to "Minimum" or "Custom" with 0.5 inch margins</li>
+            <li>Enable "Background graphics" to preserve colors</li>
+            <li>Set scale to "Fit to page width" if needed</li>
+        </ol>
+        <p><strong>Note:</strong> The code section will automatically wrap lines for better printing.</p>
+    </div>
+    
+    <script>
+        // Simple syntax highlighting for Lean keywords
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement) {
+                let content = codeElement.innerHTML;
+                
+                // Highlight Lean keywords
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                // Highlight comments
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>
