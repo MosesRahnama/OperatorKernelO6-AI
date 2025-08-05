@@ -3,65 +3,87 @@ param(
     [string]$OutputDir = ""
 )
 
-# Set default paths - NOW POINTING TO THE COMBINED FILE
-if ($InputFile -eq "") {
-    $InputFile = "c:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\TerminationBase.lean"
-}
-
+# Set default paths
 if ($OutputDir -eq "") {
     $OutputDir = "c:\Users\Moses\math_ops\OperatorKernelO6\docs"
+}
+
+# Define the files we want to convert (only the real project files)
+$FilesToConvert = @(
+    @{
+        Path = "c:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Kernel.lean"
+        Name = "Kernel"
+        Description = "Core trace definitions and reduction rules"
+    },
+    @{
+        Path = "c:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Termination.lean"
+        Name = "Termination"
+        Description = "Complete termination proof with ordinal measures and mu_decreases theorem"
+    }
+)
+
+# If specific file provided, only convert that one
+if ($InputFile -ne "") {
+    $FilesToConvert = @(@{
+        Path = $InputFile
+        Name = [System.IO.Path]::GetFileNameWithoutExtension($InputFile)
+        Description = "User-specified file"
+    })
 }
 
 # Create output directory
 New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
 
-Write-Host "Converting Lean file to documentation..." -ForegroundColor Green
-Write-Host "Input: $InputFile" -ForegroundColor Gray
-Write-Host "Output: $OutputDir" -ForegroundColor Gray
-
-# Check if input file exists
-if (!(Test-Path $InputFile)) {
-    Write-Host "ERROR: Input file not found at $InputFile" -ForegroundColor Red
-    Write-Host "Available files:" -ForegroundColor Yellow
-    Get-ChildItem -Path "c:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6" -Filter "*.lean" -Recurse | ForEach-Object {
-        Write-Host "  $($_.FullName)" -ForegroundColor Gray
-    }
-    exit 1
-}
-
-# Read the file content with better error handling
-try {
-    $FileContent = Get-Content $InputFile -Raw -Encoding UTF8
-    if ([string]::IsNullOrWhiteSpace($FileContent)) {
-        Write-Host "WARNING: File appears to be empty" -ForegroundColor Yellow
-        $FileContent = "-- File appears to be empty or could not be read properly"
-    }
-    Write-Host "File read successfully ($($FileContent.Length) characters)" -ForegroundColor Green
-} catch {
-    Write-Host "ERROR: Could not read file - $($_.Exception.Message)" -ForegroundColor Red
-    exit 1
-}
-
-# Generate timestamp
-$Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-$DateOnly = Get-Date -Format "yyyy-MM-dd"
-
-# Create HTML output
-$HtmlFile = Join-Path $OutputDir "Termination_Documentation.html"
+Write-Host "Converting Lean files to documentation..." -ForegroundColor Green
+Write-Host "Output directory: $OutputDir" -ForegroundColor Gray
 
 # Load System.Web for HTML encoding
 Add-Type -AssemblyName System.Web
 
-# Properly encode the file content for HTML
-$EscapedContent = [System.Web.HttpUtility]::HtmlEncode($FileContent)
-
-$HtmlContent = @"
+foreach ($FileInfo in $FilesToConvert) {
+    $FilePath = $FileInfo.Path
+    $FileName = $FileInfo.Name
+    $FileDescription = $FileInfo.Description
+    
+    Write-Host ""
+    Write-Host "Processing: $FileName" -ForegroundColor Yellow
+    Write-Host "Path: $FilePath" -ForegroundColor Gray
+    
+    # Check if file exists
+    if (!(Test-Path $FilePath)) {
+        Write-Host "  [SKIP] File not found: $FilePath" -ForegroundColor Red
+        continue
+    }
+    
+    # Read file content
+    try {
+        $FileContent = Get-Content $FilePath -Raw -Encoding UTF8
+        if ([string]::IsNullOrWhiteSpace($FileContent)) {
+            Write-Host "  [WARN] File appears to be empty" -ForegroundColor Yellow
+            $FileContent = "-- File appears to be empty or could not be read properly"
+        }
+        Write-Host "  [OK] Read $($FileContent.Length) characters" -ForegroundColor Green
+    } catch {
+        Write-Host "  [ERROR] Could not read file: $($_.Exception.Message)" -ForegroundColor Red
+        continue
+    }
+    
+    # Generate timestamp
+    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    
+    # Create HTML output
+    $HtmlFile = Join-Path $OutputDir "$FileName`_Documentation.html"
+    
+    # Properly encode the file content for HTML
+    $EscapedContent = [System.Web.HttpUtility]::HtmlEncode($FileContent)
+    
+    $HtmlContent = @"
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termination Analysis - OperatorKernelO6</title>
+    <title>$FileName Analysis - OperatorKernelO6</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -95,7 +117,7 @@ $HtmlContent = @"
             margin: 20px 0;
         }
         
-        .theorems {
+        .description {
             background: #f0f8f0;
             padding: 15px;
             border-radius: 8px;
@@ -165,40 +187,20 @@ $HtmlContent = @"
     </style>
 </head>
 <body>
-    <h1>Termination Analysis - OperatorKernelO6</h1>
+    <h1>$FileName Analysis - OperatorKernelO6</h1>
     
     <div class="metadata">
         <p>
-            <strong>File:</strong> <code>OperatorKernelO6/Meta/TerminationBase.lean</code> (Combined)<br>
+            <strong>File:</strong> <code>OperatorKernelO6/$($FilePath.Split('\')[-2..-1] -join '\')</code><br>
             <strong>Author:</strong> Moses<br>
             <strong>Generated:</strong> $Timestamp<br>
             <strong>File Size:</strong> $($FileContent.Length) characters
         </p>
     </div>
     
-    <h2>Overview</h2>
-    <p>
-        This file contains the complete termination analysis for the OperatorKernelO6 system, combining both the foundational ordinal measure definitions and the main termination proof. The key result is that every reduction step decreases the ordinal measure mu, ensuring strong normalization.
-    </p>
-    
-    <div class="theorems">
-        <h3>Key Results</h3>
-        <ul>
-            <li><strong>Part 1 - Foundations:</strong>
-                <ul>
-                    <li><strong><code>mu</code></strong>: Ordinal measure mapping traces to ordinals</li>
-                    <li><strong><code>termA_le</code>, <code>termB_le</code></strong>: Core inequality lemmas</li>
-                    <li><strong><code>rec_succ_bound</code></strong>: Concrete bound for successor-recursor case (with sorry)</li>
-                </ul>
-            </li>
-            <li><strong>Part 2 - Main Proof:</strong>
-                <ul>
-                    <li><strong><code>mu_decreases</code></strong>: Every step <code>a -&gt; b</code> satisfies <code>mu(b) &lt; mu(a)</code></li>
-                    <li><strong><code>step_strong_normalization</code></strong>: The reduction relation is well-founded</li>
-                    <li><strong><code>mu_lt_eq_diff</code></strong>: Inequality for equality-difference rules</li>
-                </ul>
-            </li>
-        </ul>
+    <div class="description">
+        <h3>Overview</h3>
+        <p>$FileDescription</p>
     </div>
     
     <h2>Source Code</h2>
@@ -228,7 +230,7 @@ $HtmlContent = @"
                     'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
                     'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
                     'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
-                    'set_option', 'attribute'
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
                 ];
                 
                 keywords.forEach(keyword => {
@@ -239,7 +241,7 @@ $HtmlContent = @"
                 // Highlight comments
                 content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
                 
-                // Highlight sorry
+                // Highlight sorry with red background
                 content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
                 
                 codeElement.innerHTML = content;
@@ -250,32 +252,32 @@ $HtmlContent = @"
 </html>
 "@
 
-# Write HTML file
-try {
-    $HtmlContent | Out-File -FilePath $HtmlFile -Encoding UTF8
-    Write-Host "SUCCESS: HTML documentation created at $HtmlFile" -ForegroundColor Green
-} catch {
-    Write-Host "ERROR: Could not create HTML file - $($_.Exception.Message)" -ForegroundColor Red
-    exit 1
-}
-
-# Try to create PDF using Pandoc (if available)
-if (Get-Command pandoc -ErrorAction SilentlyContinue) {
-    Write-Host "Pandoc found, attempting PDF creation..." -ForegroundColor Yellow
+    # Write HTML file
+    try {
+        $HtmlContent | Out-File -FilePath $HtmlFile -Encoding UTF8
+        Write-Host "  [SUCCESS] HTML created: $HtmlFile" -ForegroundColor Green
+    } catch {
+        Write-Host "  [ERROR] Could not create HTML: $($_.Exception.Message)" -ForegroundColor Red
+        continue
+    }
     
-    # Create simple markdown for Pandoc
-    $MarkdownFile = Join-Path $OutputDir "Termination_Documentation.md"
-    
-    $MarkdownContent = @"
-# Termination Analysis - OperatorKernelO6
+    # Try to create PDF using Pandoc (if available)
+    if (Get-Command pandoc -ErrorAction SilentlyContinue) {
+        Write-Host "  [INFO] Creating PDF with Pandoc..." -ForegroundColor Cyan
+        
+        # Create simple markdown for Pandoc
+        $MarkdownFile = Join-Path $OutputDir "$FileName`_Documentation.md"
+        
+        $MarkdownContent = @"
+# $FileName Analysis - OperatorKernelO6
 
-**File:** OperatorKernelO6/Meta/Termination.lean  
+**File:** OperatorKernelO6/$($FilePath.Split('\')[-2..-1] -join '\')  
 **Author:** Moses  
-**Date:** $DateOnly
+**Date:** $(Get-Date -Format 'yyyy-MM-dd')
 
 ## Overview
 
-This file contains the main termination proof for the OperatorKernelO6 system using ordinal-based measures.
+$FileDescription
 
 ## Source Code
 
@@ -283,25 +285,38 @@ This file contains the main termination proof for the OperatorKernelO6 system us
 $FileContent
 ``````
 "@
-    
-    $MarkdownContent | Out-File -FilePath $MarkdownFile -Encoding UTF8
-    
-    $PdfFile = Join-Path $OutputDir "Termination_Documentation.pdf"
-    
-    try {
-        pandoc $MarkdownFile -o $PdfFile --pdf-engine=xelatex --highlight-style=tango --variable geometry:margin=0.75in --variable fontsize=11pt --standalone
         
-        if (Test-Path $PdfFile) {
-            Write-Host "SUCCESS: PDF created at $PdfFile" -ForegroundColor Green
-            Start-Process $PdfFile
-        } else {
-            Write-Host "PDF creation failed (no output file)" -ForegroundColor Yellow
+        $MarkdownContent | Out-File -FilePath $MarkdownFile -Encoding UTF8
+        
+        $PdfFile = Join-Path $OutputDir "$FileName`_Documentation.pdf"
+        
+        try {
+            pandoc $MarkdownFile -o $PdfFile --pdf-engine=xelatex --highlight-style=tango --variable geometry:margin=0.75in --variable fontsize=10pt --standalone
+            
+            if (Test-Path $PdfFile) {
+                Write-Host "  [SUCCESS] PDF created: $PdfFile" -ForegroundColor Green
+            } else {
+                Write-Host "  [WARN] PDF creation failed (no output)" -ForegroundColor Yellow
+            }
+        } catch {
+            Write-Host "  [WARN] PDF creation failed: $($_.Exception.Message)" -ForegroundColor Yellow
         }
-    } catch {
-        Write-Host "PDF creation failed: $($_.Exception.Message)" -ForegroundColor Yellow
     }
-} else {
-    Write-Host "Pandoc not found - only HTML version available" -ForegroundColor Yellow
 }
 
-# Open the HTML file
+Write-Host ""
+Write-Host "Opening HTML files..." -ForegroundColor Cyan
+
+# Open all created HTML files
+Get-ChildItem -Path $OutputDir -Filter "*_Documentation.html" | ForEach-Object {
+    Start-Process $_.FullName
+}
+
+Write-Host ""
+Write-Host "Documentation generation complete!" -ForegroundColor Green
+Write-Host "Files created in: $OutputDir" -ForegroundColor White
+Write-Host ""
+Write-Host "Created files:" -ForegroundColor Gray
+Get-ChildItem -Path $OutputDir | ForEach-Object {
+    Write-Host "  $($_.Name)" -ForegroundColor Gray
+}
