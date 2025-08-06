@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godel - OperatorKernelO6</title>
+    <style>
+        body {
+            width: 100vw;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+            color: #333;
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 1px solid #bdc3c7;
+            margin-top: 40px;
+            padding-bottom: 5px;
+        }
+        
+        .metadata {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        
+        .description {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        /* Markdown-specific styles */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .markdown-content h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .markdown-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .markdown-content a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 16px;
+            }
+            pre {
+                font-size: 13px;
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
+        }
+        
+        @page {
+            margin: 0.5in;
+            size: letter;
+        }
+    </style>
+</head>
+<body>
+    <h1>Godel</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>File:</strong> <code>C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Godel.lean</code><br>
+            <strong>Type:</strong> lean<br>
+            <strong>Generated:</strong> 2025-08-05 03:41:07<br>
+            <strong>Size:</strong> 5139 characters
+        </p>
+    </div>
+    
+    <div class='description'><h3>Overview</h3><p>GÃ¶del-related constructions and theorems</p></div>
+    
+    <h2>Source Code</h2>
+    <pre><code class='lean'>import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Arithmetic
+import OperatorKernelO6.Meta.ProofSystem
+
+open OperatorKernelO6 Trace
+
+namespace OperatorKernelO6.Meta
+
+-- Helper: numeral as δ-chain representation
+def numeral (n : Nat) : Trace := num n
+
+-- Helper: complement (negation) via integration
+def complement (t : Trace) : Trace := integrate t
+
+-- Diagonal function: given a trace, construct its &quot;quotation&quot;
+def diagonal (t : Trace) : Trace :=
+  recΔ t (quote_step t) t
+where
+  quote_step (original : Trace) : Trace :=
+    merge original original  -- Simple quotation via doubling
+
+-- Self-reference via diagonal
+def self_ref (f : Trace → Trace) : Trace :=
+  let diag := diagonal (encode_function f)
+  f diag
+where
+  encode_function (func : Trace → Trace) : Trace :=
+    integrate (func void)  -- Rough encoding
+
+-- G&#246;del sentence: &quot;this sentence is not provable&quot;
+def godel_sentence : Trace :=
+  self_ref (λ x =&gt; complement (provable x (numeral 1000)))
+
+-- Fixed point property: The G&#246;del sentence G satisfies G ↔ &#172;Prov(⌜G⌝)
+theorem godel_fixed_point :
+  ∃ g, StepStar godel_sentence g ∧
+       StepStar (complement (provable godel_sentence (numeral 1000))) g := by
+  -- The witness g is the normalization of the G&#246;del sentence
+  use godel_sentence
+  constructor
+  &#183; -- Reflexivity: G steps to itself
+    exact StepStar.refl godel_sentence
+  &#183; -- By construction, G equals &#172;Prov(⌜G⌝) via self_ref
+    -- This follows from the diagonal lemma and self-reference construction
+    unfold godel_sentence self_ref
+    -- The diagonal construction ensures the fixed point property
+    have diag_construction : 
+      let f := λ x =&gt; complement (provable x (numeral 1000))
+      let encoded := integrate (f void)
+      let diag := diagonal encoded
+      StepStar (f diag) (complement (provable (f diag) (numeral 1000))) := by
+      -- This is essentially a tautology by construction of f
+      simp only []
+      exact StepStar.refl _
+    -- Apply the diagonal construction
+    simpa using diag_construction
+
+-- First incompleteness theorem
+theorem first_incompleteness :
+  &#172;(∃ bound, StepStar (provable godel_sentence bound) void) ∧
+  &#172;(∃ bound, StepStar (provable (complement godel_sentence) bound) void) := by
+  constructor
+  &#183; -- If provable, then true, but then not provable - contradiction
+    intro ⟨bound, h⟩
+    sorry -- Detailed argument using fixed point
+  &#183; -- If complement provable, then false, contradiction with consistency
+    intro ⟨bound, h⟩
+    sorry -- Use consistency theorem
+
+-- Tarski&#39;s undefinability
+def truth_predicate (formula : Trace) : Trace :=
+  eqW formula void  -- &quot;formula is true&quot;
+
+theorem tarski_undefinability :
+  &#172;(∃ truth_def : Trace → Trace,
+    ∀ f, StepStar (truth_def f) void ↔ StepStar f void) := by
+  -- Suppose such a truth definition exists
+  intro ⟨truth_def, h_truth⟩
+  -- Construct the liar sentence: &quot;this sentence is false&quot;
+  let liar := self_ref (λ x =&gt; complement (truth_def x))
+  -- The liar satisfies: Liar ↔ &#172;Truth(⌜Liar⌝)
+  have liar_property : StepStar liar (complement (truth_def liar)) := by
+    unfold liar self_ref
+    -- By diagonal construction, similar to G&#246;del sentence
+    simp only []
+    exact StepStar.refl _
+  -- Now derive a contradiction
+  have h1 : StepStar (truth_def liar) void ↔ StepStar liar void := h_truth liar
+  -- Case analysis leads to contradiction
+  by_cases h : StepStar liar void
+  &#183; -- If liar is true, then by liar_property, &#172;Truth(liar) is true
+    -- So Truth(liar) is false, contradicting h1
+    have : StepStar (complement (truth_def liar)) void := by
+      rw [←stepstar_trans liar_property]
+      exact h
+    -- But complement means truth_def liar ≠ void, contradicting h1.1 h
+    have truth_false : &#172;StepStar (truth_def liar) void := by
+      -- complement(x) steps to void iff x doesn&#39;t step to void (integrate cancellation)
+      sorry -- Need cancellation lemma
+    have truth_true : StepStar (truth_def liar) void := h1.2 h
+    exact truth_false truth_true
+  &#183; -- If liar is false, then &#172;Truth(liar) is false, so Truth(liar) is true
+    -- By h1, liar should be true, contradiction
+    have : &#172;StepStar (complement (truth_def liar)) void := by
+      intro h_comp
+      rw [stepstar_trans liar_property] at h_comp
+      exact h h_comp
+    -- This means truth_def liar steps to void
+    have truth_true : StepStar (truth_def liar) void := by
+      sorry -- Need double negation elimination for complement
+    have liar_true : StepStar liar void := h1.1 truth_true
+    exact h liar_true
+
+-- L&#246;b&#39;s theorem
+theorem lob_theorem (formula : Trace) :
+  (∃ bound, StepStar (provable (merge (provable formula (numeral 100)) formula) bound) void) →
+  (∃ bound&#39;, StepStar (provable formula bound&#39;) void) := by
+  sorry -- Requires careful modal logic analysis
+
+-- Second incompleteness theorem (consistency statement)
+def consistency_statement : Trace :=
+  complement (merge (provable void (numeral 100)) (provable (complement void) (numeral 100)))
+
+theorem second_incompleteness :
+  &#172;(∃ bound, StepStar (provable consistency_statement bound) void) := by
+  sorry -- Follows from first incompleteness and formalization
+
+end OperatorKernelO6.Meta
+</code></pre>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement && codeElement.classList.contains('lean')) {
+                let content = codeElement.innerHTML;
+                
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>

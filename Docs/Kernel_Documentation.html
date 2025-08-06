@@ -6,11 +6,11 @@
     <title>Kernel Analysis - OperatorKernelO6</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100vw;         /* full width */
+            max-width: none;
+            margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            font-size: 18px;      /* larger default font */
             color: #333;
             background: #fff;
         }
@@ -51,7 +51,7 @@
             border-radius: 8px;
             overflow-x: auto;
             border: 1px solid #dee2e6;
-            font-size: 11px;
+            font-size: 14px;      /* larger code font */
             line-height: 1.4;
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -84,14 +84,24 @@
         
         @media print {
             body {
+                width: 100%;
                 max-width: none;
                 margin: 0;
                 padding: 15px;
-                font-size: 10px;
+                font-size: 16px;  /* larger base font for PDF */
             }
             pre {
-                font-size: 8px;
-                page-break-inside: avoid;
+                font-size: 13px;  /* larger code font */
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            code {
+                font-size: 13px;  /* match pre font size */
             }
             .print-instructions {
                 display: none;
@@ -99,10 +109,23 @@
             h1, h2 {
                 page-break-after: avoid;
             }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
         }
         
         @page {
-            margin: 0.75in;
+            margin: 0.5in;  /* smaller margins for more content space */
+            size: letter;
         }
     </style>
 </head>
@@ -113,7 +136,7 @@
         <p>
             <strong>File:</strong> <code>OperatorKernelO6/OperatorKernelO6\Kernel.lean</code><br>
             <strong>Author:</strong> Moses<br>
-            <strong>Generated:</strong> 2025-08-04 23:56:17<br>
+            <strong>Generated:</strong> 2025-08-05 01:07:40<br>
             <strong>File Size:</strong> 1393 characters
         </p>
     </div>

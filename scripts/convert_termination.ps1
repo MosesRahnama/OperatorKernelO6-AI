@@ -86,11 +86,11 @@ foreach ($FileInfo in $FilesToConvert) {
     <title>$FileName Analysis - OperatorKernelO6</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100vw;         /* full width */
+            max-width: none;
+            margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            font-size: 18px;      /* larger default font */
             color: #333;
             background: #fff;
         }
@@ -131,7 +131,7 @@ foreach ($FileInfo in $FilesToConvert) {
             border-radius: 8px;
             overflow-x: auto;
             border: 1px solid #dee2e6;
-            font-size: 11px;
+            font-size: 14px;      /* larger code font */
             line-height: 1.4;
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -164,14 +164,24 @@ foreach ($FileInfo in $FilesToConvert) {
         
         @media print {
             body {
+                width: 100%;
                 max-width: none;
                 margin: 0;
                 padding: 15px;
-                font-size: 10px;
+                font-size: 16px;  /* larger base font for PDF */
             }
             pre {
-                font-size: 8px;
-                page-break-inside: avoid;
+                font-size: 13px;  /* larger code font */
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            code {
+                font-size: 13px;  /* match pre font size */
             }
             .print-instructions {
                 display: none;
@@ -179,10 +189,23 @@ foreach ($FileInfo in $FilesToConvert) {
             h1, h2 {
                 page-break-after: avoid;
             }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
         }
         
         @page {
-            margin: 0.75in;
+            margin: 0.5in;  /* smaller margins for more content space */
+            size: letter;
         }
     </style>
 </head>
@@ -261,46 +284,69 @@ foreach ($FileInfo in $FilesToConvert) {
         continue
     }
     
-    # Try to create PDF using Pandoc (if available)
-    if (Get-Command pandoc -ErrorAction SilentlyContinue) {
-        Write-Host "  [INFO] Creating PDF with Pandoc..." -ForegroundColor Cyan
+    # Convert HTML to PDF
+    Write-Host "  [INFO] Creating PDF from HTML..." -ForegroundColor Cyan
+    $PdfFile = Join-Path $OutputDir "$FileName`_Documentation.pdf"
+    
+    # Function to convert HTML to PDF
+    function Convert-HtmlToPdf {
+        param([string]$HtmlPath, [string]$PdfPath)
         
-        # Create simple markdown for Pandoc
-        $MarkdownFile = Join-Path $OutputDir "$FileName`_Documentation.md"
+        # Option 1: Try wkhtmltopdf (best quality for code)
+        $wkhtmltopdf = $null
         
-        $MarkdownContent = @"
-# $FileName Analysis - OperatorKernelO6
-
-**File:** OperatorKernelO6/$($FilePath.Split('\')[-2..-1] -join '\')  
-**Author:** Moses  
-**Date:** $(Get-Date -Format 'yyyy-MM-dd')
-
-## Overview
-
-$FileDescription
-
-## Source Code
-
-``````lean
-$FileContent
-``````
-"@
+        # Check common installation paths
+        $possiblePaths = @(
+            "wkhtmltopdf",  # In PATH
+            "C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe",
+            "C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf.exe",
+            "$env:LOCALAPPDATA\Programs\wkhtmltopdf\bin\wkhtmltopdf.exe"
+        )
         
-        $MarkdownContent | Out-File -FilePath $MarkdownFile -Encoding UTF8
-        
-        $PdfFile = Join-Path $OutputDir "$FileName`_Documentation.pdf"
-        
-        try {
-            pandoc $MarkdownFile -o $PdfFile --pdf-engine=xelatex --highlight-style=tango --variable geometry:margin=0.75in --variable fontsize=10pt --standalone
-            
-            if (Test-Path $PdfFile) {
-                Write-Host "  [SUCCESS] PDF created: $PdfFile" -ForegroundColor Green
-            } else {
-                Write-Host "  [WARN] PDF creation failed (no output)" -ForegroundColor Yellow
+        foreach ($path in $possiblePaths) {
+            if (Get-Command $path -ErrorAction SilentlyContinue) {
+                $wkhtmltopdf = $path
+                break
             }
-        } catch {
-            Write-Host "  [WARN] PDF creation failed: $($_.Exception.Message)" -ForegroundColor Yellow
+            if (Test-Path $path) {
+                $wkhtmltopdf = $path
+                break
+            }
         }
+        
+        if ($wkhtmltopdf) {
+            try {
+                & $wkhtmltopdf --page-size A4 --margin-top 0.5in --margin-bottom 0.5in --margin-left 0.5in --margin-right 0.5in --enable-local-file-access --print-media-type "$HtmlPath" "$PdfPath"
+                return $true
+            } catch {
+                Write-Host "    [WARN] wkhtmltopdf failed: $($_.Exception.Message)" -ForegroundColor Yellow
+            }
+        }
+        
+        # Option 2: Try Chrome/Edge headless
+        $browsers = @("chrome", "msedge", "google-chrome")
+        foreach ($browser in $browsers) {
+            if (Get-Command $browser -ErrorAction SilentlyContinue) {
+                try {
+                    & $browser --headless --disable-gpu --run-all-compositor-stages-before-draw --print-to-pdf="$PdfPath" --print-to-pdf-no-header --virtual-time-budget=5000 "$HtmlPath"
+                    if (Test-Path $PdfPath) {
+                        return $true
+                    }
+                } catch {
+                    Write-Host "    [WARN] $browser failed: $($_.Exception.Message)" -ForegroundColor Yellow
+                }
+            }
+        }
+        
+        return $false
+    }
+    
+    # Convert HTML to PDF
+    if (Convert-HtmlToPdf -HtmlPath $HtmlFile -PdfPath $PdfFile) {
+        Write-Host "  [SUCCESS] PDF created: $PdfFile" -ForegroundColor Green
+    } else {
+        Write-Host "  [WARN] PDF creation failed - install wkhtmltopdf or use Chrome/Edge" -ForegroundColor Yellow
+        Write-Host "    Install wkhtmltopdf: https://wkhtmltopdf.org/downloads.html" -ForegroundColor Gray
     }
 }
 

@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normalize - OperatorKernelO6</title>
+    <style>
+        body {
+            width: 100vw;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+            color: #333;
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 1px solid #bdc3c7;
+            margin-top: 40px;
+            padding-bottom: 5px;
+        }
+        
+        .metadata {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        
+        .description {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        /* Markdown-specific styles */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .markdown-content h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .markdown-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .markdown-content a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 16px;
+            }
+            pre {
+                font-size: 13px;
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
+        }
+        
+        @page {
+            margin: 0.5in;
+            size: letter;
+        }
+    </style>
+</head>
+<body>
+    <h1>Normalize</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>File:</strong> <code>C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Normalize.lean</code><br>
+            <strong>Type:</strong> lean<br>
+            <strong>Generated:</strong> 2025-08-05 03:41:06<br>
+            <strong>Size:</strong> 4135 characters
+        </p>
+    </div>
+    
+    <div class='description'><h3>Overview</h3><p>Normalization procedures and proofs</p></div>
+    
+    <h2>Source Code</h2>
+    <pre><code class='lean'>import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Termination  -- adjust if your SN file lives elsewhere
+
+open Classical
+open OperatorKernelO6 Trace Step
+
+namespace OperatorKernelO6.Meta
+
+-- Simple structural size measure for termination
+@[simp] def size : Trace → Nat
+| .void =&gt; 1
+| .delta t =&gt; size t + 1  
+| .integrate t =&gt; size t + 1
+| .merge a b =&gt; size a + size b + 1
+| .recΔ b s n =&gt; size b + size s + size n + 1
+| .eqW a b =&gt; size a + size b + 1
+
+-- Lemma: every step decreases structural size
+theorem step_size_decrease {t u : Trace} (h : Step t u) : size u &lt; size t := by
+  cases h &lt;;&gt; simp [size] &lt;;&gt; linarith
+
+noncomputable def normalize : Trace → Trace
+| t =&gt;
+  if h : ∃ u, Step t u then
+    let u := Classical.choose h
+    have hu : Step t u := Classical.choose_spec h
+    normalize u
+  else t
+termination_by
+  normalize t =&gt; size t
+decreasing_by
+  simp_wf
+  exact step_size_decrease (Classical.choose_spec h)
+
+theorem to_norm : ∀ t, StepStar t (normalize t)
+| t =&gt;
+  by
+    classical
+    by_cases h : ∃ u, Step t u
+    &#183;
+      let u := Classical.choose h
+      have hu : Step t u := Classical.choose_spec h
+      have ih := to_norm u
+      simpa [normalize, h, u, hu] using StepStar.tail hu ih
+    &#183;
+      simpa [normalize, h] using StepStar.refl t
+termination_by
+  to_norm t =&gt; size t
+decreasing_by
+  simp_wf
+  exact step_size_decrease (Classical.choose_spec h)
+
+theorem norm_nf : ∀ t, NormalForm (normalize t)
+| t =&gt;
+  by
+    classical
+    by_cases h : ∃ u, Step t u
+    &#183;
+      let u := Classical.choose h
+      have hu : Step t u := Classical.choose_spec h
+      have ih := norm_nf u
+      simpa [normalize, h, u, hu] using ih
+    &#183;
+      intro ex
+      rcases ex with ⟨u, hu⟩
+      have : Step t u := by simpa [normalize, h] using hu
+      exact h ⟨u, this⟩
+termination_by
+  norm_nf t =&gt; size t
+decreasing_by
+  simp_wf
+  exact step_size_decrease (Classical.choose_spec h)
+
+theorem nfp {a b n : Trace} (hab : StepStar a b) (han : StepStar a n) (hn : NormalForm n) :
+  StepStar b n := by
+  revert b
+  induction han with
+  | refl =&gt;
+      intro b hab _; exact hab
+  | tail h an han ih =&gt;
+      intro b hab hn&#39;
+      cases hab with
+      | refl =&gt; exact False.elim (hn&#39; ⟨_, h⟩)
+      | tail h&#39; hbn =&gt; exact ih hbn hn&#39;
+
+def Confluent : Prop :=
+  ∀ {a b c}, StepStar a b → StepStar a c → ∃ d, StepStar b d ∧ StepStar c d
+
+theorem global_confluence : Confluent := by
+  intro a b c hab hac
+  let n := normalize a
+  have han : StepStar a n := to_norm a
+  have hbn : StepStar b n := nfp hab han (norm_nf a)
+  have hcn : StepStar c n := nfp hac han (norm_nf a)
+  exact ⟨n, hbn, hcn⟩
+
+-- Corollary: Normalization is idempotent
+theorem normalize_idempotent (t : Trace) : normalize (normalize t) = normalize t := by
+  have hnf : NormalForm (normalize t) := norm_nf t
+  unfold NormalForm at hnf
+  push_neg at hnf
+  unfold normalize
+  simp [hnf]
+
+-- Corollary: Normal forms are unique
+theorem unique_normal_forms {a b : Trace} (ha : NormalForm a) (hb : NormalForm b) 
+    (hab : ∃ c, StepStar c a ∧ StepStar c b) : a = b := by
+  rcases hab with ⟨c, hca, hcb⟩
+  have ha_eq : normalize c = a := by
+    have hnorm : StepStar c (normalize c) := to_norm c
+    have huniq := nfp hca hnorm (norm_nf c)
+    exact nf_no_stepstar_forward ha huniq
+  have hb_eq : normalize c = b := by
+    have hnorm : StepStar c (normalize c) := to_norm c  
+    have huniq := nfp hcb hnorm (norm_nf c)
+    exact nf_no_stepstar_forward hb huniq
+  rw [←ha_eq, hb_eq]
+
+-- Church-Rosser property: joinability characterization
+-- NOTE: The full Church-Rosser theorem (joinable ↔ convertible) requires
+-- the conversion relation (symmetric-reflexive-transitive closure)
+-- Here we prove the easier direction and note the limitation
+theorem church_rosser_half {a b : Trace} : 
+    (∃ d, StepStar d a ∧ StepStar d b) → (∃ c, StepStar a c ∧ StepStar b c) := by
+  intro ⟨d, hda, hdb⟩
+  exact global_confluence hda hdb
+
+-- The converse (joinable implies common source) is not generally true
+-- for reduction relations - it would require co-confluence
+-- We can only prove it holds in very special cases or with additional structure
+
+end OperatorKernelO6.Meta
+</code></pre>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement && codeElement.classList.contains('lean')) {
+                let content = codeElement.innerHTML;
+                
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>

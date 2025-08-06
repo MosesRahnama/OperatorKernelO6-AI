@@ -14,7 +14,12 @@
       "Bash(cp:*)",
       "Bash(rm:*)",
       "Bash(git checkout:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(powershell:*)",
+      "Bash(where msedge)",
+      "Bash(wkhtmltopdf:*)",
+      "Bash(start Operator_Centric_Foundations.pdf)",
+      "Bash(start Operator_Centric_Foundations.html)"
     ],
     "deny": []
   }

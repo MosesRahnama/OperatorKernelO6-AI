@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta - OperatorKernelO6</title>
+    <style>
+        body {
+            width: 100vw;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+            color: #333;
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 1px solid #bdc3c7;
+            margin-top: 40px;
+            padding-bottom: 5px;
+        }
+        
+        .metadata {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        
+        .description {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        /* Markdown-specific styles */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .markdown-content h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .markdown-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .markdown-content a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 16px;
+            }
+            pre {
+                font-size: 13px;
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
+        }
+        
+        @page {
+            margin: 0.5in;
+            size: letter;
+        }
+    </style>
+</head>
+<body>
+    <h1>Meta</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>File:</strong> <code>C:\Users\Moses\math_ops\OperatorKernelO6\OperatorKernelO6\Meta\Meta.lean</code><br>
+            <strong>Type:</strong> lean<br>
+            <strong>Generated:</strong> 2025-08-05 03:41:05<br>
+            <strong>Size:</strong> 2279 characters
+        </p>
+    </div>
+    
+    <div class='description'><h3>Overview</h3><p>Meta-theoretical foundations</p></div>
+    
+    <h2>Source Code</h2>
+    <pre><code class='lean'>import OperatorKernelO6.Kernel
+import Mathlib.Data.Prod.Lex
+import Mathlib.Tactic.Linarith
+
+open OperatorKernelO6 Trace Step
+
+namespace OperatorKernelO6.Meta
+
+def deltaDepth : Trace → Nat
+| void =&gt; 0
+| delta t =&gt; deltaDepth t + 1
+| integrate t =&gt; deltaDepth t
+| merge a b =&gt; deltaDepth a + deltaDepth b
+| recΔ _ _ n =&gt; deltaDepth n
+| eqW a b =&gt; deltaDepth a + deltaDepth b
+
+def recDepth : Trace → Nat
+| void =&gt; 0
+| delta t =&gt; recDepth t + 1
+| integrate t =&gt; recDepth t
+| merge a b =&gt; recDepth a + recDepth b
+| recΔ b s n =&gt; deltaDepth n + recDepth b + recDepth s + 1
+| eqW a b =&gt; recDepth a + recDepth b
+
+def sz : Trace → Nat
+| void =&gt; 1
+| delta t =&gt; sz t + 1
+| integrate t =&gt; sz t + 1
+| merge a b =&gt; sz a + sz b + 1
+| recΔ b s n =&gt; sz b + sz s + sz n + 1
+| eqW a b =&gt; sz a + sz b + 1
+
+def eqCount : Trace → Nat
+| void =&gt; 0
+| delta t =&gt; eqCount t
+| integrate t =&gt; eqCount t
+| merge a b =&gt; eqCount a + eqCount b
+| recΔ b s n =&gt; eqCount b + eqCount s + eqCount n
+| eqW a b =&gt; eqCount a + eqCount b + 1
+
+def integCount : Trace → Nat
+| void =&gt; 0
+| delta t =&gt; integCount t
+| integrate t =&gt; integCount t + 1
+| merge a b =&gt; integCount a + integCount b
+| recΔ b s n =&gt; integCount b + integCount s + integCount n
+| eqW a b =&gt; integCount a + integCount b
+
+def recCount : Trace → Nat
+| void =&gt; 0
+| delta t =&gt; recCount t
+| integrate t =&gt; recCount t
+| merge a b =&gt; recCount a + recCount b
+| recΔ b s n =&gt; recCount b + recCount s + recCount n + 1
+| eqW a b =&gt; recCount a + recCount b
+
+def measure (t : Trace) : Prod Nat Nat := (recDepth t, sz t)
+
+def lex (a b : Trace) : Prop :=
+  Prod.Lex (&#183; &lt; &#183;) (&#183; &lt; &#183;) (measure a) (measure b)
+
+def hasStep : Trace → Bool
+| integrate (delta _) =&gt; true
+| merge void _ =&gt; true
+| merge _ void =&gt; true
+| merge _ _ =&gt; true
+| recΔ _ _ void =&gt; true
+| recΔ _ _ (delta _) =&gt; true
+| eqW _ _ =&gt; true
+| _ =&gt; false
+
+def tsize : Trace → Trace
+| void =&gt; void
+| delta t =&gt; delta (tsize t)
+| integrate t =&gt; delta (tsize t)
+| merge a b =&gt; delta (merge (tsize a) (tsize b))
+| recΔ b s n =&gt; delta (merge (merge (tsize b) (tsize s)) (tsize n))
+| eqW a b =&gt; delta (merge (tsize a) (tsize b))
+
+def num0 : Trace := void
+def num1 : Trace := delta void
+def num2 : Trace := delta num1
+def num3 : Trace := delta num2
+
+def succ (t : Trace) : Trace := delta t
+
+end OperatorKernelO6.Meta
+</code></pre>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement && codeElement.classList.contains('lean')) {
+                let content = codeElement.innerHTML;
+                
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>
