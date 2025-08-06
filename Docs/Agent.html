@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent - OperatorKernelO6</title>
+    <style>
+        body {
+            width: 100vw;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+            color: #333;
+            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 1px solid #bdc3c7;
+            margin-top: 40px;
+            padding-bottom: 5px;
+        }
+        
+        .metadata {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        
+        .description {
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        /* Markdown-specific styles */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .markdown-content h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .markdown-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .markdown-content a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 16px;
+            }
+            pre {
+                font-size: 13px;
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
+        }
+        
+        @page {
+            margin: 0.5in;
+            size: letter;
+        }
+    </style>
+</head>
+<body>
+    <h1>Agent</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>File:</strong> <code>C:\Users\Moses\math_ops\OperatorKernelO6\core_docs\agent.md</code><br>
+            <strong>Type:</strong> markdown<br>
+            <strong>Generated:</strong> 2025-08-05 03:44:48<br>
+            <strong>Size:</strong> 10028 characters
+        </p>
+    </div>
+    
+    <div class='description'><h3>Overview</h3><p>Agent-based documentation and processes</p></div>
+    
+    <h2>Document Content</h2>
+    <div class='markdown-content'><p><h1>AGENT.md — All‑in‑One AI Guide for OperatorKernelO6 / OperatorMath</h1></p><p>> <strong>Audience:</strong> LLMs/agents working on this repo.  
+> <strong>Prime Directive:</strong> Don’t touch the kernel. Don’t hallucinate lemmas/imports. Don’t add axioms.  
+> <strong>If unsure:</strong> raise a <strong>CONSTRAINT BLOCKER</strong>.</p><p>---</p><p><h2>0. TL;DR</h2></p><p>1. <strong>Kernel is sacred.</strong> 6 constructors, 8 rules. No edits unless explicitly approved.
+2. <strong>Inside kernel:</strong> no <code>Nat</code>, <code>Bool</code>, numerals, <code>simp</code>, <code>rfl</code>, pattern‑matches on non‑kernel stuff. Only <code>Prop</code> + recursors.
+3. <strong>Meta land:</strong> You may use Nat/Bool, classical, tactics, WF recursion, and mostly the imports/lemmas listed in §8.
+4. <strong>Main jobs:</strong> SN, normalize‑join confluence, arithmetic via <code>recΔ</code>, internal equality via <code>eqW</code>, provability & Gödel.
+5. <strong>Allowed outputs:</strong> <code>PLAN</code>, <code>CODE</code>, <code>SEARCH</code>, <strong>CONSTRAINT BLOCKER</strong> (formats in §6).
+6. <strong>Never drop, rename, or “simplify” rules or imports without approval.</strong></p><p>---</p><p><h2>1. Project</h2></p><p><strong>Repo:</strong> OperatorKernelO6 / OperatorMath  
+<strong>What it is:</strong> A <em>procedural</em>, <strong>axiom‑free, numeral‑free, boolean‑free</strong> foundation where <em>everything</em> (logic, arithmetic, provability, Gödel) is built from one inductive <code>Trace</code> type + a deterministic normalizer. No Peano axioms, no truth tables, no imported equality axioms.</p><p><strong>Core claims to protect:</strong></p><p>- <strong>Axiom freedom</strong> (no external logical/arithmetic schemes).
+<ul><li><strong>Procedural truth:</strong> propositions hold iff their trace normalizes to <code>void</code>.</li></ul>
+<ul><li><strong>Emergence:</strong> numerals = δ‑chains; negation = merge‑cancellation; proofs/Prov/diag all internal.</li></ul>
+<ul><li><strong>Deterministic geometry:</strong> strong normalization (μ‑measure) + confluence → canonical normal forms.</p><p><strong>Deliverables:</strong></p><p>1. Lean artifact: kernel + meta proofs (SN, CR, arithmetic, Prov, Gödel) — sorry/axiom free.</li></ul>
+2. Paper alignment: matches “Operator Proceduralism” draft; section numbers map 1:1.
+3. Agent safety file (this doc): exhaustive API + rules for LLMs.</p><p>---</p><p><h2>2. Prime Directive</h2></p><p>- Do <strong>not</strong> rename/delete kernel code.
+<ul><li>Edit only what is required to fix an error.</li></ul>
+<ul><li>Keep history/audit trail.</p><p>---</p><p><h2>3. Kernel Spec (Immutable)</h2></p><p><pre><code class="lean">namespace OperatorKernelO6</p><p>inductive Trace : Type</li></ul>
+| void : Trace
+| delta : Trace → Trace
+| integrate : Trace → Trace
+| merge : Trace → Trace → Trace
+| recΔ : Trace → Trace → Trace → Trace
+| eqW : Trace → Trace → Trace</p><p>open Trace</p><p>inductive Step : Trace → Trace → Prop
+| R_int_delta : ∀ t, Step (integrate (delta t)) void
+| R_merge_void_left : ∀ t, Step (merge void t) t
+| R_merge_void_right : ∀ t, Step (merge t void) t
+| R_merge_cancel : ∀ t, Step (merge t t) t
+| R_rec_zero : ∀ b s, Step (recΔ b s void) b
+| R_rec_succ : ∀ b s n, Step (recΔ b s (delta n)) (merge s (recΔ b s n))
+| R_eq_refl : ∀ a, Step (eqW a a) void
+| R_eq_diff : ∀ a b, Step (eqW a b) (integrate (merge a b))</p><p>inductive StepStar : Trace → Trace → Prop
+| refl : ∀ t, StepStar t t
+| tail : ∀ {a b c}, Step a b → StepStar b c → StepStar a c</p><p>def NormalForm (t : Trace) : Prop := ¬ ∃ u, Step t u</p><p>/-- Meta helpers; no axioms. --/
+ theorem stepstar_trans {a b c : Trace} (h1 : StepStar a b) (h2 : StepStar b c) : StepStar a c := by
+  induction h1 with
+  | refl => exact h2
+  | tail hab _ ih => exact StepStar.tail hab (ih h2)</p><p>theorem stepstar_of_step {a b : Trace} (h : Step a b) : StepStar a b :=
+  StepStar.tail h (StepStar.refl b)</p><p>theorem nf_no_stepstar_forward {a b : Trace} (hnf : NormalForm a) (h : StepStar a b) : a = b :=
+  match h with
+  | StepStar.refl _ => rfl
+  | StepStar.tail hs _ => False.elim (hnf ⟨_, hs⟩)</p><p>end OperatorKernelO6</code></pre></p><p><strong>NO extra constructors or rules.</strong> No side‑condition hacks. No Nat/Bool/etc. in kernel.</p><p>---</p><p><h2>4. Meta‑Level Freedom</h2></p><p>Allowed (outside <code>OperatorKernelO6</code>): Nat, Bool, classical choice, tactics (SUCH AS <code>simp</code>, <code>linarith</code>, <code>ring</code>), WF recursion, ordinal measures, etc., <strong>but MOSTLY using §8’s imports/lemmas</strong>. <code>ring</code> is on the project whitelist (<code>Mathlib.Tactic.Ring</code>); use it for integer equalities. <code>simp</code> and <code>linarith</code> are also allowed. Forbidden project‑wide unless green‑lit: <code>axiom</code>, <code>sorry</code>, <code>admit</code>, <code>unsafe</code>, stray <code>noncomputable</code>. Never push these conveniences back into the kernel</p><p><strong>Tactics whitelist (Meta):</strong> <code>simp</code>, <code>linarith</code>, <code>ring</code>, and any otehr methods that complies with Forbidden project‑wide rules, and FULLY COMPLY with section 8.5 down here in the document.</p><p>---</p><p><h2>5. Required Modules & Targets</h2></p><p>1. <strong>Strong Normalization (SN):</strong> measure ↓ on every rule → <code>WellFounded</code>.
+2. <strong>Confluence:</strong> use <strong>normalize‑join</strong> (define <code>normalize</code>, prove <code>to_norm</code>, <code>norm_nf</code>, <code>nfp</code>, then <code>confluent_via_normalize</code>).
+3. <strong>Arithmetic & Equality:</strong> numerals as δ‑chains; <code>add</code>/<code>mul</code> via <code>recΔ</code>; compare via <code>eqW</code>.
+4. <strong>Provability & Gödel:</strong> encode proofs as traces; diagonalize without external number theory.
+5. <strong>Fuzz Tests:</strong> random deep rewrites to stress SN/CR.</p><p>---</p><p><h2>6. Interaction Protocol</h2></p><p><strong>Outputs:</strong> PLAN / CODE / SEARCH / CONSTRAINT BLOCKER.  
+<strong>Style:</strong> use <code>theorem</code>; no comments inside <code>.lean</code>; no axioms/unsafe.  
+<strong>If unsure:</strong> raise a blocker (don’t guess imports/lemmas).</p><p>---</p><p><h2>7. Common Pitfalls</h2></p><p>- Do <strong>not</strong> assume <code>μ s ≤ μ (δ n)</code> in <code>recΔ b s n</code>. <code>s</code> and <code>n</code> are independent; the inequality is <strong>false</strong> in general (counterexample and explanation in <code>ordinal‑toolkit.md</code>).
+<ul><li>Don’t derive <code>DecidableEq Trace</code> in the kernel. Decide via normal forms in meta.</li></ul>
+<ul><li><code>termination_by</code> (Lean ≥ 4.6) takes <strong>no function name</strong>.</li></ul>
+<ul><li>Lex orders: unfold relations manually.</li></ul>
+<ul><li>Ordinal lemma missing? Check §8 here; then see <code>ordinal‑toolkit.md</code>. If still missing, raise a blocker.</p><p>---</p><p><h2>8. Canonical Imports & Ordinal Basics (Slim but Exact)</h2></p><p><h3>8.1 Import whitelist</h3></p><p><pre><code class="lean">import OperatorKernelO6.Kernel              -- kernel</li></ul>
+import Init.WF                               -- WellFounded, Acc, InvImage.wf, Subrelation.wf
+import Mathlib.Data.Prod.Lex                 -- lex orders
+import Mathlib.Tactic.Linarith               -- linarith
+import Mathlib.Tactic.Ring                   -- ring
+import Mathlib.Algebra.Order.SuccPred        -- Order.lt_add_one_iff, Order.add_one_le_of_lt
+import Mathlib.SetTheory.Ordinal.Basic       -- omega0_pos, one_lt_omega0, nat_lt_omega0, lt_omega0
+import Mathlib.SetTheory.Ordinal.Arithmetic  -- Ordinal.add_<em>, Ordinal.mul_</em> (ordinal API)
+import Mathlib.SetTheory.Ordinal.Exponential -- opow, opow_add, isNormal_opow, Ordinal.opow_le_opow_right
+import Mathlib.Data.Nat.Cast.Order.Basic     -- Nat.cast_le, Nat.cast_lt
+-- NOTE: <code>mul_le_mul_left</code> is <strong>generic</strong> (not ordinal‑specific) and lives in
+-- <code>Mathlib.Algebra.Order.Monoid.Defs</code>. Do <strong>not</strong> use it for ordinals.</code></pre></p><p><h3>8.2 Name‑prefix rules (must be explicit in code)</h3></p><p>- <strong>Exponent ≤‑monotone:</strong> <code>Ordinal.opow_le_opow_right</code> (never the bare name).
+<ul><li><strong>Exponent <‑monotone at base ω:</strong> use the local theorem <code>opow_lt_opow_right</code> from <code>ordinal‑toolkit.md</code>.</li></ul>
+<ul><li><strong>Product monotonicity:</strong> <code>Ordinal.mul_lt_mul_of_pos_left</code> (strict) and <code>Ordinal.mul_le_mul_iff_left</code> / the primed variants <code>mul_le_mul_left'</code>, <code>mul_le_mul_right'</code> (weak). Prefer the <code>Ordinal.*</code> forms for ordinal multiplication.</li></ul>
+<ul><li><strong>Successor bridge:</strong> <code>Order.lt_add_one_iff</code> and <code>Order.add_one_le_of_lt</code> (keep the <code>Order.</code> prefix).</p><p><h3>8.3 Quick ordinal facts kept inline</h3></p><p>- <code>omega0_pos : 0 < omega0</code>, <code>one_lt_omega0 : 1 < omega0</code>.</li></ul>
+<ul><li><code>nat_lt_omega0 : ∀ n : ℕ, (n : Ordinal) < omega0</code> and <code>lt_omega0 : o < omega0 ↔ ∃ n, o = n</code>.</p><p><h3>8.4 Pointers</h3></p><p>>The <strong>commonly used</strong> lemma catalogue, local bridges (including <code>opow_lt_opow_right</code>), μ‑measure cookbook, and the do‑not‑use list are in <code>ordinal‑toolkit.md</code>. Keep this section slim to avoid duplication.</p><p>> Any mathlib lemma that satisfies the four-point rule-set above <em>may</em> be used even if not yet listed, <strong>as long as the first use appends a one-liner to <code>ordinal-toolkit.md</code>.</strong></p><p></li></ul>
+<h3>8.5 Admissible lemma rule-set (“Green channel”)</h3></p><p><strong>Completeness note</strong> — The lemma catalogue is intentionally minimal.  
+<ul><li>Any mathlib lemma that satisfies the <strong>four-point rule-set above</strong> <em>may</em> be used <strong>even if</strong> not yet listed, as long as the first use appends a one-liner to <code>ordinal-toolkit.md</code>.</p><p>1. <strong>No new axioms:</strong> the file introducing it adds no axioms (<code>#print axioms</code> CI-check).</li></ul>
+2. <strong>Correct structures:</strong> its type-class constraints are satisfied by <code>Ordinal</code>
+   (⇝ no hidden commutativity / <code>AddRightStrictMono</code>, etc.).
+3. <strong>Tidy import footprint:</strong> the file pulls in ≤ 100 new declarations, or is
+   already in the project dep-graph.
+4. <strong>Kernel-safe proof:</strong> the lemma is not <code>unsafe</code> and contains no <code>meta</code>
+   code.</p><p>The first use of an admissible lemma <strong>must</strong> append it (one-liner) to
+<em>ordinal-toolkit.md</em>; later uses need no paperwork.</p><p>---</p><p>
+<h2>9. Workflow Checklist</h2></p><p>1. Kernel matches §3 verbatim.
+2. SN: measure + decrease + WF.
+3. Normalize: existence + <code>normalize</code> + <code>nfp</code>.
+4. Confluence via normalize.
+5. Arithmetic & equality via traces.
+6. Provability & Gödel.
+7. Fuzz tests.
+8. Write/publish.</p><p>---</p><p><h2>10. Output Examples</h2></p><p><strong>PLAN</strong></p><p><pre><code class="">PLAN
+1. Define ordinal μ
+2. Prove μ decreases on rules
+3. WF via InvImage.wf
+4. Build normalize + nfp
+5. Confluence via normalize</code></pre></p><p><strong>CODE</strong></p><p><pre><code class="">CODE
+-- StrongNorm.lean
+import OperatorKernelO6.Kernel
+import Init.WF
+import Mathlib.Tactic.Linarith</p><p>namespace OperatorKernelO6.Meta
+open Trace Step</p><p>@[simp] def size : Trace → Nat
+| void => 1
+| delta t => size t + 1
+| integrate t => size t + 1
+| merge a b => size a + size b + 1
+| recΔ b s n => size b + size s + size n + 1
+| eqW a b => size a + size b + 1</p><p>theorem step_size_decrease {t u : Trace} (h : Step t u) : size u < size t := by
+  cases h <;> simp [size]; linarith</p><p>end OperatorKernelO6.Meta</code></pre></p><p><strong>CONSTRAINT BLOCKER</strong></p><p><pre><code class="">CONSTRAINT BLOCKER
+Needed theorem: Ordinal.opow_le_opow_right (a := omega0) to lift ≤ through ω‑powers.
+Reason: bound head coefficient in μ‑decrease proof. Import from §8.1.</code></pre></p><p>---</p><p><h2>11. Glossary</h2></p><p>Trace, Step, StepStar, NormalForm, SN, CR, recΔ, eqW — same as §3. Keep semantics intact.</p><p>---</p><p><h2>12. Final Reminders</h2></p><p>- Kernel: be boring and exact.
+<ul><li>Meta: be clever but provable.</li></ul>
+<ul><li>Never hallucinate imports/lemmas.</li></ul>
+<ul><li>Ask when something smells off.</li></ul>
+</p></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement && codeElement.classList.contains('lean')) {
+                let content = codeElement.innerHTML;
+                
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>

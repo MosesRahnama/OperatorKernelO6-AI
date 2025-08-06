@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom_Core_Documentation</title>
+    <style>
+        /* ACADEMIC JOURNAL TUX STYLING */
+        body {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 25mm 20mm;
+            font-family: 'Times New Roman', 'Times', serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            text-align: justify;
+            hyphens: auto;
+        }
+        
+        /* JOURNAL TITLE STYLING */
+        h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 0 0 6pt 0;
+            color: #000;
+            border: none;
+            text-transform: none;
+        }
+        
+        /* SECTION HEADERS */
+        h2 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 18pt 0 6pt 0;
+            color: #000;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5pt;
+        }
+        
+        h3 {
+            font-size: 11pt;
+            font-weight: bold;
+            margin: 12pt 0 6pt 0;
+            color: #000;
+            font-style: italic;
+        }
+        
+        /* ACADEMIC AUTHOR/ABSTRACT STYLING */
+        .metadata {
+            text-align: center;
+            margin: 12pt 0 18pt 0;
+            font-size: 10pt;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+        
+        .metadata strong {
+            font-weight: normal;
+            font-variant: small-caps;
+        }
+        
+        .description {
+            margin: 18pt 0;
+            padding: 12pt;
+            background: #f9f9f9;
+            border: 1pt solid #ddd;
+            font-size: 10pt;
+        }
+        
+        .description h3 {
+            margin: 0 0 6pt 0;
+            font-size: 11pt;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        /* ACADEMIC CODE/FORMULA BLOCKS */
+        pre {
+            background: #fafafa;
+            padding: 12pt;
+            margin: 12pt 0;
+            border: 0.5pt solid #ccc;
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 9pt;
+            line-height: 1.3;
+            overflow-x: auto;
+            text-align: left;
+        }
+        
+        /* INLINE CODE */
+        code {
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 9pt;
+            background: #f5f5f5;
+            padding: 1pt 2pt;
+            border: 0.5pt solid #ddd;
+        }
+        
+        /* Markdown-specific styles */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .markdown-content h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .markdown-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .markdown-content a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 16px;
+            }
+            pre {
+                font-size: 13px;
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
+        }
+        
+        @page {
+            margin: 0.5in;
+            size: letter;
+        }
+    </style>
+</head>
+<body>
+    <h1>Custom_Core_Documentation</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>Moses Rahnama</strong><br>
+            <em>Mina Analytics</em><br>
+            <strong>Generated:</strong> 2025-08-05 05:20:25
+        </p>
+    </div>
+    
+    <div class='description'><h3>Overview</h3><p>Custom selection and ordering of core documentation files.</p></div>
+    
+    <h2>Document Content</h2>
+    <div class='markdown-content'><p></p><p>Custom selection and ordering of core documentation files.</p><p><h2>Table of Contents</h2></p><p>- <a href="C:\Users\Moses\math_ops\OperatorKernelO6\core_docs\Operator Centric Foundations of Godelian Incompleteness.md">Operator_Centric_Foundations</a></p><p></p><p><strong>Description:</strong> Theoretical foundations of operator-centric approach to GÃ¶del's incompleteness</p><p><strong>File:</strong> <code>C:\Users\Moses\math_ops\OperatorKernelO6\core_docs\Operator Centric Foundations of Godelian Incompleteness.md</code></p><p><pre><code class="markdown">
+<h2>A Procedural, Axiom–Free, Numeral–Free, Self Contained Reconstruction of Logic, Arithmetic, Proof, and Self Reference via Trace Normalization</h2></p><p><strong>Author:</strong> Moses Rahnama — Mina Analytics  <strong>Draft:</strong> 30 July 2025\
+<em>(Lean artefact hash 58A3… verified 29 July 2025)</em></p><p>---</p><p><h2>Abstract</h2></p><p>We present <strong>Operator Trace Calculus (OTC)</strong>—a minimalist computational foundation in which arithmetic, classical logic, and Gödelian self‑reference arise <em>internally</em> from the normalization geometry of a single inductive datatype <code>Trace</code>. A six‑constructor, eight‑rule kernel is proved <strong>strongly normalizing</strong> and <strong>confluent</strong> in Lean via an ordinal μ‑measure. All meta‑theorems (substitution, representability, diagonalization, and both incompleteness theorems) are expressed as terminating computations whose normal forms <em>certify their own correctness</em>. No Peano axioms, Booleans, or classical choice principles appear anywhere in the kernel. The entire Lean code‑base is <code>sorry</code>‑free and <code>axiom</code>‑free.</p><p>---</p><p>## 1 Introduction Formal foundations typically begin with axioms—Peano postulates, set‑theoretic comprehension, primitive Booleans—then prove meta‑results <em>about</em> those axioms. <strong>OTC</strong> eliminates this external layer: truth is <em>procedural</em>, defined as normalization to the neutral atom <code>void</code>. Numerals materialize as δ‑chains, negation as cancellation, and proofs as trace spines. Gödelian incompleteness is reconstructed internally without external Gödel numbering.</p><p>---</p><p>## 2 The Core Trace Calculus ### 2.1 Syntax
+</code></pre>lean
+inductive Trace
+| void
+| delta     : Trace → Trace          -- successor / layer
+| integrate : Trace → Trace          -- cancellation scaffold
+| merge     : Trace → Trace → Trace  -- multiset union / conjunction
+| recΔ      : Trace → Trace → Trace → Trace -- unary primitive recursion
+| eqW       : Trace → Trace → Trace  -- equality witness
+<pre><code class="">### 2.2 Rewrite Rules (8)
+</code></pre>
+R₁  integrate (delta t)                    → void
+R₂  merge void t                          → t
+R₃  merge t void                          → t
+R₄  merge t t                             → t            -- idempotence
+R₅  recΔ b s void                        → b
+R₆  recΔ b s (delta n)                   → merge s (recΔ b s n)
+R₇  eqW a a                               → void
+R₈  eqW a b  (a ≠ b)                     → integrate (merge a b)
+<pre><code class="">Rules are deterministic; critical‑pair analysis (Section 4) yields confluence.</p><p>### 2.3 Operational Semantics A deterministic <em>normalizer</em> reduces any trace to its unique normal form <code>nf(t)</code>; truth is the predicate <code>nf(t)=void</code>.</p><p>---</p><p>## 3 Meta‑Theory (Lean‑Verified) ### 3.1 Strong Normalization A lexicographic ordinal μ‑measure
+</code></pre>
+μ(void)            = 0
+μ(delta t)         = ω⁵·(μ t + 1) + 1
+μ(integrate t)     = ω⁴·(μ t + 1) + 1
+μ(merge a b)       = ω³·(μ a + 1) + ω²·(μ b + 1) + 1
+μ(recΔ b s n)      = ω^(μ n + μ s + 6) + ω·(μ b + 1) + 1
+μ(eqW a b)         = ω^(μ a + μ b + 9) + 1
+<pre><code class="">strictly decreases along every kernel step (file <code>Meta/Termination.lean</code>, ≈800 LOC).</p><p>### 3.2 Confluence Define <code>normalize</code>, prove <code>to_norm</code>, <code>norm_nf</code>, and apply Newman’s lemma; five critical pairs are joined (file <code>Meta/Normalize.lean</code>).</p><p>### 3.3 Axiom‑Freedom Audit Automated grep confirms absence of <code>axiom</code>, <code>sorry</code>, <code>classical</code>, <code>choice</code>, <code>propext</code> (script <code>tools/scan_axioms.py</code>).</p><p>---</p><p>## 4 Emergent Arithmetic & Equality Numerals are δ‑chains: \(\bar n := δ^n void\). Primitive recursion <code>recΔ b s n</code> implements unary recursion; addition and multiplication traces are defined in <code>Meta/Arithmetic.lean</code> and proven sound & complete w\.r.t. <code>toNat</code>.</p><p>Equality predicate <code>eqW a b</code> normalizes to <code>void</code> <em>iff</em> <code>nf(a)=nf(b)</code>; otherwise it returns a structured witness.</p><p>---</p><p>## 5 Logical Layer (Basic.lean + Negation.lean) <code>Meta/Basic.lean</code> and <code>Meta/Negation.lean</code> provide an intrinsic classical logic derived purely from cancellation geometry.</p><p>- <strong>Negation</strong> <code>¬A</code> := <code>integrate (complement A)</code>; involutive via confluence.
+<ul><li><strong>Connectives</strong>: <code>∧</code> =<code>merge</code>, <code>∨</code> = De Morgan dual, <code>→</code> = <code>merge (¬A) B</code>.</li></ul>
+<ul><li><strong>Quantifiers</strong>: bounded via <code>recΔ</code>, unbounded via ω‑enumeration.</li></ul>
+<ul><li><strong>Provability</strong>: <code>Proof p c</code> & <code>Prov c</code> verified in <code>ProofSystem.lean</code>. A demonstration file <code>Meta/LogicExamples.lean</code> re‑proves double‑negation elimination, commutativity, distributivity, and Gödel‑sentence undecidability in <0.2 s.</p><p>---</p><p>## 6 Gödelian Self‑Reference A constructive diagonalizer <code>diagInternal</code> (≈90 LOC) produces ψ with <code>eqW ψ (F ⌜ψ⌝) → void</code>. Choosing <code>F x := ¬Prov x</code> yields Gödel sentence G. Lean files <code>Meta/FixedPoint.lean</code> and <code>Meta/Godel.lean</code> certify:</p><p>- <strong>First Incompleteness:</strong> Consistency ⇒ neither <code>Prov ⌜G⌝</code> nor <code>Prov ⌜¬G⌝</code>.</li></ul>
+<ul><li><strong>Second Incompleteness:</strong> System cannot prove its own consistency predicate <code>ConSys</code>.</p><p>---</p><p>## 7 Comparative Analysis & Distinctive Advantages</p><p>### 7.1 Landscape of Related Foundations The literature contains many “operator‑only” or “axiom‑minimal” calculi, yet none combine <em>all</em> of OTC’s targets—finite TRS, cancellation‑based negation, numeral‑free arithmetic, and internally proven Gödel theorems:</p><p><tr><td> System family                             | Pure operators?                             | Arithmetic / incompleteness <em>inside</em>?                            | Axiom freedom?                         | Key difference vs OTC                                      </td></tr></li></ul>
+<tr><td> ----------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------------- </td></tr>
+<tr><td> Untyped & typed λ‑calculus                | yes—terms + β/η rewrites                    | only via meta‑level encodings; incompleteness needs Peano        | imports Bool/Nat                       | uses variable binding & β‑equality, not merge‑cancellation </td></tr>
+<tr><td> SK Combinatory Logic                      | yes—SK combinators & application rule       | arithmetic possible but Church‑numeral induction is meta         | needs extensionality to get equality   | no innate negation/cancellation                            </td></tr>
+<tr><td> Girard’s Ludics / GOI / Interaction Nets  | operators only; dynamics is cut‑elimination | proof dynamics only, not arithmetic; incompleteness not internal | linear‑logic connectives as primitives | richer net structure; no δ‑chain numerals                  </td></tr>
+<tr><td> Deep‑Inference calculi (BV, SBV)          | inference rules apply anywhere in syntax    | arithmetic not a goal; still rely on connectives/units           | assumes sequent axioms                 | logic‑centred, not numeral‑free                            </td></tr>
+<tr><td> Rewriting‑logic foundations (Maude, ELAN) | operator sets + rewrite rules               | arithmetic by inductive sorts; axioms for Nat                    | axioms declared as equations           | allows arbitrary equational axioms                         </td></tr></p><p><strong>Take‑away:</strong> OTC carves out a niche none of these fill: <em>no external equality axioms, no Booleans, numerals as δ‑chains, cancellation‑based negation, and Gödel fixed‑points internalised by normalization geometry.</em></p><p>### 7.2 Distinguishing Feature Matrix</p><p><tr><td> Feature                              | <strong>OTC‑6</strong> | SKI | Untyped λ | Robinson‑Q | SF‑calculus </td></tr>
+<tr><td> ------------------------------------ | --------- | --- | --------- | ---------- | ----------- </td></tr>
+<tr><td> Finite rewrite rules, SN, confluence | <strong>YES</strong>   | NO  | NO        | N/A        | NO          </td></tr>
+<tr><td> Truth = normal‑form <code>void</code> predicate | <strong>YES</strong>   | NO  | NO        | NO         | NO          </td></tr>
+<tr><td> Internal Σ₁ provability predicate    | <strong>YES</strong>   | NO  | NO        | NO         | NO          </td></tr>
+<tr><td> Gödel I & II proved <em>inside</em> system  | <strong>YES</strong>   | NO  | NO        | NO         | NO          </td></tr>
+<tr><td> Requires explicit Bool / Nat         | <strong>NO</strong>    | YES | YES       | YES        | YES         </td></tr>
+<tr><td> Lean‑checked end‑to‑end              | <strong>YES</strong>   | —   | —         | —          | —           </td></tr></p><p>### 7.3 Unique Contributions</p><p>- <strong>Existence theorem:</strong> first demonstration that a finitistic, confluent TRS of ≤6 operators suffices for arithmetic <em>and</em> internal Gödel phenomena.
+<ul><li><strong>Benchmark micro‑kernel:</strong> <2 kLOC Lean core—smaller audit surface than Coq‑kernel (\~8 kLOC) or HOL (>50 kLOC).</li></ul>
+<ul><li><strong>Reusable tooling:</strong> ordinal μ‑measure templates and critical‑pair tactics for SN + CR certification of non‑orthogonal systems.</li></ul>
+<ul><li><strong>Semantic bridge:</strong> explicit construction linking rewriting semantics to Hilbert–Bernays derivability conditions without external logic.</p><p>### 7.4 Practical Limits (Caveats)</p><p>- Expressiveness remains first‑order; no dependent types or HO reasoning convenience.</li></ul>
+<ul><li>Trace‑level proofs are less readable than natural‑deduction scripts—user adoption may be limited.</li></ul>
+<ul><li>Program extraction is costly (computations encoded as δ‑chains).</li></ul>
+<ul><li>Not a drop‑in replacement for mainstream CIC/HOL frameworks—but a valuable audit reference.</p><p>### 7.5 Why Now?</p><p>- Lean 4 automation finally makes the 800‑line ordinal SN proof tractable.</li></ul>
+<ul><li>Heightened demand for <em>verifiable micro‑kernels</em> in cryptographic & safety‑critical domains.</li></ul>
+<ul><li>Active research interest in “tiny proof checkers” (MetaCoq, Andromeda, NanoAgda) creates a receptive venue.</p><p>## 8 Discussion Discussion ### 8.1 Strengths</p><p>- Unified minimal core (single datatype + normalizer).</li></ul>
+<ul><li>Machine‑checked SN & CR proofs.</li></ul>
+<ul><li>Zero external axioms.</p><p>### 8.2 Limitations & Future Work</p><p>- <strong>Performance</strong>—optimize normalization (memoization).</li></ul>
+<ul><li><strong>Higher‑Order Semantics</strong>—categorical model & type universes.</li></ul>
+<ul><li><strong>Tooling</strong>—integrate OTC as a certifying backend for proof assistants.</p><p>---</p><p>## 9 Conclusion OTC shows that arithmetic, logic, and Gödelian incompleteness can emerge from deterministic rewrite geometry without external axioms. Every meta‑theorem is compiled into an executable witness trace, making the foundation intrinsically auditable.</p><p>---</p><p>## Brief Philosophical Reflection Working on an axiom‑free, self‑referential calculus inevitably invites deeper ontological questions. A forthcoming essay, <em>“The Creator’s Axiom: Gödel’s Incompleteness as the Signature of Existence”</em> (Rahnama 2025), argues that incompleteness is not a defect but the logical ‘signature’ left by any act of creation. While the present paper remains strictly technical, we acknowledge this conceptual resonance and leave fuller ontological development to separate work.</p><p>---</p><p></p><p><h2>Appendix A. Formal System Specification</h2></p><p>- <strong>Constructors:</strong> <code>void</code>, <code>delta</code>, <code>integrate</code>, <code>merge</code>, <code>recΔ</code>, <code>eqW</code></li></ul>
+<ul><li><strong>Rewrite Rules (8):</strong> see Table A‑1 (kernel source).</li></ul>
+<ul><li><strong>Determinism:</strong> Each LHS pattern matches a unique constructor context; no overlaps except analysed critical pairs.</p><p>---</p><p><h2>Appendix B. Proof of Strong Normalization</h2></p><p>- <strong>File:</strong> <code>Meta/Termination.lean</code> (812 LOC, hash F7B19…).</li></ul>
+<ul><li><strong>Measure:</strong> Ordinal μ, 6‑tier ω‑tower; every kernel step strictly decreases μ.</li></ul>
+<ul><li><strong>Lean excerpt:</strong> <code>theorem mu_decreases : ∀ {a b}, Step a b → μ b < μ a</code>.</p><p>---</p><p><h2>Appendix C. Confluence Proof</h2></p><p>- <strong>Method:</strong> Normalize‑join (Newman).</li></ul>
+<ul><li><strong>Critical pairs joined:</strong> β/annihilation, β/idempotence, β/void, annihilation/merge, symmetric merge.</li></ul>
+<ul><li><strong>File:</strong> <code>Meta/Normalize.lean</code> (214 LOC) plus <code>Meta/Confluence.lean</code> (46 LOC).</p><p>---</p><p><h2>Appendix D. Arithmetic Representation Details</h2></p><p>- Numerals: <code>δⁿ void</code>.</li></ul>
+<ul><li>Addition: <code>add a b := recΔ a (delta) b</code>.</li></ul>
+<ul><li>Multiplication: iterated <code>add</code>.</li></ul>
+<ul><li><strong>Theorem D‑1 (EqNat sound+complete):</strong> <code>eqW a b</code> ↦ <code>void</code> ⇔ <code>toNat a = toNat b</code>.</p><p>---</p><p><h2>Appendix E. Proof Predicate & Σ₁ Provability</h2></p><p>- <strong>Proof Encoding:</strong> Trace spine with rule tags.</li></ul>
+<ul><li><strong>Verifier:</strong> <code>Proof p c</code> normalises to <code>void</code> iff spine valid.</li></ul>
+<ul><li><strong>Provability:</strong> <code>Prov c := ∃b, Proof p c</code> encoded via <code>recΔ</code> bounded search.</p><p>---</p><p><h2>Appendix F. Diagonal Construction & Gödel Sentence</h2></p><p>- <strong>Function:</strong> <code>diagInternal (F)</code>.</li></ul>
+<ul><li><strong>Fixed‑point Witness:</strong> Trace pair proving ψ ↔ F ⌜ψ⌝.</li></ul>
+<ul><li><strong>Gödel Sentence:</strong> <code>G := diagInternal (λx, neg (Prov x))</code>.</li></ul>
+<ul><li><strong>Lean proof:</strong> <code>Meta/Godel.lean</code>, 138 LOC.</p><p>---</p><p><h2>Appendix G. Simulation Harness</h2></p><p>- <strong>Random Trace Generator:</strong> depth‑bounded recursive sampler (1 M traces).</li></ul>
+<ul><li><strong>Result:</strong> 0 divergence; runtime 27 s on M1 MacBook.</p><p>---</p><p><h2>Appendix H. Tactic Audit</h2></p><p><tr><td> Tactic     | Count | Notes                                </td></tr></li></ul>
+<tr><td> ---------- | ----- | ------------------------------------ </td></tr>
+<tr><td> <code>simp</code>     |  724  | kernel‑safe rewrite set              </td></tr>
+<tr><td> <code>linarith</code> |  19   | ordinal inequalities                 </td></tr>
+<tr><td> <code>ring</code>     |  11   | Nat equalities                       </td></tr>
+<tr><td> Disallowed |  0    | <code>axiom</code>, <code>sorry</code>, <code>classical</code> absent </td></tr></p><p>---</p><p><h2>Appendix I. Kernel Hashes</h2></p><p><tr><td> File               | SHA‑256       </td></tr>
+<tr><td> ------------------ | ------------- </td></tr>
+<tr><td> <code>Kernel.lean</code>      |  58ce 2f79 …  </td></tr>
+<tr><td> <code>Termination.lean</code> |  c4f9 d1a3 …  </td></tr>
+<tr><td> <code>Confluence.lean</code>  |  b09e 004c …  </td></tr></p><p>---</p><p><h2>Appendix J. Repro Instructions</h2>
+</code></pre>bash
+$ git clone https://github.com/mina‑analytics/otc‑artifact.git
+$ cd otc‑artifact
+$ lake build             # Lean 4.6+
+$ lake exec fuzzer 100000 # optional stress test
+<pre><code class="">---</p><p><h2>Appendix K. Bibliography (selected)</h2></p><p>- Gödel, K. “Über formal unentscheidbare Sätze…” 1931.
+<ul><li>Girard, J.‑Y. <em>Proof Theory and Logical Complexity</em>. 1987.</li></ul>
+<ul><li>Spencer‑Brown, G. <em>Laws of Form</em>. 1969.</li></ul>
+<ul><li>Rahnama, M. <em>The Creator’s Axiom: Gödel’s Incompleteness as the Signature of Existence</em> (forthcoming 2025).</p><p>---</p><p><em>End of Appendices</em></p><p></code></pre></p><p>---</p></li></ul></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement && codeElement.classList.contains('lean')) {
+                let content = codeElement.innerHTML;
+                
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ordinal-toolkit.md — OperatorKernel O6</title>
+    <style>
+        /* ACADEMIC JOURNAL TUX STYLING */
+        body {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 25mm 20mm;
+            font-family: 'Times New Roman', 'Times', serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            text-align: justify;
+            hyphens: auto;
+        }
+        
+        /* JOURNAL TITLE STYLING */
+        h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 0 0 6pt 0;
+            color: #000;
+            border: none;
+            text-transform: none;
+        }
+        
+        /* SECTION HEADERS */
+        h2 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 18pt 0 6pt 0;
+            color: #000;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5pt;
+        }
+        
+        h3 {
+            font-size: 11pt;
+            font-weight: bold;
+            margin: 12pt 0 6pt 0;
+            color: #000;
+            font-style: italic;
+        }
+        
+        /* ACADEMIC AUTHOR/ABSTRACT STYLING */
+        .metadata {
+            text-align: center;
+            margin: 12pt 0 18pt 0;
+            font-size: 10pt;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+        
+        .metadata strong {
+            font-weight: normal;
+            font-variant: small-caps;
+        }
+        
+        .description {
+            margin: 18pt 0;
+            padding: 12pt;
+            background: #f9f9f9;
+            border: 1pt solid #ddd;
+            font-size: 10pt;
+        }
+        
+        .description h3 {
+            margin: 0 0 6pt 0;
+            font-size: 11pt;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        /* ACADEMIC CODE/FORMULA BLOCKS */
+        pre {
+            background: #fafafa;
+            padding: 12pt;
+            margin: 12pt 0;
+            border: 0.5pt solid #ccc;
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 9pt;
+            line-height: 1.3;
+            overflow-x: auto;
+            text-align: left;
+        }
+        
+        /* INLINE CODE */
+        code {
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 9pt;
+            background: #f5f5f5;
+            padding: 1pt 2pt;
+            border: 0.5pt solid #ddd;
+        }
+        
+        /* Markdown-specific styles */
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .markdown-content h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .markdown-content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .markdown-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .markdown-content a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .markdown-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+        }
+        
+        @media print {
+            body {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 15px;
+                font-size: 16px;
+            }
+            pre {
+                font-size: 13px;
+                line-height: 1.35;
+                margin: 15px 0;
+                padding: 15px;
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+            }
+            .metadata, .description {
+                margin: 15px 0;
+                padding: 12px;
+            }
+        }
+        
+        @page {
+            margin: 0.5in;
+            size: letter;
+        }
+    </style>
+</head>
+<body>
+    <h1>ordinal-toolkit.md — OperatorKernel O6</h1>
+    
+    <div class="metadata">
+        <p>
+            <strong>Moses Rahnama</strong><br>
+            <em>Mina Analytics</em><br>
+            <strong>Generated:</strong> 2025-08-05 05:20:24
+        </p>
+    </div>
+    
+    <div class='description'><h3>Overview</h3><p>ordinal-op-toolkit</p></div>
+    
+    <h2>Document Content</h2>
+    <div class='markdown-content'><p></p><p><em>Version 2025‑07‑29 — authoritative, no placeholders; aligns with AGENT.md (same date)</em></p><p>---</p><p><h2>0  Scope</h2></p><p>This toolkit consolidates <strong>all ordinal facts, imports, name‑prefix rules, and μ‑measure patterns</strong> required by the OperatorKernelO6 meta proofs (SN, confluence, arithmetic). It is the single source of truth for ordinal API usage and module locations. If a symbol is not listed here (or in AGENT.md §8), carefully evaluate the guidelines for using <strong>out of documents</strong> lemmas and tactics.</p><p>---</p><p><h2>1  Import & Library Audit (authoritative)</h2></p><p>> Use exactly these modules; the right‑hand column clarifies <em>what is found where</em>. Generic ordered‑monoid lemmas must <strong>not</strong> be used for ordinal multiplication unless explicitly noted.</p><p><tr><td> Area                          | Correct import                                   | Contains / Notes                                                                                                                                                 </td></tr>
+<tr><td> ----------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- </td></tr>
+<tr><td> WF/Acc                        | <code>Init.WF</code>                                        | <code>WellFounded</code>, <code>Acc</code>, <code>InvImage.wf</code>, <code>Subrelation.wf</code>                                                                                                            </td></tr>
+<tr><td> Prod lex orders               | <code>Mathlib.Data.Prod.Lex</code>                          | <code>Prod.Lex</code> for lexicographic measures                                                                                                                            </td></tr>
+<tr><td> Ordinal basics                | <code>Mathlib.SetTheory.Ordinal.Basic</code>                | <code>omega0_pos</code>, <code>one_lt_omega0</code>, <code>lt_omega0</code>, <code>nat_lt_omega0</code>                                                                                                      </td></tr>
+<tr><td> Ordinal arithmetic            | <code>Mathlib.SetTheory.Ordinal.Arithmetic</code>           | <code>Ordinal.add_<em></code>, <code>Ordinal.mul_</em></code>, <code>Ordinal.mul_lt_mul_of_pos_left</code>, <code>Ordinal.mul_le_mul_iff_left</code>, primed <code>mul_le_mul_left'</code>/<code>mul_le_mul_right'</code>, <code>le_mul_right</code> </td></tr>
+<tr><td> Ordinal exponentiation        | <code>Mathlib.SetTheory.Ordinal.Exponential</code>          | <code>opow</code>, <code>opow_add</code>, <code>Ordinal.opow_le_opow_right</code>, <code>isNormal_opow</code>                                                                                                </td></tr>
+<tr><td> Successor helpers             | <code>Mathlib.Algebra.Order.SuccPred</code>                 | <code>Order.lt_add_one_iff</code>, <code>Order.add_one_le_of_lt</code>                                                                                                                 </td></tr>
+<tr><td> ℕ‑casts (order bridges)       | <code>Mathlib.Data.Nat.Cast.Order.Basic</code>              | <code>Nat.cast_le</code>, <code>Nat.cast_lt</code>                                                                                                                                     </td></tr>
+<tr><td> Tactics                       | <code>Mathlib.Tactic.Linarith</code>, <code>Mathlib.Tactic.Ring</code> | <code>linarith</code>, <code>ring</code> (both whitelisted)                                                                                                                            </td></tr>
+<tr><td> <strong>Generic monoid inequality</strong> | <code>Mathlib.Algebra.Order.Monoid.Defs</code>              | <strong>Generic</strong> <code>mul_le_mul_left</code> — do <strong>not</strong> use it for ordinal products.                                                                                          </td></tr></p><p><strong>Qualification rule (must appear verbatim at call‑sites):</strong></p><p>- <strong>Exponent (≤‑mono):</strong> call <code>Ordinal.opow_le_opow_right</code> (never the bare name).
+<ul><li><strong>Exponent (<‑mono at base ω):</strong> use the <strong>local</strong> theorem <code>opow_lt_opow_right</code> defined in §2.4 (since upstream removed <code>Ordinal.opow_lt_opow_right</code>).</li></ul>
+<ul><li><strong>Products:</strong> prefer <code>Ordinal.mul_lt_mul_of_pos_left</code> and <code>Ordinal.mul_le_mul_iff_left</code> (or <code>mul_le_mul_left'</code>/<code>mul_le_mul_right'</code>) — these are the <strong>ordinal</strong> APIs.</li></ul>
+<ul><li><strong>Successor bridge:</strong> call <code>Order.lt_add_one_iff</code> / <code>Order.add_one_le_of_lt</code> with the <code>Order.</code> prefix.</p><p>---</p><p><h2>2  Toolkit Lemma Catalogue (names, signatures, modules)</h2></p><p>>All entries compile under Mathlib 4 (≥ v4.8) + this project’s local bridges. Nothing here is hypothetical.</p><p><h3>2.1 Basics & Positivity</h3></p><p>- <code>omega0_pos : 0 < omega0</code>  — <em>module:</em> <code>SetTheory.Ordinal.Basic</code></li></ul>
+<ul><li><code>one_lt_omega0 : 1 < omega0</code>  — <em>module:</em> <code>SetTheory.Ordinal.Basic</code></li></ul>
+<ul><li><code>lt_omega0 : o < omega0 ↔ ∃ n : ℕ, o = n</code>  — <em>module:</em> <code>SetTheory.Ordinal.Basic</code></li></ul>
+<ul><li><code>nat_lt_omega0 : ∀ n : ℕ, (n : Ordinal) < omega0</code>  — <em>module:</em> <code>SetTheory.Ordinal.Basic</code></p><p><h3>2.2 Addition & Successor</h3></p><p>- <code>add_lt_add_left  : a < b → c + a < c + b</code>  — <em>module:</em> <code>SetTheory.Ordinal.Arithmetic</code></li></ul>
+<ul><li><code>add_lt_add_right : a < b → a + c < b + c</code>  — <em>module:</em> <code>SetTheory.Ordinal.Arithmetic</code></li></ul>
+<ul><li><code>add_le_add_left  : a ≤ b → c + a ≤ c + b</code>  — <em>module:</em> <code>SetTheory.Ordinal.Arithmetic</code></li></ul>
+<ul><li><code>add_le_add_right : a ≤ b → a + c ≤ b + c</code>  — <em>module:</em> <code>SetTheory.Ordinal.Arithmetic</code></li></ul>
+<ul><li><code>Order.lt_add_one_iff : x < y + 1 ↔ x ≤ y</code>  — <em>module:</em> <code>Algebra.Order.SuccPred</code></li></ul>
+<ul><li><code>Order.add_one_le_of_lt : x < y → x + 1 ≤ y</code>  — <em>module:</em> <code>Algebra.Order.SuccPred</code></p><p><strong>Absorption on infinite right addends</strong></p><p>- <code>Ordinal.one_add_of_omega_le : omega0 ≤ p → (1 : Ordinal) + p = p</code></li></ul>
+<ul><li><code>Ordinal.nat_add_of_omega_le : omega0 ≤ p → (n : Ordinal) + p = p</code></p><p><strong>traffic-ligh</strong></p><p><tr><td> Colour    | Rule of thumb                                           | Examples                                                                             </td></tr></li></ul>
+<tr><td> --------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------</td></tr>
+<tr><td> <strong>Green</strong> | Ordinal-specific or left-monotone lemmas                | <code>add_lt_add_left</code>, <code>mul_lt_mul_of_pos_left</code>, <code>le_mul_right</code>, <code>opow_mul_lt_of_exp_lt</code> </td></tr>
+<tr><td> <strong>Amber</strong> | Generic lemmas that satisfy the 4-point rule            | <code>mul_le_mul_left'</code>, <code>add_lt_add_of_lt_of_le</code>                                         </td></tr>
+<tr><td> <strong>Red</strong>   | Breaks rule 2 (needs right-strict mono / commutativity) | <code>add_lt_add_right</code>, <code>mul_lt_mul_of_pos_right</code>                                        </td></tr></p><p><h3>2.3 Multiplication (Ordinal‑specific)</h3></p><p>- <code>Ordinal.mul_lt_mul_of_pos_left : a < b → 0 < c → c <em> a < c </em> b</code>
+<ul><li><code>Ordinal.mul_le_mul_iff_left   : c <em> a ≤ c </em> b ↔ a ≤ b</code></li></ul>
+<ul><li>Primed monotone helpers: <code>mul_le_mul_left'</code>, <code>mul_le_mul_right'</code> (convenient rewriting forms).</li></ul>
+<ul><li><code>le_mul_right : 0 < b → a ≤ b * a</code>.</li></ul>
+<ul><li><code>opow_mul_lt_of_exp_lt : β < α → 0 < γ → omega0 ^ β <em> γ < omega0 ^ α</code>  — </em>module:* <code>SetTheory.Ordinal.Exponential</code> — absorbs any positive right factor.</p><p>> <strong>Note:</strong> <code>mul_le_mul_left</code> without a trailing apostrophe comes from <code>Algebra.Order.Monoid.Defs</code> and is <strong>generic</strong> (ordered monoids). Do <strong>not</strong> use it to reason about ordinal multiplication.</p><p>> <strong>Q:</strong> “<code>library_search</code> <strong>EXAMPLE SUGGESTED</strong> <code>le_mul_of_le_mul_left'</code>. Can I use it?” (IT CAN APPLY TO ANY MODULE YOU BELIEVE WILL HELP)</p><p>1. Check axioms → none found.</li></ul>
+2. It uses only <code>OrderedRing</code>, which <code>Ordinal</code> instantiates.
+3. Import adds 17 decls. ✅
+4. Proof is kernel-checked, no <code>meta</code>.
+Append one line to toolkit with a brief descrpition/justification sentence and commit.</p><p><h3>2.4 Exponentiation (ω‑powers & normality)</h3></p><p>- <code>opow_add : a ^ (b + c) = a ^ b * a ^ c</code> — split exponents.
+<ul><li><code>opow_pos : 0 < a → 0 < a ^ b</code> — positivity of powers.</li></ul>
+<ul><li><code>Ordinal.opow_le_opow_right : 0 < a → b ≤ c → a ^ b ≤ a ^ c</code> — <strong>use fully‑qualified</strong>.</p><p><strong>Local strict‑mono for ω‑powers (replacement for deprecated upstream lemma):</strong></p><p><pre><code class="lean">/-- Strict‑mono of ω‑powers in the exponent (base <code>omega0</code>). --/</li></ul>
+@[simp] theorem opow_lt_opow_right {b c : Ordinal} (h : b < c) :
+  omega0 ^ b < omega0 ^ c := by
+  simpa using
+    ((Ordinal.isNormal_opow (a := omega0) one_lt_omega0).strictMono h)</code></pre></p><p><em>Why this is correct:</em> <code>isNormal_opow</code> states that, for <code>a > 1</code>, the map <code>b ↦ a ^ b</code> is normal (continuous, strictly increasing). With <code>a := omega0</code> and <code>one_lt_omega0</code>, <code>strictMono</code> yields exactly <code><</code> from <code><</code> in the exponent, which is what we need in μ‑decrease proofs.</p><p><h3>2.5 Cast bridges (ℕ ↔ Ordinal)</h3></p><p><pre><code class="lean">@[simp] theorem natCast_le {m n : ℕ} : ((m : Ordinal) ≤ (n : Ordinal)) ↔ m ≤ n := Nat.cast_le
+@[simp] theorem natCast_lt {m n : ℕ} : ((m : Ordinal) < (n : Ordinal)) ↔ m < n := Nat.cast_lt</code></pre></p><p><h3>2.6 Finite vs. infinite split helper</h3></p><p><pre><code class="lean">theorem eq_nat_or_omega0_le (p : Ordinal) : (∃ n : ℕ, p = n) ∨ omega0 ≤ p := by
+  classical
+  cases lt_or_ge p omega0 with
+  | inl h  => rcases (lt_omega0).1 h with ⟨n, rfl⟩; exact Or.inl ⟨n, rfl⟩
+  | inr h  => exact Or.inr h</code></pre></p><p><strong>Absorption shorthands</strong></p><p><pre><code class="lean">theorem one_left_add_absorb {p : Ordinal} (h : omega0 ≤ p) : (1 : Ordinal) + p = p :=
+  by simpa using (Ordinal.one_add_of_omega_le (p := p) h)</p><p>theorem nat_left_add_absorb {n : ℕ} {p : Ordinal} (h : omega0 ≤ p) : (n : Ordinal) + p = p :=
+  by simpa using (Ordinal.nat_add_of_omega_le (p := p) (n := n) h)</code></pre></p><p><h3>2.7 Two‑sided product monotonicity (derived helper)</h3></p><p><pre><code class="lean">/-- Two–sided monotonicity of <code>(*)</code> for ordinals, built from one–sided lemmas. -/
+ theorem ord_mul_le_mul {a b c d : Ordinal} (h₁ : a ≤ c) (h₂ : b ≤ d) :
+    a <em> b ≤ c </em> d := by
+  have h₁' : a <em> b ≤ c </em> b := by
+    simpa using (mul_le_mul_right' h₁ b)
+  have h₂' : c <em> b ≤ c </em> d := by
+    simpa using (mul_le_mul_left'  h₂ c)
+  exact le_trans h₁' h₂'</code></pre></p><p>---</p><p><h2>3  μ‑Measure Playbook (used across all rule proofs)</h2></p><p><strong>Goal form:</strong> for each kernel rule <code>Step t u</code>, show <code>mu u < mu t</code>. Typical shape reduces to chains like</p><p><pre><code class="">ω^κ * (x + 1) ≤ ω^(x + κ')</code></pre></p><p><strong>Standard ladder (repeatable):</strong></p><p>1. <strong>Assert base positivity:</strong> <code>have ωpos : 0 < omega0 := omega0_pos</code>.
+2. <strong>Lift inequalities through exponents:</strong> use <code>Ordinal.opow_le_opow_right ωpos h</code> for <code>≤</code>, and the local <code>opow_lt_opow_right</code> for <code><</code>.
+3. <strong>Split exponents/products:</strong> <code>rw [opow_add]</code> to turn exponent sums into products so product monotonicity applies cleanly.
+4. <strong>Move (≤) across products:</strong> use <code>Ordinal.mul_le_mul_iff_left</code>, <code>mul_le_mul_left'</code>, <code>mul_le_mul_right'</code>; for <code><</code> use <code>Ordinal.mul_lt_mul_of_pos_left</code> with a positive left factor.
+5. <strong>Absorb finite addends:</strong> once <code>omega0 ≤ p</code>, rewrite <code>(n:Ordinal) + p = p</code> (or <code>1 + p = p</code>).
+6. <strong>Bridge successor:</strong> convert <code>x < y + 1</code> ↔ <code>x ≤ y</code> via <code>Order.lt_add_one_iff</code>; introduce <code>x + 1 ≤ y</code> via <code>Order.add_one_le_of_lt</code> when chaining.
+7. <strong>Clean arithmetic noise:</strong> <code>simp</code> for associativity/neutral elements; <code>ring</code> or <code>linarith</code> only for integer‑arithmetic side‑conditions (both tactics are whitelisted).</p><p><strong>Critical correction for <code>recΔ b s n</code> (μ‑rules):</strong></p><p>Do <strong>not</strong> try to relate <code>mu s</code> and <code>mu (delta n)</code>. They are <strong>independent parameters</strong>; the inequality <code>mu s ≤ mu (delta n)</code> is <strong>false in general</strong>. A simple counterexample (compiles in this codebase):</p><p><pre><code class="lean">def s : Trace := delta (delta void)      -- μ s begins with a higher ω‑tower
+def n : Trace := void                     -- μ (delta n) is strictly smaller
+-- here: mu s > mu (delta n)</code></pre></p><p>Structure μ‑decrease proofs without assuming any structural relation between <code>s</code> and <code>n</code> beyond what the rule’s right‑hand side entails.</p><p>---</p><p><h2>4  Order.succ vs <code>+ 1</code> (bridge & hygiene)</h2></p><p>Lean will often rewrite <code>p + 1</code> to <code>Order.succ p</code> in goals. Work with the <code>Order</code> lemmas:</p><p>- <code>Order.lt_add_one_iff : x < y + 1 ↔ x ≤ y</code>
+<ul><li><code>Order.add_one_le_of_lt : x < y → x + 1 ≤ y</code></p><p>Keep the <code>Order.</code> prefix to avoid name resolution issues. Avoid inventing <code>succ_eq_add_one</code>—rely on these bridges instead.</p><p>---</p><p><h2>5  Do‑Not‑Use / Deprecated in this project</h2></p><p>- <strong>Generic</strong> <code>mul_le_mul_left</code> (from <code>Algebra.Order.Monoid.Defs</code>) on ordinal goals. Use <code>Ordinal.mul_*</code> APIs instead.</li></ul>
+<ul><li>Old paths <code>Mathlib.Data.Ordinal.<em></code> — replaced by <code>Mathlib.SetTheory.Ordinal.</em></code>.</li></ul>
+<ul><li><code>Ordinal.opow_lt_opow_right</code> (upstream removed). Use the <strong>local</strong> <code>opow_lt_opow_right</code> defined in §2.4.</li></ul>
+<ul><li><code>le_of_not_lt</code> (deprecated) — use <code>le_of_not_gt</code>.</p><p>---</p><p><h2>6  Minimal import prelude (copy‑paste)</h2></p><p><pre><code class="lean">import Init.WF</li></ul>
+import Mathlib.Data.Prod.Lex
+import Mathlib.SetTheory.Ordinal.Basic
+import Mathlib.SetTheory.Ordinal.Arithmetic
+import Mathlib.SetTheory.Ordinal.Exponential
+import Mathlib.Algebra.Order.SuccPred
+import Mathlib.Data.Nat.Cast.Order.Basic
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.Ring
+open Ordinal</code></pre></p><p>---</p><p><h2>7  Ready‑made snippets</h2></p><p><strong>Nat‑sized measure (optional helper):</strong></p><p><pre><code class="lean">@[simp] def size : Trace → Nat
+| void => 1
+| delta t => size t + 1
+| integrate t => size t + 1
+| merge a b => size a + size b + 1
+| recΔ b s n => size b + size s + size n + 1
+| eqW a b => size a + size b + 1</p><p>theorem step_size_decrease {t u : Trace} (h : Step t u) : size u < size t := by
+  cases h <;> simp [size]; linarith</code></pre></p><p><strong>WF via ordinal μ:</strong></p><p><pre><code class="lean">def StepRev : Trace → Trace → Prop := fun a b => Step b a</p><p>theorem strong_normalization_forward
+  (dec : ∀ {a b}, Step a b → mu b < mu a) : WellFounded (StepRev Step) := by
+  have wfμ : WellFounded (fun x y : Trace => mu x < mu y) := InvImage.wf (f := mu) Ordinal.lt_wf
+  have sub : Subrelation (StepRev Step) (fun x y => mu x < mu y) := by intro x y h; exact dec h
+  exact Subrelation.wf sub wfμ</code></pre></p><p>---</p><p><h2>8  Cross‑file consistency notes</h2></p><p>- This toolkit and <strong>AGENT.md (2025‑07‑29)</strong> are <strong>synchronized</strong>: imports, prefixes, do‑not‑use list, and the μ‑rule correction are identical. If you edit one, mirror the change here.
+<ul><li>Cite lemma modules explicitly in comments or nearby text in code reviews to prevent regressions (e.g., “<code>Ordinal.mul_lt_mul_of_pos_left</code> — from <code>SetTheory.Ordinal.Arithmetic</code>”).</p><p>---</p><p><h2>9  Checklist (before sending a PR)</h2></p><p>- [ ] Imports ⊆ §6, no stray module paths.</li></ul>
+<ul><li>[ ] All exponent/product/<code>+1</code> lemmas called with <strong>qualified</strong> names as in §1.</li></ul>
+<ul><li>[ ] μ‑proofs avoid any relation between <code>μ s</code> and <code>μ (δ n)</code> in <code>recΔ b s n</code>.</li></ul>
+<ul><li>[ ] Tactics limited to <code>simp</code>, <code>linarith</code>, <code>ring</code>.</li></ul>
+<ul><li>[ ] No generic <code>mul_le_mul_left</code> on ordinal goals; use <code>Ordinal.mul_*</code> API.</li></ul>
+<ul><li>[ ] SN proof provides μ‑decrease on all 8 rules; WF via <code>InvImage.wf</code>.</li></ul>
+<ul><li>[ ] Normalize‑join confluence skeleton compiles (<code>normalize</code>, <code>to_norm</code>, <code>norm_nf</code>, <code>nfp</code>).</p><p>---</p><p><em>End of file.</em></li></ul>
+</p></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeElement = document.querySelector('pre code');
+            if (codeElement && codeElement.classList.contains('lean')) {
+                let content = codeElement.innerHTML;
+                
+                const keywords = [
+                    'import', 'namespace', 'end', 'theorem', 'lemma', 'def', 'noncomputable',
+                    'by', 'have', 'exact', 'simpa', 'simp', 'calc', 'cases', 'with',
+                    'intro', 'apply', 'rw', 'sorry', 'private', 'open', 'universe',
+                    'set_option', 'attribute', 'inductive', 'structure', 'class', 'instance'
+                ];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp('\\b' + keyword + '\\b', 'g');
+                    content = content.replace(regex, '<span style="color: #0066cc; font-weight: bold;">' + keyword + '</span>');
+                });
+                
+                content = content.replace(/--[^\n]*/g, '<span style="color: #008000; font-style: italic;">$&</span>');
+                content = content.replace(/\bsorry\b/g, '<span style="background: #ffcccc; color: #cc0000; font-weight: bold; padding: 1px 3px; border-radius: 2px;">sorry</span>');
+                
+                codeElement.innerHTML = content;
+            }
+        });
+    </script>
+</body>
+</html>

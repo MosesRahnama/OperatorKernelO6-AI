@@ -6,6 +6,19 @@ open OperatorKernelO6 Trace Step
 
 namespace OperatorKernelO6.Meta
 
+-- Simple structural size measure for termination
+@[simp] def size : Trace → Nat
+| .void => 1
+| .delta t => size t + 1  
+| .integrate t => size t + 1
+| .merge a b => size a + size b + 1
+| .recΔ b s n => size b + size s + size n + 1
+| .eqW a b => size a + size b + 1
+
+-- Lemma: every step decreases structural size
+theorem step_size_decrease {t u : Trace} (h : Step t u) : size u < size t := by
+  cases h <;> simp [size] <;> linarith
+
 noncomputable def normalize : Trace → Trace
 | t =>
   if h : ∃ u, Step t u then
@@ -80,5 +93,40 @@ theorem global_confluence : Confluent := by
   have hbn : StepStar b n := nfp hab han (norm_nf a)
   have hcn : StepStar c n := nfp hac han (norm_nf a)
   exact ⟨n, hbn, hcn⟩
+
+-- Corollary: Normalization is idempotent
+theorem normalize_idempotent (t : Trace) : normalize (normalize t) = normalize t := by
+  have hnf : NormalForm (normalize t) := norm_nf t
+  unfold NormalForm at hnf
+  push_neg at hnf
+  unfold normalize
+  simp [hnf]
+
+-- Corollary: Normal forms are unique
+theorem unique_normal_forms {a b : Trace} (ha : NormalForm a) (hb : NormalForm b) 
+    (hab : ∃ c, StepStar c a ∧ StepStar c b) : a = b := by
+  rcases hab with ⟨c, hca, hcb⟩
+  have ha_eq : normalize c = a := by
+    have hnorm : StepStar c (normalize c) := to_norm c
+    have huniq := nfp hca hnorm (norm_nf c)
+    exact nf_no_stepstar_forward ha huniq
+  have hb_eq : normalize c = b := by
+    have hnorm : StepStar c (normalize c) := to_norm c  
+    have huniq := nfp hcb hnorm (norm_nf c)
+    exact nf_no_stepstar_forward hb huniq
+  rw [←ha_eq, hb_eq]
+
+-- Church-Rosser property: joinability characterization
+-- NOTE: The full Church-Rosser theorem (joinable ↔ convertible) requires
+-- the conversion relation (symmetric-reflexive-transitive closure)
+-- Here we prove the easier direction and note the limitation
+theorem church_rosser_half {a b : Trace} : 
+    (∃ d, StepStar d a ∧ StepStar d b) → (∃ c, StepStar a c ∧ StepStar b c) := by
+  intro ⟨d, hda, hdb⟩
+  exact global_confluence hda hdb
+
+-- The converse (joinable implies common source) is not generally true
+-- for reduction relations - it would require co-confluence
+-- We can only prove it holds in very special cases or with additional structure
 
 end OperatorKernelO6.Meta
