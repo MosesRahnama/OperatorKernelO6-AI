@@ -1,6 +1,7 @@
 import OperatorKernelO6.Kernel
 import OperatorKernelO6.Meta.Meta
-import OperatorKernelO6.Meta.Termination
+-- import OperatorKernelO6.Meta.Termination
+import OperatorKernelO6.Meta.Termination_C
 -- import LeanSearchClient  -- Enable search commands (temporarily disabled)
 -- import OperatorKernelO6.Meta.Arithmetic
 -- import OperatorKernelO6.Meta.Equality
