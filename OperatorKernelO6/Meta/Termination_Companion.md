@@ -85,7 +85,7 @@ The full code base (~1 250 lines across the two `Termination*.lean` files you su
 
 ---
 
-## Criticism: Conceptual Error
+re
 
 • The lemma claims
 ```
