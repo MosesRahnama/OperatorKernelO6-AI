@@ -101,16 +101,15 @@ Allowed (outside `OperatorKernelO6`): Nat, Bool, classical choice, tactics (SUCH
 ### 4.1 Lemma-lookup protocol - EXTEREMLY IMPORTANT ###
 1. Before outputting Lean code, run SEARCH(name) over all
    project docs and compiled .olean files.
-2. **MANDATORY**: Echo the search hit count in chat: "Found N matches" or "0 results - using GREEN-CHANNEL"
-3. If SEARCH hits => allow name.
-4. Else if user flagged green_channel => propose new lemma:
+2. If SEARCH hits => allow name.
+3. Else if user flagged green_channel => propose new lemma:
 
      /-- New helper; not in repo as of DATE.
          Motivation: (one-liner) -/
      lemma NAME ... := by
        sorry
 
-5. Always compile code; repair until build succeeds.
+4. Always compile code; repair until build succeeds.
 
 # AGENT.md — All‑in‑One AI Guide for OperatorKernelO6 / OperatorMath
 

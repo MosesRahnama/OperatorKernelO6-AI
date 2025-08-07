@@ -372,60 +372,7 @@ A slogan meaning: type-checking succeeded but the statement is false. Lean trust
 Good luck — and please delete any remaining `sorry` before merging!
 
 
-## NEW COMMENTS - SOLUTIONS ##
-
-### Update 2025-08-07 - Claude Session Progress
-
-**Major Achievements:**
-1. **Successfully implemented lexicographic measure approach** - Added `kappa` function and `μκ` composite measure
-2. **Fixed Prod.Lex constructor names** - Discovered correct names are `Prod.Lex.left` and `Prod.Lex.right` (not just `left`/`right`)
-3. **Marked rec_succ_bound as axiom** - Properly quarantined the mathematically false lemma
-4. **Added noncomputable annotation** - Fixed compilation error for μκ function
-5. **Verified all ordinal lemma names** - Following CLAUDE_BRIEF methodology of searching existing patterns
-
-**Key Discoveries:**
-- Prod.Lex constructors defined in `Init.WF` at line 267-276
-- Constructor signatures:
-  ```lean
-  | left  {a₁} (b₁) {a₂} (b₂) (h : ra a₁ a₂) : Prod.Lex (a₁, b₁) (a₂, b₂)
-  | right (a) {b₁ b₂} (h : rb b₁ b₂)         : Prod.Lex (a, b₁)  (a, b₂)
-  ```
-- Well-foundedness proof still needs completion (currently has sorry)
-
-**Code Added to Termination_C.lean:**
-```lean
-/-- Secondary counter for lexicographic measure -/
-def kappa : Trace → ℕ
-| Trace.recΔ _ _ n => (kappa n).succ
-| _ => 0
-
-noncomputable abbrev μκ : Trace → ℕ × Ordinal :=
-  fun t => (kappa t, mu t)
-
-def LexNatOrd : (ℕ × Ordinal) → (ℕ × Ordinal) → Prop :=
-  Prod.Lex (· < ·) ((· < ·) : Ordinal → Ordinal → Prop)
-
-lemma μ_to_μκ {t t' : Trace} (h : mu t' < mu t) (hk : kappa t' = kappa t) :
-  LexNatOrd (μκ t') (μκ t) := by
-  unfold LexNatOrd μκ
-  apply Prod.Lex.right
-  rw [← hk]
-  exact h
-
-lemma μκ_lt_R_rec_succ (b s n : Trace) :
-  LexNatOrd (μκ (merge s (recΔ b s n))) (μκ (recΔ b s (delta n))) := by
-  unfold LexNatOrd μκ
-  apply Prod.Lex.left
-  simp [kappa]
-  norm_num
-```
-
-**Remaining Work:**
-1. Complete wf_LexNatOrd proof (remove sorry)
-2. Integrate lexicographic measure into main SN proof
-3. Eventually remove rec_succ_bound axiom once full lex approach is working
-
-## NEW COMMENTS - SOLUTIONS ##
+## NEW COMMNETS - SOLUTIONS ##
 
 Executive summary
 Your 1 300-line Termination.lean compiles **only because the lemma rec_succ_bound (and the alias mu_rec_succ_bound) is false but is nevertheless accepted by Lean via the “shadow-identifier + ▸ rewrite” trick.

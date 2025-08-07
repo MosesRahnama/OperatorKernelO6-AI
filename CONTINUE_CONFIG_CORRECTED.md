@@ -12,7 +12,7 @@
       "apiKey": "[%key.openai%]",
       "contextLength": 128000,
       "completionOptions": {
-        "temperature": 0.25,
+        "temperature": 1,
         "maxTokens": 4096
       }
     },
@@ -23,7 +23,7 @@
       "apiKey": "[%key.anthropic%]",
       "contextLength": 200000,
       "completionOptions": {
-        "temperature": 0.25,
+        "temperature": 1,
         "maxTokens": 4096
       }
     }
@@ -44,6 +44,6 @@
 ```
 
 ## Key Corrections:
-- ✅ **Temperature**: `0.25` (safe for all Continue versions)
+- ✅ **Temperature**: `1` (maximum creativity for O3 models)
 - ✅ **Model**: `gpt-4o` (correct OpenAI model name)
 - ✅ **Structure**: Valid Continue config format
