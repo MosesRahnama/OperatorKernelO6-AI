@@ -17,6 +17,7 @@ lean_lib OperatorKernelO6 where
   globs := #[.submodules `OperatorKernelO6]
 
 require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "master"
+-- require LeanSearchClient from git "https://github.com/leanprover-community/LeanSearchClient.git" @ "main"
 
 lean_exe OperatorKernelO6Exe where
   root := `Main
