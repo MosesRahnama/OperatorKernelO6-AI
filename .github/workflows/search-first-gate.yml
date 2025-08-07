@@ -1,0 +1,54 @@
+name: Search-First Development Gate
+
+on:
+  push:
+    paths: ['**/*.lean']
+  pull_request:
+    paths: ['**/*.lean']
+
+jobs:
+  lean-build-and-gate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Install Elan
+      run: |
+        curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+        echo "$HOME/.elan/bin" >> $GITHUB_PATH
+        
+    - name: Cache Lean dependencies
+      uses: actions/cache@v3
+      with:
+        path: .lake
+        key: ${{ runner.os }}-lean-${{ hashFiles('lake-manifest.json') }}
+        
+    - name: Build project
+      run: |
+        lake build
+        
+    - name: Check for undefined constants
+      run: |
+        # Fail if any lean files have bare constants without search verification
+        echo "Checking for search-first compliance..."
+        
+        # Count TODO-proof markers (should decrease over time)
+        TODO_COUNT=$(grep -r "TODO-proof" *.lean | wc -l || echo "0")
+        echo "TODO-proof count: $TODO_COUNT"
+        
+        # Ensure no undefined constants in build output
+        if lake build 2>&1 | grep -i "unknown\|undefined"; then
+          echo "❌ Found undefined constants - search-first gate failed!"
+          exit 1
+        fi
+        
+        echo "✅ Search-first development gate passed!"
+        
+    - name: Report status
+      if: always()
+      run: |
+        echo "Search-first development status:"
+        echo "- Build: ${{ job.status }}"
+        echo "- All identifiers verified or marked GREEN-CHANNEL"

@@ -18,11 +18,11 @@
           ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Kernel.olean",
            "16259809544929756661"]]],
         ["Mathlib.Data.Prod.Lex:olean",
-         [["Mathlib.Data.Prod.Lex:deps", "2702114731644929826"],
+         [["Mathlib.Data.Prod.Lex:deps", "5627029952481861891"],
           ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean\\Mathlib\\Data\\Prod\\Lex.olean",
-           "9970309047638496390"]]],
+           "14147518290988756464"]]],
         ["Mathlib.Tactic.Linarith:olean",
-         [["Mathlib.Tactic.Linarith:deps", "10702616972968770832"],
+         [["Mathlib.Tactic.Linarith:deps", "13011851268757982658"],
           ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean\\Mathlib\\Tactic\\Linarith.olean",
            "1506140196296674625"]]]]]]],
     ["libs",
@@ -37,4 +37,4 @@
   ["options", "1723"],
   ["Module.leanArgs: #[-Dpp.notation=true, -Dtrace.profiler.threshold=5]",
    "11004081667271888933"]],
- "depHash": "351092837211015167"}
+ "depHash": "5603899522397996619"}

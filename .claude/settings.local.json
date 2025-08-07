@@ -19,7 +19,9 @@
       "Bash(where msedge)",
       "Bash(wkhtmltopdf:*)",
       "Bash(start Operator_Centric_Foundations.pdf)",
-      "Bash(start Operator_Centric_Foundations.html)"
+      "Bash(start Operator_Centric_Foundations.html)",
+      "Bash(start C:UsersMosesmath_opsOperatorKernelO6Docsconvert.ipynb)",
+      "Bash(start \"C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\Docs\\convert.ipynb\")"
     ],
     "deny": []
   }

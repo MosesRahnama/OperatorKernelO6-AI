@@ -1,4 +1,50 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:system",
-    "python-envs.pythonProjects": []
+    "python-envs.pythonProjects": [],
+    
+    // Copilot Configuration for Search-First Development
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": false,
+        "plaintext": false,
+        "markdown": true,
+        "lean4": true
+    },
+    "github.copilot.inlineSuggest.enable": true,
+    "github.copilot.inlineSuggest.suppressSuggestions": false,
+    
+    // Auto-save to trigger build loop
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 2000,
+    
+    // Lean-specific settings
+    "lean4.input.eagerReplacementEnabled": true,
+    "lean4.diagnostics.enableErrorReporting": true,
+    "lean4.infoview.autoOpen": true,
+    "lean4.infoview.showExpectedType": true,
+    "lean4.infoview.showGoalNames": true,
+    
+    // Enhanced error detection
+    "problems.showCurrentInStatus": true,
+    "problems.sortOrder": "severity",
+    
+    // Task automation
+    "task.autoDetect": "on",
+    "task.slowProviderWarning": false,
+    
+    // Editor enhancements for the search-first workflow
+    "editor.suggest.showMethods": true,
+    "editor.suggest.showFunctions": true,
+    "editor.suggest.showKeywords": true,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    
+    // Workspace-specific file associations
+    "files.associations": {
+        "*.lean": "lean4",
+        "copilot-instructions.md": "markdown"
+    }
 }

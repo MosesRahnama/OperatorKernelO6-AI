@@ -1,14 +1,16 @@
-param([string]$OutputDir = "C:\Users\Moses\math_ops\OperatorKernelO6\Docs")
+param(
+    [string]$OutputDir = "C:\Users\Moses\math_ops\OperatorKernelO6\Docs",
+    [string[]]$FilesToConvert = @(
+        "C:\Users\Moses\math_ops\OperatorKernelO6\Core_Docs\Operator Centric Foundations of Godelian Incompleteness.md",
+        "C:\Users\Moses\math_ops\OperatorKernelO6\Core_Docs\Termination_Companion.md"
+    ),
+    [string]$DocumentTitle = "Core_Theory_Documents"
+)
 
 Write-Host "BASIC FILE CONVERTER" -ForegroundColor Cyan
 
-# EDIT THESE PATHS TO CONVERT YOUR FILES:
-$files = @(
-    "C:\Users\Moses\math_ops\OperatorKernelO6\Core_Docs\Operator Centric Foundations of Godelian Incompleteness.md",
-    "C:\Users\Moses\math_ops\OperatorKernelO6\Core_Docs\Termination_Companion.md"
-)
-
-$title = "Core_Theory_Documents"
+$files = $FilesToConvert
+$title = $DocumentTitle
 
 Write-Host "Processing files..." -ForegroundColor Green
 
