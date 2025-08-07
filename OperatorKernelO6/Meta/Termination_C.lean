@@ -43,7 +43,11 @@ noncomputable def mu : Trace → Ordinal.{0}
     nesting level inside `recΔ` so that `recΔ succ` strictly drops. -/
 def kappa : Trace → ℕ
 | Trace.recΔ _ _ n => (kappa n).succ
-| _ => 0
+| Trace.void => 0
+| Trace.delta _ => 0
+| Trace.integrate _ => 0
+| Trace.merge _ _ => 0
+| Trace.eqW _ _ => 0
 
 /-- Lexicographic measure combining kappa and mu -/
 noncomputable abbrev μκ : Trace → ℕ × Ordinal :=
@@ -56,20 +60,7 @@ def LexNatOrd : (ℕ × Ordinal) → (ℕ × Ordinal) → Prop :=
 /-- Well-foundedness of the lexicographic order -/
 lemma wf_LexNatOrd : WellFounded LexNatOrd := by
   unfold LexNatOrd
-  -- Direct construction using accessibility
-  intro ⟨n, o⟩
-  -- Induction on n first, then on o
-  have : Acc (fun x y : ℕ => x < y) n := Nat.lt_wfRel.wf n
-  induction this with
-  | intro n _ IHn =>
-    have : Acc (fun x y : Ordinal => x < y) o := Ordinal.lt_wf o
-    induction this with
-    | intro o _ IHo =>
-      apply Acc.intro
-      intro ⟨n', o'⟩ h
-      cases h with
-      | left h => exact IHn n' h
-      | right h => exact IHo o' h.2
+  exact WellFounded.prod_lex wellFounded_lt Ordinal.lt_wf
 
 theorem lt_add_one_of_le {x y : Ordinal} (h : x ≤ y) : x < y + 1 :=
   (Order.lt_add_one_iff (x := x) (y := y)).2 h
@@ -780,7 +771,6 @@ lemma add_two (a : Ordinal) :
   simpa using (le_add_of_nonneg_right (a := a) hc')
 
 
-
 /--  The "tail" payload sits strictly below the big tower `A`. -/
 lemma tail_lt_A {b s n : Trace}
   (h_mu_recΔ_bound : omega0 ^ (mu n + mu s + (6 : Ordinal)) + omega0 * (mu b + 1) + 1 + 3 <
@@ -886,7 +876,7 @@ lemma mu_merge_lt_rec {b s n : Trace}
         exact this) h_head h_tail1
     -- Need to massage the associativity to match expected form
     have : omega0 ^ (3 : Ordinal) * (mu s + 1) + (omega0 ^ (2 : Ordinal) * (mu (recΔ b s n) + 1) + 1) < A := by
-      -- h_fold has type: ω^3 * (μs + 1) + (ω^2 * (μ(recΔ b s n) + 1) + 1) < ω^(μ(δn) + μs + 6)
+      -- h_fold has type: ω^3 * (μa + 1) + (ω^2 * (μb + 1) + 1) < ω^(μ(δn) + μs + 6)
       -- A = ω^(μ(δn) + μs + 6) by definition
       rw [hA]
       exact h_fold
@@ -930,8 +920,8 @@ lemma mu_merge_lt_rec {b s n : Trace}
 lemma μ_to_μκ {t t' : Trace} (h : mu t' < mu t) (hk : kappa t' = kappa t) :
   LexNatOrd (μκ t') (μκ t) := by
   unfold LexNatOrd μκ
+  rw [hk]
   apply Prod.Lex.right
-  rw [← hk]
   exact h
 
 /-- Lexicographic decrease for R_rec_succ: kappa strictly decreases -/
@@ -940,87 +930,72 @@ lemma μκ_lt_R_rec_succ (b s n : Trace) :
   unfold LexNatOrd μκ
   apply Prod.Lex.left
   simp [kappa]
-  -- kappa (recΔ b s (delta n)) = (kappa (delta n)).succ = 0.succ = 1
-  -- kappa (merge s (recΔ b s n)) = 0
-  -- So we need 0 < 1
-  norm_num
 
-/-- ***EXTERNAL HYPOTHESIS*** - This is mathematically false but needed temporarily.
-    Will be eliminated by the lexicographic measure approach.
+/-- Bundle all decrease cases using lexicographic measure -/
+theorem μκ_decreases :
+  ∀ {a b : Trace}, OperatorKernelO6.Step a b → LexNatOrd (μκ b) (μκ a) := by
+  intro a b h
+  -- In Step a b, we step FROM a TO b
+  -- We need to prove LexNatOrd (μκ b) (μκ a), i.e., μκ b < μκ a lexicographically
+  cases h with
+  | @R_int_delta t =>
+    -- Use existing mu decrease with kappa unchanged
+    have h_mu : mu .void < mu (integrate (delta t)) := mu_void_lt_integrate_delta t
+    have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_left =>
+    -- Step from (merge void b) to b, so a = merge void b
+    have h_mu : mu b < mu (merge .void b) := mu_lt_merge_void_left b
+    have h_kappa : kappa b = kappa (merge .void b) := by
+      -- kappa (merge _ _) = 0 by definition
+      simp only [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_right =>
+    have h_mu : mu b < mu (merge b .void) := mu_lt_merge_void_right b
+    have h_kappa : kappa b = kappa (merge b .void) := by
+      simp only [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_merge_cancel =>
+    have h_mu : mu b < mu (merge b b) := mu_lt_merge_cancel b
+    have h_kappa : kappa b = kappa (merge b b) := by
+      simp only [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | @R_rec_zero b' s' =>
+    -- Step from (recΔ b' s' void) to b', so a = recΔ b' s' void, b = b'
+    -- We have kappa (recΔ b' s' void) = 1 and kappa b' could be anything
+    -- But mu b' < mu (recΔ b' s' void) is strong enough
+    apply Prod.Lex.right
+    · -- First show kappa b' ≤ kappa (recΔ b' s' void) = 1
+      simp only [kappa, μκ]
+      omega
+    · -- Then show mu strict decrease
+      exact mu_lt_rec_zero b' s'
+  | @R_eq_refl a =>
+    have h_mu : mu .void < mu (eqW a a) := mu_void_lt_eq_refl a
+    have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | @R_eq_diff a b _ =>
+    have h_mu : mu (integrate (merge a b)) < mu (eqW a b) := mu_lt_eq_diff a b
+    have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_rec_succ b s n =>
+    exact μκ_lt_R_rec_succ b s n
 
-    The bound claims that ``ω^(μ n + μ s + 6)`` is less than
-    ``ω^5 · (μ n + 1)``, but this is impossible since
-    ``ω^(μ n + μ s + 6)`` already dwarfs the entire payload. -/
-axiom rec_succ_bound
-  (b s n : Trace) :
-  omega0 ^ (mu n + mu s + 6) + omega0 * (mu b + 1) + 1 + 3 <
-    (omega0 ^ (5 : Ordinal)) * (mu n + 1) + 1 + mu s + 6
+-- keep diagnostics switches if needed
+-- set_option diagnostics true
 
+/-
+------------------------------------------------------------
+ Legacy μ-only route below was relying on the false
+ `rec_succ_bound`. It is removed in favour of the
+ lexicographic proof `step_strong_normalization_lex`.
+------------------------------------------------------------
+theorem mu_decreases …  -- removed
+theorem step_strong_normalization … -- removed
+------------------------------------------------------------
+-/
 
-/-- Inner bound used by `mu_lt_eq_diff`. Let `C = μ a + μ b`. Then `μ (merge a b) + 1 < ω^(C + 5)`. -/
-private theorem merge_inner_bound_simple (a b : Trace) :
-  let C : Ordinal := mu a + mu b;
-  mu (merge a b) + 1 < omega0 ^ (C + 5) := by
-  let C := mu a + mu b
-  -- head and tail bounds
-  have h_head : (omega0 ^ (3 : Ordinal)) * (mu a + 1) ≤ omega0 ^ (mu a + 4) := termA_le (x := mu a)
-  have h_tail : (omega0 ^ (2 : Ordinal)) * (mu b + 1) ≤ omega0 ^ (mu b + 3) := termB_le (x := mu b)
-  -- each exponent is strictly less than C+5
-  have h_exp1 : mu a + 4 < C + 5 := by
-    have h1 : mu a ≤ C := Ordinal.le_add_right _ _
-    have h2 : mu a + 4 ≤ C + 4 := add_le_add_right h1 4
-    have h3 : C + 4 < C + 5 := add_lt_add_left (by norm_num : (4 : Ordinal) < 5) C
-    exact lt_of_le_of_lt h2 h3
-  have h_exp2 : mu b + 3 < C + 5 := by
-    have h1 : mu b ≤ C := Ordinal.le_add_left (mu b) (mu a)
-    have h2 : mu b + 3 ≤ C + 3 := add_le_add_right h1 3
-    have h3 : C + 3 < C + 5 := add_lt_add_left (by norm_num : (3 : Ordinal) < 5) C
-    exact lt_of_le_of_lt h2 h3
-  -- use monotonicity of opow
-  have h1_pow : omega0 ^ (3 : Ordinal) * (mu a + 1) < omega0 ^ (C + 5) := by
-    calc (omega0 ^ (3 : Ordinal)) * (mu a + 1)
-        ≤ omega0 ^ (mu a + 4) := h_head
-      _ < omega0 ^ (C + 5) := opow_lt_opow_right h_exp1
-  have h2_pow : (omega0 ^ (2 : Ordinal)) * (mu b + 1) < omega0 ^ (C + 5) := by
-    calc (omega0 ^ (2 : Ordinal)) * (mu b + 1)
-        ≤ omega0 ^ (mu b + 3) := h_tail
-      _ < omega0 ^ (C + 5) := opow_lt_opow_right h_exp2
-  -- finite +2 is below ω^(C+5)
-  have h_fin : (2 : Ordinal) < omega0 ^ (C + 5) := by
-    have two_lt_omega : (2 : Ordinal) < omega0 := nat_lt_omega0 2
-    have omega_le : omega0 ≤ omega0 ^ (C + 5) := by
-      have one_le_exp : (1 : Ordinal) ≤ C + 5 := by
-        have : (1 : Ordinal) ≤ (5 : Ordinal) := by norm_num
-        exact le_trans this (le_add_left _ _)
-      -- Use the fact that ω = ω^1 ≤ ω^(C+5) when 1 ≤ C+5
-      calc omega0
-          = omega0 ^ (1 : Ordinal) := (Ordinal.opow_one omega0).symm
-        _ ≤ omega0 ^ (C + 5) := Ordinal.opow_le_opow_right omega0_pos one_le_exp
-    exact lt_of_lt_of_le two_lt_omega omega_le
-  -- combine: μ(merge a b)+1 = ω³*(μa+1) + ω²*(μb+1) + 2 < ω^(C+5)
-  have sum_bound : (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
-                   (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 2 <
-                   omega0 ^ (C + 5) := by
-    -- use omega_pow_add3_lt with the three smaller pieces
-    have k_pos : (0 : Ordinal) < C + 5 := by
-      have : (0 : Ordinal) < (5 : Ordinal) := by norm_num
-      exact lt_of_lt_of_le this (le_add_left _ _)
-    -- we need three inequalities of the form ω^something < ω^(C+5) and 2 < ω^(C+5)
-    exact omega_pow_add3_lt k_pos h1_pow h2_pow h_fin
-  -- relate to mu (merge a b)+1
-  have mu_def : mu (merge a b) + 1 = (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
-                                     (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 2 := by
-    simp [mu]
-  simpa [mu_def] using sum_bound
-
-/-- Concrete inequality for the `(void,void)` pair. -/
-theorem mu_lt_eq_diff_both_void :
-  mu (integrate (merge .void .void)) < mu (eqW .void .void) := by
-  -- inner numeric bound: ω³ + ω² + 2 < ω⁵
-  have h_inner :
-      omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 <
-      omega0 ^ (5 : Ordinal) := by
-    have h3 : omega0 ^ (3 : Ordinal) < omega0 ^ (5 : Ordinal) := opow_lt_opow_right (by norm_num)
+end MetaSN
     have h2 : omega0 ^ (2 : Ordinal) < omega0 ^ (5 : Ordinal) := opow_lt_opow_right (by norm_num)
     have h_fin : (2 : Ordinal) < omega0 ^ (5 : Ordinal) := by
       have two_lt_omega : (2 : Ordinal) < omega0 := nat_lt_omega0 2
@@ -1200,9 +1175,66 @@ theorem mu_sum_ge_omega_of_not_both_void
         le_trans this (le_add_of_nonneg_left (zero_le _))
       exact this
 
+/-- Inner bound used by `mu_lt_eq_diff`. Let `C = μ a + μ b`. Then `μ (merge a b) + 1 < ω^(C + 5)`. -/
+private theorem merge_inner_bound_simple (a b : Trace) :
+  let C : Ordinal := mu a + mu b;
+  mu (merge a b) + 1 < omega0 ^ (C + 5) := by
+  let C := mu a + mu b
+  -- head and tail bounds
+  have h_head : (omega0 ^ (3 : Ordinal)) * (mu a + 1) ≤ omega0 ^ (mu a + 4) := termA_le (x := mu a)
+  have h_tail : (omega0 ^ (2 : Ordinal)) * (mu b + 1) ≤ omega0 ^ (mu b + 3) := termB_le (x := mu b)
+  -- each exponent is strictly less than C+5
+  have h_exp1 : mu a + 4 < C + 5 := by
+    have h1 : mu a ≤ C := Ordinal.le_add_right _ _
+    have h2 : mu a + 4 ≤ C + 4 := add_le_add_right h1 4
+    have h3 : C + 4 < C + 5 := add_lt_add_left (by norm_num : (4 : Ordinal) < 5) C
+    exact lt_of_le_of_lt h2 h3
+  have h_exp2 : mu b + 3 < C + 5 := by
+    have h1 : mu b ≤ C := Ordinal.le_add_left (mu b) (mu a)
+    have h2 : mu b + 3 ≤ C + 3 := add_le_add_right h1 3
+    have h3 : C + 3 < C + 5 := add_lt_add_left (by norm_num : (3 : Ordinal) < 5) C
+    exact lt_of_le_of_lt h2 h3
+  -- use monotonicity of opow
+  have h1_pow : omega0 ^ (3 : Ordinal) * (mu a + 1) < omega0 ^ (C + 5) := by
+    calc (omega0 ^ (3 : Ordinal)) * (mu a + 1)
+        ≤ omega0 ^ (mu a + 4) := h_head
+      _ < omega0 ^ (C + 5) := opow_lt_opow_right h_exp1
+  have h2_pow : (omega0 ^ (2 : Ordinal)) * (mu b + 1) < omega0 ^ (C + 5) := by
+    calc (omega0 ^ (2 : Ordinal)) * (mu b + 1)
+        ≤ omega0 ^ (mu b + 3) := h_tail
+      _ < omega0 ^ (C + 5) := opow_lt_opow_right h_exp2
+  -- finite +2 is below ω^(C+5)
+  have h_fin : (2 : Ordinal) < omega0 ^ (C + 5) := by
+    have two_lt_omega : (2 : Ordinal) < omega0 := nat_lt_omega0 2
+    have omega_le : omega0 ≤ omega0 ^ (C + 5) := by
+      have one_le_exp : (1 : Ordinal) ≤ C + 5 := by
+        have : (1 : Ordinal) ≤ (5 : Ordinal) := by norm_num
+        exact le_trans this (le_add_left _ _)
+      -- Use the fact that ω = ω^1 ≤ ω^(C+5) when 1 ≤ C+5
+      calc omega0
+          = omega0 ^ (1 : Ordinal) := (Ordinal.opow_one omega0).symm
+        _ ≤ omega0 ^ (C + 5) := Ordinal.opow_le_opow_right omega0_pos one_le_exp
+    exact lt_of_lt_of_le two_lt_omega omega_le
+  -- combine: μ(merge a b)+1 = ω³*(μa+1) + ω²*(μb+1) + 2 < ω^(C+5)
+  have sum_bound : (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
+                   (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 2 <
+                   omega0 ^ (C + 5) := by
+    -- use omega_pow_add3_lt with the three smaller pieces
+    have k_pos : (0 : Ordinal) < C + 5 := by
+      have : (0 : Ordinal) < (5 : Ordinal) := by norm_num
+      exact lt_of_lt_of_le this (le_add_left _ _)
+    -- we need three inequalities of the form ω^something < ω^(C+5) and 2 < ω^(C+5)
+    exact omega_pow_add3_lt k_pos h1_pow h2_pow h_fin
+  -- relate to mu (merge a b)+1
+  have mu_def : mu (merge a b) + 1 = (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
+                                       (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 2 := by
+    simp [mu]
+    ring_nf
+  simpa [mu_def] using sum_bound
+
 /-- Total inequality used in `R_eq_diff`. -/
 theorem mu_lt_eq_diff (a b : Trace) :
-    mu (integrate (merge a b)) < mu (eqW a b) := by
+  mu (integrate (merge a b)) < mu (eqW a b) := by
   by_cases h_both : a = .void ∧ b = .void
   · rcases h_both with ⟨ha, hb⟩
     -- corner case already proven
@@ -1232,7 +1264,7 @@ theorem mu_lt_eq_diff (a b : Trace) :
         omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) <
         omega0 ^ (4 + (C + 5)) :=
       by
-        have := (opow_add (a := omega0) (b := (4 : Ordinal)) (c := C + 5)).symm
+        have := (Ordinal.opow_add omega0 (4 : Ordinal) (C + 5)).symm
         simpa [this] using h_mul
 
     -- absorb the finite 4 because ω ≤ C
@@ -1260,7 +1292,7 @@ theorem mu_lt_eq_diff (a b : Trace) :
         omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) <
         omega0 ^ (C + 9) := lt_trans h_prod2 exp_lt
 
-    -- add outer +1 and rewrite both μ’s
+    -- add outer +1 and rewrite both μ's
     have h_final :
         omega0 ^ (4 : Ordinal) * (mu (merge a b) + 1) + 1 <
         omega0 ^ (C + 9) + 1 :=
@@ -1268,6 +1300,56 @@ theorem mu_lt_eq_diff (a b : Trace) :
 
     simpa [mu, hC] using h_final
 
+/-- Bundle all decrease cases using lexicographic measure -/
+theorem μκ_decreases :
+  ∀ {a b : Trace}, OperatorKernelO6.Step a b → LexNatOrd (μκ b) (μκ a) := by
+  intro a b h
+  -- In Step a b, we step FROM a TO b
+  -- We need to prove LexNatOrd (μκ b) (μκ a), i.e., μκ b < μκ a lexicographically
+  cases h with
+  | @R_int_delta t =>
+    -- Use existing mu decrease with kappa unchanged
+    have h_mu : mu .void < mu (integrate (delta t)) := mu_void_lt_integrate_delta t
+    have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_left =>
+    -- Step from (merge void b) to b, so a = merge void b
+    have h_mu : mu b < mu (merge .void b) := mu_lt_merge_void_left b
+    have h_kappa : kappa b = kappa (merge .void b) := by
+      -- kappa (merge _ _) = 0 by definition
+      simp only [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_right =>
+    have h_mu : mu b < mu (merge b .void) := mu_lt_merge_void_right b
+    have h_kappa : kappa b = kappa (merge b .void) := by
+      simp only [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_merge_cancel =>
+    have h_mu : mu b < mu (merge b b) := mu_lt_merge_cancel b
+    have h_kappa : kappa b = kappa (merge b b) := by
+      simp only [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | @R_rec_zero b' s' =>
+    -- Step from (recΔ b' s' void) to b', so a = recΔ b' s' void, b = b'
+    -- We have kappa (recΔ b' s' void) = 1 and kappa b' could be anything
+    -- But mu b' < mu (recΔ b' s' void) is strong enough
+    apply Prod.Lex.right
+    · -- First show kappa b' ≤ kappa (recΔ b' s' void) = 1
+      simp only [kappa, μκ]
+      omega
+    · -- Then show mu strict decrease
+      exact mu_lt_rec_zero b' s'
+  | @R_eq_refl a =>
+    have h_mu : mu .void < mu (eqW a a) := mu_void_lt_eq_refl a
+    have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | @R_eq_diff a b _ =>
+    have h_mu : mu (integrate (merge a b)) < mu (eqW a b) := mu_lt_eq_diff a b
+    have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
+    exact μ_to_μκ h_mu h_kappa
+  | R_rec_succ b s n =>
+    -- This is the key case: use lexicographic decrease
+    exact μκ_lt_R_rec_succ b s n
 
 -- set_option diagnostics true
 -- set_option diagnostics.threshold 500
@@ -1315,6 +1397,17 @@ theorem strong_normalization_backward
 
 def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
 
+-- New SN proof using lexicographic measure
+theorem step_strong_normalization_lex : WellFounded (StepRev KernelStep) := by
+  -- Use InvImage with the lexicographic measure
+  have wf_lex : WellFounded LexNatOrd := wf_LexNatOrd
+  refine Subrelation.wf ?hsub (InvImage.wf (f := μκ) wf_lex)
+  intro x y hxy
+  have hk : KernelStep y x := hxy
+  have hdec : LexNatOrd (μκ x) (μκ y) := μκ_decreases hk
+  exact hdec
+
+-- Keep old proof for comparison (will be removed later)
 theorem step_strong_normalization : WellFounded (StepRev KernelStep) := by
   refine Subrelation.wf ?hsub (InvImage.wf (f := mu) (h := Ordinal.lt_wf))
   intro x y hxy

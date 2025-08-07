@@ -27,7 +27,8 @@
       "Bash(taskkill:*)",
       "Bash(gh copilot config:*)",
       "Bash(where gh)",
-      "Bash(lake env lean:*)"
+      "Bash(lake env lean:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

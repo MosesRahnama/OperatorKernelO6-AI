@@ -68,8 +68,15 @@
     },
     "github.copilot.chat.codesearch.enabled": true,
     "github.copilot.chat.reviewSelection.instructions": [
-
+        "MANDATORY: Read copilot-instructions.md before ANY code edits",
+        "CRITICAL: Never use a lemma without checking ordinal-toolkit.md first",
+        "REQUIRED: Copy existing patterns from OperatorKernelO6/Meta/ - no guessing"
     ],
+    
+    // CRITICAL PROJECT RULES
+    "github.copilot.chat.projectContext": {
+        "instructions": "ALWAYS read copilot-instructions.md and CLAUDE.md first. NEVER guess lemma names - verify in ordinal-toolkit.md. NO sorries in code. Copy existing patterns."
+    },
     "editor.codeActions.triggerOnFocusChange": true,
     "editor.autoIndentOnPaste": true
 }
