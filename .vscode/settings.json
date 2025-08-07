@@ -13,6 +13,25 @@
     "github.copilot.inlineSuggest.enable": true,
     "github.copilot.inlineSuggest.suppressSuggestions": false,
     
+    // CRITICAL: Force temperature = 1 ONLY for OpenAI models (O3 requirement)
+    // NOTE: This does NOT affect Anthropic/Claude models - they use separate config
+    "github.copilot.advanced": {
+        "temperature": 1
+    },
+    "github.copilot.chat.advanced": {
+        // Only target OpenAI models specifically - leaves others untouched
+        "openai/gpt-4o": { "temperature": 1 },
+        "openai/o1-preview": { "temperature": 1 },
+        "openai/o1-mini": { "temperature": 1 },
+        "openai/o3-mini": { "temperature": 1 },
+        "openai/o3": { "temperature": 1 },
+        "gpt-4o": { "temperature": 1 },
+        "o1-preview": { "temperature": 1 },
+        "o1-mini": { "temperature": 1 },
+        "o3-mini": { "temperature": 1 },
+        "o3": { "temperature": 1 }
+    },
+
     // Auto-save to trigger build loop
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 2000,
@@ -46,5 +65,11 @@
     "files.associations": {
         "*.lean": "lean4",
         "copilot-instructions.md": "markdown"
-    }
+    },
+    "github.copilot.chat.codesearch.enabled": true,
+    "github.copilot.chat.reviewSelection.instructions": [
+
+    ],
+    "editor.codeActions.triggerOnFocusChange": true,
+    "editor.autoIndentOnPaste": true
 }
