@@ -1,18 +1,164 @@
-> **Single Source of Truth (SSOT)**
-> This file is canonical. `agent.md` and `ordinal-toolkit.md` are pointers to sections here.
-> Sections: 
-> - §8 “Canonical Imports & Ordinal Basics” (ordinal toolkit)
-> - §4 “Interaction Protocol & Lemma-lookup” (agent discipline)
 
+# CRITICAL: LEMMA VERIFICATION PROTOCOL (MANDATORY FOR ALL AI MODELS)
 
+### THE RED ALERT RUDE! RED ALERT! CHECK BEFORE USE
 
-# AGENT.md — All‑in‑One AI Guide for OperatorKernelO6 / OperatorMath
+**NEVER write ANY lemma name without FIRST verifying it exists:**
+1. Check `core_docs/ordinal-toolkit.md` for ordinal lemmas
+2. Search existing code in `OperatorKernelO6/Meta/` for usage patterns
+3. If NOT found in either → IT DOESN'T EXIST, DO NOT USE IT
 
-> **Audience:** LLMs/agents working on this repo.  
-> **Prime Directive:** Don't touch the kernel. Don't hallucinate lemmas/imports. Don't add axioms.  
-> **If unsure:** raise a **CONSTRAINT BLOCKER**.
+**This applies to EVERY lemma, EVERY tactic, EVERY theorem name. No exceptions.**
 
----
+### ENFORCEMENT PROTOCOL
+Before writing ANY Lean code, you MUST:
+```
+STEP 1: Identify needed lemmas
+STEP 2: Search ordinal-toolkit.md for EXACT names
+STEP 3: Grep existing code for usage patterns
+STEP 4: Copy EXACT syntax and tactics
+STEP 5: If not found → STOP, do not guess
+```
+
+## ALGORITHMIC INTERVENTION: Ordinal Name Resolution
+
+### PHASE 1: Error Analysis (MANDATORY)
+When encountering ANY Lean error involving ordinals:
+1. **STOP** - Do not suggest any solution yet
+2. **SCAN** - Read 100 lines before/after error location using `grep_search` with pattern:
+   ```
+   omega0|opow|Ordinal\.|Order\.|mul_lt|mul_le|add_le|cast_le
+   ```
+3. **EXTRACT** - List ALL ordinal operations used in surrounding code
+
+### PHASE 2: Name Verification (STRICT CHECKPOINT)
+Before suggesting ANY ordinal lemma/tactic:
+1. **CHECK LOCAL CODE FIRST**:
+   ```
+   grep_search "exact lemma_name" in current file
+   grep_search "theorem lemma_name" in OperatorKernelO6/
+   ```
+2. **CHECK ORDINAL TOOLKIT**:
+   - Search `core_docs/ordinal-toolkit.md` for EXACT name
+   - If found → use with EXACT qualification (e.g., `Ordinal.mul_lt_mul_of_pos_left`)
+   - If NOT found → STOP, DO NOT USE
+
+3. **VERIFIED PATTERNS** (use these exactly):
+   ```lean
+   -- CORRECT (verified to exist):
+   Ordinal.opow_pos
+   Ordinal.opow_add  
+   Ordinal.opow_succ
+   Ordinal.opow_le_opow_right
+   Ordinal.mul_le_mul_left'  -- NOTE THE PRIME!
+   Ordinal.le_mul_right
+   Ordinal.lt_wf
+   Ordinal.omega0_pos
+   WellFounded.prod_lex  -- NOT Prod.lex_wf
+   wellFounded_lt        -- for Nat well-foundedness
+   ```
+
+4. **FORBIDDEN PATTERNS** (will cause errors):
+   - ❌ `mul_le_mul_left` (generic monoid version - missing prime)
+   - ❌ `Ordinal.opow_lt_opow_right` (removed from mathlib)
+   - ❌ Unqualified `opow_add` (must be `Ordinal.opow_add`)
+   - ❌ `Prod.lex_wf` (doesn't exist - use `WellFounded.prod_lex`)
+   - ❌ `Nat.lt_wfRel` (use `wellFounded_lt` instead)
+
+### PHASE 3: Solution Generation (COPY EXISTING PATTERNS)
+1. **MIMIC LOCAL PROOFS** - If similar proof exists in file, copy its structure:
+   ```lean
+   -- Example from Termination_C.lean line 150:
+   have hb : 0 < (omega0 ^ (3 : Ordinal)) :=
+     (Ordinal.opow_pos (b := (3 : Ordinal)) (a0 := omega0_pos))
+   ```
+
+2. **COPY TACTIC PATTERNS** - Use exact tactics from working code:
+   ```lean
+   -- For lexicographic ordering (from working code):
+   apply Prod.Lex.left   -- when first component decreases
+   apply Prod.Lex.right  -- when first equal, second decreases
+   ```
+
+3. **NO NEW LEMMAS UNLESS WE CAN DEFINE AND PROVE THEM** - We have 1300+ lines of working code. Everything needed is there.
+
+### CRITICAL: Mathlib Version Lock
+- **NEVER** run `lake update mathlib`
+- **NEVER** modify `lake-manifest.json`
+- Current mathlib is FROZEN at working commit
+
+### Verification Gates:
+- ✅ Every ordinal operation matches pattern in `ordinal-toolkit.md`
+- ✅ Every lemma name verified in local code OR toolkit
+- ✅ `lake build` passes without unknown identifier errors
+- ✅ No generic monoid lemmas used for ordinal arithmetic
+
+## STRICT DISCIPLINE RULES:
+
+### NO PIVOTS WITHOUT JUSTIFICATION
+- ❌ "Actually, let me try something simpler"
+- ❌ "There's a better way"
+- ✅ Stick to the approach until proven impossible
+- ✅ Any major change requires FULL mathematical justification
+
+### NO SORRY CHAINS
+- ❌ Creating empty lemmas with `sorry` to skip problems
+- ❌ Assuming future proofs will fix current issues
+- ❌ ANY use of `sorry` in final code
+- ✅ Complete every proof using existing patterns
+
+### MATHEMATICAL CONSISTENCY
+- **Every lemma contributes to the larger proof chain**
+- **Check implications: "If I prove X this way, does it support theorem Y?"**
+- **Verify type signatures match downstream usage**
+- **Test edge cases (n=0, void traces, reflexive cases)**
+
+## COPY-PASTE PROTOCOL
+Since we have extensive working code, most tasks are copy-paste:
+1. **Find similar proof** in existing files
+2. **Copy exact structure** including tactics
+3. **Adapt variable names** only
+4. **Keep same proof flow**
+
+Example workflow:
+```
+User: "Prove lemma X about ordinals"
+AI: 
+1. Search ordinal-toolkit.md for relevant lemmas
+2. Grep OperatorKernelO6/ for similar proofs
+3. Copy proof structure exactly
+4. Verify with lake build
+```
+
+## ENFORCEMENT: 
+**Before EVERY code edit, output:**
+```
+PHASE 1 SCAN: Found N ordinal patterns in context
+PHASE 2 CHECK: lemma_name found in [location] OR "NOT FOUND - STOPPING"
+PHASE 3 COPY: Mimicking proof structure from line X
+MATH CHECK: This proof supports [downstream theorem] by establishing [property]
+```
+
+## COMMON MISTAKES THAT WASTE TIME:
+1. **Guessing lemma names** → Always verify first
+2. **Creating new proof strategies** → Copy existing ones
+3. **Using wrong lemma versions** → Check for primes and qualifications
+4. **Leaving sorries** → Complete every proof
+5. **Taking U-turns mid-proof** → Stick to the plan
+
+## SUCCESS CRITERIA:
+- Zero `sorry` in code
+- Zero "unknown identifier" errors
+- Every lemma traceable to toolkit or existing code
+- Lake build succeeds completely
+
+## REMEMBER:
+**This is 90% copy-paste work.** We have done the hard work already. Your job is to:
+1. Find the right existing code
+2. Verify lemma names
+3. Copy patterns exactly
+4. No creativity - just careful verification and copying
+
 
 ## 0. TL;DR
 
@@ -110,6 +256,26 @@ end OperatorKernelO6
 Allowed (outside `OperatorKernelO6`): Nat, Bool, classical choice, tactics (SUCH AS `simp`, `linarith`, `ring`), WF recursion, ordinal measures, etc., **but MOSTLY using §8's imports/lemmas**. `ring` is on the project whitelist (`Mathlib.Tactic.Ring`); use it for integer equalities. `simp` and `linarith` are also allowed. Forbidden project‑wide unless green‑lit: `axiom`, `sorry`, `admit`, `unsafe`, stray `noncomputable`. Never push these conveniences back into the kernel
 
 **Tactics whitelist (Meta):** `simp`, `linarith`, `ring`, and any otehr methods that complies with Forbidden project‑wide rules, and FULLY COMPLY with section 8.5 down here in the document.
+
+### 4.1 Lemma-lookup protocol - EXTEREMLY IMPORTANT ###
+1. Before outputting Lean code, run SEARCH(name) over all
+   project docs and compiled .olean files.
+2. **MANDATORY**: Echo the search hit count in chat: "Found N matches" or "0 results - using GREEN-CHANNEL"
+3. If SEARCH hits => allow name.
+4. Else if user flagged green_channel => propose new lemma:
+
+     /-- New helper; not in repo as of DATE.
+         Motivation: (one-liner) -/
+     lemma NAME ... := by
+       sorry
+
+5. Always compile code; repair until build succeeds.
+
+# AGENT.md — All‑in‑One AI Guide for OperatorKernelO6 / OperatorMath
+
+> **Audience:** LLMs/agents working on this repo.  
+> **Prime Directive:** Don't touch the kernel. Don't hallucinate lemmas/imports. Don't add axioms.  
+> **If unsure:** raise a **CONSTRAINT BLOCKER**.
 
 ---
 
