@@ -3,6 +3,8 @@ import OperatorKernelO6.Kernel
 import OperatorKernelO6.Meta.Meta
 -- import OperatorKernelO6.Meta.Termination
 import OperatorKernelO6.Meta.Termination_C
+import OperatorKernelO6.Meta.Termination_Lex
+
 -- import OperatorKernelO6.Meta.Arithmetic
 -- import OperatorKernelO6.Meta.Equality
 -- import OperatorKernelO6.Meta.Godel
