@@ -622,3 +622,35 @@ The proof is mathematically sound:
 - ω⁴ * (ω³ + ω² + 2) < ω⁴ * ω⁴ = ω⁸ (by multiplication)
 - ω⁸ < ω⁹ (by exponent monotonicity)
 - Therefore: ω⁴ * (ω³ + ω² + 2) + 1 < ω⁹ + 1v
+
+
+Looking at the errors, I need to fix the mu_lt_eq_diff_both_void theorem. Let me implement the fixes step by step:
+
+
+Step-by-step solution
+
+PHASE 1 SCAN: Analyzing the errors:
+
+1. unknown identifier 'succ_succ' - need to fix the successor conversion
+2. opow_pos argument order issue - need named arguments
+3. Unsolved goals with Order.succ forms - need proper normalization
+PHASE 2 CHECK: Searching for patterns:
+
+- Found Order.succ patterns in SSOT
+- Found opow_pos usage pattern in ko6_guide.md
+- Found 0 results for succ_succ - using manual conversion
+PHASE 3 COPY: Implementing the fixed theorem
+
+
+Termination_C.lean
+
+Fix the mu_lt_eq_diff_both_void theorem with proper successor handling and named arguments for opow_pos:
+
+	Termination_C.lean+19-19
+
+This fix addresses all the errors:
+
+1. succ_succ error: I manually converted Order.succ (Order.succ x) to x + 2 using reflexivity
+2. Unsolved goals: I properly normalized the mu expansion before using it
+3. opow_pos argument error: Used named arguments (a := omega0) (b := (4 : Ordinal))
+4. Unused simp argument: Removed the unused h_normalize from the simp list

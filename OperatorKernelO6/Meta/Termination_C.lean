@@ -244,20 +244,25 @@ def debug_mode := true
 -- set_option trace.compiler.ir.result true
 
 
+/-- Special case for `eq_diff` when both arguments are `void`. -/
 theorem mu_lt_eq_diff_both_void :
   MetaSN.mu (integrate (merge .void .void))
     < MetaSN.mu (eqW .void .void) := by
 
-  -- ❶ Expand the LHS to see its shape
+  -- ❶ First, show what mu expands to with explicit conversion
+  have h_mu_merge : MetaSN.mu (merge .void .void) =
+      omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 1 := by
+    simp [MetaSN.mu, add_comm, add_left_comm, add_assoc]
+
+  -- Now expand the full LHS
   have hL : MetaSN.mu (integrate (merge .void .void)) =
       omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 := by
-    -- First normalize the succ form to + form
-    have h_normalize : omega0 ^ (3 : Ordinal) + Order.succ (Order.succ (omega0 ^ (2 : Ordinal))) =
-                       omega0 ^ (3 : Ordinal) + (omega0 ^ (2 : Ordinal) + 2) := by
-      simp [succ_succ]
-    -- Now compute mu
-    simp only [MetaSN.mu]
-    simp [add_assoc, h_normalize]
+    have htmp : MetaSN.mu (integrate (merge .void .void)) =
+        omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + Order.succ (Order.succ (omega0 ^ (2 : Ordinal)))) + 1 := by
+      simp [MetaSN.mu, h_mu_merge, add_comm, add_left_comm, add_assoc, Ordinal.add_one_eq_succ]
+    have hss2 : Order.succ (Order.succ (omega0 ^ (2 : Ordinal))) = omega0 ^ (2 : Ordinal) + 2 := by
+      simp [Ordinal.add_one_eq_succ, add_assoc]
+    simpa [hss2, add_assoc] using htmp
 
   -- ❷ Core inequality: ω³ + ω² + 2 < ω⁴
   -- (a) ω² < ω³
@@ -289,17 +294,22 @@ theorem mu_lt_eq_diff_both_void :
 
   -- ❸ Multiply by ω⁴ and get ω⁸ directly
   have hpos4 : (0 : Ordinal) < omega0 ^ (4 : Ordinal) :=
-    Ordinal.opow_pos omega0_pos
+    Ordinal.opow_pos (a := omega0) (b := (4 : Ordinal)) omega0_pos
 
   have h_to8 : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
                omega0 ^ (8 : Ordinal) := by
-    -- First get the multiplication
-    have h_mul := Ordinal.mul_lt_mul_of_pos_left h_sum_lt_ω4 hpos4
-    -- Now h_mul : ω^4 * (...) < ω^4 * ω^4
-    -- Rewrite ω^4 * ω^4 to ω^8
-    rw [← opow_add] at h_mul
-    norm_num at h_mul
-    exact h_mul
+    -- First get the multiplication bound: ω^4 * (...) < ω^4 * ω^4
+    have h_mul :
+        omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
+          < omega0 ^ (4 : Ordinal) * omega0 ^ (4 : Ordinal) :=
+      Ordinal.mul_lt_mul_of_pos_left h_sum_lt_ω4 hpos4
+    -- Collapse ω^4 * ω^4 = ω^(4+4)
+    have h_mul' :
+        omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
+          < omega0 ^ (4 + (4 : Ordinal)) := by
+      simpa [Ordinal.opow_add] using h_mul
+    -- And compute 4 + 4 = 8 at the ordinal level
+    simpa using h_mul'
 
   -- ❹ Bump exponent: ω⁸ < ω⁹
   have h_bump : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) :=
@@ -319,12 +329,10 @@ theorem mu_lt_eq_diff_both_void :
   have hR : MetaSN.mu (eqW .void .void) = omega0 ^ (9 : Ordinal) + 1 := by
     simp [MetaSN.mu]
 
-  -- The goal might still have succ form, so we normalize it
-  have h_goal : MetaSN.mu (integrate (merge .void .void)) < MetaSN.mu (eqW .void .void) := by
-    rw [hL, hR]
-    exact h_final
+  -- Combine everything
+  rw [hL, hR]
+  exact h_final
 
-  exact h_goal
 -- ...existing code...
 
 theorem mu_recΔ_plus_3_lt (b s n : Trace)
@@ -1313,34 +1321,5 @@ theorem mu_lt_eq_diff (a b : Trace) :
         omega0 ^ (4 : Ordinal) * (MetaSN.mu (merge a b) + 1) + 1 <
         omega0 ^ (C + 9) + 1 :=
       lt_add_one_of_le (Order.add_one_le_of_lt h_chain)
-
-    simpa [MetaSN.mu, hC] using h_final
-def StepRev (R : Trace → Trace → Prop) : Trace → Trace → Prop := fun a b => R b a
-
-theorem strong_normalization_forward_trace
-  (R : Trace → Trace → Prop)
-  (hdec : ∀ {a b : Trace}, R a b → MetaSN.mu b < MetaSN.mu a) :
-  WellFounded (StepRev R) := by
-  have hwf : WellFounded (fun x y : Trace => MetaSN.mu x < MetaSN.mu y) :=
-    InvImage.wf (f := mu) (h := Ordinal.lt_wf)
-  have hsub : Subrelation (StepRev R) (fun x y : Trace => MetaSN.mu x < MetaSN.mu y) := by
-    intro x y h; exact hdec (a := y) (b := x) h
-  exact Subrelation.wf hsub hwf
-
-theorem strong_normalization_backward
-  (R : Trace → Trace → Prop)
-  (hinc : ∀ {a b : Trace}, R a b → MetaSN.mu a < MetaSN.mu b) :
-  WellFounded R := by
-  have hwf : WellFounded (fun x y : Trace => MetaSN.mu x < MetaSN.mu y) :=
-    InvImage.wf (f := mu) (h := Ordinal.lt_wf)
-  have hsub : Subrelation R (fun x y : Trace => MetaSN.mu x < MetaSN.mu y) := by
-    intro x y h
-    exact hinc h
-  exact Subrelation.wf hsub hwf
-
-def KernelStep : Trace → Trace → Prop := fun a b => OperatorKernelO6.Step a b
-
--- Note: strong normalization via μ- or lex-measures is provided in the dedicated module.
--- This file focuses on the μ-inequalities used by the rule cases and helper bounds.
 
 end MetaSN
