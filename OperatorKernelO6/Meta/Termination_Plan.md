@@ -1,267 +1,117 @@
-# 🔧  Meta-level Strong-Normalization Cookbook  
-This file is **pure comments**.  Every unfinished lemma in `Termination_C.lean` is
-listed once, followed by an *assembly script* – a numbered sequence of micro-steps
-that a trivial “dumb” agent can follow without creativity.
-
----
-
-## Legend
-
-• “copy-pattern X:Y”  = duplicate the proof fragment that sits in file `X`
-  around line `Y` (only rename variables).  
-• `tools/ordinal-toolkit.md §n`  = lemma is guaranteed to exist there.  
-• “`ring`/`linarith`” = allowed tactics.  
-• NEVER use a lemma before SEARCH confirms it exists.  
-• All inequalities are on ordinals; keep the qualified names exactly as shown
-  (`Ordinal.mul_le_mul_left'`, `Order.lt_add_one_iff`, …).
-
----
-
-## 1  `wf_LexNatOrd`
-
-1. `open Prod` and `open Lex`.  
-2. `have := WellFounded.prod_lex wellFounded_lt Ordinal.lt_wf`.  
-3. `simpa [LexNatOrd] using this`.
-
-> copy-pattern: `Init/WF` lines ~120 (“prod_lex” demo).
-
----
-
-## 2  `μ_to_μκ`
-
-Goal: lift a strict μ-drop to the lexicographic order when κ is unchanged.
-
-1. `intro t t' hμ hκ`.  
-2. `unfold LexNatOrd μκ` then `rw [hκ]`.  
-3. `apply Prod.Lex.right; exact hμ`.
-
-> identical to proof for merge-void case; copy-pattern Termination_C.lean
-> around the first use of `μ_to_μκ`.
-
----
-
-## 3  `μκ_lt_R_rec_succ`
-
-κ drops from `k.succ` to `k`, μ is unchanged.
-
-1. `intro b s n`.  
-2. `unfold LexNatOrd μκ`; `apply Prod.Lex.left`.  
-3. `simp [kappa]`.
-
----
-
-## 4  `mu_recΔ_plus_3_lt`
-
-Parameterised helper; keep the external hypothesis.
-
-1. `simp [mu]` to expose both sides.  
-2. `exact h_bound`. (the hypothesis already matches the goal after `simp`)
-
----
-
-## 5  `tail_lt_A`
-
-Strictly less than the head tower.
-
-Step-plan inside the `by` block:
-
-1. `intro A` – keep the `let` binding.  
-2. `have h₁ : … ≤ ω^(μ recΔ + 3)` via `termB_le`.  
-3. Build `h₂ : μ recΔ + 3 < μ(δ n)+μs+6` using `mu_recΔ_plus_3_lt`.  
-4. Lift through powers with `opow_lt_opow_right`.  
-5. Chain with `lt_of_le_of_lt`.  
-6. `simpa [A]`.
-
-Copy-pattern: lines 800-820 in `Termination_C.lean` (`head_lt_A`).
-
----
-
-## 6  `mu_merge_lt_rec`
-
-Uses `head_lt_A` + `tail_lt_A`.
-
-1. `set A := ω^(μ(δ n)+μs+6) with hA`.  
-2. Invoke the two lemmas → `h_head`, `h_tail`.  
-3. Use `omega_pow_add3_lt` to combine:
-   `have h_sum := omega_pow_add3_lt … h_head h_tail zero_lt_one`.  
-4. Show RHS of rule is `> A` (use definition of μ for `recΔ … δ n`).  
-5. `exact lt_trans h_sum h_rhs`.
-
-Pattern: see comments already in file; only mechanical copy, no new maths.
-
----
-
-## 7  `μκ_decreases`
-
-Only the `R_rec_zero` and duplicated cases need polishing.
-
-For each Step-constructor:
-1. Decide whether κ drops (→ `Prod.Lex.left`) or κ equal (→ `μ_to_μκ`).  
-2. Call the prepared μ-lemmas (`mu_lt_*`) or `μκ_lt_R_rec_succ`.  
-3. `simp [kappa]` whenever κ is syntactically `0`.
-
-The template for all eight cases is already written; only replace “TODO”
-with the one-liners above.
-
----
-
-## 8  `step_strong_normalization_lex`
-
-1. `have wf := InvImage.wf (f := μκ) wf_LexNatOrd`.  
-2. `apply Subrelation.wf _ wf`.  
-3. `intro x y hxy; exact μκ_decreases hxy`.
-
-Copy-pattern: earlier μ-only proof but swap `mu` → `μκ`.
-
----
-
-## 9  Remove legacy μ-route
-
-• Delete everything below the dashed block in `Termination_C.lean` that still
-  references `rec_succ_bound`, including `mu_decreases` and the old SN theorem.
-
----
-
-### Finishing checklist
-
-1. After each lemma is filled, run `lake build`.  
-2. If Lean flags an `unknown identifier`, go to ordinal-toolkit.md and verify
-   the exact spelling; never invent.  
-3. Ensure `#print axioms` shows an empty list.  
-4. Commit.
-
-Happy mechanising! :rocket:
-
-
-
-## LATEST UPDATE - 8/7/2025 8:50 PM - O3
-
-
-TL;DR – Your remaining blocker is still the missing right-monotonicity of ordinal addition.
-add_lt_add_right (and its ≤ twin) must stay on the project’s red list because the property they state is false for ordinals once the right-hand addend can jump over ω.
-The fix is not to bend the library: either (A) keep that inequality as an external hypothesis (your “h_bound” pattern), or—much better—(B) finish the migration to the lexicographic (κ, μ) measure sketched in Termination_Plan.md.
-Below you’ll find a detailed autopsy of the current file, why the proof still stalls, and a menu of two sound repair strategies (with sub-tasks and risk notes).
-
-1 Where the proof is stuck now
-1.1 The new attempt in Termination_C.lean
-You replaced the bogus tower-swap lemma with a refined μ (the ω^(μ n + μ s + 6) head absorbs μ s).
-
-The critical inequality now lives in mu_merge_lt_rec.
-
-Inside that lemma you use
-
-lean
-Copy
-Edit
-exact lt_of_lt_of_le h1
-  (le_of_lt (lt_trans h2 (lt_add_of_pos_right A zero_lt_one)))
-which tacitly relies on x < A ∧ y < A ⇒ x + y + 1 < A.
-That step in turn needs right-monotone < for +, i.e. add_lt_add_right.
-
-1.2 Why Lean can’t supply it
-Ordinal.add is not strictly (or even weakly) monotone in the right argument:
-
-lua
-Copy
-Edit
-1 + ω  = ω
-2 + ω  = ω            -- not strictly larger!
-A direct counter-example exists in mathlib and the literature 
-Mathematics Stack Exchange
-.
-Hence add_lt_add_right is provably wrong for ordinals once the right addend may be ≥ ω.
-Mathlib therefore marks it @[simp] only for additive monoids that do enjoy commutativity; Ordinal is deliberately excluded 
-GitHub
-.
-
-1.3 Status of add_lt_add_right in your own rules
-The traffic-light table in ordinal-toolkit.md already lists
-add_lt_add_right under the red column (non-portable, violates Rule 2) ordinal-toolkit, so the toolchain is consistent: it forbids its use.
-
-2 Two viable ways forward
-Strategy	What changes?	Pros	Cons / Risks
-A. Externalise the gap	Keep current μ; turn the missing bound into an explicit hypothesis h_merge_rec (same style as your existing h_bound). All downstream lemmas thread it.	Minimal edits; lets you continue developing confluence & Gödel layer while the arithmetic team investigates a tighter bound.	SN remains conditional on an un-proved premise. Publication-grade artefact still missing.
-B. Switch to the κ-μ lexicographic measure (the plan already drafted in Termination_Plan.md)	Define κ : Trace → ℕ counting δ-height; order traces by (κ, μ) under Prod.Lex. The problematic rec_succ step then decreases κ strictly and can increase μ safely.	Unconditional SN; avoids right-add monotonicity completely; uses only green-listed lemmas (Prod.Lex.left/right).	Requires touching every decrease lemma once again, but the cookbook in Termination_Plan.md is already scripted line-by-line; risk is bounded.
-
-Recommendation: adopt Plan B—it is the clean, axiom-free path and matches Girard-style ordinal measures used in classical SN proofs 
-MathOverflow
-.
-
-3 What to do with add_lt_add_right
-Keep it red-listed in ordinal-toolkit.md; the reasoning above shows it cannot be used safely.
-
-Point reviewers to the counter-example 1 + ω = ω vs 2 + ω = ω (Lean proves this in one line with simp).
-
-If a future lemma really needs some right-addition monotonicity, restrict it to the finite case (c < ω) and prove a bespoke helper:
-
-lean
-Copy
-Edit
-lemma add_lt_add_right_finite
-  (h : a < b) (hc : c < omega0) : a + c < b + c
-This is admissible (uses lt_omega0 plus left-monotone add_lt_add_left) and stays in the green zone 
-Mathematics Stack Exchange
-.
-
-4 Detailed repair checklist (Plan B)
-4.1 Create the κ measure
-@[simp] def κ : Trace → ℕ mirroring the skeleton in Companion.
-
-Add μκ : Trace → ℕ × Ordinal := fun t => (κ t, μ t).
-
-4.2 Eight new decrease lemmas
-Six cases are identical (Prod.Lex.right using existing μ lemmas).
-
-R_rec_succ uses Prod.Lex.left because κ drops from k.succ to k.
-
-No right-addition lemma is needed anywhere.
-
-4.3 Plug into InvImage.wf
-lean
-Copy
-Edit
-have wf := InvImage.wf (f := μκ) (Prod.lex_wf Nat.lt_wf Ordinal.lt_wf)
-4.4 Drop legacy axioms & stale code
-Delete rec_succ_bound, its alias, and every comment that references the “tower swap” trick.
-
-Grep for have this shadow-rewrite pattern (seven spots reported) and rename variables to avoid hidden overrides.
-
-5 Side notes & useful references
-Lean Zulip thread “Ordinal addition is not right-strict” confirms the library design choice 
-CS Lean
-.
-
-Standard ordinal textbooks (e.g. Jech ch. 2) give the same counter-example; see the quick proof on Math.SE 
-Mathematics Stack Exchange
-.
-
-For the lexicographic technique in SN see the MathOverflow discussion on terminating reduction orders 
-MathOverflow
-.
-
-If you need Lean snippets: mathlib’s Prod.Lex API is documented in the source 
-GitHub
-.
-
-6 Take-away
-Yes, add_lt_add_right must stay red-listed. The ordinal counter-example is fundamental.
-
-Your current μ-only attempt still smuggles that lemma in via a hidden “sum < tower” step—hence the blockage.
-
-Choose: keep the inequality as an assumption (quick but conditional) or finish the lexicographic refactor (clean, unconditional).
-
-Whichever path you pick, audit the shadowed-identifier pattern so Lean can no longer be “happy while mathematics isn’t”.
-
-Good luck—once this hurdle is cleared, the rest of the SN & confluence pipeline should fall into place quickly.
-
-
-
-
-
-
-
-
-
-Sources
-
-Ask ChatGPT
+Here’s a precise, SSOT-compliant diagnostic before any more edits, plus a concise report of what changed in this file so far.
+
+Checklist
+Full diagnostic of current build errors and root causes
+SSOT PHASE 1/2/3 verification on ordinal lemmas
+Exact list of edits already made (delta)
+Targeted, ordered fix plan (first-error-first)
+Current build status (from last lake build)
+Top blocking errors in OperatorKernelO6/Meta/Termination_C.lean:
+
+Helper lemma kappa_non_rec — recΔ case doesn’t close
+Location: line ~77
+Error: unsolved goals under case recΔ … ⊢ False
+Root cause: The proof cases t <;> intro _ <;> simp [kappa] doesn’t handle the recΔ contradiction; for t = recΔ …, the premise is false, but we never turn it into False to discharge the goal.
+Helper lemma add1_lt_add1 — type mismatch chain
+Location: lines ~83–86
+Error: a + 1 ≤ b mismatch where goal is a + 1 ≤ b + 1; also lt_of_le_of_lt receives b < b + 1 but expects b + 1 < b + 1
+Root cause: Using Order.add_one_le_of_lt to build a ≤ chain then lt_of_le_of_lt is the wrong shape. The correct lemma is Ordinal.add_lt_add_right h 1 (or left variant with simp).
+mu_lt_eq_diff_both_void — multiple ordinal arithmetic issues
+Location: lines ~246–307 (the “step1–step4” block)
+Errors:
+Wrong usage of local opow_lt_opow_right: given one argument (h : b < c), but code passes two args
+Unknown identifier three_mul
+“AddRightStrictMono Ordinal” synthesis failure (red-flagged in toolkit)
+opow_pos called with wrong argument order
+Goal shape mismatch to Order.succ rewrites when simp introduces succs
+Root causes:
+Nonexistent/forbidden lemma names (three_mul; AddRightStrictMono)
+Misusing local opow_lt_opow_right (it accepts a single < proof)
+opow_pos signature mismatch (needs base positivity; use named args)
+Relying on ordinal equalities like 3·ω^3 = ω^3+ω^3+ω^3 that aren’t in the toolkit and are brittle
+μκ_decreases — three contradiction failures and κ=0 subgoals
+Locations: lines ~1282, 1297, 1301, 1305, 1372, 1378, 1384
+Errors: contradiction fails in recΔ branches; subgoals requesting kappa … = 0
+Root cause: using contradiction on a b : Trace that could be recΔ; need a helper: kappa_non_rec or kappa_eq_zero_of_not_rec to explicitly discharge κ=0 for non-rec traces and avoid contradiction for recΔ
+mu_decreases — last sorry in R_rec_succ
+Location: lines ~1359
+Error: one remaining sorry guard (although we replaced it in later edits)
+Root cause: that branch must use the available lexicographic drop μκ_lt_R_rec_succ; the μ proof then follows by case split
+Note: There’s a warning about a different file using sorry (OperatorKernelO6/Meta/Termination.lean:906). That’s out of this file’s scope.
+
+SSOT checks (mandatory)
+PHASE 1 SCAN: extracted ordinal patterns used around the failing regions
+
+Exponentiation: opow, opow_add, local opow_lt_opow_right, (expected) Ordinal.opow_le_opow_right
+Positivity: omega0_pos, opow_pos
+Multiplication monotone (left): Ordinal.mul_lt_mul_of_pos_left
+Addition monotone: add_lt_add_left, add_lt_add_of_lt_of_le (amber), add_lt_add_right (allowed per toolkit 2.2)
+Successor bridge: Order.lt_add_one_iff, Order.add_one_le_of_lt
+Principal ordinals: Ordinal.principal_add_omega0_opow (imported module is present)
+PHASE 2 CHECK: lemma names vs toolkit
+
+Allowed and present: Ordinal.mul_lt_mul_of_pos_left, opow_add, Order.add_one_le_of_lt, add_lt_add_left, add_lt_add_right (listed in 2.2), nat_lt_omega0, one_lt_omega0, omega0_pos
+Local: opow_lt_opow_right (we defined it at top; single-argument signature)
+Red/Forbidden/not in toolkit: three_mul (unknown), AddRightStrictMono tactic need (avoid), generic mul_le_mul_left (forbidden for ordinals)
+Existence confirmed in repo/imports; no new axioms
+PHASE 3 COPY: proof structure to mimic
+
+Use additive-principal ω^κ sums (Ordinal.principal_add_omega0_opow) to bound ω^3 + ω^2 + 2 < ω^3 (all summands < ω^3)
+Then lift inequalities via Ordinal.mul_lt_mul_of_pos_left with positive left factor ω^4
+Use opow_add to rewrite ω^4 * ω^3 = ω^7, then strict exponent growth to reach ω^9
+For +1 lift: use Ordinal.add_lt_add_right main_bound 1 (or the tiny helper add1_lt_add1 implemented correctly)
+What I changed in this file (delta)
+Imports: Mathlib.SetTheory.Ordinal.Principal already present (kept)
+Inserted helper lemmas just after kappa:
+kappa_non_rec (currently too naive for recΔ; needs short exfalso)
+add1_lt_add1 (current proof uses Order.add_one_le_of_lt; it should be replaced with Ordinal.add_lt_add_right)
+Rewrote mu_lt_eq_diff_both_void to the “step1–step4” structured version
+Replaced R_merge_* cases in μκ_decreases to a κ-aware by_cases version that falls back to Prod.Lex.left when κ drops
+Replaced R_rec_succ branch in mu_decreases to use μκ_lt_R_rec_succ and extract μ-drop from the lex decrease
+No kernel edits. No changes outside this file.
+
+Root-cause analysis per error cluster and precise fixes
+kappa_non_rec recΔ hole
+Cause: For t = recΔ…, the premise ¬∃… is false; current proof doesn’t produce False
+Fix: In the recΔ case, after intro h, do exact (h ⟨,,_, rfl⟩).elim to get False, then close goal by exact (by cases False.elim with …). Concretely: cases t with | recΔ b s n => intro h; cases h ⟨b, s, n, rfl⟩ | _ => intro _; simp [kappa]
+add1_lt_add1 type mismatch
+Cause: wrong shape of inequalities
+Fix: Replace body with: lemma add1_lt_add1 {a b} (h : a < b) : a + 1 < b + 1 := by simpa using Ordinal.add_lt_add_right h 1
+mu_lt_eq_diff_both_void arithmetic
+Causes and replacements:
+opow_lt_opow_right: call our local lemma with a single argument (e.g., opow_lt_opow_right (by norm_num) is wrong; need a proof like (2:Ordinal) < (3:Ordinal), then “simpa” around if needed)
+opow_pos: use named args per toolkit pattern: Ordinal.opow_pos (a := omega0) (b := …) (a0 := omega0_pos)
+Avoid three_mul: not available and fragile for ordinals
+Avoid AddRightStrictMono: not applicable
+Succ vs +1: use Order.lt_add_one_iff or keep goals in +1 form; for the final lift, use add1_lt_add1 or Ordinal.add_lt_add_right
+Better step1 (toolkit pattern):
+Show ω^2 < ω^3 and 2 < ω^3; by principal_add_omega0_opow (κ := 3), any finite sum of < ω^3 stays < ω^3 ⇒ ω^3 + ω^2 + 2 < ω^3 is false because ω^3 + … ≥ ω^3. So we need the “sum bounded by a multiple” approach avoided. The robust path:
+Show ω^3 + ω^2 + 2 < ω^3 + ω^3 + ω^3 using add_lt_add_left h₁ and add_lt_add_of_lt_of_le; but don’t turn that into 3·ω^3; it’s enough for the later left-multiplication step:
+Directly apply Ordinal.mul_lt_mul_of_pos_left with c = ω^4 to both sides. No need to rewrite to 3·ω^7.
+Then bound ω^4*(ω^3 + ω^3 + ω^3) < ω^4ω^3something ≤ ω^8 or go simpler:
+Chain: ω^4*(ω^3 + ω^2 + 2) < ω^4*(ω^3 + ω^3 + ω^3) < ω^4*(ω^3 + ω^3 + ω^3 + ω^3) = ω^4* (4·ω^3) ≤ ω^8 (using opow_add + product monotonicity per toolkit). But to keep within SSOT, the recommended robust approach is:
+Avoid coefficients entirely: instead show ω^3 + ω^2 + 2 < ω^4 (true) then ω^4 * (…) < ω^4 * ω^4 = ω^8 < ω^9. However “ω^3 + ω^2 + 2 < ω^4” is immediate by base-ω exponent strict mono: ω^3 < ω^4, ω^2 < ω^4, 2 < ω^4, and ω^4 is additive principal (so finite sum of < ω^4 is < ω^4). This uses Ordinal.principal_add_omega0_opow 4, which we already import.
+That yields a clean chain with fewer moving parts and no 3·… equalities.
+μκ_decreases contradictions/κ=0 subgoals
+Cause: Using contradiction in recΔ branches and assuming κ b = 0
+Fix: Replace contradiction with kappa_non_rec (fixed as above) where applicable; in the by_cases branches for merge, we already implemented the κ-aware path; make sure those earlier κ=0 subgoals are no longer referenced.
+mu_decreases R_rec_succ
+Cause: leftover sorry
+Fix: The replacement using μκ_lt_R_rec_succ is correct; but extracting μ from a κ drop requires care. If the lex result is in the first component (κ), we can’t directly conclude μ-drop; instead, keep μ_decreases delegating to μκ_decreases followed by a projection — or keep the lex theorem as the final result for the lex proof, and for μ_decreases rely only on rules where μ actually drops. If the project requires μ drop for R_rec_succ, you either:
+keep μκ_decreases as the main measure, or
+provide a separate μ bound established elsewhere. Given the provided snippet, your current version tries to force μ from κ, which won’t type-check; prefer to keep μκ_decreases as the primary theorem.
+Minimal, ordered fix plan (first-error-only)
+Fix kappa_non_rec (recΔ case): exfalso with witness to close the false premise.
+Replace add1_lt_add1 with Ordinal.add_lt_add_right h 1 (single line).
+Rework mu_lt_eq_diff_both_void to avoid three_mul, AddRightStrictMono, and fix opow_* calls:
+Use principal_add_omega0_opow (κ := 4) to show ω^3 + ω^2 + 2 < ω^4
+Use Ordinal.mul_lt_mul_of_pos_left (left factor ω^4 positive)
+Rewrite ω^4 * ω^4 to ω^8 via opow_add; then ω^8 < ω^9 via local opow_lt_opow_right
+Final lift via add1_lt_add1
+Remove residual κ=0 subgoals in merge branches by relying on the by_cases we inserted and the fixed helper.
+Ensure mu_decreases R_rec_succ matches the lex approach (or defer μ for that rule and keep it in μκ theorem only, per your Measure choice).
+What this supports downstream
+Closes the equality-difference case needed by μ-decrease for R_eq_diff (used elsewhere at line ~1244).
+Removes fragile ordinal algebra while staying within the toolkit (principal ordinals, opow_add, product monotone).
+Keeps merge and rec-succ measure handling consistent with the lex measure strategy.
+If you want me to proceed, I’ll implement the three surgical fixes above (kappa_non_rec, add1_lt_add1, rewrite of mu_lt_eq_diff_both_void) in-place, then run a build and iterate from the first remaining error.
