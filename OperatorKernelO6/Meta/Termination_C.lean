@@ -66,9 +66,9 @@ def kappa : Trace → ℕ
   | eqW _ _ => intro _; simp [kappa]
 
 lemma add1_lt_add1 {a b : Ordinal} (h : a < b) : a + 1 < b + 1 := by
-  -- For ordinals, use the add-one bridge instead of right-strict monotonicity
-  have : a + 1 ≤ b := (Order.add_one_le_of_lt h)
-  exact (Order.lt_add_one_iff (x := a + 1) (y := b)).2 this
+  -- Use bridges: a < b ⇒ a + 1 ≤ b ⇒ a + 1 < b + 1
+  have hle : a + 1 ≤ b := Order.add_one_le_of_lt h
+  exact (Order.lt_add_one_iff (x := a + 1) (y := b)).2 hle
 
 /-- Lexicographic measure combining kappa and mu -/
 noncomputable abbrev μκ : Trace → ℕ × Ordinal :=
@@ -148,14 +148,11 @@ theorem mu_lt_rec_zero (b s : Trace) :
   have hpad :
       omega0 * (MetaSN.mu b + 1) + 1 ≤
       omega0 ^ (MetaSN.mu s + 6) + omega0 * (MetaSN.mu b + 1) + 1 := by
-    --  ω^(μ s+6) is non-negative, so adding it on the left preserves ≤
-    have : (0 : Ordinal) ≤ omega0 ^ (MetaSN.mu s + 6) :=
-      Ordinal.zero_le _
-    have h₂ :
+    have hinner :
         omega0 * (MetaSN.mu b + 1) ≤
         omega0 ^ (MetaSN.mu s + 6) + omega0 * (MetaSN.mu b + 1) :=
-      le_add_of_nonneg_left this
-    exact add_le_add_right h₂ 1
+      Ordinal.le_add_left _ _
+    exact add_le_add_right hinner 1
 
   have : MetaSN.mu b <
          omega0 ^ (MetaSN.mu s + 6) + omega0 * (MetaSN.mu b + 1) + 1 := lt_of_lt_of_le hlt hpad
@@ -229,100 +226,106 @@ theorem mu_void_lt_eq_refl (a : Trace) :
 -- Diagnostic flag
 def debug_mode := true
 
-/-- Special case for the `eq_diff` rule when both arguments are `void`. -/
+
+-- set_option trace.Meta.Tactic.simp true
+
+
+
+-- set_option diagnostics.threshold 100
+-- set_option diagnostics true
+-- set_option autoImplicit false
+-- set_option maxRecDepth 500
+-- set_option pp.explicit true
+-- set_option pp.universes true
+-- set_option trace.Meta.isDefEq true
+-- set_option trace.Meta.debug true
+-- set_option trace.Meta.Tactic.simp.rewrite true
+-- set_option trace.linarith true
+-- set_option trace.compiler.ir.result true
+
+
 theorem mu_lt_eq_diff_both_void :
-  MetaSN.mu (integrate (merge .void .void)) < MetaSN.mu (eqW .void .void) := by
-  simp only [MetaSN.mu]
+  MetaSN.mu (integrate (merge .void .void))
+    < MetaSN.mu (eqW .void .void) := by
 
-  -- After `simp` the goal is  ω⁴·(ω³+ω²+2)+1 < ω⁹+1                     (★)
-  have main_bound :
-      omega0 ^ (4 : Ordinal) *
-        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
-        < omega0 ^ (9 : Ordinal) := by
-    -- Show (ω³ + ω² + 2) < ω⁴, then multiply by ω⁴ and bump exponent to 9.
-    have hκ3 : (0 : Ordinal) < (3 : Ordinal) := by norm_num
-    have hκ4 : (0 : Ordinal) < (4 : Ordinal) := by norm_num
-    -- ω² < ω³ and 2 < ω³
-    have h_ω2_lt_ω3 : omega0 ^ (2 : Ordinal) < omega0 ^ (3 : Ordinal) :=
-      opow_lt_opow_right (by norm_num)
-    have h2_lt_ω : (2 : Ordinal) < omega0 := nat_lt_omega0 2
-    have hω_lt_ω3 : omega0 < omega0 ^ (3 : Ordinal) := by
+  -- ❶ Expand the LHS to see its shape
+  have hL : MetaSN.mu (integrate (merge .void .void)) =
+      omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 := by
+    -- First normalize the succ form to + form
+    have h_normalize : omega0 ^ (3 : Ordinal) + Order.succ (Order.succ (omega0 ^ (2 : Ordinal))) =
+                       omega0 ^ (3 : Ordinal) + (omega0 ^ (2 : Ordinal) + 2) := by
+      simp [succ_succ]
+    -- Now compute mu
+    simp only [MetaSN.mu]
+    simp [add_assoc, h_normalize]
+
+  -- ❷ Core inequality: ω³ + ω² + 2 < ω⁴
+  -- (a) ω² < ω³
+  have h_ω2_lt_ω3 : omega0 ^ (2 : Ordinal) < omega0 ^ (3 : Ordinal) :=
+    opow_lt_opow_right (by norm_num : (2 : Ordinal) < 3)
+
+  -- (b) 2 < ω³
+  have h2_lt_ω3 : (2 : Ordinal) < omega0 ^ (3 : Ordinal) := by
+    have h2ω : (2 : Ordinal) < omega0 := nat_lt_omega0 2
+    have ω_lt_ω3 : omega0 < omega0 ^ (3 : Ordinal) := by
       have : (1 : Ordinal) < (3 : Ordinal) := by norm_num
-      -- ω^1 < ω^3
       simpa [opow_one] using opow_lt_opow_right this
-    have h2_lt_ω3 : (2 : Ordinal) < omega0 ^ (3 : Ordinal) := lt_trans h2_lt_ω hω_lt_ω3
-    -- β := ω² + 2 < ω³
-    have h_beta_lt_ω3 :
-        omega0 ^ (2 : Ordinal) + (2 : Ordinal) < omega0 ^ (3 : Ordinal) :=
-      by
-        -- Use principal_add_omega0_opow at κ = 3
-        have hprin := Ordinal.principal_add_omega0_opow (3 : Ordinal)
-        exact hprin h_ω2_lt_ω3 h2_lt_ω3
-    -- α := ω³ < ω⁴
-    have h_alpha_lt_ω4 : omega0 ^ (3 : Ordinal) < omega0 ^ (4 : Ordinal) :=
-      opow_lt_opow_right (by norm_num)
-    -- β < ω⁴ via trans
-    have h_beta_lt_ω4 :
-        omega0 ^ (2 : Ordinal) + (2 : Ordinal) < omega0 ^ (4 : Ordinal) :=
-      by
-        -- β < ω³ and ω³ < ω⁴
-        have hω3_lt_ω4 : omega0 ^ (3 : Ordinal) < omega0 ^ (4 : Ordinal) :=
-          opow_lt_opow_right (by norm_num)
-        exact lt_trans h_beta_lt_ω3 hω3_lt_ω4
-    -- Sum < ω⁴ by principal-add at κ=4
-    have h_sum_lt_ω4' :
-        omega0 ^ (3 : Ordinal) + (omega0 ^ (2 : Ordinal) + (2 : Ordinal)) <
-        omega0 ^ (4 : Ordinal) :=
-      by
-        -- principal_add_omega0_opow at κ = 4
-        have hprin := Ordinal.principal_add_omega0_opow (4 : Ordinal)
-        exact hprin h_alpha_lt_ω4 h_beta_lt_ω4
-    -- Reassociate to (ω³ + ω² + 2)
-    have h_sum_lt_ω4 :
-        omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + (2 : Ordinal) <
-        omega0 ^ (4 : Ordinal) := by
-      simpa [add_assoc] using h_sum_lt_ω4'
-    -- Multiply by ω⁴ on the left
-    have hpos4 : (0 : Ordinal) < omega0 ^ (4 : Ordinal) :=
-      (Ordinal.opow_pos (b := (4 : Ordinal)) (a0 := omega0_pos))
-    have h_prod :
-        omega0 ^ (4 : Ordinal) *
-          (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
-        omega0 ^ (4 : Ordinal) * omega0 ^ (4 : Ordinal) := by
-      -- multiply the already reassociated sum
-      simpa using (Ordinal.mul_lt_mul_of_pos_left h_sum_lt_ω4 hpos4)
-    -- Collapse ω⁴ * ω⁴ = ω^(4+4) = ω⁸
-    have h_collapse :
-        omega0 ^ (4 : Ordinal) * omega0 ^ (4 : Ordinal) =
-        omega0 ^ (8 : Ordinal) := by
-      simpa [Ordinal.opow_add, show (4 : Ordinal) + (4 : Ordinal) = (8 : Ordinal) by norm_num]
-        using (Ordinal.opow_add (a := omega0) (b := (4 : Ordinal)) (c := (4 : Ordinal))).symm
-    -- Bump to ω⁹
-    have h_bump : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) :=
-      opow_lt_opow_right (by norm_num)
-    -- Chain
-    have h_to8 :
-        omega0 ^ (4 : Ordinal) *
-          (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
-        omega0 ^ (8 : Ordinal) := by
-      -- step 1: bound by ω⁴ * ω⁴; step 2: collapse to ω⁸
-      calc
-        omega0 ^ (4 : Ordinal) *
-            (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
-          < omega0 ^ (4 : Ordinal) * omega0 ^ (4 : Ordinal) := h_prod
-        _ = omega0 ^ (8 : Ordinal) := by
-          simpa [h_collapse]
-    exact lt_trans h_to8 h_bump
+    exact lt_trans h2ω ω_lt_ω3
 
-  -- lift `main_bound` through +1 using the Order.lt_add_one_iff bridge
-  -- From x < y we have x + 1 ≤ y, then x + 1 < y + 1
-  -- Final step: lift across +1 on both sides using the add-one bridge
-  have hfinal :
-      omega0 ^ (4 : Ordinal) *
-        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 <
-      omega0 ^ (9 : Ordinal) + 1 :=
-    lt_add_one_of_le (Order.add_one_le_of_lt main_bound)
-  exact hfinal
+  -- (c) ω² + 2 < ω³ via principal addition
+  have h_beta_lt : omega0 ^ (2 : Ordinal) + (2 : Ordinal) < omega0 ^ (3 : Ordinal) := by
+    have hprin := Ordinal.principal_add_omega0_opow (3 : Ordinal)
+    exact hprin h_ω2_lt_ω3 h2_lt_ω3
+
+  -- (d) ω³ + (ω² + 2) < ω⁴
+  have h_sum_lt_ω4 : omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 < omega0 ^ (4 : Ordinal) := by
+    have hα : omega0 ^ (3 : Ordinal) < omega0 ^ (4 : Ordinal) :=
+      opow_lt_opow_right (by norm_num : (3 : Ordinal) < 4)
+    have hβ : omega0 ^ (2 : Ordinal) + (2 : Ordinal) < omega0 ^ (4 : Ordinal) :=
+      lt_trans h_beta_lt hα
+    have hprin := Ordinal.principal_add_omega0_opow (4 : Ordinal)
+    have := hprin hα hβ
+    simpa [add_assoc] using this
+
+  -- ❸ Multiply by ω⁴ and get ω⁸ directly
+  have hpos4 : (0 : Ordinal) < omega0 ^ (4 : Ordinal) :=
+    Ordinal.opow_pos omega0_pos
+
+  have h_to8 : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
+               omega0 ^ (8 : Ordinal) := by
+    -- First get the multiplication
+    have h_mul := Ordinal.mul_lt_mul_of_pos_left h_sum_lt_ω4 hpos4
+    -- Now h_mul : ω^4 * (...) < ω^4 * ω^4
+    -- Rewrite ω^4 * ω^4 to ω^8
+    rw [← opow_add] at h_mul
+    norm_num at h_mul
+    exact h_mul
+
+  -- ❹ Bump exponent: ω⁸ < ω⁹
+  have h_bump : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) :=
+    opow_lt_opow_right (by norm_num : (8 : Ordinal) < 9)
+
+  have h_core : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
+                omega0 ^ (9 : Ordinal) :=
+    lt_trans h_to8 h_bump
+
+  -- ❺ Add +1 to both sides
+  have h_final : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 <
+                 omega0 ^ (9 : Ordinal) + 1 :=
+    add1_lt_add1 h_core
+
+  -- ❻ Convert to the final goal
+  -- First normalize the RHS
+  have hR : MetaSN.mu (eqW .void .void) = omega0 ^ (9 : Ordinal) + 1 := by
+    simp [MetaSN.mu]
+
+  -- The goal might still have succ form, so we normalize it
+  have h_goal : MetaSN.mu (integrate (merge .void .void)) < MetaSN.mu (eqW .void .void) := by
+    rw [hL, hR]
+    exact h_final
+
+  exact h_goal
+-- ...existing code...
 
 theorem mu_recΔ_plus_3_lt (b s n : Trace)
   (h_bound : omega0 ^ (MetaSN.mu n + MetaSN.mu s + (6 : Ordinal)) + omega0 * (MetaSN.mu b + 1) + 1 + 3 <
