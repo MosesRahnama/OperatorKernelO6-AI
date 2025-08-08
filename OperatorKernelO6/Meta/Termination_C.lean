@@ -301,31 +301,28 @@ theorem mu_lt_eq_diff_both_void :
     have h_bump : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) :=
       opow_lt_opow_right (by norm_num)
     -- Chain
-    have :
+    have h_to8 :
         omega0 ^ (4 : Ordinal) *
           (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
         omega0 ^ (8 : Ordinal) := by
-      simpa [h_collapse] using h_prod
-    exact lt_trans this h_bump
+      -- step 1: bound by ω⁴ * ω⁴; step 2: collapse to ω⁸
+      calc
+        omega0 ^ (4 : Ordinal) *
+            (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
+          < omega0 ^ (4 : Ordinal) * omega0 ^ (4 : Ordinal) := h_prod
+        _ = omega0 ^ (8 : Ordinal) := by
+          simpa [h_collapse]
+    exact lt_trans h_to8 h_bump
 
   -- lift `main_bound` through +1 using the Order.lt_add_one_iff bridge
-  have h_le :
-      omega0 ^ (4 : Ordinal) *
-        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
-        ≤ omega0 ^ (9 : Ordinal) := le_of_lt main_bound
-  have :
+  -- From x < y we have x + 1 ≤ y, then x + 1 < y + 1
+  -- Final step: lift across +1 on both sides using the add-one bridge
+  have hfinal :
       omega0 ^ (4 : Ordinal) *
         (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 <
       omega0 ^ (9 : Ordinal) + 1 :=
-    (Order.lt_add_one_iff
-      (x := omega0 ^ (4 : Ordinal) *
-              (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1)
-      (y := omega0 ^ (9 : Ordinal))).2
-      (by
-        have := add_le_add_left h_le 1
-        -- simplify x + 1 ≤ y + 1 to x ≤ y
-        simpa [add_comm, add_left_comm, add_assoc])
-  simpa using this
+    lt_add_one_of_le (Order.add_one_le_of_lt main_bound)
+  exact hfinal
 
 theorem mu_recΔ_plus_3_lt (b s n : Trace)
   (h_bound : omega0 ^ (MetaSN.mu n + MetaSN.mu s + (6 : Ordinal)) + omega0 * (MetaSN.mu b + 1) + 1 + 3 <
