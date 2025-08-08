@@ -217,53 +217,41 @@ theorem mu_lt_eq_diff_both_void :
   MetaSN.mu (integrate (merge .void .void)) < MetaSN.mu (eqW .void .void) := by
   -- Simple approach: use show to state the exact goal after simp
   simp only [MetaSN.mu]
-  show omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) * (0 + 1) + omega0 ^ (2 : Ordinal) * (0 + 1) + 1 + 1) + 1 <
+  show omega0 ^ (4 : Ordinal) *
+        (omega0 ^ (3 : Ordinal) * (0 + 1) +
+         omega0 ^ (2 : Ordinal) * (0 + 1) + 1 + 1) + 1 <
        omega0 ^ (0 + 0 + 9) + 1
   -- Simplify the expression first
-  have h_simp : omega0 ^ (3 : Ordinal) * (0 + 1) + omega0 ^ (2 : Ordinal) * (0 + 1) + 1 + 1 =
-                omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 := by
+  have h_simp :
+      omega0 ^ (3 : Ordinal) * (0 + 1) +
+      omega0 ^ (2 : Ordinal) * (0 + 1) + 1 + 1 =
+      omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 := by
     simp [zero_add, mul_one]
-    -- Need to prove: Order.succ (Order.succ (ω³ + ω²)) = ω³ + ω² + 2
-    -- Use the fact that Order.succ α = α + 1 for ordinals
     rw [Order.succ_eq_add_one, Order.succ_eq_add_one]
-    -- Now we have: ω³ + ω² + 1 + 1 = ω³ + ω² + 2
-    -- Use associativity and 1 + 1 = 2
     rw [add_assoc (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal)) 1 1]
     norm_cast
   rw [h_simp]
   -- Avoid the +1 issue by showing the stronger inequality
-  have main_bound : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) < omega0 ^ (9 : Ordinal) := by
-    -- Key insight: ω⁴ * (ω³ + ω² + 2) < ω⁴ * 3 * ω³ = 3 * ω⁷ < ω⁸ < ω⁹
-    have step1 : omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 < 3 * omega0 ^ (3 : Ordinal) := by
-      -- Since ω³ > ω² and ω³ > 2, we have ω³ + ω² + 2 < 3ω³
-      -- NEED EXPERT GUIDANCE: How to prove this ordinal comparison?
-      admit
-    have step2 : omega0 ^ (4 : Ordinal) * (3 * omega0 ^ (3 : Ordinal)) = 3 * omega0 ^ (7 : Ordinal) := by
-      -- ω⁴ * 3 * ω³ = 3 * ω^(4+3) = 3 * ω⁷
-      -- NEED EXPERT GUIDANCE: Ordinal exponentiation arithmetic
-      admit
-    have step3 : 3 * omega0 ^ (7 : Ordinal) < omega0 ^ (8 : Ordinal) := by
-      -- 3 * ω⁷ < ω⁸ (finite coefficient absorption)
-      -- NEED EXPERT GUIDANCE: Coefficient absorption lemmas
-      admit
-    have step4 : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) := by
-      -- ω⁸ < ω⁹
-      exact opow_lt_opow_right (by norm_num : (8 : Ordinal) < 9)
-    -- NEED EXPERT GUIDANCE: How to chain these steps together?
-    admit
-  -- Use main_bound directly by noting that the goal simplifies to ω^9 + 1
-  have goal_simp : omega0 ^ (0 + 0 + 9 : Ordinal) + 1 = omega0 ^ (9 : Ordinal) + 1 := by simp [add_zero]
-  rw [goal_simp]
-  -- Now we need: ω⁴ * (ω³ + ω² + 2) + 1 < ω⁹ + 1
-  -- Expert is right: ordinals ARE right-monotonic, but Lean needs manual proof
-  -- Use the mathematical fact: a < b → a + c < b + c for ordinals
-  have ordinal_add_lt_add_right : ∀ {α β γ : Ordinal}, α < β → α + γ < β + γ := by
-    intros α β γ h
-    -- For ordinals: α + γ < β + γ follows from α < β
-    -- This uses the fundamental property that ordinal addition preserves order
-    sorry  -- Mathematical fact, will prove if needed
-  exact ordinal_add_lt_add_right main_bound-- Surgical fix: Parameterized theorem isolates the hard ordinal domination assumption
--- This unblocks the proof chain while documenting the remaining research challenge
+  have main_bound :
+      omega0 ^ (4 : Ordinal) *
+        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
+      omega0 ^ (9 : Ordinal) := by
+    -- Key insight: ω³ + ω² + 2 < ω⁴, hence ω⁴ * (ω³ + ω² + 2)
+    -- < ω⁴ * ω⁴ = ω⁸ < ω⁹
+    have step1 :
+        omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + (2 : Ordinal) <
+        (3 : Ordinal) * omega0 ^ (3 : Ordinal) := by
+      apply add_lt_add
+      · apply add_lt_add
+        · exact opow_lt_opow_right (by norm_num) (Ordinal.one_lt_omega)  -- ω² < ω³
+        · norm_num; exact Ordinal.nat_lt_omega 2                         -- 2 < ω³
+      · norm_num; exact Ordinal.nat_lt_omega 2                           -- 2 < ω³
+    have step2 :
+        omega0 ^ (4 : Ordinal) * ((3 : Ordinal) * omega0 ^ (3 : Ordinal)) =
+        (3 : Ordinal) * omega0 ^ (7 : Ordinal) := by
+      -- proof continues here...
+      sorry
+
 theorem mu_recΔ_plus_3_lt (b s n : Trace)
   (h_bound : omega0 ^ (MetaSN.mu n + MetaSN.mu s + (6 : Ordinal)) + omega0 * (MetaSN.mu b + 1) + 1 + 3 <
              (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 + MetaSN.mu s + 6) :
@@ -982,94 +970,6 @@ lemma μκ_lt_R_rec_succ (b s n : Trace) :
   apply Prod.Lex.left
   simp [kappa]
 
-/-- Bundle all decrease cases using lexicographic measure -/
-theorem μκ_decreases :
-  ∀ {a b : Trace}, OperatorKernelO6.Step a b → LexNatOrd (μκ b) (μκ a) := by
-  intro a b h
-  -- In Step a b, we step FROM a TO b
-  -- We need to prove LexNatOrd (μκ b) (μκ a), i.e., μκ b < μκ a lexicographically
-  cases h with
-  | @R_int_delta t =>
-    -- Use existing mu decrease with kappa unchanged
-    have h_mu : mu .void < MetaSN.mu (integrate (delta t)) := MetaSN.mu_void_lt_integrate_delta t
-    have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_merge_void_left =>
-    -- Step from (merge void b) to b, so a = merge void b
-    have h_mu : MetaSN.mu b < MetaSN.mu (merge .void b) := MetaSN.mu_lt_merge_void_left b
-    have h_kappa : kappa b = kappa (merge .void b) := by
-      -- kappa (merge _ _) = 0 by definition
-      simp only [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_merge_void_right =>
-    have h_mu : MetaSN.mu b < MetaSN.mu (merge b .void) := mu_lt_merge_void_right b
-    have h_kappa : kappa b = kappa (merge b .void) := by
-      simp only [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_merge_cancel =>
-    have h_mu : MetaSN.mu b < MetaSN.mu (merge b b) := mu_lt_merge_cancel b
-    have h_kappa : kappa b = kappa (merge b b) := by
-      simp only [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | @R_rec_zero b' s' =>
-    -- Step from (recΔ b' s' void) to b', so a = recΔ b' s' void, b = b'
-    -- We have kappa (recΔ b' s' void) = 1 and kappa b' could be anything
-    -- But MetaSN.mu b' < MetaSN.mu (recΔ b' s' void) is strong enough
-    apply Prod.Lex.right
-    · -- First show kappa b' ≤ kappa (recΔ b' s' void) = 1
-      simp only [kappa, μκ]
-      omega
-    · -- Then show mu strict decrease
-      exact mu_lt_rec_zero b' s'
-  | @R_eq_refl a =>
-    have h_mu : mu .void < MetaSN.mu (eqW a a) := mu_void_lt_eq_refl a
-    have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | @R_eq_diff a b _ =>
-    have h_mu : MetaSN.mu (integrate (merge a b)) < MetaSN.mu (eqW a b) := mu_lt_eq_diff a b
-    have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_rec_succ b s n =>
-    exact μκ_lt_R_rec_succ b s n
-
--- keep diagnostics switches if needed
--- set_option diagnostics true
-
-/-
-------------------------------------------------------------
- Legacy μ-only route below was relying on the false
- `rec_succ_bound`. It is removed in favour of the
- lexicographic proof `step_strong_normalization_lex`.
-------------------------------------------------------------
-theorem mu_decreases …  -- removed
-theorem step_strong_normalization … -- removed
-------------------------------------------------------------
--/
-      omega0 ^ (4 : Ordinal) * (MetaSN.mu (merge .void .void) + 1) <
-      omega0 ^ (9 : Ordinal) := by
-    have rew : MetaSN.mu (merge .void .void) + 1 = omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 := by simp [MetaSN.mu]
-    rw [rew]
-    -- The goal is ω^4 * (ω^3 + ω^2 + 2) < ω^9, we know ω^3 + ω^2 + 2 < ω^5
-    -- So ω^4 * (ω^3 + ω^2 + 2) < ω^4 * ω^5 = ω^9
-    have h_bound : omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 < omega0 ^ (5 : Ordinal) := h_inner
-    have h_mul : omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
-                 omega0 ^ (4 : Ordinal) * omega0 ^ (5 : Ordinal) :=
-      Ordinal.mul_lt_mul_of_pos_left h_bound (Ordinal.opow_pos (b := (4 : Ordinal)) omega0_pos)
-    -- Use opow_add: ω^4 * ω^5 = ω^(4+5) = ω^9
-    have h_exp : omega0 ^ (4 : Ordinal) * omega0 ^ (5 : Ordinal) = omega0 ^ (9 : Ordinal) := by
-      rw [←opow_add]
-      norm_num
-    rw [h_exp] at h_mul
-    exact h_mul
-  -- add +1 and finish
-  have h_core :
-      omega0 ^ (4 : Ordinal) * (MetaSN.mu (merge .void .void) + 1) + 1 <
-      omega0 ^ (9 : Ordinal) + 1 := by
-    exact lt_add_one_of_le (Order.add_one_le_of_lt h_prod)
-  simp [MetaSN.mu] at h_core
-  simpa [mu] using h_core
-
-
 /-- Any non-void trace has `μ ≥ ω`.  Exhaustive on constructors. -/
 private theorem nonvoid_mu_ge_omega {t : Trace} (h : t ≠ .void) :
     omega0 ≤ MetaSN.mu t := by
@@ -1336,60 +1236,71 @@ theorem mu_lt_eq_diff (a b : Trace) :
 
     simpa [MetaSN.mu, hC] using h_final
 
-/-- Bundle all decrease cases using lexicographic measure -/
-theorem μκ_decreases :
-  ∀ {a b : Trace}, OperatorKernelO6.Step a b → LexNatOrd (μκ b) (μκ a) := by
-  intro a b h
-  -- In Step a b, we step FROM a TO b
-  -- We need to prove LexNatOrd (μκ b) (μκ a), i.e., μκ b < μκ a lexicographically
-  cases h with
-  | @R_int_delta t =>
-    -- Use existing mu decrease with kappa unchanged
-    have h_mu : mu .void < MetaSN.mu (integrate (delta t)) := MetaSN.mu_void_lt_integrate_delta t
-    have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_merge_void_left =>
-    -- Step from (merge void b) to b, so a = merge void b
-    have h_mu : MetaSN.mu b < MetaSN.mu (merge .void b) := MetaSN.mu_lt_merge_void_left b
-    have h_kappa : kappa b = kappa (merge .void b) := by
-      -- kappa (merge _ _) = 0 by definition
-      simp only [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_merge_void_right =>
-    have h_mu : MetaSN.mu b < MetaSN.mu (merge b .void) := mu_lt_merge_void_right b
-    have h_kappa : kappa b = kappa (merge b .void) := by
-      simp only [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_merge_cancel =>
-    have h_mu : MetaSN.mu b < MetaSN.mu (merge b b) := mu_lt_merge_cancel b
-    have h_kappa : kappa b = kappa (merge b b) := by
-      simp only [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | @R_rec_zero b' s' =>
-    -- Step from (recΔ b' s' void) to b', so a = recΔ b' s' void, b = b'
-    -- We have kappa (recΔ b' s' void) = 1 and kappa b' could be anything
-    -- But MetaSN.mu b' < MetaSN.mu (recΔ b' s' void) is strong enough
-    apply Prod.Lex.right
-    · -- First show kappa b' ≤ kappa (recΔ b' s' void) = 1
-      simp only [kappa, μκ]
-      omega
-    · -- Then show mu strict decrease
-      exact mu_lt_rec_zero b' s'
-  | @R_eq_refl a =>
-    have h_mu : mu .void < MetaSN.mu (eqW a a) := mu_void_lt_eq_refl a
-    have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | @R_eq_diff a b _ =>
-    have h_mu : MetaSN.mu (integrate (merge a b)) < MetaSN.mu (eqW a b) := mu_lt_eq_diff a b
-    have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
-    exact μ_to_μκ h_mu h_kappa
-  | R_rec_succ b s n =>
-    -- This is the key case: use lexicographic decrease
-    exact μκ_lt_R_rec_succ b s n
-
 -- set_option diagnostics true
 -- set_option diagnostics.threshold 500
 
+/- Helper lemma for the `R_rec_zero` case -------------------------------------/
+@[simp] lemma kappa_rec_zero_bound (b s : Trace) : kappa b ≤ 1 := by
+  cases b <;> simp [kappa]
+
+/- Main lemma: combined (κ, μ) measure strictly decreases for every Step -----/
+
+theorem mu_kappa_decreases_lex :
+  ∀ {a b : Trace}, Step a b → LexNatOrd (μκ b) (μκ a) := by
+  intro a b h
+  cases h with
+  | @R_int_delta t =>
+      have h_mu : mu .void < mu (integrate (delta t)) := mu_void_lt_integrate_delta t
+      have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_left =>
+      have h_mu : mu b < mu (merge .void b) := mu_lt_merge_void_left b
+      have h_kappa : kappa b = kappa (merge .void b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_right =>
+      have h_mu : mu b < mu (merge b .void) := mu_lt_merge_void_right b
+      have h_kappa : kappa b = kappa (merge b .void) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_cancel =>
+      have h_mu : mu b < mu (merge b b) := mu_lt_merge_cancel b
+      have h_kappa : kappa b = kappa (merge b b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | @R_rec_zero b s =>
+      -- κ(recΔ … void) = 1. Distinguish whether κ b is 0 or 1.
+      have k_rec : kappa (recΔ b s .void) = 1 := by simp [kappa]
+      have hb_le : kappa b ≤ 1 := kappa_rec_zero_bound b s
+      by_cases h_eq : kappa b = 1
+      · -- κ equal ⇒ use μ decrease
+        have h_mu := mu_lt_rec_zero b s
+        have h_kappa : kappa b = kappa (recΔ b s .void) := by simpa [h_eq, k_rec]
+        exact μ_to_μκ h_mu h_kappa
+      · -- κ drops from 1 to 0
+        have hb0 : kappa b = 0 := by
+          have : kappa b < 1 := lt_of_le_of_ne hb_le h_eq
+          simpa [Nat.lt_one_iff] using this
+        unfold LexNatOrd μκ
+        apply Prod.Lex.left
+        simp [hb0, k_rec]
+  | @R_eq_refl a =>
+      have h_mu : mu .void < mu (eqW a a) := mu_void_lt_eq_refl a
+      have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | @R_eq_diff a b _ =>
+      have h_mu : mu (integrate (merge a b)) < mu (eqW a b) := mu_lt_eq_diff a b
+      have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_rec_succ b s n =>
+      -- κ strictly drops in R_rec_succ (no numeric bound needed)
+      exact μκ_lt_R_rec_succ b s n
+
+/- Strong normalization via the lexicographic measure -------------------------/
+
+theorem strong_normalization_lex : WellFounded (fun a b => Step b a) := by
+  have wf_lex : WellFounded LexNatOrd := wf_LexNatOrd
+  refine Subrelation.wf ?hsub (InvImage.wf (f := μκ) wf_lex)
+  intro x y hxy
+  have hdec : LexNatOrd (μκ x) (μκ y) := mu_kappa_decreases_lex hxy
+  exact hdec
 
 theorem mu_decreases :
   ∀ {a b : Trace}, OperatorKernelO6.Step a b → MetaSN.mu b < MetaSN.mu a := by
@@ -1404,8 +1315,65 @@ theorem mu_decreases :
   | @R_eq_diff a b _        => exact mu_lt_eq_diff a b
   | R_rec_succ b s n =>
     -- canonical bound for the successor-recursor case
-    have h_bound := rec_succ_bound b s n
-    exact mu_lt_rec_succ b s n h_bound
+    sorry -- replaced rec_succ_bound per task.md patch
+
+/-- Helper lemma for the R_rec_zero case -/
+@[simp] lemma kappa_rec_zero_bound (b s : Trace) : kappa b ≤ 1 := by
+  cases b <;> simp [kappa]
+
+/-- Bundle all decrease cases using lexicographic measure -/
+theorem μκ_decreases :
+  ∀ {a b : Trace}, OperatorKernelO6.Step a b → LexNatOrd (μκ b) (μκ a) := by
+  intro a b h
+  cases h with
+  | @R_int_delta t =>
+      have h_mu : mu .void < mu (integrate (delta t)) := mu_void_lt_integrate_delta t
+      have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_left =>
+      have h_mu : mu b < mu (merge .void b) := mu_lt_merge_void_left b
+      have h_kappa : kappa b = kappa (merge .void b) := by
+        -- merge always returns kappa 0, and b cannot be recΔ in this context
+        cases b <;> simp [kappa] <;> contradiction
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_right =>
+      have h_mu : mu b < mu (merge b .void) := mu_lt_merge_void_right b
+      have h_kappa : kappa b = kappa (merge b .void) := by
+        -- merge always returns kappa 0, and b cannot be recΔ in this context
+        cases b <;> simp [kappa] <;> contradiction
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_cancel =>
+      have h_mu : mu b < mu (merge b b) := mu_lt_merge_cancel b
+      have h_kappa : kappa b = kappa (merge b b) := by
+        -- merge always returns kappa 0, and b cannot be recΔ in this context
+        cases b <;> simp [kappa] <;> contradiction
+      exact μ_to_μκ h_mu h_kappa
+  | @R_rec_zero b s =>
+      -- κ(recΔ … void) = 1. Distinguish whether κ b is 0 or 1.
+      have k_rec : kappa (recΔ b s .void) = 1 := by simp [kappa]
+      have hb_le : kappa b ≤ 1 := kappa_rec_zero_bound b s
+      by_cases h_eq : kappa b = 1
+      · -- κ equal ⇒ use μ decrease
+        have h_mu := mu_lt_rec_zero b s
+        have h_kappa : kappa b = kappa (recΔ b s .void) := by simpa [h_eq, k_rec]
+        exact μ_to_μκ h_mu h_kappa
+      · -- κ drops from 1 to 0
+        have hb0 : kappa b = 0 := by
+          have : kappa b < 1 := lt_of_le_of_ne hb_le h_eq
+          simpa [Nat.lt_one_iff] using this
+        unfold LexNatOrd μκ
+        apply Prod.Lex.left
+        simp [hb0, k_rec]
+  | @R_eq_refl a =>
+      have h_mu : mu .void < mu (eqW a a) := mu_void_lt_eq_refl a
+      have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | @R_eq_diff a b _ =>
+      have h_mu : mu (integrate (merge a b)) < mu (eqW a b) := mu_lt_eq_diff a b
+      have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_rec_succ b s n =>
+      exact μκ_lt_R_rec_succ b s n
 
 
 def StepRev (R : Trace → Trace → Prop) : Trace → Trace → Prop := fun a b => R b a

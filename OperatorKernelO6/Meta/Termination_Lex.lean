@@ -1,4 +1,5 @@
 import OperatorKernelO6.Kernel
+import OperatorKernelO6.Meta.Termination_C
 import Init.WF                                  -- WellFounded, InvImage.wf
 import Mathlib.Data.Prod.Lex                    -- Prod.Lex, WellFounded.prod_lex
 import Mathlib.SetTheory.Ordinal.Basic          -- omega0_pos, etc.
@@ -6,70 +7,75 @@ import Mathlib.SetTheory.Ordinal.Arithmetic     -- Ordinal.add_*, mul_*
 import Mathlib.SetTheory.Ordinal.Exponential    -- Ordinal.opow_*, opow_le_opow_right
 import Mathlib.Algebra.Order.SuccPred           -- Order.lt_add_one_iff, etc.
 import Mathlib.Data.Nat.Cast.Order.Basic        -- Nat.cast_le, Nat.cast_lt
+
 open Ordinal
 open OperatorKernelO6
-namespace OperatorKernelO6.Meta
-open Trace Step
+open MetaSN
 
-/- κ : RecΔ-nesting depth ---------------------------------------------------/
-@[simp] def kappa : Trace → Nat
-| Trace.recΔ _ _ _ => 2
-| Trace.eqW _ _    => 1
-| _                => 0
+namespace Meta
 
-/- μ : Ordinal measure from Termination_C ------------------------------------/
-noncomputable def mu : Trace → Ordinal.{0}
-| .void        => 0
-| .delta t     => (omega0 ^ (5 : Ordinal)) * (mu t + 1) + 1
-| .integrate t => (omega0 ^ (4 : Ordinal)) * (mu t + 1) + 1
-| .merge a b   =>
-    (omega0 ^ (3 : Ordinal)) * (mu a + 1) +
-    (omega0 ^ (2 : Ordinal)) * (mu b + 1) + 1
-| .recΔ b s n  =>
-    omega0 ^ (mu n + mu s + (6 : Ordinal))
-  + omega0 * (mu b + 1) + 1
-| .eqW a b     =>
-    omega0 ^ (mu a + mu b + (9 : Ordinal)) + 1
+/- Helper lemma for the `R_rec_zero` case -------------------------------------/
+@[simp] lemma kappa_rec_zero_bound (b s : Trace) : kappa b ≤ 1 := by
+  cases b <;> simp [kappa]
 
-/- Combined lexicographic measure ------------------------------------------/
-@[simp] noncomputable def mu_kappa (t : Trace) : Prod Nat Ordinal :=
-  (kappa t, mu t)
+/- Main lemma: combined (κ, μ) measure strictly decreases for every Step -----/
 
-/- Lexicographic order on Nat × Ordinal ------------------------------------/
-def LexNatOrd : (Nat × Ordinal) → (Nat × Ordinal) → Prop :=
-  Prod.Lex (· < ·) ((· < ·) : Ordinal → Ordinal → Prop)
+theorem mu_kappa_decreases_lex :
+  ∀ {a b : Trace}, Step a b → LexNatOrd (μκ b) (μκ a) := by
+  intro a b h
+  cases h with
+  | @R_int_delta t =>
+      have h_mu : mu .void < mu (integrate (delta t)) := mu_void_lt_integrate_delta t
+      have h_kappa : kappa .void = kappa (integrate (delta t)) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_left =>
+      have h_mu : mu b < mu (merge .void b) := mu_lt_merge_void_left b
+      have h_kappa : kappa b = kappa (merge .void b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_void_right =>
+      have h_mu : mu b < mu (merge b .void) := mu_lt_merge_void_right b
+      have h_kappa : kappa b = kappa (merge b .void) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_merge_cancel =>
+      have h_mu : mu b < mu (merge b b) := mu_lt_merge_cancel b
+      have h_kappa : kappa b = kappa (merge b b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | @R_rec_zero b s =>
+      -- κ(recΔ … void) = 1. Distinguish whether κ b is 0 or 1.
+      have k_rec : kappa (recΔ b s .void) = 1 := by simp [kappa]
+      have hb_le : kappa b ≤ 1 := kappa_rec_zero_bound b s
+      by_cases h_eq : kappa b = 1
+      · -- κ equal ⇒ use μ decrease
+        have h_mu := mu_lt_rec_zero b s
+        have h_kappa : kappa b = kappa (recΔ b s .void) := by simpa [h_eq, k_rec]
+        exact μ_to_μκ h_mu h_kappa
+      · -- κ drops from 1 to 0
+        have hb0 : kappa b = 0 := by
+          have : kappa b < 1 := lt_of_le_of_ne hb_le h_eq
+          simpa [Nat.lt_one_iff] using this
+        unfold LexNatOrd μκ
+        apply Prod.Lex.left
+        simp [hb0, k_rec, Nat.zero_lt_one]
+  | @R_eq_refl a =>
+      have h_mu : mu .void < mu (eqW a a) := mu_void_lt_eq_refl a
+      have h_kappa : kappa .void = kappa (eqW a a) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | @R_eq_diff a b _ =>
+      have h_mu : mu (integrate (merge a b)) < mu (eqW a b) := mu_lt_eq_diff a b
+      have h_kappa : kappa (integrate (merge a b)) = kappa (eqW a b) := by simp [kappa]
+      exact μ_to_μκ h_mu h_kappa
+  | R_rec_succ b s n =>
+      -- κ strictly drops in R_rec_succ (no numeric bound needed)
+      exact μκ_lt_R_rec_succ b s n
 
-/- wf_LexNatOrd — Cookbook §1 ----------------------------------------------/
-lemma wf_LexNatOrd : WellFounded LexNatOrd := by
-  unfold LexNatOrd
-  exact WellFounded.prod_lex wellFounded_lt Ordinal.lt_wf
+/- Strong normalization via the lexicographic measure -------------------------/
 
-/- μ-drop ⇒ (κ, μ)-drop — Cookbook §2 ---------------------------------------/
-lemma mu_to_mu_kappa
-  {t t' : Trace} (hμ : mu t' < mu t) (hκ : kappa t' = kappa t) :
-  LexNatOrd (mu_kappa t') (mu_kappa t) := by
-  unfold LexNatOrd mu_kappa
-  rw [hκ]
-  apply Prod.Lex.right
-  exact hμ
+theorem strong_normalization_lex : WellFounded (fun a b => Step b a) := by
+  have wf_lex : WellFounded LexNatOrd := wf_LexNatOrd
+  refine Subrelation.wf ?hsub (InvImage.wf (f := μκ) wf_lex)
+  intro x y hxy
+  have hdec : LexNatOrd (μκ x) (μκ y) := mu_kappa_decreases_lex hxy
+  exact hdec
 
-/- recΔ succ case — Cookbook §3 ---------------------------------------------/
-lemma mu_kappa_lt_R_rec_succ (b s n : Trace) :
-  LexNatOrd (mu_kappa (merge s (recΔ b s n))) (mu_kappa (recΔ b s (delta n))) := by
-  unfold LexNatOrd mu_kappa
-  -- κ drops from 2 (for `recΔ`) to 0 (for `merge`), independent of the inner `n`
-  apply Prod.Lex.left
-  simp [kappa]
-
-/- ... seven more decrease lemmas go here (copy-pattern) --------------------/
-
--- lemma mu_kappa_decreases : ∀ {t u}, Step t u →
---   Prod.Lex Nat.lt Ordinal.< (mu_kappa u) (mu_kappa t) := by
---   -- TODO (Cookbook §7)
-
-/- Main SN theorem via InvImage.wf — Cookbook §8 ----------------------------/
--- theorem strong_normalization_lex : WellFounded (fun a b => Step b a) := by
---   -- have wf := InvImage.wf (f := mu_kappa) wf_LexNatOrd
---   -- exact Subrelation.wf mu_kappa_decreases wf
-
-end OperatorKernelO6.Meta
+end Meta
+`
