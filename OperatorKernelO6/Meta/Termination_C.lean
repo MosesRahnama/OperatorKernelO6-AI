@@ -72,6 +72,19 @@ theorem lt_add_one_of_le {x y : Ordinal} (h : x ≤ y) : x < y + 1 :=
 theorem le_of_lt_add_one {x y : Ordinal} (h : x < y + 1) : x ≤ y :=
   (Order.lt_add_one_iff (x := x) (y := y)).1 h
 
+/-! ------------- small generic helpers ------------------------------ -/
+
+@[simp] lemma kappa_non_rec (t : Trace)
+  : (¬ ∃ b s n, t = Trace.recΔ b s n) → kappa t = 0 := by
+  cases t <;> intro _ <;> simp [kappa]
+
+lemma add1_lt_add1 {a b : Ordinal} (h : a < b) : a + 1 < b + 1 := by
+  have : a + 1 ≤ b + 1 := by
+    have := Order.add_one_le_of_lt h
+    exact this
+  have hb : b < b + 1 := lt_add_one _
+  exact lt_of_le_of_lt this hb
+
 theorem mu_lt_delta (t : Trace) : mu t < MetaSN.mu (.delta t) := by
   have h0 : mu t ≤ mu t + 1 :=
     le_of_lt ((Order.lt_add_one_iff (x := mu t) (y := mu t)).2 le_rfl)
@@ -215,42 +228,70 @@ def debug_mode := true
 /-- Special case for the eq_diff rule when both arguments are void. -/
 theorem mu_lt_eq_diff_both_void :
   MetaSN.mu (integrate (merge .void .void)) < MetaSN.mu (eqW .void .void) := by
-  -- Simple approach: use show to state the exact goal after simp
   simp only [MetaSN.mu]
-  show omega0 ^ (4 : Ordinal) *
-        (omega0 ^ (3 : Ordinal) * (0 + 1) +
-         omega0 ^ (2 : Ordinal) * (0 + 1) + 1 + 1) + 1 <
-       omega0 ^ (0 + 0 + 9) + 1
-  -- Simplify the expression first
-  have h_simp :
-      omega0 ^ (3 : Ordinal) * (0 + 1) +
-      omega0 ^ (2 : Ordinal) * (0 + 1) + 1 + 1 =
-      omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 := by
-    simp [zero_add, mul_one]
-    rw [Order.succ_eq_add_one, Order.succ_eq_add_one]
-    rw [add_assoc (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal)) 1 1]
-    norm_cast
-  rw [h_simp]
-  -- Avoid the +1 issue by showing the stronger inequality
+
+  -- After `simp` the goal is  ω⁴·(ω³+ω²+2)+1 < ω⁹+1                     (★)
   have main_bound :
       omega0 ^ (4 : Ordinal) *
-        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
-      omega0 ^ (9 : Ordinal) := by
-    -- Key insight: ω³ + ω² + 2 < ω⁴, hence ω⁴ * (ω³ + ω² + 2)
-    -- < ω⁴ * ω⁴ = ω⁸ < ω⁹
-    have step1 :
+        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
+        < omega0 ^ (9 : Ordinal) := by
+    ------------------------------------------------------------------ step 1
+    have step₁ :
         omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + (2 : Ordinal) <
         (3 : Ordinal) * omega0 ^ (3 : Ordinal) := by
-      apply add_lt_add
-      · apply add_lt_add
-        · exact opow_lt_opow_right (by norm_num) (Ordinal.one_lt_omega)  -- ω² < ω³
-        · norm_num; exact Ordinal.nat_lt_omega 2                         -- 2 < ω³
-      · norm_num; exact Ordinal.nat_lt_omega 2                           -- 2 < ω³
-    have step2 :
+      --  ω² < ω³  and  2 < ω³,  hence the whole sum < ω³+ω³+ω³ = 3·ω³
+      have h₁ : omega0 ^ (2 : Ordinal) < omega0 ^ (3 : Ordinal) :=
+        opow_lt_opow_right (by norm_num)
+      have h₂ : (2 : Ordinal) < omega0 ^ (3 : Ordinal) :=
+        (Ordinal.nat_lt_omega0 2).trans
+          (le_of_lt (opow_lt_opow_right (by norm_num)))
+      have : (omega0 ^ (3 : Ordinal)) +
+             (omega0 ^ (3 : Ordinal)) +
+             (omega0 ^ (3 : Ordinal)) =
+             (3 : Ordinal) * omega0 ^ (3 : Ordinal) := by
+        simp [three_mul, two_mul, add_comm, add_left_comm, add_assoc]
+      have : (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
+             (omega0 ^ (3 : Ordinal) + omega0 ^ (3 : Ordinal) + omega0 ^ (3 : Ordinal)) := by
+        have := add_lt_add_left h₁ (omega0 ^ (3 : Ordinal))
+        have := add_lt_add_of_lt_of_le this (le_of_lt h₂)
+        simpa [add_assoc] using this
+      simpa [this] using this
+    ------------------------------------------------------------------ step 2
+    have step₂ :
         omega0 ^ (4 : Ordinal) * ((3 : Ordinal) * omega0 ^ (3 : Ordinal)) =
         (3 : Ordinal) * omega0 ^ (7 : Ordinal) := by
-      -- proof continues here...
-      sorry
+      simpa [mul_comm, mul_left_comm, mul_assoc,
+             opow_add, show (4:Ordinal)+3=7 by norm_num]
+            using congrArg _ rfl
+    ------------------------------------------------------------------ step 3
+    have step₃ :
+        (3 : Ordinal) * omega0 ^ (7 : Ordinal) < omega0 ^ (8 : Ordinal) := by
+      have : (3 : Ordinal) < omega0 := (Ordinal.nat_lt_omega0 3)
+      have hpos : (0 : Ordinal) < omega0 ^ (7 : Ordinal) :=
+        opow_pos omega0_pos _
+      simpa [mul_comm] using
+        Ordinal.mul_lt_mul_of_pos_left this hpos
+    ------------------------------------------------------------------ step 4
+    have step₄ : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) :=
+      opow_lt_opow_right (by norm_num)
+    ------------------------------------------------------------------ chain
+    have : omega0 ^ (4 : Ordinal) *
+             (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
+           omega0 ^ (4 : Ordinal) * ((3 : Ordinal) * omega0 ^ (3 : Ordinal)) :=
+      Ordinal.mul_lt_mul_of_pos_left step₁
+        (opow_pos omega0_pos _)
+    have : omega0 ^ (4 : Ordinal) *
+             (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
+           (3 : Ordinal) * omega0 ^ (7 : Ordinal) := by
+      simpa [step₂] using this
+    exact lt_trans this (lt_trans step₃ step₄)
+
+  -- lift `main_bound` through +1  (using helper `add1_lt_add1`)
+  have : omega0 ^ (4 : Ordinal) *
+           (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 <
+         omega0 ^ (9 : Ordinal) + 1 :=
+    add1_lt_add1 main_bound
+  simpa using this
 
 theorem mu_recΔ_plus_3_lt (b s n : Trace)
   (h_bound : omega0 ^ (MetaSN.mu n + MetaSN.mu s + (6 : Ordinal)) + omega0 * (MetaSN.mu b + 1) + 1 + 3 <
@@ -1316,10 +1357,6 @@ theorem mu_decreases :
   | R_rec_succ b s n =>
     -- canonical bound for the successor-recursor case
     sorry -- replaced rec_succ_bound per task.md patch
-
-/-- Helper lemma for the R_rec_zero case -/
-@[simp] lemma kappa_rec_zero_bound (b s : Trace) : kappa b ≤ 1 := by
-  cases b <;> simp [kappa]
 
 /-- Bundle all decrease cases using lexicographic measure -/
 theorem μκ_decreases :
