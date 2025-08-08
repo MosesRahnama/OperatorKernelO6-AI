@@ -1,0 +1,28 @@
+{"synthetic": false,
+ "outputs":
+ {"o": ["3980770709823233022"],
+  "i": "18023610046308503421",
+  "c": "13481789123692257447"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean c:\\Users\\Moses\\.elan\\toolchains\\leanprover--lean4---v4.22.0-rc4\\bin\\lean.exe -Dpp.notation=true -Dtrace.profiler.threshold=5 C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Termination_C.lean -o C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Termination_C.olean -i C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\lib\\lean\\OperatorKernelO6\\Meta\\Termination_C.ilean -c C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Termination_C.c --setup C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\.lake\\build\\ir\\OperatorKernelO6\\Meta\\Termination_C.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["OperatorKernelO6.Meta.Termination_C:deps",
+   [["deps",
+     [["OperatorKernelO6/OperatorKernelO6:extraDep",
+       [["@OperatorKernelO6:extraDep", "1723"]]],
+      ["import oleans", "1723"]]],
+    ["libs",
+     [["import dynlibs", "1723"],
+      ["package external libraries", "1723"],
+      ["module dynlibs", "1723"],
+      ["module plugins", "1723"]]]]],
+  ["Lean 4.22.0, commit 30ceb3260d7d7536092fedff969b4b2e8de7f942",
+   "7333961747739924687"],
+  ["C:\\Users\\Moses\\math_ops\\OperatorKernelO6\\OperatorKernelO6\\Meta\\Termination_C.lean",
+   "2433114807351286261"],
+  ["options", "1723"],
+  ["Module.leanArgs: #[-Dpp.notation=true, -Dtrace.profiler.threshold=5]",
+   "11004081667271888933"]],
+ "depHash": "2050479128727577327"}
