@@ -16,7 +16,7 @@ import Mathlib.Algebra.Order.Group.Defs
 import Mathlib.SetTheory.Ordinal.Principal
 import Mathlib.Tactic
 
-set_option linter.unnecessarySimpa false
+-- set_option linter.unnecessarySimpa false
 universe u
 
 open Ordinal
