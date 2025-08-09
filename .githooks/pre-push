@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Abort push if any new or updated blob exceeds 90MB.
+# Skips check if git-lfs marker files are detected for the large blobs.
+set -euo pipefail
+LIMIT=$((90*1024*1024))
+# List objects reachable from refs being pushed but not yet on remote
+while read local_ref local_sha remote_ref remote_sha; do
+  # For deleted branches remote_sha is 0000..., skip
+  if [ "$local_sha" = 0000000000000000000000000000000000000000 ]; then
+    continue
+  fi
+  range="$remote_sha..$local_sha"
+  if [ "$remote_sha" = 0000000000000000000000000000000000000000 ]; then
+    range="$local_sha"
+  fi
+  git rev-list --objects $range | git cat-file --batch-check='%(objectname) %(objecttype) %(objectsize) %(rest)' |
+  awk -v LIMIT=$LIMIT '$2=="blob" && $3>LIMIT {print $0}' > /tmp/large_blobs || true
+  if [ -s /tmp/large_blobs ]; then
+    echo "[pre-push] Large blobs detected (>90MB):" >&2
+    cat /tmp/large_blobs >&2
+    echo "Rejecting push. Use git lfs or remove these files from history." >&2
+    exit 1
+  fi
+done
+exit 0
