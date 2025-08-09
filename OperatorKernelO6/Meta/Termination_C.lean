@@ -15,7 +15,7 @@ import Mathlib.Tactic.Ring
 import Mathlib.Algebra.Order.Group.Defs
 import Mathlib.SetTheory.Ordinal.Principal
 import Mathlib.Tactic
-
+set_option linter.unnecessarySimpa false
 -- set_option linter.unnecessarySimpa false
 universe u
 
@@ -252,17 +252,23 @@ theorem mu_lt_eq_diff_both_void :
   -- ❶ First, show what mu expands to with explicit conversion
   have h_mu_merge : MetaSN.mu (merge .void .void) =
       omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 1 := by
-    simp [MetaSN.mu, add_comm, add_left_comm, add_assoc]
+    simp [MetaSN.mu, add_assoc]
 
   -- Now expand the full LHS
   have hL : MetaSN.mu (integrate (merge .void .void)) =
       omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 := by
+    -- produce form with successive succ then convert to +2
     have htmp : MetaSN.mu (integrate (merge .void .void)) =
-        omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + Order.succ (Order.succ (omega0 ^ (2 : Ordinal)))) + 1 := by
-      simp [MetaSN.mu, h_mu_merge, add_comm, add_left_comm, add_assoc, Ordinal.add_one_eq_succ]
-    have hss2 : Order.succ (Order.succ (omega0 ^ (2 : Ordinal))) = omega0 ^ (2 : Ordinal) + 2 := by
-      simp [Ordinal.add_one_eq_succ, add_assoc]
-    simpa [hss2, add_assoc] using htmp
+        omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + (omega0 ^ (2 : Ordinal) + 2)) + 1 := by
+      -- expand then convert succ(succ X) to X + 2
+      have hraw : MetaSN.mu (integrate (merge .void .void)) =
+          omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + Order.succ (Order.succ (omega0 ^ (2 : Ordinal)))) + 1 := by
+        simp [MetaSN.mu, add_assoc, Ordinal.add_one_eq_succ]
+      have hss : Order.succ (Order.succ (omega0 ^ (2 : Ordinal))) = omega0 ^ (2 : Ordinal) + 2 := by
+        simp [Ordinal.add_one_eq_succ, add_assoc]
+      simpa [hss, add_assoc] using hraw
+    -- reassociate (a + (b + 2)) to (a + b + 2)
+    simpa [add_assoc] using htmp
 
   -- ❷ Core inequality: ω³ + ω² + 2 < ω⁴
   -- (a) ω² < ω³
@@ -306,10 +312,11 @@ theorem mu_lt_eq_diff_both_void :
     -- Collapse ω^4 * ω^4 = ω^(4+4)
     have h_mul' :
         omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2)
-          < omega0 ^ (4 + (4 : Ordinal)) := by
+          < omega0 ^ ((4 : Ordinal) + (4 : Ordinal)) := by
       simpa [Ordinal.opow_add] using h_mul
-    -- And compute 4 + 4 = 8 at the ordinal level
-    simpa using h_mul'
+    -- rewrite 4 + 4 to 8
+    have h44 : (4 : Ordinal) + (4 : Ordinal) = (8 : Ordinal) := by decide
+    simpa [h44]
 
   -- ❹ Bump exponent: ω⁸ < ω⁹
   have h_bump : omega0 ^ (8 : Ordinal) < omega0 ^ (9 : Ordinal) :=
@@ -392,11 +399,11 @@ theorem eq_nat_or_omega0_le (p : Ordinal) :
 
 theorem one_left_add_absorb {p : Ordinal} (h : omega0 ≤ p) :
   (1 : Ordinal) + p = p := by
-  simpa using (Ordinal.one_add_of_omega_le (p := p) h)
+  simpa using (one_add_of_omega0_le h)
 
 theorem nat_left_add_absorb {n : ℕ} {p : Ordinal} (h : omega0 ≤ p) :
   (n : Ordinal) + p = p := by
-  simpa using (Ordinal.nat_add_of_omega_le (p := p) (n := n) h)
+  simpa using (natCast_add_of_omega0_le h n)
 
 @[simp] theorem add_natCast_left (m n : ℕ) :
   (m : Ordinal) + (n : Ordinal) = ((m + n : ℕ) : Ordinal) := by
