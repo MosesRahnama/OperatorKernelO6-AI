@@ -144,6 +144,7 @@ lemma succ_succ_eq_add_two (x : Ordinal) :
   Order.succ (Order.succ (omega0 ^ (2 : Ordinal))) = omega0 ^ (2 : Ordinal) + 2 := by
   simpa using succ_succ_eq_add_two (omega0 ^ (2 : Ordinal))
 
+
 /-- Special case: both args void. Clean proof staying in +2 form. -/
 theorem mu_lt_eq_diff_both_void :
   MetaSN.mu (integrate (merge .void .void)) < MetaSN.mu (eqW .void .void) := by
@@ -152,18 +153,9 @@ theorem mu_lt_eq_diff_both_void :
       omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 1 := by
     simp [MetaSN.mu, add_assoc]
   -- rewrite μ(integrate ...)
-  have hL1 : MetaSN.mu (integrate (merge .void .void)) =
-      omega0 ^ (4 : Ordinal) * (MetaSN.mu (merge .void .void) + 1) + 1 := by
-    simp [MetaSN.mu]
   have hL : MetaSN.mu (integrate (merge .void .void)) =
       omega0 ^ (4 : Ordinal) * (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) + 1 := by
-    have : (MetaSN.mu (merge .void .void) + 1) =
-        (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 1) + 1 := by
-      simp [hμm]
-    have : omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 1 + 1 =
-        omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2 := by
-      simp [add_assoc]
-    simp [MetaSN.mu, hμm, add_assoc, this]  -- minimal args
+    simpa [MetaSN.mu, hμm, add_assoc]
   -- payload pieces < ω^5 via additive principal
   have hα : omega0 ^ (3 : Ordinal) < omega0 ^ (5 : Ordinal) :=
     opow_lt_opow_right (by norm_num : (3 : Ordinal) < 5)
@@ -196,11 +188,14 @@ theorem mu_lt_eq_diff_both_void :
       omega0 ^ (4 : Ordinal) *
         (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) <
       omega0 ^ (9 : Ordinal) := by
-    have htmp := hstep
     have htmp2 : omega0 ^ (4 : Ordinal) *
         (omega0 ^ (3 : Ordinal) + omega0 ^ (2 : Ordinal) + 2) < omega0 ^ (4 + 5 : Ordinal) :=
-      lt_of_lt_of_eq htmp hcollapse
-    simpa [h45] using htmp2
+      lt_of_lt_of_eq hstep hcollapse
+    -- rewrite exponent sum to 9 on RHS chain
+    -- rewrite exponent inside RHS using h45
+    have hrewrite : omega0 ^ (4 + 5 : Ordinal) = omega0 ^ (9 : Ordinal) := by
+      simpa using congrArg (fun e => omega0 ^ e) h45
+    exact lt_of_lt_of_eq htmp2 hrewrite
   -- add-one bridge
   have hR : MetaSN.mu (eqW .void .void) = omega0 ^ (9 : Ordinal) + 1 := by
     simp [MetaSN.mu]
