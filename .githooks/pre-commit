@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Pre-commit size guard.
+# Fails commit if any newly staged blob exceeds HARD limit (90MB).
+# Emits warning (but allows) for blobs between WARN (25MB) and HARD.
+set -euo pipefail
+WARN=$((25*1024*1024))
+HARD=$((90*1024*1024))
+# Collect staged (added/modified) paths (excluding deletions, renames handled by new path)
+mapfile -t FILES < <(git diff --cached --name-only --diff-filter=AM)
+[ ${#FILES[@]} -eq 0 ] && exit 0
+big_fail=()
+big_warn=()
+for f in "${FILES[@]}"; do
+  # Skip if file vanished
+  [ -f "$f" ] || continue
+  # Size from index (ensures we measure staged content); fallback to FS size
+  if size=$(git cat-file -s :"$f" 2>/dev/null); then
+    :
+  else
+    size=$(stat -c %s "$f" 2>/dev/null || echo 0)
+  fi
+  if [ "$size" -ge "$HARD" ]; then
+    big_fail+=("$f ($((size/1024/1024)) MB)")
+  elif [ "$size" -ge "$WARN" ]; then
+    big_warn+=("$f ($((size/1024/1024)) MB)")
+  fi
+done
+if [ ${#big_warn[@]} -gt 0 ]; then
+  echo "[pre-commit] Warning: Large files staged (>25MB):" >&2
+  printf '  %s\n' "${big_warn[@]}" >&2
+  echo "Consider Git LFS or external storage." >&2
+fi
+if [ ${#big_fail[@]} -gt 0 ]; then
+  echo "[pre-commit] ERROR: Files exceed hard limit (>90MB):" >&2
+  printf '  %s\n' "${big_fail[@]}" >&2
+  echo "Commit aborted. Remove or move these files, or use LFS." >&2
+  exit 1
+fi
+exit 0
