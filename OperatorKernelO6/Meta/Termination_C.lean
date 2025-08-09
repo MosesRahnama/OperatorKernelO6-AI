@@ -1329,48 +1329,50 @@ without new ordinal theory. -/
 
 /-- μ n + 2 ≤ μ (delta n). -/
 lemma mu_n_add_two_le_mu_delta (n : Trace) : MetaSN.mu n + 2 ≤ MetaSN.mu (.delta n) := by
-  have hpos : 0 < omega0 ^ (5 : Ordinal) :=
-    Ordinal.opow_pos (a := omega0) (b := (5 : Ordinal)) omega0_pos
-  have hstep : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) :=
-    Ordinal.le_mul_right (a := MetaSN.mu n + 1) (b := (omega0 ^ (5 : Ordinal))) hpos
-  have : MetaSN.mu n + 2 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
-    add_le_add_right hstep 1
-  simpa [MetaSN.mu]
-    using this
+  -- μ(δ n) = ω^5*(μ n + 1) + 1; obviously μ n + 2 ≤ ω^5*(μ n + 1) + 1 since ω^5*(μ n +1) dominates μ n +1.
+  have h0 : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) := by
+    -- since ω^5 ≥ ω > 1 we have (μ n +1) ≤ ω^5*(μ n +1)
+    have hpowpos : (0 : Ordinal) < omega0 ^ (5 : Ordinal) :=
+      Ordinal.opow_pos (a := omega0) (b := (5 : Ordinal)) omega0_pos
+    -- 1 ≤ ω^5 because it's positive
+    have hge : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := by exact le_of_lt hpowpos
+    simpa [one_mul] using (mul_le_mul_left' (a := MetaSN.mu n + 1) hge)
+  have h1 : MetaSN.mu n + 2 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 := by
+    have : MetaSN.mu n + 1 + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
+      add_le_add_right h0 1
+    simpa [add_assoc] using this
+  simpa [MetaSN.mu, add_assoc, add_comm, add_left_comm] using h1
 
 /-! #### New auxiliary lemmas for unconditional rec successor -/
 
 /-- Strict inequality `μ n < μ (delta n)` (immediate from the δ-case of `mu`). -/
 lemma mu_lt_mu_delta (n : Trace) : MetaSN.mu n < MetaSN.mu (.delta n) := by
-  -- μ n < μ n + 1 ≤ ω^5*(μ n + 1) ≤ ω^5*(μ n + 1) + 1 = μ(δ n)
+  -- μ n < μ n +1 ≤ ω^5*(μ n +1) +1
   have h0 : MetaSN.mu n < MetaSN.mu n + 1 :=
     (Order.lt_add_one_iff (x := MetaSN.mu n) (y := MetaSN.mu n)).2 le_rfl
-  have h1le : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) := by
-    -- 1 ≤ ω^5 so multiply on right by (μ n + 1)
-    have h1 : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := by
-      simpa [Ordinal.opow_one] using
-        (Ordinal.opow_le_opow_right omega0_pos (by norm_num : (1 : Ordinal) ≤ 5))
-    -- monotone in left factor: (1 ≤ ω^5) ⇒ (1 * X ≤ ω^5 * X)
-    simpa [one_mul] using (mul_le_mul_left' (a := MetaSN.mu n + 1) h1)
-  have h1' : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
-    le_add_of_nonneg_right (zero_le _)
-  have h2 : MetaSN.mu n < MetaSN.mu (.delta n) := by
-    have : MetaSN.mu n < (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
-      lt_of_lt_of_le h0 (le_trans h1le h1')
-    simpa [MetaSN.mu, add_assoc, add_comm, add_left_comm] using this
-  simpa using h2
+  have hdom : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 := by
+    have hbase : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) := by
+      have hpowpos : (0 : Ordinal) < omega0 ^ (5 : Ordinal) :=
+        Ordinal.opow_pos (a := omega0) (b := (5 : Ordinal)) omega0_pos
+      have hge : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := le_of_lt hpowpos
+      simpa [one_mul] using (mul_le_mul_left' (a := MetaSN.mu n + 1) hge)
+    exact le_trans hbase (le_add_of_nonneg_right (zero_le _))
+  have : MetaSN.mu n < (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
+    lt_of_lt_of_le h0 hdom
+  simpa [MetaSN.mu, add_assoc, add_comm, add_left_comm] using this
 
 /-- Exponent bump: `μ n + μ s + 6 < μ (delta n) + μ s + 6`. -/
 lemma mu_ns_lt_mu_delta_ns (n s : Trace) :
   MetaSN.mu n + MetaSN.mu s + 6 < MetaSN.mu (.delta n) + MetaSN.mu s + 6 := by
-  -- add μ s + 6 on the right to `μ n < μ δ n`
   have h : MetaSN.mu n < MetaSN.mu (.delta n) := mu_lt_mu_delta n
-  -- use monotonicity (add_lt_add_right twice)
-  have h' := add_lt_add_left h (MetaSN.mu s)
-  have h'' := add_lt_add_right h' (6 : Ordinal)
-  -- reorder to match goal
-  simpa [add_assoc, add_comm, add_left_comm]
-    using h''
+  -- add μ s then +6 preserving strict inequality
+  have h1 := add_lt_add_left h (MetaSN.mu s)
+  -- now (μ n + μ s) < (μ δ n + μ s); add 6 both sides
+  -- Instead of add_lt_add_right (needs AddRightStrictMono), rewrite with associativity:
+  -- (μ n + μ s) + 6 < (μ δ n + μ s) + 6 from h1 via add_lt_add_left on both sides after regrouping.
+  have h2 : (MetaSN.mu n + MetaSN.mu s) + 6 < (MetaSN.mu (.delta n) + MetaSN.mu s) + 6 :=
+    add_lt_add_right h1 6
+  simpa [add_assoc, add_comm, add_left_comm] using h2
 
 /-- Generic product absorption: if `X < ω^α` and `(k:Ordinal)+α ≤ β` then `ω^k * X < ω^β`.
     (Finite `k`, used with k=2.) -/
@@ -1383,11 +1385,10 @@ lemma omega_pow_fin_mul_cnf_lt {k : ℕ} {α β X : Ordinal}
   have h1 : omega0 ^ (k : Ordinal) * X < omega0 ^ (k : Ordinal) * (omega0 ^ α) :=
     Ordinal.mul_lt_mul_of_pos_left hX hpos
   -- collapse product of towers
-  have hcollapse : omega0 ^ (k : Ordinal) * (omega0 ^ α) =
-      omega0 ^ ((k : Ordinal) + α) := by
-    simpa [Ordinal.opow_add] using (Ordinal.opow_add omega0 (k : Ordinal) α).symm
   have h2 : omega0 ^ (k : Ordinal) * X < omega0 ^ ((k : Ordinal) + α) := by
-    simpa [hcollapse] using h1
+    -- rewrite product of towers via opow_add
+    simpa [Ordinal.opow_add, mul_comm, mul_left_comm, mul_assoc]
+      using h1
   -- monotone in exponent
   have hmono : omega0 ^ ((k : Ordinal) + α) ≤ omega0 ^ β :=
     Ordinal.opow_le_opow_right omega0_pos hExp
