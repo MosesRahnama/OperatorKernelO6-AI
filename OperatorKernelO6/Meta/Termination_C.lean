@@ -345,7 +345,7 @@ theorem mu_recΔ_plus_3_lt (b s n : Trace)
 
 
 private lemma le_omega_pow (x : Ordinal) : x ≤ omega0 ^ x :=
-  right_le_opow (a := omega0) (b := x) one_lt_omega0
+  Ordinal.right_le_opow (a := omega0) (b := x) one_lt_omega0
 
 theorem add_one_le_of_lt {x y : Ordinal} (h : x < y) : x + 1 ≤ y := by
   simpa [Ordinal.add_one_eq_succ] using (Order.add_one_le_of_lt h)
@@ -392,11 +392,11 @@ theorem eq_nat_or_omega0_le (p : Ordinal) :
 
 theorem one_left_add_absorb {p : Ordinal} (h : omega0 ≤ p) :
   (1 : Ordinal) + p = p := by
-  simpa using (Ordinal.one_add_of_omega0_le h)
+  simpa using (Ordinal.one_add_of_omega_le (p := p) h)
 
 theorem nat_left_add_absorb {n : ℕ} {p : Ordinal} (h : omega0 ≤ p) :
   (n : Ordinal) + p = p := by
-  simpa using (Ordinal.natCast_add_of_omega0_le (n := n) h)
+  simpa using (Ordinal.nat_add_of_omega_le (p := p) (n := n) h)
 
 @[simp] theorem add_natCast_left (m n : ℕ) :
   (m : Ordinal) + (n : Ordinal) = ((m + n : ℕ) : Ordinal) := by
@@ -631,14 +631,14 @@ private theorem pow2_le_A {n : Trace} {A : Ordinal}
     (omega0 ^ (2 : Ordinal)) ≤ A := by
   have h : (2 : Ordinal) ≤ MetaSN.mu (Trace.delta n) + 6 :=
     le_of_lt (two_lt_mu_delta_add_six n)
-  simpa [hA] using opow_le_opow_right omega0_pos h
+  simpa [hA] using Ordinal.opow_le_opow_right omega0_pos h
 
 private theorem omega_le_A {n : Trace} {A : Ordinal}
     (hA : A = omega0 ^ (MetaSN.mu (Trace.delta n) + 6)) :
     (omega0 : Ordinal) ≤ A := by
   have pos : (0 : Ordinal) < MetaSN.mu (Trace.delta n) + 6 :=
     lt_of_le_of_lt (bot_le) (two_lt_mu_delta_add_six n)
-  simpa [hA] using left_le_opow (a := omega0) (b := MetaSN.mu (Trace.delta n) + 6) pos
+  simpa [hA] using Ordinal.left_le_opow (a := omega0) (b := MetaSN.mu (Trace.delta n) + 6) pos
 
 --- not used---
 private theorem head_plus_tail_le {b s n : Trace}
@@ -789,7 +789,7 @@ private lemma two_lt_three : (2 : Ordinal) < 3 := by
 
 
   have h_eq : omega0 ^ β * omega0 = omega0 ^ (β + 1) := by
-    simpa [opow_add] using (opow_add omega0 β 1).symm
+    simpa [Ordinal.opow_add] using (Ordinal.opow_add omega0 β 1).symm
   have h₁' : omega0 ^ β * γ < omega0 ^ (β + 1) := by
     simpa [h_eq, -opow_succ] using h₁
 
