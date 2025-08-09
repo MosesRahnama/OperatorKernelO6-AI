@@ -315,3 +315,37 @@ This companion consolidates the theoretical blueprint, identifies the precise ob
 
 End of Document.
 
+---
+
+## 18. Catalogue of Unsuccessful / Abandoned SN Approaches (For Avoidance)
+
+This section records concrete strategies that were attempted and *why* they failed, to prevent rerunning the same dead ends.
+
+| Attempt Code | Short Name | Core Idea | Failure Mode | Lesson |
+|--------------|------------|----------|--------------|--------|
+| A1 | Raw Right-Add Transport | Derive `(μ n < μ (delta n)) ⇒ μ n + μ s + c < μ (delta n) + μ s + c` for arbitrary `s` | Ordinal right addition not strictly monotone; counterexamples where `μ s` is large limit obliterate strictness | Cannot recover strictness on the left by adding an uncontrolled right tail. Need dominance or lex tier |
+| A2 | `add_lt_add_right` Overuse | Force strictness by rewriting goals to fit `add_lt_add_right` | Lemma requires *same* addend; we have differing complex tails; attempted coercions produced ill-typed or circular goals | Do not coerce goal shapes into generic lemmas when structural asymmetry exists |
+| A3 | Finite Padding Escalation | Increase finite offsets (`+6`, `+9`, etc.) hoping gaps survive right-add | Finite bumps drown under large limit `μ s`; does not influence principal part absorption | Finite offsets only help inside already bounded contexts, not against arbitrary large added summands |
+| A4 | Tower Multiplication Reorientation | Swap ordering `(ω^k)*(μ n + 1)` vs `(μ n + 1)*ω^k` to mine monotonicity | Ordinal multiplication non‑commutative; reorientation invalid; required unsupported equalities | Respect directionality; avoid heuristic commutations not justified by lemmas |
+| A5 | Collapsing via `simp` Aggression | Heavy `simp` hoping to expose trivial inequalities | Over-simplification erased stratification markers, generating harder mixed goals or timeouts | Keep controlled rewriting; preserve tower structure for principal lemmas |
+| A6 | Inject Synthetic Bound `μ s ≤ μ (delta n)` | Assume (false) ordering to push inequality through sum | Demonstrably false (constructed counterexample with deeper `s`) | Never posit cross‑parameter bounds without structural invariants |
+| A7 | Unconditional Tail Domination Lemma | Propose `μ s + c < ω^5*(μ n + 1)` universally | Fails when `μ s` itself introduces higher dynamic tower (e.g. nested recΔ) | Tail domination must be conditional or tracked via auxiliary measure |
+| A8 | Recursive Unfolding Loop | Expand both sides of Rec‑S repeatedly to compare exponents | Leads to infinite expansion pattern; no well‑founded metric for closure | Avoid unfolding that increases syntactic size without pathway to principal comparison |
+| A9 | Mixed Tactic Brute Force (`linarith`, `ring`) | Numeric tactic attempts on ordinal goals | Tactics tuned for semirings over ℕ/ℤ; ordinal non‑commutativity & non‑cancellation defeat them | Use ordinal‑specific lemmas; numeric tactics only for finite sub‑arithmetics |
+| A10 | Direct Exponent Difference Encoding | Introduce δΔ := `(μ (delta n) + μ s + 6) - (μ n + μ s + 6)` and show δΔ > 0 | Ordinals lack subtraction behaving like naturals; difference not constructive for strictness under addition | Avoid pseudo‑subtractive encodings; rely on monotonicity lemmas |
+
+### Consolidated Lessons
+1. **Right Addition Hazard:** Strict inequalities cannot be safely transported to the left of an uncontrolled right addend in ordinals.
+2. **Finite Offsets Are Insufficient:** Offsets help only within dominated segments; they do not enforce global dominance.
+3. **Structure Preservation:** Over-aggressive simplification obscures the hierarchical tower layout essential for principal absorption.
+4. **Auxiliary Measures Are Legitimate:** Lexicographic augmentation (e.g., `(κ, μ)`) is not a defeat but a structured encapsulation of hidden complexity.
+5. **Local vs Global:** Lemmas must state explicit domination hypotheses; assuming universality where only locality holds leads to unsalvageable proof branches.
+
+### Positive Guidance (Do Instead)
+* Use lexicographic `(κ, μ)` to conclude SN, then refactor measure architecture offline.
+* When seeking pure μ refinements, design δ exponent tiers so their *constructor level* cannot be matched by any `s` appearing in the same rule instance.
+* Encapsulate any future domination assumption as a clearly parameterized lemma, never inline.
+
+---
+
+
