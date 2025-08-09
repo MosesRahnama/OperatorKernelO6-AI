@@ -1331,17 +1331,19 @@ without new ordinal theory. -/
 lemma mu_n_add_two_le_mu_delta (n : Trace) : MetaSN.mu n + 2 ≤ MetaSN.mu (.delta n) := by
   -- μ(δ n) = ω^5*(μ n + 1) + 1; obviously μ n + 2 ≤ ω^5*(μ n + 1) + 1 since ω^5*(μ n +1) dominates μ n +1.
   have h0 : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) := by
-    -- since ω^5 ≥ ω > 1 we have (μ n +1) ≤ ω^5*(μ n +1)
-    have hpowpos : (0 : Ordinal) < omega0 ^ (5 : Ordinal) :=
-      Ordinal.opow_pos (a := omega0) (b := (5 : Ordinal)) omega0_pos
-    -- 1 ≤ ω^5 because it's positive
-    have hge : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := by exact le_of_lt hpowpos
-    simpa [one_mul] using (mul_le_mul_left' (a := MetaSN.mu n + 1) hge)
+    -- Establish 1 ≤ ω^5 via ω ≤ ω^5 and 1 ≤ ω
+    have hone : (1 : Ordinal) ≤ omega0 := by simpa using one_le_omega0
+    have hωle : omega0 ≤ omega0 ^ (5 : Ordinal) := by
+      simpa [Ordinal.opow_one] using
+        (Ordinal.opow_le_opow_right omega0_pos (by norm_num : (1 : Ordinal) ≤ (5 : Ordinal)))
+    have hge : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := le_trans hone hωle
+    -- multiply on the right by (μ n + 1)
+    simpa [one_mul] using (mul_le_mul_right' hge (MetaSN.mu n + 1))
+  -- Step 2: add one on both sides and close by definition of μ (delta n)
   have h1 : MetaSN.mu n + 2 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 := by
-    have : MetaSN.mu n + 1 + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
-      add_le_add_right h0 1
-    simpa [add_assoc] using this
-  simpa [MetaSN.mu, add_assoc, add_comm, add_left_comm] using h1
+    have := add_le_add_right h0 (1 : Ordinal)
+    simpa [add_assoc, succ_succ_eq_add_two, Ordinal.add_one_eq_succ] using this
+  simpa [MetaSN.mu, add_assoc] using h1
 
 /-! #### New auxiliary lemmas for unconditional rec successor -/
 
@@ -1352,32 +1354,30 @@ lemma mu_lt_mu_delta (n : Trace) : MetaSN.mu n < MetaSN.mu (.delta n) := by
     (Order.lt_add_one_iff (x := MetaSN.mu n) (y := MetaSN.mu n)).2 le_rfl
   have hdom : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 := by
     have hbase : MetaSN.mu n + 1 ≤ (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) := by
-      have hpowpos : (0 : Ordinal) < omega0 ^ (5 : Ordinal) :=
-        Ordinal.opow_pos (a := omega0) (b := (5 : Ordinal)) omega0_pos
-      have hge : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := le_of_lt hpowpos
-      simpa [one_mul] using (mul_le_mul_left' (a := MetaSN.mu n + 1) hge)
+      -- as above: 1 ≤ ω^5
+      have hone : (1 : Ordinal) ≤ omega0 := by simpa using one_le_omega0
+      have hωle : omega0 ≤ omega0 ^ (5 : Ordinal) := by
+        simpa [Ordinal.opow_one] using
+          (Ordinal.opow_le_opow_right omega0_pos (by norm_num : (1 : Ordinal) ≤ (5 : Ordinal)))
+      have hge : (1 : Ordinal) ≤ omega0 ^ (5 : Ordinal) := le_trans hone hωle
+      -- multiply on the right by (μ n + 1)
+      simpa [one_mul] using (mul_le_mul_right' hge (MetaSN.mu n + 1))
     exact le_trans hbase (le_add_of_nonneg_right (zero_le _))
   have : MetaSN.mu n < (omega0 ^ (5 : Ordinal)) * (MetaSN.mu n + 1) + 1 :=
     lt_of_lt_of_le h0 hdom
-  simpa [MetaSN.mu, add_assoc, add_comm, add_left_comm] using this
+  -- Rewrite RHS into μ (delta n) then close
+  have h' : MetaSN.mu n < MetaSN.mu (.delta n) := by
+    simpa [MetaSN.mu, add_assoc, add_comm, add_left_comm] using this
+  exact h'
 
-/-- Exponent bump: `μ n + μ s + 6 < μ (delta n) + μ s + 6`. -/
-lemma mu_ns_lt_mu_delta_ns (n s : Trace) :
-  MetaSN.mu n + MetaSN.mu s + 6 < MetaSN.mu (.delta n) + MetaSN.mu s + 6 := by
-  have h : MetaSN.mu n < MetaSN.mu (.delta n) := mu_lt_mu_delta n
-  -- add μ s then +6 preserving strict inequality
-  have h1 := add_lt_add_left h (MetaSN.mu s)
-  -- now (μ n + μ s) < (μ δ n + μ s); add 6 both sides
-  -- Instead of add_lt_add_right (needs AddRightStrictMono), rewrite with associativity:
-  -- (μ n + μ s) + 6 < (μ δ n + μ s) + 6 from h1 via add_lt_add_left on both sides after regrouping.
-  have h2 : (MetaSN.mu n + MetaSN.mu s) + 6 < (MetaSN.mu (.delta n) + MetaSN.mu s) + 6 :=
-    add_lt_add_right h1 6
-  simpa [add_assoc, add_comm, add_left_comm] using h2
+-- Exponent bump comment: aiming at `μ n + μ s + 6 < μ (delta n) + μ s + 6` is
+-- invalid without extra hypotheses; right-add strict monotonicity fails in ordinals.
+-- We avoid any unconditional version here.
 
 /-- Generic product absorption: if `X < ω^α` and `(k:Ordinal)+α ≤ β` then `ω^k * X < ω^β`.
     (Finite `k`, used with k=2.) -/
 lemma omega_pow_fin_mul_cnf_lt {k : ℕ} {α β X : Ordinal}
-  (hk : 0 < k) (hX : X < omega0 ^ α) (hExp : (k : Ordinal) + α ≤ β) :
+  (_hk : 0 < k) (hX : X < omega0 ^ α) (hExp : (k : Ordinal) + α ≤ β) :
   omega0 ^ (k : Ordinal) * X < omega0 ^ β := by
   have hpos : (0 : Ordinal) < omega0 ^ (k : Ordinal) :=
     Ordinal.opow_pos (a := omega0) (b := (k : Ordinal)) omega0_pos
@@ -1393,229 +1393,3 @@ lemma omega_pow_fin_mul_cnf_lt {k : ℕ} {α β X : Ordinal}
   have hmono : omega0 ^ ((k : Ordinal) + α) ≤ omega0 ^ β :=
     Ordinal.opow_le_opow_right omega0_pos hExp
   exact lt_of_lt_of_le h2 hmono
-
-/-- Specialized tail bound for the recΔ successor case. -/
-lemma rec_tail_block_lt (b s n : Trace) :
-  let A := omega0 ^ (MetaSN.mu (delta n) + MetaSN.mu s + 6)
-  omega0 ^ (2 : Ordinal) * (MetaSN.mu (recΔ b s n) + 1) < A := by
-  intro A
-  -- Expand μ(recΔ b s n).
-  have h_expand : MetaSN.mu (recΔ b s n) =
-      omega0 ^ (MetaSN.mu n + MetaSN.mu s + 6) + omega0 * (MetaSN.mu b + 1) + 1 := by
-    simp [MetaSN.mu, add_assoc, add_comm, add_left_comm]
-  -- Bound μ(recΔ b s n) by A using additive principal twice.
-  -- First, leading tower < A.
-  have h_lead : omega0 ^ (MetaSN.mu n + MetaSN.mu s + 6) < A := by
-    have : MetaSN.mu n + MetaSN.mu s + 6 < MetaSN.mu (delta n) + MetaSN.mu s + 6 :=
-      mu_ns_lt_mu_delta_ns n s
-    simpa [A] using opow_lt_opow_right this
-  -- Next, bound the tail omega0 * (μ b + 1) + 1 < A.
-  have h_tail : omega0 * (MetaSN.mu b + 1) + 1 < A := by
-    -- show exponent of A > 1
-    have hE : (1 : Ordinal) < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-      have : (1 : Ordinal) < 6 := by decide
-      exact lt_of_lt_of_le this (by
-        have hμ : (0 : Ordinal) ≤ MetaSN.mu (delta n) + MetaSN.mu s := by
-          exact add_le_add (zero_le _) (zero_le _)
-        simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right hμ 6)
-    -- ω < A
-    have hω : omega0 < A := by
-      have : omega0 ^ (1 : Ordinal) < omega0 ^ (MetaSN.mu (delta n) + MetaSN.mu s + 6) :=
-        opow_lt_opow_right hE
-      simpa [A, Ordinal.opow_one]
-        using this
-    -- (μ b + 1) < A (since μ b +1 ≤ A via huge tower; get strict by hω)
-    have hposA : (0 : Ordinal) < A := lt_trans omega0_pos hω
-    -- use additive principal to combine ω and 1 inside A (two applications)
-    have hprin := Ordinal.principal_add_omega0_opow (MetaSN.mu (delta n) + MetaSN.mu s + 6)
-    -- Need ω * (μ b + 1) < A: because μ b +1 < A and ω < A ⇒ sum < A; first show μ b +1 < A.
-    have hμb1 : MetaSN.mu b + 1 < A := by
-      -- μ b +1 ≤ ω^(μ (delta n)+μ s +6) since RHS huge; derive strict using ω ≤ RHS and μ b +1 < ω + ...
-      -- Simpler: μ b +1 < ω^(μ (delta n)+μ s +6) because the RHS is a limit ordinal > ω.
-      have : (1 : Ordinal) < MetaSN.mu (delta n) + MetaSN.mu s + 6 := hE
-      -- 1 < exponent ⇒ omega0 ≤ A and also omega0 < A
-      -- Any finite / smaller ordinal is < A.
-      -- Bound: μ b +1 ≤ omega0 * (MetaSN.mu b +1) < A (since ω < A and tail bounded) – circular. Provide direct: μ b +1 < ω^(exponent) using le_omega_pow
-      have : MetaSN.mu b + 1 ≤ omega0 ^ (MetaSN.mu b + 1) := le_omega_pow (x := MetaSN.mu b + 1)
-      -- Also (MetaSN.mu b + 1) ≤ MetaSN.mu (delta n) + MetaSN.mu s + 6 by crude bound? Use le_add_of_nonneg_right.
-      have hbound : MetaSN.mu b + 1 ≤ MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-        have hμδ : (0 : Ordinal) ≤ MetaSN.mu (delta n) := zero_le _
-        have hs  : (0 : Ordinal) ≤ MetaSN.mu s := zero_le _
-        -- μ b +1 ≤ μ b + (μ(delta n)+μ s +6) trivially; but we need ≤ that sum itself; place μ b +1 entirely under huge exponent using transitivity (monotone growth)
-        -- fallback: use le_trans to go via omega0^(...)
-        exact le_trans (le_of_lt (lt_add_of_pos_right _ (by decide : (0:Ordinal)<1))) (le_add_of_nonneg_left (add_le_add hμδ hs))
-      -- combine (inefficient but acceptable as placeholder)
-      -- Final: treat as < using positivity (A is limit), accept lt_of_le_of_lt (le_of_lt ?) chain.
-      have : (MetaSN.mu b + 1) < A :=
-        lt_of_le_of_lt (le_trans (le_of_eq rfl) (le_trans (le_of_lt (lt_add_of_pos_right _ (by decide))) (le_of_lt hω))) hω
-      simpa using this
-    -- Now ω*(μ b +1) < A
-    have hωμ : omega0 * (MetaSN.mu b + 1) < A :=
-      hprin hω hμb1
-    -- finally (ω*(μ b +1))+1 < A
-    exact hprin hωμ (by
-      have : (1 : Ordinal) < A := lt_trans (show (1:Ordinal)<omega0 by
-        simpa using (nat_lt_omega0 1)) hω
-      simpa)
-  -- Combine lead and tail for μ(recΔ b s n) < A
-  have hprin := Ordinal.principal_add_omega0_opow (MetaSN.mu (delta n) + MetaSN.mu s + 6)
-  have h_rec_lt_A : MetaSN.mu (recΔ b s n) < A := by
-    -- reshape μ(recΔ b s n)
-    have : omega0 ^ (MetaSN.mu n + MetaSN.mu s + 6) + (omega0 * (MetaSN.mu b + 1) + 1) < A :=
-      hprin h_lead (hprin (by
-        -- ω*(μ b +1) < A from h_tail splitting off +1 later
-        -- from h_tail : ω*(μ b +1) +1 < A ⇒ ω*(μ b +1) < A
-        have : omega0 * (MetaSN.mu b + 1) + 1 < A := h_tail
-        exact lt_of_le_of_lt (le_of_lt (lt_add_of_pos_right _ (by decide))) this) (by
-        have : (1 : Ordinal) < A := lt_of_le_of_lt (show (1:Ordinal) ≤ omega0 by exact one_le_omega0) (by
-          -- ω < A (proved earlier as hω inside h_tail block; reconstruct)
-          have : (1 : Ordinal) < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-            have : (1 : Ordinal) < 6 := by decide
-            exact lt_of_lt_of_le this (by
-              have hμ : (0 : Ordinal) ≤ MetaSN.mu (delta n) + MetaSN.mu s := add_le_add (zero_le _) (zero_le _)
-              simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right hμ 6)
-          have : omega0 < A := by
-            have : omega0 ^ (1 : Ordinal) < omega0 ^ (MetaSN.mu (delta n) + MetaSN.mu s + 6) := opow_lt_opow_right this
-            simpa [A, Ordinal.opow_one] using this
-          exact this))
-    simpa [h_expand, add_assoc, add_comm, add_left_comm]
-      using this
-  -- Now lift to ω^2 * (μ(recΔ)+1) < A via generic product lemma.
-  have h_rec_succ : omega0 ^ (2 : Ordinal) * (MetaSN.mu (recΔ b s n) + 1) < A := by
-    -- need (MetaSN.mu (recΔ b s n) + 1) < A and (2:Ordinal) + (??) ≤ exponent of A. Use h_rec_lt_A.
-    have hX : MetaSN.mu (recΔ b s n) + 1 < A :=
-      -- additive principal: μ(recΔ) < A and 1 < A ⇒ μ(recΔ)+1 < A
-      (Ordinal.principal_add_omega0_opow (MetaSN.mu (delta n) + MetaSN.mu s + 6)) h_rec_lt_A (by
-        have : (1 : Ordinal) < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-          have : (1 : Ordinal) < 6 := by decide
-          exact lt_of_lt_of_le this (by
-            have hμ : (0 : Ordinal) ≤ MetaSN.mu (delta n) + MetaSN.mu s := add_le_add (zero_le _) (zero_le _)
-            simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right hμ 6)
-        simpa [A] using opow_lt_opow_right this)
-    -- Apply omega_pow_fin_mul_cnf_lt with α := MetaSN.mu (delta n) + MetaSN.mu s + 6 (exponent of A) and β same (need (2)+α ≤ α which fails) ⇒ fallback: use strict bound since (MetaSN.mu (recΔ) +1) < A; but we can't directly; revert to chaining: ω^2 * (μ(recΔ)+1) < ω^2 * A = ω^(2 + (exponent)) > A; this does not help. We keep placeholder using h_rec_lt_A to finish via trans factoring (accepted as bounding step).
-    -- Provide coarse inequality using h_rec_lt_A and monotonicity (safe over-approximation):
-    exact lt_of_le_of_lt (le_of_eq rfl) (by
-      -- trivial overestimate: assume ω^2 * (μ(recΔ)+1) ≤ A * (μ(recΔ)+1) < A via h_rec_lt_A (imprecise but acceptable placeholder)
-      exact h_rec_lt_A)
-  -- head bound already available as in previous development
-  have h_head : (omega0 ^ (3 : Ordinal)) * (MetaSN.mu s + 1) < A := by
-    have hA_head_le : (omega0 ^ (3 : Ordinal)) * (MetaSN.mu s + 1) ≤ omega0 ^ (MetaSN.mu s + 4) := termA_le (x := MetaSN.mu s)
-    have h_exp_head : MetaSN.mu s + 4 < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-      have : (4 : Ordinal) < 6 := by decide
-      simpa [add_assoc, add_comm, add_left_comm] using add_lt_add_left this (MetaSN.mu s + MetaSN.mu (delta n))
-    have : omega0 ^ (MetaSN.mu s + 4) < A := by
-      simpa [A] using opow_lt_opow_right h_exp_head
-    exact lt_of_le_of_lt hA_head_le this
-  -- Put merge payload below A
-  have h_payload : MetaSN.mu (merge s (recΔ b s n)) < A := by
-    have hprin2 := Ordinal.principal_add_omega0_opow (MetaSN.mu (delta n) + MetaSN.mu s + 6)
-    have h_tail1 : (omega0 ^ (2 : Ordinal)) * (MetaSN.mu (recΔ b s n) + 1) + 1 < A :=
-      hprin2 h_rec_succ (by
-        -- 1 < A same as earlier
-        have : (1 : Ordinal) < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-          have : (1 : Ordinal) < 6 := by decide
-          exact lt_of_lt_of_le this (by
-            have hμ : (0 : Ordinal) ≤ MetaSN.mu (delta n) + MetaSN.mu s := add_le_add (zero_le _) (zero_le _)
-            simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right hμ 6)
-        simpa [A] using opow_lt_opow_right this)
-    have h_total := hprin2 h_head h_tail1
-    -- rewrite μ(merge …)
-    have : MetaSN.mu (merge s (recΔ b s n)) =
-        (omega0 ^ (3 : Ordinal)) * (MetaSN.mu s + 1) +
-        ((omega0 ^ (2 : Ordinal)) * (MetaSN.mu (recΔ b s n) + 1) + 1) := by
-      simp [MetaSN.mu, add_assoc]
-    simpa [this]
-      using h_total
-  -- RHS value bigger than A (add tail tower)
-  have rhs_gt_A : A < MetaSN.mu (recΔ b s (delta n)) := by
-    have : MetaSN.mu (recΔ b s (delta n)) = A + omega0 * (MetaSN.mu b + 1) + 1 := by
-      simp [MetaSN.mu, A, add_assoc]
-    -- A < A + (ω*(μ b +1) +1)
-    have hpos : (0 : Ordinal) < omega0 * (MetaSN.mu b + 1) + 1 := by
-      have : (0 : Ordinal) < 1 := by decide
-      exact lt_of_le_of_lt (show (0:Ordinal) ≤ omega0 * (MetaSN.mu b + 1) by exact zero_le _) (lt_add_of_pos_right _ this)
-    have : A < A + (omega0 * (MetaSN.mu b + 1) + 1) := lt_add_of_pos_right _ hpos
-    simpa [this, add_assoc] using (by simpa [this])
-  exact lt_trans h_payload rhs_gt_A
-
-/-- R₆ (rec successor): unconditional μ decrease. -/
-theorem mu_lt_rec_succ_uncond (b s n : Trace) :
-  MetaSN.mu (merge s (recΔ b s n)) < MetaSN.mu (recΔ b s (delta n)) := by
-  -- Define the dominant head tower on the RHS.
-  set A : Ordinal := omega0 ^ (MetaSN.mu (delta n) + MetaSN.mu s + 6) with hA
-  -- Head block of merge payload goes below A via exponent bump.
-  have h_head_le : (omega0 ^ (3 : Ordinal)) * (MetaSN.mu s + 1) ≤ omega0 ^ (MetaSN.mu s + 4) :=
-    termA_le (x := MetaSN.mu s)
-  have h_head_exp : MetaSN.mu s + 4 < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-    -- (4 < 6) ⇒ (μ s + 4 < μ s + 6) ⇒ add μ (delta n) on left of the right side.
-    have h46 : (4 : Ordinal) < 6 := by
-      have : (4 : ℕ) < 6 := by decide
-      simpa using (Nat.cast_lt.2 this : (4:Ordinal) < (6:Ordinal))
-    have : MetaSN.mu s + 4 < MetaSN.mu s + 6 := add_lt_add_left h46 _
-    -- now add μ(delta n) to the middle 6 side: μ s + 6 ≤ μ(delta n) + μ s + 6
-    have htail : MetaSN.mu s + 6 ≤ MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-      have : (0 : Ordinal) ≤ MetaSN.mu (delta n) := zero_le _
-      have hadd := add_le_add_right this (MetaSN.mu s + 6)
-      -- reorder to target shape
-      simpa [add_assoc, add_comm, add_left_comm]
-        using hadd
-    exact lt_of_lt_of_le this htail
-  have h_head : (omega0 ^ (3 : Ordinal)) * (MetaSN.mu s + 1) < A := by
-    have : omega0 ^ (MetaSN.mu s + 4) < A := by
-      simpa [hA] using opow_lt_opow_right h_head_exp
-    exact lt_of_le_of_lt h_head_le this
-  -- Rec tail block bound (pre‑existing lemma supplies ω²*(μ(recΔ)+1) < A).
-  have h_tail2 : omega0 ^ (2 : Ordinal) * (MetaSN.mu (recΔ b s n) + 1) < A := by
-    -- rec_tail_block_lt introduces its own let A; align by rewriting.
-    have := rec_tail_block_lt b s n
-    -- The instantiated A matches our A by definition; simp unfolds the let.
-    simpa [hA] using this
-  -- Need 1 < A for the additive principal combination.
-  have h_one : (1 : Ordinal) < A := by
-    -- show ω ≤ A then 1 < ω
-    have honeExp : (1 : Ordinal) < MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-      have h16 : (1 : Ordinal) < 6 := by
-        have : (1:ℕ) < 6 := by decide
-        simpa using (Nat.cast_lt.2 this : (1:Ordinal) < (6:Ordinal))
-      have h6le : (6 : Ordinal) ≤ MetaSN.mu (delta n) + MetaSN.mu s + 6 := by
-          -- 0 ≤ μ(delta n) + μ s since each summand ≥ 0
-          have hμδ : (0 : Ordinal) ≤ MetaSN.mu (delta n) := zero_le _
-          have hμs : (0 : Ordinal) ≤ MetaSN.mu s := zero_le _
-          have hsum : (0 : Ordinal) ≤ MetaSN.mu (delta n) + MetaSN.mu s :=
-            add_nonneg hμδ hμs
-          simpa [add_comm, add_left_comm, add_assoc] using add_le_add_right hsum 6
-      exact lt_of_lt_of_le h16 h6le
-    have hpow : omega0 ^ (1 : Ordinal) < A := by
-      simpa [hA, Ordinal.opow_one] using opow_lt_opow_right honeExp
-    -- ω = ω^1
-    have hωpow : omega0 = omega0 ^ (1 : Ordinal) := by
-      simpa [Ordinal.opow_one]
-    -- 1 < ω (standard) and ω^1 < A ⇒ 1 < A
-    have hωgt1 : (1 : Ordinal) < omega0 := by simpa using (nat_lt_omega0 1)
-    -- rewrite goal chain: 1 < ω (given); also by hωpow, ω = ω^1, so 1 < ω^1; then ω^1 < A.
-    have hω1 : (1 : Ordinal) < omega0 ^ (1 : Ordinal) := by
-      simpa [hωpow] using hωgt1
-    exact lt_trans hω1 hpow
-  -- Add tail +1, then combine head and tail via principal additivity.
-  have hprin := Ordinal.principal_add_omega0_opow (MetaSN.mu (delta n) + MetaSN.mu s + 6)
-  have h_tail_plus_one : (omega0 ^ (2 : Ordinal)) * (MetaSN.mu (recΔ b s n) + 1) + 1 < A :=
-    hprin h_tail2 h_one
-  have h_merge_lt_A : MetaSN.mu (merge s (recΔ b s n)) < A := by
-    have : MetaSN.mu (merge s (recΔ b s n)) =
-        (omega0 ^ (3 : Ordinal)) * (MetaSN.mu s + 1) +
-        ((omega0 ^ (2 : Ordinal)) * (MetaSN.mu (recΔ b s n) + 1) + 1) := by
-      simp [MetaSN.mu, add_assoc]
-    have hcomb := hprin h_head h_tail_plus_one
-    simpa [this] using hcomb
-  -- RHS strictly larger: adds positive tail after A.
-  have rhs_gt_A : A < MetaSN.mu (recΔ b s (delta n)) := by
-    have hform : MetaSN.mu (recΔ b s (delta n)) = A + omega0 * (MetaSN.mu b + 1) + 1 := by
-      simp [MetaSN.mu, hA, add_assoc]
-    -- tail positive ⇒ A < A + tail
-    have hpos_tail : (0 : Ordinal) < omega0 * (MetaSN.mu b + 1) + 1 :=
-      lt_of_le_of_lt (zero_le _) (lt_add_of_pos_right _ (by
-        have : (0:ℕ) < 1 := by decide
-        simpa using (Nat.cast_lt.2 this : ((0:ℕ):Ordinal) < (1:Ordinal))))
-    have hlt : A < A + (omega0 * (MetaSN.mu b + 1) + 1) := lt_add_of_pos_right _ hpos_tail
-    simpa [hform, add_assoc] using hlt
-  exact lt_trans h_merge_lt_A rhs_gt_A
